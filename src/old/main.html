@@ -1,0 +1,53 @@
+<HTML>
+<SCRIPT language="JavaScript">
+// Body initialisation function
+function init() {
+	// Focus the checked radiobutton
+	var form = document.getElementById("selection");
+	var found = false;
+	for (i = 0; i < form.childElementCount; i++) {
+		if (form.children[i].checked) {
+			form.children[i].focus();
+			found = true;
+			break;
+		}
+	}
+	if (!found) {
+		// If none found, check and focus the first child
+		form.firstElementChild.checked = true;
+		form.firstElementChild.focus();
+	}
+}
+
+// Radiobutton redirection
+function redirectOnReturn(input, inputEvent) {
+	// Load the character code
+	var characterCode = inputEvent.which;
+	
+	// Check for "return"
+	if(characterCode == 13) {
+		document.location = input.value;
+		return false
+	} else {
+		return true
+	}
+}
+</SCRIPT>
+<HEAD>
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<TITLE>Presentatievoorbeeld</TITLE>
+</HEAD>
+<BODY ONLOAD="init();">
+<CENTER>
+<H1>Presentatievoorbeeld</H1>
+
+<FORM id="selection">
+<INPUT type="radio" name="group1" value="a.html" onKeypress="redirectOnReturn(this, event);">Film A<br>
+<INPUT type="radio" name="group1" value="b.html" onKeypress="redirectOnReturn(this, event);" checked>Film B<br>
+<INPUT type="radio" name="group1" value="c.html" onKeypress="redirectOnReturn(this, event);">Film C<br>
+</FORM>
+
+</CENTER>
+</BODY>
+</HTML>
+
