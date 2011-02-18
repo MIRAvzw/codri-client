@@ -1,0 +1,3 @@
+[submodule "lib/qtxmlrpc"]
+	path = lib/qtxmlrpc
+	url = ../museumkiosk-client
