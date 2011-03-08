@@ -17,7 +17,7 @@
 #include <avahi-client/publish.h>
 #include <avahi-qt4/qt-watch.h>
 
-#include <QObject>
+#include <QtCore/QObject>
 
 class QAvahiServicePublisher : public QObject
 {

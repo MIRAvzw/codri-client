@@ -3,9 +3,9 @@ INCLUDEPATH += ../../lib/libqavahi/
 
 TEMPLATE = app
 TARGET = demo_mdns
-HEADERS += \ 
-    servicediscoverer.h
+HEADERS += \  
+    servicepublisher.h
 SOURCES += main.cpp \
-    servicediscoverer.cpp
+    servicepublisher.cpp
 CONFIG += qt console
 QT += gui

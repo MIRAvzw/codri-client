@@ -16,11 +16,11 @@
 #include <avahi-common/error.h>
 #include <avahi-common/malloc.h>
 
-#include <QObject>
-#include <QStringList>
-#include <QHostAddress>
-#include <QMetaType>
-#include <QAbstractListModel>
+#include <QtCore/QObject>
+#include <QtCore/QStringList>
+#include <QtNetwork/QHostAddress>
+#include <QtCore/QMetaType>
+#include <QtCore/QAbstractListModel>
 
 class QAvahiServiceBrowserModel : public QAbstractListModel
 {
