@@ -10,6 +10,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
 #include <QtGui/QApplication>
+#include <QtCore/QSocketNotifier>
 
 // Local includes
 #include "servicepublisher.h"
@@ -27,14 +28,14 @@ namespace MIRA
         explicit MainApplication(int& argc, char** argv);
         ~MainApplication();
 
-    private:
-        // Subsystem initialization and destruction
-        void initLogging();
-        void destroyLogging();
-        void initServicePublishing();
-        void destroyServicePublishing();
-        void initApplicationInterface();
-        void destroyApplicationInterface();
+        // System signals (Unix)
+        static void handleInterruptUnix(int unused);
+        static void handleTerminateUnix(int unused);
+
+    public slots:
+        // System signals
+        void handleInterrupt();
+        void handleTerminate();
 
         // Singleton object getters
     public:
@@ -48,7 +49,7 @@ namespace MIRA
         // UI events
     public slots:
         void run();
-        void close();
+        void quitGracefully();
 
     private:
         // Singleton object
@@ -59,6 +60,12 @@ namespace MIRA
         LogFacility *mLogger;
         ServicePublisher* mServicePublisher;
         ApplicationInterface* mApplicationInterface;
+
+        static int sigintFd[2];
+        static int sigtermFd[2];
+
+        QSocketNotifier *snInt;
+        QSocketNotifier *snTerm;
     };
 }
 
