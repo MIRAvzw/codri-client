@@ -13,18 +13,24 @@ INCLUDEPATH += ../lib/log4qt/src
 include(../lib/libqavahi/libqavahi.pri)
 INCLUDEPATH += ../lib/libqavahi/
 
+include(../lib/qtxmlrpc/server/server.pri)
+INCLUDEPATH += ../lib/qtxmlrpc/server/src
+
 TARGET = client
 TEMPLATE = app
 
 
 SOURCES += main.cpp \
     servicepublisher.cpp \
-    mainapplication.cpp
+    mainapplication.cpp \
+    applicationinterface.cpp \
+    logfacility.cpp
 
 HEADERS  += \
     servicepublisher.h \
     mainapplication.h \
     logfacility.h \
-    logstream.h
+    logstream.h \
+    applicationinterface.h
 
 FORMS    +=

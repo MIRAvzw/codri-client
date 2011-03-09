@@ -29,7 +29,8 @@ ServicePublisher::~ServicePublisher()
 }
 
 
-void ServicePublisher::catchNotification(QAvahiServicePublisher::Notification iNotification) {
+void ServicePublisher::catchNotification(QAvahiServicePublisher::Notification iNotification)
+{
     mLogger->trace() << Q_FUNC_INFO;
 
     switch (iNotification) {

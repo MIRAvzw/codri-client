@@ -15,6 +15,7 @@
 #include "servicepublisher.h"
 #include "logger.h"
 #include "logfacility.h"
+#include "applicationinterface.h"
 
 namespace MIRA
 {
@@ -32,8 +33,10 @@ namespace MIRA
         void destroyLogging();
         void initServicePublishing();
         void destroyServicePublishing();
+        void initApplicationInterface();
+        void destroyApplicationInterface();
 
-        // Singleton objects
+        // Singleton object getters
     public:
         static MainApplication *instance();
         static QSettings &settings();
@@ -50,11 +53,12 @@ namespace MIRA
     private:
         // Singleton object
         static MainApplication *mInstance;
-
-        // Member objects
         QSettings* mSettings;
-        ServicePublisher* mServicePublisher;
+
+        // Subsystem objects
         LogFacility *mLogger;
+        ServicePublisher* mServicePublisher;
+        ApplicationInterface* mApplicationInterface;
     };
 }
 

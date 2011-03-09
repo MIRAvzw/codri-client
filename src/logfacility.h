@@ -19,12 +19,10 @@ namespace MIRA
     {
     public:
         // Construction and destruction
-        LogFacility(QString iSubsystem, QObject* parent = 0) : QObject(parent)
-        {
-            mLogger = Log4Qt::Logger::logger(iSubsystem);
-        }
+        LogFacility(QString iSubsystem, QObject* parent = 0);
+        ~LogFacility();
 
-        // GettersLog4Qt::Logger::logger(iSubsystem)
+        // Specialised loggers
         inline LogStream trace() {
             return LogStream(*mLogger, LogStream::TRACE);
         }
@@ -45,6 +43,7 @@ namespace MIRA
         }
     private:
         Log4Qt::Logger *mLogger;
+        QString mSubsystem;
     };
 }
 

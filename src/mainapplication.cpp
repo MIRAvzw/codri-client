@@ -8,9 +8,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
 #include <QtCore/QTimer>
-#include "consoleappender.h"
-#include "ttcclayout.h"
-#include "logmanager.h"
 
 // Namespaces
 using namespace MIRA;
@@ -37,9 +34,14 @@ MainApplication::MainApplication(int & argc, char ** argv) : QApplication(argc, 
     // Load the settings
     mSettings = new QSettings(this);
 
-    // Initialize subsystems
-    initLogging();
-    initServicePublishing();
+    // Initialize logging subsystem
+    mLogger = new LogFacility("main", this);
+
+    // Initialize service publishing subsystem
+    mServicePublisher = new ServicePublisher("TestKiosk", this);
+
+    // Initialize application interface subsystem
+    mApplicationInterface = new ApplicationInterface("127.0.0.1", 8080, this);
 }
 
 MainApplication::~MainApplication()
@@ -49,59 +51,6 @@ MainApplication::~MainApplication()
 
     // Save the settings
     settings().sync();
-
-    // Destroy components
-    destroyServicePublishing();
-    destroyLogging();
-}
-
-
-//
-// Subsystem initialization and destruction
-//
-
-void MainApplication::initLogging()
-{
-    // Create objects
-    Log4Qt::ConsoleAppender *tLogAppender = new Log4Qt::ConsoleAppender(this);
-    Log4Qt::TTCCLayout *tLogLayout = new Log4Qt::TTCCLayout(this);
-
-    // Configure layout
-    tLogLayout->setDateFormat(Log4Qt::TTCCLayout::ISO8601);
-
-    // Configure appender
-    tLogAppender->setTarget(Log4Qt::ConsoleAppender::STDOUT_TARGET);
-    tLogAppender->setLayout(tLogLayout);
-    tLogAppender->activateOptions();
-
-    // Configure root logger
-    Log4Qt::LogManager::rootLogger()->addAppender(tLogAppender);
-
-    // Register a logger for the main application
-    mLogger = new LogFacility("main", this);
-}
-
-void MainApplication::destroyLogging()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    // Remove appender from logger
-    Log4Qt::LogManager::rootLogger()->removeAllAppenders();
-}
-
-
-void MainApplication::initServicePublishing()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    // Create object
-    mServicePublisher = new ServicePublisher("TestKiosk", this);
-
-}
-
-void MainApplication::destroyServicePublishing()
-{
-    mLogger->trace() << Q_FUNC_INFO;
 }
 
 
