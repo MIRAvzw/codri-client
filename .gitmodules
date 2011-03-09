@@ -1,3 +1,6 @@
 [submodule "lib/qtxmlrpc"]
 	path = lib/qtxmlrpc
 	url = ../museumkiosk-client
+[submodule "lib/log4qt"]
+	path = lib/log4qt
+	url = git://gitorious.org/log4qt/log4qt.git
