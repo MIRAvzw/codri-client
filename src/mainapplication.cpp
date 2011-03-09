@@ -78,14 +78,12 @@ void MainApplication::initLogging()
     Log4Qt::LogManager::rootLogger()->addAppender(tLogAppender);
 
     // Register a logger for the main application
-    mLogger = Log4Qt::Logger::logger(QString("main"));
+    mLogger = new LogFacility("main", this);
 }
 
 void MainApplication::destroyLogging()
 {
-    // Delete main logger
-    // TODO: deletion through QObject ownership chain?
-    delete mLogger;
+    mLogger->trace() << Q_FUNC_INFO;
 
     // Remove appender from logger
     Log4Qt::LogManager::rootLogger()->removeAllAppenders();
@@ -94,6 +92,8 @@ void MainApplication::destroyLogging()
 
 void MainApplication::initServicePublishing()
 {
+    mLogger->trace() << Q_FUNC_INFO;
+
     // Create object
     mServicePublisher = new ServicePublisher("TestKiosk", this);
 
@@ -101,7 +101,7 @@ void MainApplication::initServicePublishing()
 
 void MainApplication::destroyServicePublishing()
 {
-
+    mLogger->trace() << Q_FUNC_INFO;
 }
 
 
@@ -111,6 +111,8 @@ void MainApplication::destroyServicePublishing()
 
 void MainApplication::start()
 {
+    mLogger->trace() << Q_FUNC_INFO;
+
     QTimer::singleShot(0, this, SLOT(run()));
     QObject::connect(this, SIGNAL(lastWindowClosed()), this, SLOT(close()));
 }
@@ -137,8 +139,10 @@ QSettings& MainApplication::settings()
 
 void MainApplication::run()
 {
+    mLogger->trace() << Q_FUNC_INFO;
 }
 
 void MainApplication::close()
 {
+    mLogger->trace() << Q_FUNC_INFO;
 }

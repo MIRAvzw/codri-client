@@ -11,6 +11,7 @@
 
 // Local includes
 #include "qavahiservicepublisher.h"
+#include "logfacility.h"
 
 namespace MIRA
 {
@@ -28,6 +29,7 @@ namespace MIRA
     private:
         // Member objects
         QAvahiServicePublisher mPublisher;
+        LogFacility *mLogger;
 
     };
 }

@@ -23,6 +23,8 @@ SOURCES += main.cpp \
 
 HEADERS  += \
     servicepublisher.h \
-    mainapplication.h
+    mainapplication.h \
+    logfacility.h \
+    logstream.h
 
 FORMS    +=

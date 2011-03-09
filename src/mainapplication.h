@@ -14,6 +14,7 @@
 // Local includes
 #include "servicepublisher.h"
 #include "logger.h"
+#include "logfacility.h"
 
 namespace MIRA
 {
@@ -53,7 +54,7 @@ namespace MIRA
         // Member objects
         QSettings* mSettings;
         ServicePublisher* mServicePublisher;
-        Log4Qt::Logger* mLogger;
+        LogFacility *mLogger;
     };
 }
 

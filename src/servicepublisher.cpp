@@ -16,7 +16,8 @@ using namespace MIRA;
 
 ServicePublisher::ServicePublisher(QString iName, QObject *parent) : QObject(parent), mPublisher(this)
 {
-    qDebug() << "+ " << Q_FUNC_INFO;
+    mLogger =  new LogFacility("ServicePublisher", this);
+    mLogger->trace() << Q_FUNC_INFO;
 
     connect(&mPublisher, SIGNAL(changeNotification(QAvahiServicePublisher::Notification)), this, SLOT(catchNotification(QAvahiServicePublisher::Notification)));
     mPublisher.publish(iName, "_mirakiosk._tcp", 555, "Kiosk in the MIRA Ad-Astra III application");
@@ -24,45 +25,45 @@ ServicePublisher::ServicePublisher(QString iName, QObject *parent) : QObject(par
 
 ServicePublisher::~ServicePublisher()
 {
-    qDebug() << "- " << Q_FUNC_INFO;
+    mLogger->trace() << Q_FUNC_INFO;
 }
 
 
 void ServicePublisher::catchNotification(QAvahiServicePublisher::Notification iNotification) {
-    qDebug() << "~ " << Q_FUNC_INFO;
+    mLogger->trace() << Q_FUNC_INFO;
 
     switch (iNotification) {
     case QAvahiServicePublisher::Error:
-        qWarning() << "Error:" << mPublisher.errorString();
+        mLogger->error() << mPublisher.errorString();
         break;
     case QAvahiServicePublisher::ServicesRegistering:
-        qDebug() << "Registering services";
+        mLogger->debug() << "Registering services";
         break;
     case QAvahiServicePublisher::ServicesRegistered:
-        qDebug() << "Registered services";
+        mLogger->debug() << "Registered services";
         break;
     case QAvahiServicePublisher::ServiceNameCollision:
-        qWarning() << "Name collision";
+        mLogger->warn() << "Name collision";
         break;
     case QAvahiServicePublisher::ServicesUncommited:
-        qDebug() << "Registering services";
+        mLogger->debug() << "Registering services";
         break;
     case QAvahiServicePublisher::ServicesCommited:
-        qDebug() << "Services commited";
+        mLogger->debug() << "Services commited";
         break;
     case QAvahiServicePublisher::ClientConnecting:
-        qDebug() << "Client connecting";
+        mLogger->debug() << "Client connecting";
         break;
     case QAvahiServicePublisher::ServerRunning:
-        qDebug() << "Server running";
+        mLogger->debug() << "Server running";
         break;
     case QAvahiServicePublisher::ServerRegistering:
-        qDebug() << "Server registering";
+        mLogger->debug() << "Server registering";
         break;
     case QAvahiServicePublisher::ServerNameCollision:
-        qWarning() << "Server name collision";
+        mLogger->warn() << "Server name collision";
         break;
     default:
-        qWarning() << "Unknown notification";
+        mLogger->warn() << "Unknown notification";
     }
 }
