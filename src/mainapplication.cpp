@@ -8,10 +8,9 @@
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
 #include <QtCore/QTimer>
-#include "log4qt/logger.h"
-#include "log4qt/consoleappender.h"
-#include "log4qt/ttcclayout.h"
-#include "log4qt/logmanager.h"
+#include "consoleappender.h"
+#include "ttcclayout.h"
+#include "logmanager.h"
 
 // Namespaces
 using namespace MIRA;
@@ -77,11 +76,18 @@ void MainApplication::initLogging()
 
     // Configure root logger
     Log4Qt::LogManager::rootLogger()->addAppender(tLogAppender);
+
+    // Register a logger for the main application
+    mLogger = Log4Qt::Logger::logger(QString("main"));
 }
 
 void MainApplication::destroyLogging()
 {
-    // Remove appender from Logger
+    // Delete main logger
+    // TODO: deletion through QObject ownership chain?
+    delete mLogger;
+
+    // Remove appender from logger
     Log4Qt::LogManager::rootLogger()->removeAllAppenders();
 }
 

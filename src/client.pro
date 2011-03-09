@@ -7,8 +7,8 @@
 QT       += core gui
 
 
-include(../lib/log4qt/log4qt.pri)
-INCLUDEPATH += ../lib/log4qt/
+include(../lib/log4qt/Log4Qt.pro)
+INCLUDEPATH += ../lib/log4qt/src
 
 include(../lib/libqavahi/libqavahi.pri)
 INCLUDEPATH += ../lib/libqavahi/
