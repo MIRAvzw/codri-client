@@ -9,6 +9,7 @@
 // System includes
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
+#include <QtCore/QSettings>
 
 // Local includes
 #include "xmlrpcserver.h"
@@ -21,7 +22,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        ApplicationInterface(const QString &address, quint16 port, QObject *parent = 0);
+        ApplicationInterface(QObject *parent = 0);
 
     private slots:
         // RPC handlers
@@ -29,6 +30,7 @@ namespace MIRA
 
     private:
         // Member objects
+        QSettings *mSettings;
         LogFacility *mLogger;
         XmlRpcServer *mServer;
     };

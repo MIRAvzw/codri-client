@@ -40,8 +40,6 @@ namespace MIRA
         // Singleton object getters
     public:
         static MainApplication *instance();
-        static QSettings &settings();
-
         // Application control
     public:
         void start();

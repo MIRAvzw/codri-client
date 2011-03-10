@@ -16,11 +16,22 @@ using namespace MIRA;
 
 ServicePublisher::ServicePublisher(QString iName, QObject *parent) : QObject(parent), mPublisher(this)
 {
+    // Load settings
+    mSettings = new QSettings(this);
+
+    // Setup logging
     mLogger =  new LogFacility("ServicePublisher", this);
     mLogger->trace() << Q_FUNC_INFO;
 
+    // Connect Avahi signals
     connect(&mPublisher, SIGNAL(changeNotification(QAvahiServicePublisher::Notification)), this, SLOT(catchNotification(QAvahiServicePublisher::Notification)));
-    mPublisher.publish(iName, "_mirakiosk._tcp", 555, "Kiosk in the MIRA Ad-Astra III application");
+
+    // Publish the service
+    mPublisher.publish(
+                iName,
+                mSettings->value("ServicePublisher/type", "_mirakiosk._tcp").toString(),
+                mSettings->value("ApplicationInterface/listen_port", 8080).toInt(),
+                mSettings->value("ServicePublisher/description", "").toString());
 }
 
 ServicePublisher::~ServicePublisher()

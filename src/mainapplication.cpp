@@ -48,14 +48,13 @@ MainApplication::MainApplication(int & argc, char ** argv) : QApplication(argc, 
 
     // Initialize application interface subsystem
     mLogger->debug() << "Initializing application interface";
-    mApplicationInterface = new ApplicationInterface("127.0.0.1", 8080, this);
+    mApplicationInterface = new ApplicationInterface(this);
 
+    // Setup signal handling
     if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sigintFd))
         qFatal("Couldn't create HUP socketpair");
-
     if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sigtermFd))
         qFatal("Couldn't create TERM socketpair");
-
     snInt = new QSocketNotifier(sigintFd[1], QSocketNotifier::Read, this);
     connect(snInt, SIGNAL(activated(int)), this, SLOT(handleInterrupt()));
     snTerm = new QSocketNotifier(sigtermFd[1], QSocketNotifier::Read, this);
@@ -66,10 +65,6 @@ MainApplication::~MainApplication()
 {
     // Remove the singleton configuration
     mInstance = NULL;
-
-    // Save the settings
-    mLogger->debug() << "Synchronizing settings";
-    settings().sync();
 }
 
 
@@ -94,11 +89,6 @@ void MainApplication::start()
 MainApplication *MainApplication::instance()
 {
     return mInstance;
-}
-
-QSettings& MainApplication::settings()
-{
-    return *instance()->mSettings;
 }
 
 

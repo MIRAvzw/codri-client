@@ -13,16 +13,22 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-ApplicationInterface::ApplicationInterface(const QString &address, quint16 port, QObject *parent) : QObject(parent)
+ApplicationInterface::ApplicationInterface(QObject *parent) : QObject(parent)
 {
+    // Load settings
+    mSettings = new QSettings(this);
+    mSettings->beginGroup("ApplicationInterface");
+
     // Setup logging
-    mLogger =  new LogFacility("ServicePublisher", this);
+    mLogger =  new LogFacility("ApplicationInterface", this);
     mLogger->trace() << Q_FUNC_INFO;
 
     // Create the XMLRPC-server
     //mServer = new XmlRpcServer(0, "Dev_server.crt", "Dev_server.pem");
     mServer = new XmlRpcServer(this);
-    if (mServer->listen(QHostAddress(address), port))
+    if (mServer->listen(
+                QHostAddress(mSettings->value("listen_address", "127.0.0.1").toString()),
+                mSettings->value("listen_port", 8080).toInt()))
     {
         mServer->registerSlot(this, SLOT(testFunc(QVariant)), "/RPC/");
     }

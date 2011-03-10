@@ -8,6 +8,7 @@
 
 // System includes
 #include <QtCore/QObject>
+#include <QtCore/QSettings>
 
 // Local includes
 #include "qavahiservicepublisher.h"
@@ -28,6 +29,7 @@ namespace MIRA
 
     private:
         // Member objects
+        QSettings *mSettings;
         QAvahiServicePublisher mPublisher;
         LogFacility *mLogger;
 
