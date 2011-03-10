@@ -3,4 +3,4 @@
 	url = ../museumkiosk-client
 [submodule "lib/log4qt"]
 	path = lib/log4qt
-	url = git://gitorious.org/log4qt/log4qt.git
+	url = git://gitorious.org/~maleadt/log4qt/maleadts-log4qt.git
