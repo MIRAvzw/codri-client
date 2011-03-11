@@ -15,7 +15,7 @@
 // Local includes
 #include "servicepublisher.h"
 #include "logger.h"
-#include "logfacility.h"
+#include "logger.h"
 #include "applicationinterface.h"
 
 namespace MIRA
@@ -52,10 +52,10 @@ namespace MIRA
     private:
         // Singleton object
         static MainApplication *mInstance;
-        QSettings* mSettings;
 
         // Subsystem objects
-        LogFacility *mLogger;
+        QSettings* mSettings;
+        Log4Qt::Logger *mLogger;
         ServicePublisher* mServicePublisher;
         ApplicationInterface* mApplicationInterface;
 

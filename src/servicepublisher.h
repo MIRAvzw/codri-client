@@ -12,7 +12,7 @@
 
 // Local includes
 #include "qavahiservicepublisher.h"
-#include "logfacility.h"
+#include "logger.h"
 
 namespace MIRA
 {
@@ -30,8 +30,8 @@ namespace MIRA
     private:
         // Member objects
         QSettings *mSettings;
+        Log4Qt::Logger *mLogger;
         QAvahiServicePublisher mPublisher;
-        LogFacility *mLogger;
 
     };
 }

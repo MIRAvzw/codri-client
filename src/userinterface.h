@@ -11,7 +11,7 @@
 #include <QtCore/QSettings>
 
 // Local includes
-#include "logfacility.h"
+#include "logger.h"
 
 namespace MIRA
 {
@@ -25,7 +25,7 @@ namespace MIRA
     private:
         // Member objects
         QSettings *mSettings;
-        LogFacility *mLogger;
+        Log4Qt::Logger *mLogger;
     };
 }
 

@@ -24,15 +24,12 @@ SOURCES += main.cpp \
     servicepublisher.cpp \
     mainapplication.cpp \
     applicationinterface.cpp \
-    logfacility.cpp \
     repository.cpp \
     userinterface.cpp
 
 HEADERS  += \
     servicepublisher.h \
     mainapplication.h \
-    logfacility.h \
-    logstream.h \
     applicationinterface.h \
     repository.h \
     userinterface.h

@@ -40,7 +40,7 @@ MainApplication::MainApplication(int & argc, char ** argv) : QApplication(argc, 
     mSettings = new QSettings(this);
 
     // Initialize logging subsystem
-    mLogger = new LogFacility("main", this);
+    mLogger = Log4Qt::Logger::logger("main");
 
     // Initialize service publishing subsystem
     mLogger->debug() << "Initializing service publisher";

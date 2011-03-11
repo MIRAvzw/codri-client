@@ -20,7 +20,7 @@ ServicePublisher::ServicePublisher(QString iName, QObject *parent) : QObject(par
     mSettings = new QSettings(this);
 
     // Setup logging
-    mLogger =  new LogFacility("ServicePublisher", this);
+    mLogger =  Log4Qt::Logger::logger("ServicePublisher");
     mLogger->trace() << Q_FUNC_INFO;
 
     // Connect Avahi signals

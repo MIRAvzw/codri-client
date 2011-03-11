@@ -20,6 +20,6 @@ UserInterface::UserInterface(QObject *parent) : QObject(parent)
     mSettings->beginGroup("ApplicationInterface");
 
     // Setup logging
-    mLogger =  new LogFacility("ApplicationInterface", this);
+    mLogger =  Log4Qt::Logger::logger("ApplicationInterface");
     mLogger->trace() << Q_FUNC_INFO;
 }
