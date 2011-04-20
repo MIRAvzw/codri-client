@@ -52,7 +52,8 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
     try
     {
         mLogger->debug() << "Initializing user interface";
-        mUserInterface = new UserInterface(this);
+        mUserInterface = new UserInterface();
+        mUserInterface->show();
 
         mLogger->debug() << "Initializing service publisher";
         mServicePublisher = new ServicePublisher(tName, this);
@@ -65,10 +66,6 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
         mLogger->fatal() << "Failed to initialize: " << iException.what();
         throw QException("could not load all subsystems");
     }
-
-    // Initialize application interface subsystem
-    mLogger->debug() << "Initializing application interface";
-    mApplicationInterface = new ApplicationInterface(this);
 
     // Setup signal handling
     if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sigintFd))

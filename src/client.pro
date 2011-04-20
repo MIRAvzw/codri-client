@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui webkit
 
 
 include(../lib/log4qt/Log4Qt.pro)
@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     mainapplication.cpp \
     applicationinterface.cpp \
     repository.cpp \
-    userinterface.cpp
+    userinterface.cpp \
+    webpage/debugpage.cpp
 
 HEADERS  += \
     servicepublisher.h \
@@ -33,6 +34,7 @@ HEADERS  += \
     applicationinterface.h \
     repository.h \
     userinterface.h \
-    qexception.h
+    qexception.h \
+    webpage/debugpage.h
 
 FORMS    +=

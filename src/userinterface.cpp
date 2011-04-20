@@ -15,7 +15,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-UserInterface::UserInterface(QObject *parent) throw(QException) : QObject(parent)
+UserInterface::UserInterface(QWidget *parent) throw(QException) : QMainWindow(parent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -25,9 +25,11 @@ UserInterface::UserInterface(QObject *parent) throw(QException) : QObject(parent
     mLogger =  Log4Qt::Logger::logger("UserInterface");
     mLogger->trace() << Q_FUNC_INFO;
 
-    // Read resolution
-    QString tResolutionString = mSettings->value("resolution", "800x600").toString();
-    QStringList tResolutionPair = tResolutionString.split('x');
-    if (tResolutionPair.size() != 2)
-        throw QException("invalid resolution string");
+    // Setup UI
+    mWebView = new QWebView(this);
+    setCentralWidget(mWebView);
+
+    // Load debug page
+    mWebPage = new DebugPage(mWebView);
+    mWebView->setPage(mWebPage);
 }
