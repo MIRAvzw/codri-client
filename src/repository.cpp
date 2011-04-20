@@ -17,9 +17,9 @@ Repository::Repository(QObject *parent) : QObject(parent)
 {
     // Load settings
     mSettings = new QSettings(this);
-    mSettings->beginGroup("ApplicationInterface");
+    mSettings->beginGroup("Repository");
 
     // Setup logging
-    mLogger =  Log4Qt::Logger::logger("ApplicationInterface");
+    mLogger =  Log4Qt::Logger::logger("Repository");
     mLogger->trace() << Q_FUNC_INFO;
 }

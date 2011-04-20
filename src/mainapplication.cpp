@@ -24,7 +24,7 @@ MainApplication* MainApplication::mInstance = NULL;
 int MainApplication::sigintFd[2];
 int MainApplication::sigtermFd[2];
 
-MainApplication::MainApplication(int & argc, char ** argv) : QApplication(argc, argv)
+MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QApplication(argc, argv)
 {
     // Singleton assertion (well, some singleton-hybrid, to be fair)
     Q_ASSERT(mInstance == NULL);
@@ -42,9 +42,29 @@ MainApplication::MainApplication(int & argc, char ** argv) : QApplication(argc, 
     // Initialize logging subsystem
     mLogger = Log4Qt::Logger::logger("main");
 
-    // Initialize service publishing subsystem
-    mLogger->debug() << "Initializing service publisher";
-    mServicePublisher = new ServicePublisher("TestKiosk", this);
+    // Generate a unique name
+    QString tMacAddress = macAddress();
+    QString tName = QString("Kiosk-") % tMacAddress.replace(QString(":"), QString(""));
+    mLogger->info() << "Unique kiosk name: " << tName;
+
+    // Initialize subsystems
+    mLogger->debug() << "Loading subsystems";
+    try
+    {
+        mLogger->debug() << "Initializing user interface";
+        mUserInterface = new UserInterface(this);
+
+        mLogger->debug() << "Initializing service publisher";
+        mServicePublisher = new ServicePublisher(tName, this);
+
+        mLogger->debug() << "Initializing application interface";
+        mApplicationInterface = new ApplicationInterface(this);
+    }
+    catch (const QException& iException)
+    {
+        mLogger->fatal() << "Failed to initialize: " << iException.what();
+        throw QException("could not load all subsystems");
+    }
 
     // Initialize application interface subsystem
     mLogger->debug() << "Initializing application interface";
@@ -81,6 +101,13 @@ void MainApplication::start()
     QObject::connect(this, SIGNAL(lastWindowClosed()), this, SLOT(quitGracefully()));
 }
 
+void MainApplication::fatal()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    mLogger->fatal() << "Fatal error occured, halting application";
+    quitGracefully();
+}
 
 //
 // Singleton objects
@@ -164,4 +191,78 @@ void MainApplication::handleInterrupt()
     quitGracefully();
 
     snInt->setEnabled(true);
+}
+
+
+//
+// Auxiliary
+//
+
+QString MainApplication::macAddress()
+{
+    QString oMacAddress;
+
+    //
+    #if defined(Q_OS_WIN32)
+    //
+
+    PIP_ADAPTER_INFO pinfo = NULL;
+
+    unsigned long len = 0;
+    unsigned long nError;
+
+    if (pinfo != NULL)
+        delete (pinfo);
+
+    nError = GetAdaptersInfo(pinfo,&len);
+    if (nError != 0)
+    {
+        pinfo= (PIP_ADAPTER_INFO)malloc(len);
+        nError = GetAdaptersInfo(pinfo,&len);
+    }
+
+    if(nError == 0)
+        oMacAddress.sprintf("%02X:%02X:%02X:%02X:%02X:%02X",
+                           pinfo->Address[0],
+                           pinfo->Address[1],
+                           pinfo->Address[2],
+                           pinfo->Address[3],
+                           pinfo->Address[4],
+                           pinfo->Address[5]
+        );
+
+
+    //
+    #elif defined(Q_OS_LINUX)
+    //
+
+    // Create an interface request struct
+    struct ifreq ifr;
+    bzero(&ifr, sizeof(ifr));
+    ifr.ifr_addr.sa_family = AF_INET;
+    strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1);
+
+    // Open a socket and perform the IOCTL
+    int fd = socket(AF_INET, SOCK_DGRAM, 0);
+    ioctl(fd, SIOCGIFHWADDR, &ifr);
+    close(fd);
+
+    // Format the result
+    oMacAddress.sprintf("%02X:%02X:%02X:%02X:%02X:%02X",
+            (unsigned char)ifr.ifr_hwaddr.sa_data[0],
+            (unsigned char)ifr.ifr_hwaddr.sa_data[1],
+            (unsigned char)ifr.ifr_hwaddr.sa_data[2],
+            (unsigned char)ifr.ifr_hwaddr.sa_data[3],
+            (unsigned char)ifr.ifr_hwaddr.sa_data[4],
+            (unsigned char)ifr.ifr_hwaddr.sa_data[5]);
+
+
+    //
+    #else
+    //
+
+    #error Unsupported OS, please implement MainApplication::macAddress()
+    #endif
+
+    return oMacAddress;
 }

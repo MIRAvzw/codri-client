@@ -8,6 +8,7 @@
 
 // Local includes
 #include "mainapplication.h"
+#include "qexception.h"
 
 // Namespaces
 using namespace MIRA;
@@ -40,19 +41,31 @@ int main(int argc, char *argv[])
     initSignalHandlers();
 
     // Initialize the application
-    MainApplication tApplication(argc, argv);
-
-    tApplication.start();
-
-    // Run the application
-    /*
+    MainApplication* tApplication;
     try
     {
-    */
-        return tApplication.exec();
-    /*
+        tApplication = new MainApplication(argc, argv);
     }
-    catch (const Exception& iException)
+    catch (const QException& iException)
+    {
+        QTextStream qerr(stderr);
+
+        qerr << "--------------------------------------\n";
+        qerr << "        INITIALIZATION FAILURE        \n";
+        qerr << "--------------------------------------\n";
+        qerr << "\n";
+        qerr << "Exception details: " << iException.what() << "\n";
+
+        return 0;
+    }
+
+    // Run the application
+    try
+    {
+        tApplication->start();
+        return tApplication->exec();
+    }
+    catch (const QException& iException)
     {
          QTextStream qerr(stderr);
 
@@ -60,9 +73,8 @@ int main(int argc, char *argv[])
          qerr << "          UNTRAPPED EXCEPTION          \n";
          qerr << "---------------------------------------\n";
          qerr << "\n";
-         qerr << iException.toString();
+         qerr << "Exception details: " << iException.what() << "\n";
 
          return 0;
     }
-    */
 }

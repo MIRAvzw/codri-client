@@ -32,6 +32,7 @@ HEADERS  += \
     mainapplication.h \
     applicationinterface.h \
     repository.h \
-    userinterface.h
+    userinterface.h \
+    qexception.h
 
 FORMS    +=

@@ -12,6 +12,7 @@
 #include <QtCore/QSettings>
 
 // Local includes
+#include "qexception.h"
 #include "xmlrpcserver.h"
 #include "logger.h"
 
@@ -22,7 +23,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        ApplicationInterface(QObject *parent = 0);
+        ApplicationInterface(QObject *parent = 0) throw(QException);
 
     private slots:
         // RPC handlers

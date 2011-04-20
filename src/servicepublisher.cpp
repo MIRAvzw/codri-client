@@ -14,7 +14,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-ServicePublisher::ServicePublisher(QString iName, QObject *parent) : QObject(parent), mPublisher(this)
+ServicePublisher::ServicePublisher(QString iName, QObject *parent) throw(QException) : QObject(parent), mPublisher(this)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -31,7 +31,7 @@ ServicePublisher::ServicePublisher(QString iName, QObject *parent) : QObject(par
                 iName,
                 mSettings->value("ServicePublisher/type", "_mirakiosk._tcp").toString(),
                 mSettings->value("ApplicationInterface/listen_port", 8080).toInt(),
-                mSettings->value("ServicePublisher/description", "").toString());
+                mSettings->value("ServicePublisher/description", "MIRA Ad-Astra III kiosk").toString());
 }
 
 ServicePublisher::~ServicePublisher()
@@ -47,6 +47,7 @@ void ServicePublisher::catchNotification(QAvahiServicePublisher::Notification iN
     switch (iNotification) {
     case QAvahiServicePublisher::Error:
         mLogger->error() << mPublisher.errorString();
+        // TODO: check if _after_ publish, if not, retry. Robust code!
         break;
     case QAvahiServicePublisher::ServicesRegistering:
         mLogger->debug() << "Registering services";

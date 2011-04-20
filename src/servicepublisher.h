@@ -11,6 +11,7 @@
 #include <QtCore/QSettings>
 
 // Local includes
+#include "qexception.h"
 #include "qavahiservicepublisher.h"
 #include "logger.h"
 
@@ -21,7 +22,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        explicit ServicePublisher(QString iName, QObject *parent = 0);
+        explicit ServicePublisher(QString iName, QObject *parent = 0) throw(QException);
         ~ServicePublisher();
 
     private slots:

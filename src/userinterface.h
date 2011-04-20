@@ -11,6 +11,7 @@
 #include <QtCore/QSettings>
 
 // Local includes
+#include "qexception.h"
 #include "logger.h"
 
 namespace MIRA
@@ -20,7 +21,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        UserInterface(QObject *parent = 0);
+        UserInterface(QObject *parent = 0) throw(QException);
 
     private:
         // Member objects
