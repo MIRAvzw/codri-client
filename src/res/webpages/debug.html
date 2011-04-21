@@ -17,47 +17,40 @@ DebugInterface.newMessage.connect(showMessage);
 
 function readableDuration(date1, date2)
 {
-    console.log(typeof date1);
-    console.log(typeof date2);
     var seconds = Math.abs(date1.getTime() - date2.getTime()) / 1000;
     var text = "";
     
-    if (seconds > 60*60*24)
-    {
-        var days = Math.floor(seconds / 60*60*24);
-        text += days + " day";
-        if (days > 0)
-            text += "s";
-        seconds %= 60*60*24;
-    }
+    var intervals = [60*60*24, 60*60, 60, 1];
+    var labels = ["day", "hour", "minute", "second"];
     
-    if (seconds > 60*60)
+    for (var i = 0; i < intervals.length; i++)
     {
-        var hours = Math.floor(seconds / 60*60);
-        if (text != "")
-            text += ", ";
-        text += hours + " hour";
-        if (hours > 0)
-            text += "s";
-        seconds %= 60*60;
+        var amount = Math.floor(seconds / intervals[i]);
+        if (amount > 0
+            ||
+            (text == "" && i == intervals.length - 1) )
+        {
+            seconds -= amount * intervals[i];
+            if (text != "")
+                text += ", ";
+            text += amount + " " + labels[i];
+            if (amount != 1)
+                text += "s";
+        }
     }
-    
-    if (seconds > 60)
-    {
-        var minutes = Math.floor(seconds / 60);
-        if (text != "")
-            text += ", ";
-        text += minutes + " minute";
-        if (minutes > 0)
-            text += "s";
-        seconds %= 60;
-    }
-    
-    if (text != "")
-        text += ", ";
-    text += seconds + " seconds";
     
     return text;
+}
+
+function load()
+{
+    refresh();
+}
+function refresh()
+{
+    document.getElementById("uptime").innerHTML = readableDuration(new Date(), DebugInterface.startup);
+    
+    setTimeout("refresh()", 1000)
 }
 </script>
 <style type="text/css">
@@ -70,11 +63,11 @@ textarea.messages {
 };
 </style>
 </head>
-<body>
+<body onload="load();">
 <h1>Ad-Astra III - Debug view</h1>
 <h2>Application information</h2>
 
-<table cellspacing='0' class="values">
+<table cellspacing='0' class="values" id="applicationValues">
 <thead>
 <tr>
 <th class="Corner">Key</th>
@@ -95,7 +88,7 @@ textarea.messages {
 </tr>
 <tr>
 <th class="key">Uptime</td>
-<td class="value"><script type="text/javascript">document.write(readableDuration(new Date(), DebugInterface.startup));</script></td>
+<td class="value" id="uptime"></td>
 <td class="descr">How long the application has been running.</td>
 </tr>
 </tbody>
