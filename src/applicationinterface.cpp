@@ -13,7 +13,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-ApplicationInterface::ApplicationInterface(QObject *parent) : QObject(parent)
+ApplicationInterface::ApplicationInterface(QObject *parent) throw(QException) : QObject(parent)
 {
     // Load settings
     mSettings = new QSettings(this);

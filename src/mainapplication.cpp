@@ -42,10 +42,10 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
     // Initialize logging subsystem
     mLogger = Log4Qt::Logger::logger("main");
 
-    // Generate a unique name
+    // Generate a unique ID
     QString tMacAddress = macAddress();
-    QString tName = QString("Kiosk-") % tMacAddress.replace(QString(":"), QString(""));
-    mLogger->info() << "Unique kiosk name: " << tName;
+    mId = QString("Kiosk-") % tMacAddress.replace(QString(":"), QString(""));
+    mLogger->info() << "Unique kiosk name: " << mId;
 
     // Initialize subsystems
     mLogger->debug() << "Loading subsystems";
@@ -56,7 +56,7 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
         mUserInterface->show();
 
         mLogger->debug() << "Initializing service publisher";
-        mServicePublisher = new ServicePublisher(tName, this);
+        mServicePublisher = new ServicePublisher(mId, this);
 
         mLogger->debug() << "Initializing application interface";
         mApplicationInterface = new ApplicationInterface(this);
@@ -82,6 +82,16 @@ MainApplication::~MainApplication()
 {
     // Remove the singleton configuration
     mInstance = NULL;
+}
+
+
+//
+// Basic I/O
+//
+
+QString MainApplication::id() const
+{
+    return mId;
 }
 
 

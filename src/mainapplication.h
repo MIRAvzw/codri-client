@@ -42,6 +42,10 @@ namespace MIRA
         static void handleInterruptUnix(int unused);
         static void handleTerminateUnix(int unused);
 
+        // Basic I/O
+    public:
+        QString id() const;
+
     public slots:
         // System signals
         void handleInterrupt();
@@ -64,6 +68,9 @@ namespace MIRA
     private:
         // Singleton object
         static MainApplication *mInstance;
+
+        // Member data
+        QString mId;
 
         // Subsystem objects
         QSettings* mSettings;

@@ -19,6 +19,7 @@ INCLUDEPATH += ../lib/qtxmlrpc/server/src
 TARGET = client
 TEMPLATE = app
 
+RESOURCES += res/webpages.qrc
 
 SOURCES += main.cpp \
     servicepublisher.cpp \
