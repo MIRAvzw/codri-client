@@ -11,6 +11,7 @@
 #include <QtCore/QSettings>
 #include <QtGui/QApplication>
 #include <QtCore/QSocketNotifier>
+#include <QtCore/QDateTime>
 
 // Local includes
 #include "qexception.h"
@@ -45,6 +46,7 @@ namespace MIRA
         // Basic I/O
     public:
         QString id() const;
+        QDateTime startup() const;
 
     public slots:
         // System signals
@@ -71,6 +73,7 @@ namespace MIRA
 
         // Member data
         QString mId;
+        QDateTime mTimestampStartup;
 
         // Subsystem objects
         QSettings* mSettings;

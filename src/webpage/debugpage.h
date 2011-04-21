@@ -21,6 +21,7 @@ namespace MIRA
     {
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)
+    Q_PROPERTY(QDateTime startup READ startup CONSTANT)
     public:
         // Construction and destruction
         DebugPage(QObject* parent = 0);
@@ -29,6 +30,7 @@ namespace MIRA
         // Basic I/O
     public:
         QString id() const;
+        QDateTime startup() const;
 
     signals:
         void newMessage(const QString& iMessage);

@@ -54,6 +54,10 @@ QString DebugPage::id() const
     return MainApplication::instance()->id();
 }
 
+QDateTime DebugPage::startup() const
+{
+    return MainApplication::instance()->startup();
+}
 
 //
 // QWebPage interface

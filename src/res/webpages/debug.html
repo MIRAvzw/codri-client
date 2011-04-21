@@ -3,13 +3,62 @@
 <title>Ad-Astra III - Debug page</title>
 <link rel="stylesheet" href="style.css" type="text/css" />
 <script type="text/javascript">
-function showMessage(message) {
+function showMessage(message)
+{
     var textarea = document.getElementById("messageView");
-    var text = document.createTextNode(message);
-    textarea.appendChild(text);
-    textarea.scrollTop = textarea.scrollHeight; 
+    if (textarea != null)   // this can happen when the DOM isn't loaded yet
+    {
+        var text = document.createTextNode(message);
+        textarea.appendChild(text);
+        textarea.scrollTop = textarea.scrollHeight;
+    }
 }
 DebugInterface.newMessage.connect(showMessage);
+
+function readableDuration(date1, date2)
+{
+    console.log(typeof date1);
+    console.log(typeof date2);
+    var seconds = Math.abs(date1.getTime() - date2.getTime()) / 1000;
+    var text = "";
+    
+    if (seconds > 60*60*24)
+    {
+        var days = Math.floor(seconds / 60*60*24);
+        text += days + " day";
+        if (days > 0)
+            text += "s";
+        seconds %= 60*60*24;
+    }
+    
+    if (seconds > 60*60)
+    {
+        var hours = Math.floor(seconds / 60*60);
+        if (text != "")
+            text += ", ";
+        text += hours + " hour";
+        if (hours > 0)
+            text += "s";
+        seconds %= 60*60;
+    }
+    
+    if (seconds > 60)
+    {
+        var minutes = Math.floor(seconds / 60);
+        if (text != "")
+            text += ", ";
+        text += minutes + " minute";
+        if (minutes > 0)
+            text += "s";
+        seconds %= 60;
+    }
+    
+    if (text != "")
+        text += ", ";
+    text += seconds + " seconds";
+    
+    return text;
+}
 </script>
 <style type="text/css">
 textarea.messages {
@@ -23,7 +72,7 @@ textarea.messages {
 </head>
 <body>
 <h1>Ad-Astra III - Debug view</h1>
-<h2>Kiosk values</h2>
+<h2>Application information</h2>
 
 <table cellspacing='0' class="values">
 <thead>
@@ -38,6 +87,16 @@ textarea.messages {
 <th class="key">Unique ID</td>
 <td class="value"><script type="text/javascript">document.write(DebugInterface.id);</script></td>
 <td class="descr">String used to identify the kiosk in the network.</td>
+</tr>
+<tr>
+<th class="key">Startup timestamp</td>
+<td class="value"><script type="text/javascript">document.write(DebugInterface.startup.toUTCString());</script></td>
+<td class="descr">When the application initialized.</td>
+</tr>
+<tr>
+<th class="key">Uptime</td>
+<td class="value"><script type="text/javascript">document.write(readableDuration(new Date(), DebugInterface.startup));</script></td>
+<td class="descr">How long the application has been running.</td>
 </tr>
 </tbody>
 </table>

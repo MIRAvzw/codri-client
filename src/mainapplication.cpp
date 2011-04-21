@@ -47,6 +47,9 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
     mId = QString("Kiosk-") % tMacAddress.replace(QString(":"), QString(""));
     mLogger->info() << "Unique kiosk name: " << mId;
 
+    // Mark startup time
+    mTimestampStartup = QDateTime::currentDateTime();
+
     // Initialize subsystems
     mLogger->debug() << "Loading subsystems";
     try
@@ -92,6 +95,11 @@ MainApplication::~MainApplication()
 QString MainApplication::id() const
 {
     return mId;
+}
+
+QDateTime MainApplication::startup() const
+{
+    return mTimestampStartup;
 }
 
 
