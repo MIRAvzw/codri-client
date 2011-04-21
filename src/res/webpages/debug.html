@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>Ad-Astra III - Debug page</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
 <script type="text/javascript">
 function showMessage(message) {
     var textarea = document.getElementById("messageView");
@@ -18,46 +19,13 @@ textarea.messages {
     border: 3px solid #cccccc;
     padding: 5px;
 };
-table.information {
-    border-spacing: 0px;
-    border-collapse: collapse;
-    background-color: #E5E5E5;
-    border: 10px solid #E5E5E5;
-}
-table.information th {
-    text-align: left;
-    font-weight: normal;
-    padding: 0.1em 0.5em;
-}
-table.information td {
-    text-align: right;
-    border-left: 1px solid #666666;
-    padding: 0.1em 0.5em;
-}
-table.information thead th {
-    border-left: 1px solid #666666;
-    border-bottom: 1px solid #666666;
-    text-align: center;
-    font-weight: bold;
-}
-table.information th.Corner {
-    text-align: left;
-    border-left: 0px;
-}
-table.information tbody td.key {
-}
-table.information tbody td.value {
-    font-family: monospace;
-}
-table.information tbody td.descr {
-}
 </style>
 </head>
 <body>
 <h1>Ad-Astra III - Debug view</h1>
-<h2>Kiosk information</h2>
+<h2>Kiosk values</h2>
 
-<table cellspacing='0' class="information">
+<table cellspacing='0' class="values">
 <thead>
 <tr>
 <th class="Corner">Key</th>

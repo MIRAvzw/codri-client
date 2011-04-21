@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>webpages/debug.html</file>
+        <file>webpages/style.css</file>
     </qresource>
 </RCC>
