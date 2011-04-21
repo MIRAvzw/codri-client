@@ -10,9 +10,70 @@ function showMessage(message) {
 }
 DebugInterface.newMessage.connect(showMessage);
 </script>
+<style type="text/css">
+textarea.messages {
+    width: 100%;
+    overflow: hidden;
+    font-family: monospace;
+    border: 3px solid #cccccc;
+    padding: 5px;
+};
+table.information {
+    border-spacing: 0px;
+    border-collapse: collapse;
+    background-color: #E5E5E5;
+    border: 10px solid #E5E5E5;
+}
+table.information th {
+    text-align: left;
+    font-weight: normal;
+    padding: 0.1em 0.5em;
+}
+table.information td {
+    text-align: right;
+    border-left: 1px solid #666666;
+    padding: 0.1em 0.5em;
+}
+table.information thead th {
+    border-left: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+    text-align: center;
+    font-weight: bold;
+}
+table.information th.Corner {
+    text-align: left;
+    border-left: 0px;
+}
+table.information tbody td.key {
+}
+table.information tbody td.value {
+    font-family: monospace;
+}
+table.information tbody td.descr {
+}
+</style>
 </head>
 <body>
-<h1>Ad-Astra III - Debug view for <script type="text/javascript">document.write(DebugInterface.id);</script></h1>
-<textarea id="messageView" style="width:100%; height:150px; overflow:hidden; font-family:monospace;"></textarea>
+<h1>Ad-Astra III - Debug view</h1>
+<h2>Kiosk information</h2>
+
+<table cellspacing='0' class="information">
+<thead>
+<tr>
+<th class="Corner">Key</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="key">Unique ID</td>
+<td class="value"><script type="text/javascript">document.write(DebugInterface.id);</script></td>
+<td class="descr">String used to identify the kiosk in the network.</td>
+</tr>
+</tbody>
+</table>
+<h2>Latest messages</h2>
+<textarea class="messages" id="messageView" rows=10 readonly></textarea>
 </body>
 </html>
