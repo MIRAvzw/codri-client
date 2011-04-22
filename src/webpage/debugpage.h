@@ -7,11 +7,10 @@
 #define DEBUGPAGE_H
 
 // System includes
-#include <QObject>
+#include <QtCore/QObject>
 
 // Local incudes
 #include "webpage.h"
-#include "logger.h"
 #include "signalappender.h"
 #include "layout.h"
 

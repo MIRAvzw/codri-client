@@ -6,6 +6,7 @@
 #include "userinterface.h"
 #include <QStringList>
 #include "mainapplication.h"
+#include "webpage/messagepage.h"
 
 // Namespaces
 using namespace MIRA;
@@ -30,6 +31,6 @@ UserInterface::UserInterface(QWidget *parent) throw(QException) : QMainWindow(pa
     setCentralWidget(mWebView);
 
     // Load debug page
-    mWebPage = new DebugPage(mWebView);
+    mWebPage = new MessagePage(mWebView);
     mWebView->setPage(mWebPage);
 }

@@ -7,7 +7,8 @@
 #define WEBPAGE_H
 
 // System includes
-#include <QObject>
+#include <QtCore/QObject>
+#include <QtCore/QUrl>
 #include <QtWebKit/QWebPage>
 
 // Local incudes
@@ -20,7 +21,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        WebPage(QObject* parent = 0);
+        WebPage(QUrl iURL, QObject* parent = 0);
         ~WebPage();
 
         // QWebPage interface

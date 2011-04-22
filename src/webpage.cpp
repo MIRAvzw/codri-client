@@ -14,11 +14,11 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-WebPage::WebPage(QObject *parent) : QWebPage(parent)
+WebPage::WebPage(QUrl iURL, QObject *parent) : QWebPage(parent)
 {
     // Setup the webpage
     mainFrame()->addToJavaScriptWindowObject("application", this);
-    mainFrame()->load(QUrl("qrc:/webpages/debug.html"));
+    mainFrame()->load(iURL);
 
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("WebPage");

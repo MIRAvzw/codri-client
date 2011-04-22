@@ -4,7 +4,6 @@
 
 // Includes
 #include "debugpage.h"
-#include <QtWebKit/QWebFrame>
 #include "simplelayout.h"
 #include "mainapplication.h"
 
@@ -16,7 +15,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-DebugPage::DebugPage(QObject *parent) : WebPage(parent)
+DebugPage::DebugPage(QObject *parent) : WebPage(QUrl("qrc:/webpages/debug.html"), parent)
 {
     // Create log layout
     mLogLayout = new Log4Qt::SimpleLayout(this);

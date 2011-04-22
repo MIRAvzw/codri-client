@@ -7,7 +7,7 @@
 #define EXCEPTION_H
 
 // System includes
-#include <QString>
+#include <QtCore/QString>
 
 class QException
 {

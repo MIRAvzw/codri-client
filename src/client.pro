@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     repository.cpp \
     userinterface.cpp \
     webpage/debugpage.cpp \
-    webpage.cpp
+    webpage.cpp \
+    webpage/messagepage.cpp
 
 HEADERS  += \
     servicepublisher.h \
@@ -38,6 +39,7 @@ HEADERS  += \
     userinterface.h \
     qexception.h \
     webpage/debugpage.h \
-    webpage.h
+    webpage.h \
+    webpage/messagepage.h
 
 FORMS    +=

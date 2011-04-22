@@ -15,7 +15,7 @@
 // Local includes
 #include "qexception.h"
 #include "logger.h"
-#include "webpage/debugpage.h"
+#include "webpage.h"
 
 namespace MIRA
 {
@@ -31,7 +31,7 @@ namespace MIRA
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         QWebView *mWebView;
-        DebugPage* mWebPage;
+        WebPage* mWebPage;
     };
 }
 
