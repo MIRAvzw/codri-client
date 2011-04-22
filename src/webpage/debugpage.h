@@ -8,16 +8,16 @@
 
 // System includes
 #include <QObject>
-#include <QtWebKit/QWebPage>
 
 // Local incudes
+#include "webpage.h"
 #include "logger.h"
 #include "signalappender.h"
 #include "layout.h"
 
 namespace MIRA
 {
-    class DebugPage : public QWebPage
+    class DebugPage : public WebPage
     {
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)
@@ -35,12 +35,7 @@ namespace MIRA
     signals:
         void newMessage(const QString& iMessage);
 
-        // QWebPage interface
-    protected:
-        void javaScriptConsoleMessage(const QString& iMessage, int iLineNumber, const QString& iSourceId);
-
     private:
-        Log4Qt::Logger *mLogger;
         Log4Qt::Layout* mLogLayout;
         Log4Qt::SignalAppender* mLogAppender;
     };

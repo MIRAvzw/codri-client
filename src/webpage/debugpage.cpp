@@ -16,16 +16,8 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-DebugPage::DebugPage(QObject *parent) : QWebPage(parent)
+DebugPage::DebugPage(QObject *parent) : WebPage(parent)
 {
-    // Setup the webpage
-    mainFrame()->addToJavaScriptWindowObject("DebugInterface", this);
-    mainFrame()->load(QUrl("qrc:/webpages/debug.html"));
-
-    // Setup logging
-    mLogger =  Log4Qt::Logger::logger("DebugPage");
-    mLogger->trace() << Q_FUNC_INFO;
-
     // Create log layout
     mLogLayout = new Log4Qt::SimpleLayout(this);
     mLogLayout->activateOptions();
@@ -57,13 +49,4 @@ QString DebugPage::id() const
 QDateTime DebugPage::startup() const
 {
     return MainApplication::instance()->startup();
-}
-
-//
-// QWebPage interface
-//
-
-void DebugPage::javaScriptConsoleMessage(const QString& iMessage, int iLineNumber, const QString& iSourceId)
-{
-    mLogger->debug() << "Javascript console message at line " << iLineNumber << " of " << iSourceId << ": " << iMessage;
 }

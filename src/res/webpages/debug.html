@@ -13,7 +13,7 @@ function showMessage(message)
         textarea.scrollTop = textarea.scrollHeight;
     }
 }
-DebugInterface.newMessage.connect(showMessage);
+application.newMessage.connect(showMessage);
 
 function readableDuration(date1, date2)
 {
@@ -48,7 +48,7 @@ function load()
 }
 function refresh()
 {
-    document.getElementById("uptime").innerHTML = readableDuration(new Date(), DebugInterface.startup);
+    document.getElementById("uptime").innerHTML = readableDuration(new Date(), application.startup);
     
     setTimeout("refresh()", 1000)
 }
@@ -78,12 +78,12 @@ textarea.messages {
 <tbody>
 <tr>
 <th class="key">Unique ID</td>
-<td class="value"><script type="text/javascript">document.write(DebugInterface.id);</script></td>
+<td class="value"><script type="text/javascript">document.write(application.id);</script></td>
 <td class="descr">String used to identify the kiosk in the network.</td>
 </tr>
 <tr>
 <th class="key">Startup timestamp</td>
-<td class="value"><script type="text/javascript">document.write(DebugInterface.startup.toUTCString());</script></td>
+<td class="value"><script type="text/javascript">document.write(application.startup.toUTCString());</script></td>
 <td class="descr">When the application initialized.</td>
 </tr>
 <tr>
