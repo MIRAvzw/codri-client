@@ -1,29 +1,50 @@
 <html>
 <head>
+<link type="text/css" href="css/style.css" rel="stylesheet" />
 <link type="text/css" href="css/sunny/jquery-ui-1.8.11.custom.css" rel="Stylesheet" />	
 <script type="text/javascript" src="js/jquery-1.5.2.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.8.11.custom.js"></script>
 <title>Ad Astra III - Message Page</title>
 <script>
 // Create dialog
-$(function() {
-	$( "#dialog" ).dialog({
-		autoOpen: false,
+function showNotice(text)
+{
+    var element = $('<div id="newNotice" title="Notice">' + text + '</div>');
+    element.dialog({
 		show: "drop",
 		hide: "drop",
 		draggable: false,
 		resizable: false,
-		position: "left top"
-	});
+		position: "left top",
+		minHeight: 50
+	}).prev().addClass('ui-state-highlight');
+	setTimeout(function() {
+            element.dialog("close")
+        }, 3500);
+}
+function showAlert(text)
+{
+    var element = $('<div id="newAlert" title="Alert!">' + text + '</div>');
+    element.dialog({
+		show: "drop",
+		hide: "drop",
+		draggable: false,
+		resizable: false,
+		position: "left top",
+		minHeight: 50
+	}).prev().addClass('ui-state-error');
+	setTimeout(function() {
+            element.dialog("close")
+        }, 3500);
+}
 
-	$( "#opener" ).click(function() {
-		$( "#dialog" ).dialog( "open" );
-		setTimeout(function() {
-            $("#dialog").dialog("close")
-        }, 5000);
-		return false;
-	});
+$(function() {
+	$('#act').click(function(e) {
+        showAlert("this is an alert");
+        return false;
+    });
 });
+
 </script>
 </head>
 <body>
@@ -31,17 +52,9 @@ $(function() {
 <p>
 This page features some testing ground for messaging functionality. It'll
 get integrated in the main WebPage class over time.
+<button id="act">Act!</button>
 </p>
 
-<p>
-
-<div id="dialog" title="Basic dialog">
-	<p>This is an animated dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
-</div>
-
-<button id="opener">Open Dialog</button>
-
-</p>
 
 </body>
 
