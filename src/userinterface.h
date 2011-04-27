@@ -26,6 +26,10 @@ namespace MIRA
         // Construction and destruction
         UserInterface(QWidget *parent = 0) throw(QException);
 
+        // Messaging methods
+        void showNotice(const QString& iMessage) const;
+        void showAlert(const QString& iMessage) const;
+
     private:
         // Member objects
         QSettings *mSettings;

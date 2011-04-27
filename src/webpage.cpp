@@ -37,3 +37,18 @@ void WebPage::javaScriptConsoleMessage(const QString& iMessage, int iLineNumber,
 {
     mLogger->debug() << "Javascript console message at line " << iLineNumber << " of " << iSourceId << ": " << iMessage;
 }
+
+
+//
+// Messaging methods
+//
+
+void WebPage::showNotice(const QString& iMessage) const
+{
+    emit notice(iMessage);
+}
+
+void WebPage::showAlert(const QString& iMessage) const
+{
+    emit alert(iMessage);
+}

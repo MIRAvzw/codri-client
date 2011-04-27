@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>webpages/debug.html</file>
-        <file>webpages/message.html</file>
         <file>webpages/css/style.css</file>
         <file>webpages/css/sunny/jquery-ui-1.8.11.custom.css</file>
         <file>webpages/css/sunny/images/ui-bg_diagonals-medium_20_d34d17_40x40.png</file>
@@ -22,5 +21,6 @@
         <file>webpages/css/sunny/images/ui-icons_ffe180_256x240.png</file>
         <file>webpages/js/jquery-ui-1.8.11.custom.js</file>
         <file>webpages/js/jquery-1.5.2.js</file>
+        <file>webpages/js/ui.js</file>
     </qresource>
 </RCC>

@@ -1,7 +1,11 @@
 <html>
 <head>
-<title>Ad-Astra III - Debug page</title>
 <link type="text/css" href="css/style.css" rel="stylesheet" />
+<link type="text/css" href="css/sunny/jquery-ui-1.8.11.custom.css" rel="Stylesheet" />	
+<script type="text/javascript" src="js/jquery-1.5.2.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.11.custom.js"></script>
+<script type="text/javascript" src="js/ui.js"></script>
+<title>Ad-Astra III - Debug page</title>
 <script type="text/javascript">
 function showMessage(message)
 {
@@ -42,10 +46,6 @@ function readableDuration(date1, date2)
     return text;
 }
 
-function load()
-{
-    refresh();
-}
 function refresh()
 {
     document.getElementById("uptime").innerHTML = readableDuration(new Date(), application.startup);
@@ -63,7 +63,7 @@ textarea.messages {
 };
 </style>
 </head>
-<body onload="load();">
+<body onload="refresh();">
 <h1>Ad-Astra III - Debug view</h1>
 <h2>Application information</h2>
 

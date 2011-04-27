@@ -34,3 +34,18 @@ UserInterface::UserInterface(QWidget *parent) throw(QException) : QMainWindow(pa
     mWebPage = new MessagePage(mWebView);
     mWebView->setPage(mWebPage);
 }
+
+
+//
+// Messaging methods
+//
+
+void UserInterface::showNotice(const QString& iMessage) const
+{
+    mWebPage->showNotice(iMessage);
+}
+
+void UserInterface::showAlert(const QString& iMessage) const
+{
+    mWebPage->showAlert(iMessage);
+}
