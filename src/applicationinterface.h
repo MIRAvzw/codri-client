@@ -29,6 +29,13 @@ namespace MIRA
         // RPC handlers
         QVariant testFunc(const QVariant &param);
 
+        // Configuration RPC calls
+    private slots:
+        /*
+        QVariant setInterfaceLocation(const QVariant& iParam);
+        QVariant setMediaLocation(const QVariant& iParam);
+        */
+
     private:
         // Member objects
         QSettings *mSettings;

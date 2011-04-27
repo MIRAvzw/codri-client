@@ -19,7 +19,7 @@ INCLUDEPATH += ../lib/qtxmlrpc/server/src
 TARGET = client
 TEMPLATE = app
 
-RESOURCES += res/webpages.qrc
+RESOURCES += webpage.qrc
 
 SOURCES += main.cpp \
     servicepublisher.cpp \
@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     repository.cpp \
     userinterface.cpp \
     webpage/debugpage.cpp \
-    webpage.cpp
+    webpage.cpp \
+    webpage/initpage.cpp
 
 HEADERS  += \
     servicepublisher.h \
@@ -38,6 +39,7 @@ HEADERS  += \
     userinterface.h \
     qexception.h \
     webpage/debugpage.h \
-    webpage.h
+    webpage.h \
+    webpage/initpage.h
 
 FORMS    +=
