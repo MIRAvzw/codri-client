@@ -25,16 +25,10 @@ namespace MIRA
         // Construction and destruction
         ApplicationInterface(QObject *parent = 0) throw(QException);
 
+        // Configuration
     private slots:
-        // RPC handlers
-        QVariant testFunc(const QVariant &param);
-
-        // Configuration RPC calls
-    private slots:
-        /*
         QVariant setInterfaceLocation(const QVariant& iParam);
         QVariant setMediaLocation(const QVariant& iParam);
-        */
 
     private:
         // Member objects

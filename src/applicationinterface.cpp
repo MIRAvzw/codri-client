@@ -30,18 +30,22 @@ ApplicationInterface::ApplicationInterface(QObject *parent) throw(QException) : 
                 QHostAddress(mSettings->value("listen_address", "127.0.0.1").toString()),
                 mSettings->value("listen_port", 8080).toInt()))
     {
-        mServer->registerSlot(this, SLOT(testFunc(QVariant)), "/RPC/");
+        mServer->registerSlot(this, SLOT(setInterfaceLocation(QVariant)), "/RPC/");
+        mServer->registerSlot(this, SLOT(setMediaLocation(QVariant)), "/RPC/");
     }
 }
 
 
 //
-// RPC handlers
+// Configuration
 //
 
-QVariant ApplicationInterface::testFunc(const QVariant &param)
+QVariant ApplicationInterface::setInterfaceLocation(const QVariant& iParam)
 {
-    mLogger->trace() << Q_FUNC_INFO;
+    mLogger->debug() << "setInterfaceLocation";
+}
 
-    return param;
+QVariant ApplicationInterface::setMediaLocation(const QVariant& iParam)
+{
+    mLogger->debug() << "setMediaLocation";
 }

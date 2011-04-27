@@ -44,7 +44,7 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
 
     // Generate a unique ID
     QString tMacAddress = macAddress();
-    mId = QString("Kiosk-") % tMacAddress.replace(QString(":"), QString(""));
+    mId = tMacAddress.replace(QString(":"), QString(""));
     mLogger->info() << "Unique kiosk name: " << mId;
 
     // Mark startup time
