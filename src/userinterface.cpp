@@ -2,11 +2,13 @@
 // Configuration
 //
 
-// Includes
+// Local includes
 #include "userinterface.h"
-#include <QStringList>
 #include "mainapplication.h"
-#include "webpage/initpage.h"
+#include "userinterface/webpages/initpage.h"
+
+// Library includes
+#include <QtCore/QStringList>
 
 // Namespaces
 using namespace MIRA;

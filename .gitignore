@@ -2,3 +2,5 @@
 *.qm
 *-build-*
 *~
+bin/
+obj/

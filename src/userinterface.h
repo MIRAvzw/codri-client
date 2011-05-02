@@ -6,16 +6,16 @@
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
 
-// System includes
+// Library includes
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
 #include <QtGui/QMainWindow>
 #include <QtWebKit/QWebView>
+#include <Log4Qt/Logger>
 
 // Local includes
 #include "qexception.h"
-#include "logger.h"
-#include "webpage.h"
+#include "userinterface/webpage.h"
 
 namespace MIRA
 {

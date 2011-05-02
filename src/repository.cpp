@@ -2,7 +2,7 @@
 // Configuration
 //
 
-// Includes
+// Local includes
 #include "repository.h"
 
 // Namespaces

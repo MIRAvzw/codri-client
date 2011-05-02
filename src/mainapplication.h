@@ -6,21 +6,20 @@
 #ifndef MAINAPPLICATION_H
 #define MAINAPPLICATION_H
 
-// System includes
+// Library includes
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
 #include <QtGui/QApplication>
 #include <QtCore/QSocketNotifier>
 #include <QtCore/QDateTime>
+#include <Log4Qt/Logger>
 
 // Local includes
 #include "qexception.h"
-#include "logger.h"
-#include "servicepublisher.h"
 #include "userinterface.h"
-#include "applicationinterface.h"
+#include "networkinterface.h"
 
-// Platform-specific inclused
+// Platform-specific system includes
 #if defined(Q_OS_LINUX)
 #include <sys/ioctl.h>
 #include <net/if.h>
@@ -79,8 +78,7 @@ namespace MIRA
         QSettings* mSettings;
         Log4Qt::Logger *mLogger;
         UserInterface* mUserInterface;
-        ServicePublisher* mServicePublisher;
-        ApplicationInterface* mApplicationInterface;
+        NetworkInterface* mNetworkInterface;
 
         static int sigintFd[2];
         static int sigtermFd[2];

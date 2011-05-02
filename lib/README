@@ -1,0 +1,21 @@
+This readme describes the used libraries. I decided not to refer to external
+dependancies properly, because of:
+- versioning difficulties (some projects are only on SVN which proves difficult
+  to refer to);
+- build system issues.
+
+
+Herqq UPnP
+----------
+
+Subfolder: hupnp
+Version: v1.0.0
+
+
+Log4Qt
+------
+
+Subfolder: log4qt
+Version: 9df232e at http://gitorious.org/log4qt
+Local changes: Qt-style include placeholders
+

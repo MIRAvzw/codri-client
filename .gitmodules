@@ -1,6 +1,0 @@
-[submodule "lib/qtxmlrpc"]
-	path = lib/qtxmlrpc
-	url = ../museumkiosk-client
-[submodule "lib/log4qt"]
-	path = lib/log4qt
-	url = git://gitorious.org/~maleadt/log4qt/maleadts-log4qt.git

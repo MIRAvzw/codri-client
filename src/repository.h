@@ -6,12 +6,10 @@
 #ifndef REPOSITORY_H
 #define REPOSITORY_H
 
-// System includes
+// Library includes
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
-
-// Local includes
-#include "logger.h"
+#include <Log4Qt/Logger>
 
 namespace MIRA
 {

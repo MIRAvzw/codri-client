@@ -2,12 +2,16 @@
 // Configuration
 //
 
-// Includes
+// Local includes
 #include "mainapplication.h"
+
+// Library includes
 #include <QtGui/QDesktopServices>
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
 #include <QtCore/QTimer>
+
+// System includes
 #include <sys/socket.h>
 #include <csignal>
 
@@ -58,11 +62,8 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
         mUserInterface = new UserInterface();
         mUserInterface->show();
 
-        mLogger->debug() << "Initializing service publisher";
-        mServicePublisher = new ServicePublisher(mId, this);
-
-        mLogger->debug() << "Initializing application interface";
-        mApplicationInterface = new ApplicationInterface(this);
+        mLogger->debug() << "Initializing network interface";
+        mNetworkInterface = new NetworkInterface(this);
     }
     catch (const QException& iException)
     {
