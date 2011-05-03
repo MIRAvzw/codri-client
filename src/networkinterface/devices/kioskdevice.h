@@ -3,8 +3,8 @@
 //
 
 // Include guard
-#ifndef KIOSK_H
-#define KIOSK_H
+#ifndef KIOSKDEVICE_H
+#define KIOSKDEVICE_H
 
 // Library includes
 #include <HUpnpCore/HServerDevice>
@@ -16,4 +16,4 @@ public:
     virtual ~KioskDevice();
 };
 
-#endif // KIOSK_H
+#endif // KIOSKDEVICE_H

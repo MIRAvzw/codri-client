@@ -10,7 +10,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
 #include <QtCore/QTimer>
-#include <QtCore/QDebug>
 #include <Log4Qt/TTCCLayout>
 #include <Log4Qt/ConsoleAppender>
 
@@ -60,12 +59,14 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
 
         // Set appender on root logger
         Log4Qt::Logger::rootLogger()->addAppender(tAppender);
+        Log4Qt::Logger::rootLogger()->setLevel(Log4Qt::Level::ALL_INT);
     }
+    mLogger->info() << "Initializing";
 
     // Generate a unique ID
     QString tMacAddress = macAddress();
     mId = tMacAddress.replace(QString(":"), QString(""));
-    mLogger->info() << "Unique kiosk name: " << mId;
+    mLogger->debug() << "Unique kiosk name: " << mId;
 
     // Mark startup time
     mTimestampStartup = QDateTime::currentDateTime();
@@ -128,7 +129,7 @@ void MainApplication::start()
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    mLogger->debug() << "Scheduling main loop";
+    mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
     QTimer::singleShot(0, this, SLOT(run()));
     QObject::connect(this, SIGNAL(lastWindowClosed()), this, SLOT(quitGracefully()));
 }

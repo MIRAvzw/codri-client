@@ -3,12 +3,13 @@
 //
 
 // Include guard
-#ifndef APPLICATIONINTERFACE_H
-#define APPLICATIONINTERFACE_H
+#ifndef APPLICATIONSERVICE_H
+#define APPLICATIONSERVICE_H
 
 // Library includes
 #include <HUpnpCore/HServerService>
 #include <HUpnpCore/HActionArguments>
+#include <Log4Qt/Logger>
 
 class ApplicationService : public Herqq::Upnp::HServerService
 {
@@ -26,6 +27,9 @@ private:
     qint32 Reboot(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs);
     qint32 GetVolume(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs);
     qint32 SetVolume(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs);
+
+    // Data members
+    Log4Qt::Logger *mLogger;
 };
 
-#endif // APPLICATIONINTERFACE_H
+#endif // APPLICATIONSERVICE_H

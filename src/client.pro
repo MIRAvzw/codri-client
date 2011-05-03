@@ -30,7 +30,7 @@ SOURCES += main.cpp \
     userinterface/webpages/initpage.cpp \
     networkinterface.cpp \
     networkinterface/kioskcreator.cpp \
-    networkinterface/devices/kiosk.cpp \
+    networkinterface/devices/kioskdevice.cpp \
     networkinterface/services/applicationservice.cpp \
     networkinterface/services/dataservice.cpp \
     repository.cpp
@@ -44,7 +44,7 @@ HEADERS  += \
     userinterface/webpages/initpage.h \
     networkinterface.h \
     networkinterface/kioskcreator.h \
-    networkinterface/devices/kiosk.h \
+    networkinterface/devices/kioskdevice.h \
     networkinterface/services/applicationservice.h \
     networkinterface/services/dataservice.h \
     repository.h

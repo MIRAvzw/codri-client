@@ -16,6 +16,9 @@
 
 ApplicationService::ApplicationService()
 {
+    // Setup logging
+    mLogger =  Log4Qt::Logger::logger("ApplicationService");
+    mLogger->trace() << Q_FUNC_INFO;
 
 }
 
@@ -48,6 +51,7 @@ Herqq::Upnp::HServerService::HActionInvokes ApplicationService::createActionInvo
 
 qint32 ApplicationService::SetVolume(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     Herqq::Upnp::HActionArgument iVolumeValue = inArgs.get("iVolumeValue");
 
     stateVariables().value("Volume")->setValue(iVolumeValue.value().toInt());
@@ -57,6 +61,7 @@ qint32 ApplicationService::SetVolume(const Herqq::Upnp::HActionArguments& inArgs
 
 qint32 ApplicationService::GetVolume(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     int tVolumeValue = stateVariables().value("Volume")->value().toInt();
     outArgs->setValue("oVolumeValue", tVolumeValue);
 
@@ -65,10 +70,12 @@ qint32 ApplicationService::GetVolume(const Herqq::Upnp::HActionArguments& inArgs
 
 qint32 ApplicationService::Reboot(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     return Herqq::Upnp::UpnpSuccess;
 }
 
 qint32 ApplicationService::Shutdown(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     return Herqq::Upnp::UpnpSuccess;
 }

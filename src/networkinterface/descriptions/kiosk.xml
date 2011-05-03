@@ -25,9 +25,9 @@
              <service>
                  <serviceType>urn:mira-be:service:Data:1</serviceType>
                  <serviceId>urn:upnp-org:serviceId:Data:1</serviceId>
-                 <SCPDURL>Data_scpd.xml</SCPDURL>
-                 <controlURL>/network/control</controlURL>
-                 <eventSubURL>/network/eventing</eventSubURL>
+                 <SCPDURL>data_scpd.xml</SCPDURL>
+                 <controlURL>/data/control</controlURL>
+                 <eventSubURL>/data/eventing</eventSubURL>
              </service>
          </serviceList>
      </device>

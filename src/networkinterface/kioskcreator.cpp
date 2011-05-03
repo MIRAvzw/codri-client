@@ -4,7 +4,7 @@
 
 // Local includes
 #include "kioskcreator.h"
-#include "devices/kiosk.h"
+#include "devices/kioskdevice.h"
 #include "services/applicationservice.h"
 #include "services/dataservice.h"
 

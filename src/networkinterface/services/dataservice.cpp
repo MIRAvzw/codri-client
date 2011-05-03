@@ -16,7 +16,9 @@
 
 DataService::DataService()
 {
-
+    // Setup logging
+    mLogger =  Log4Qt::Logger::logger("ApplicationService");
+    mLogger->trace() << Q_FUNC_INFO;
 }
 
 DataService::~DataService()
@@ -50,16 +52,18 @@ Herqq::Upnp::HServerService::HActionInvokes DataService::createActionInvokes()
 
 qint32 DataService::LoadInterface(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     int tInterfaceRevisionValue = stateVariables().value("InterfaceRevision")->value().toInt();
 
     tInterfaceRevisionValue++;
-    stateVariables().value("Volume")->setValue(tInterfaceRevisionValue);
+    stateVariables().value("InterfaceRevision")->setValue(tInterfaceRevisionValue);
 
     return Herqq::Upnp::UpnpSuccess;
 }
 
 qint32 DataService::SetInterfaceLocation(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     Herqq::Upnp::HActionArgument iInterfaceLocationValue = inArgs.get("iInterfaceLocationValue");
 
     stateVariables().value("InterfaceLocation")->setValue(iInterfaceLocationValue.value().toString());
@@ -70,6 +74,7 @@ qint32 DataService::SetInterfaceLocation(const Herqq::Upnp::HActionArguments& in
 
 qint32 DataService::GetInterfaceRevision(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     int tInterfaceRevisionValue = stateVariables().value("InterfaceRevision")->value().toInt();
     outArgs->setValue("oInterfaceRevisionValue", tInterfaceRevisionValue);
 
@@ -78,6 +83,7 @@ qint32 DataService::GetInterfaceRevision(const Herqq::Upnp::HActionArguments& in
 
 qint32 DataService::LoadMedia(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     int tMediaRevisionValue = stateVariables().value("MediaRevision")->value().toInt();
 
     tMediaRevisionValue++;
@@ -88,6 +94,7 @@ qint32 DataService::LoadMedia(const Herqq::Upnp::HActionArguments& inArgs, Herqq
 
 qint32 DataService::SetMediaLocation(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     Herqq::Upnp::HActionArgument iMediaLocationValue = inArgs.get("iMediaLocationValue");
 
     stateVariables().value("MediaLocation")->setValue(iMediaLocationValue.value().toString());
@@ -97,9 +104,9 @@ qint32 DataService::SetMediaLocation(const Herqq::Upnp::HActionArguments& inArgs
 
 qint32 DataService::GetMediaRevision(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     int oMediaRevisionValue = stateVariables().value("MediaRevision")->value().toInt();
     outArgs->setValue("oMediaRevisionValue", oMediaRevisionValue);
 
     return Herqq::Upnp::UpnpSuccess;
-
 }

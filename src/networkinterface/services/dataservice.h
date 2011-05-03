@@ -3,12 +3,13 @@
 //
 
 // Include guard
-#ifndef DATAINTERFACE_H
-#define DATAINTERFACE_H
+#ifndef DATASERVICE_H
+#define DATASERVICE_H
 
 // Library includes
 #include <HUpnpCore/HServerService>
 #include <HUpnpCore/HActionArguments>
+#include <Log4Qt/Logger>
 
 class DataService : public Herqq::Upnp::HServerService
 {
@@ -28,6 +29,9 @@ private:
     qint32 LoadMedia(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs);
     qint32 SetMediaLocation(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs);
     qint32 GetMediaRevision(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs);
+
+    // Data members
+    Log4Qt::Logger *mLogger;
 };
 
-#endif // DATAINTERFACE_H
+#endif // DATASERVICE_H

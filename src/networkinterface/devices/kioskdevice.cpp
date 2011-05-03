@@ -3,7 +3,7 @@
 //
 
 // Local includes
-#include "kiosk.h"
+#include "kioskdevice.h"
 
 
 //
