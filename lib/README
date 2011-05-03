@@ -10,6 +10,8 @@ Herqq UPnP
 
 Subfolder: hupnp
 Version: v1.0.0
+Local changes:
+ - Generating a hardware-dependant UDN when none has been provided
 
 
 Log4Qt
@@ -17,5 +19,6 @@ Log4Qt
 
 Subfolder: log4qt
 Version: 9df232e at http://gitorious.org/log4qt
-Local changes: Qt-style include placeholders
+Local changes:
+ - Qt-style include placeholders
 

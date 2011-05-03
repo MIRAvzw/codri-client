@@ -44,7 +44,7 @@ DebugPage::~DebugPage()
 
 QString DebugPage::id() const
 {
-    return MainApplication::instance()->id();
+    return MainApplication::instance()->uuid();
 }
 
 QDateTime DebugPage::startup() const

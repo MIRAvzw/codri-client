@@ -14,8 +14,8 @@
 #include <Log4Qt/ConsoleAppender>
 
 // System includes
-#include <sys/socket.h>
 #include <csignal>
+#include <sys/socket.h>
 
 // Namespaces
 using namespace MIRA;
@@ -63,11 +63,6 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
     }
     mLogger->info() << "Initializing";
 
-    // Generate a unique ID
-    QString tMacAddress = macAddress();
-    mId = tMacAddress.replace(QString(":"), QString(""));
-    mLogger->debug() << "Unique kiosk name: " << mId;
-
     // Mark startup time
     mTimestampStartup = QDateTime::currentDateTime();
 
@@ -77,10 +72,12 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
     {
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
+        mUserInterface->init();
         mUserInterface->show();
 
         mLogger->debug() << "Initializing network interface";
         mNetworkInterface = new NetworkInterface(this);
+        mNetworkInterface->init();
     }
     catch (const QException& iException)
     {
@@ -110,9 +107,9 @@ MainApplication::~MainApplication()
 // Basic I/O
 //
 
-QString MainApplication::id() const
+QUuid MainApplication::uuid() const
 {
-    return mId;
+    return mNetworkInterface->uuid();
 }
 
 QDateTime MainApplication::startup() const
@@ -143,7 +140,7 @@ void MainApplication::fatal()
 }
 
 //
-// Singleton objects
+// Singleton objects getters
 //
 
 MainApplication *MainApplication::instance()
@@ -151,6 +148,20 @@ MainApplication *MainApplication::instance()
     return mInstance;
 }
 
+
+//
+// Subsystem object getters
+//
+
+NetworkInterface* MainApplication::networkInterface() const
+{
+    return mNetworkInterface;
+}
+
+UserInterface* MainApplication::userInterface() const
+{
+    return mUserInterface;
+}
 
 //
 // UI events
@@ -224,78 +235,4 @@ void MainApplication::handleInterrupt()
     quitGracefully();
 
     snInt->setEnabled(true);
-}
-
-
-//
-// Auxiliary
-//
-
-QString MainApplication::macAddress()
-{
-    QString oMacAddress;
-
-    //
-    #if defined(Q_OS_WIN32)
-    //
-
-    PIP_ADAPTER_INFO pinfo = NULL;
-
-    unsigned long len = 0;
-    unsigned long nError;
-
-    if (pinfo != NULL)
-        delete (pinfo);
-
-    nError = GetAdaptersInfo(pinfo,&len);
-    if (nError != 0)
-    {
-        pinfo= (PIP_ADAPTER_INFO)malloc(len);
-        nError = GetAdaptersInfo(pinfo,&len);
-    }
-
-    if(nError == 0)
-        oMacAddress.sprintf("%02X:%02X:%02X:%02X:%02X:%02X",
-                           pinfo->Address[0],
-                           pinfo->Address[1],
-                           pinfo->Address[2],
-                           pinfo->Address[3],
-                           pinfo->Address[4],
-                           pinfo->Address[5]
-        );
-
-
-    //
-    #elif defined(Q_OS_LINUX)
-    //
-
-    // Create an interface request struct
-    struct ifreq ifr;
-    bzero(&ifr, sizeof(ifr));
-    ifr.ifr_addr.sa_family = AF_INET;
-    strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1);
-
-    // Open a socket and perform the IOCTL
-    int fd = socket(AF_INET, SOCK_DGRAM, 0);
-    ioctl(fd, SIOCGIFHWADDR, &ifr);
-    close(fd);
-
-    // Format the result
-    oMacAddress.sprintf("%02X:%02X:%02X:%02X:%02X:%02X",
-            (unsigned char)ifr.ifr_hwaddr.sa_data[0],
-            (unsigned char)ifr.ifr_hwaddr.sa_data[1],
-            (unsigned char)ifr.ifr_hwaddr.sa_data[2],
-            (unsigned char)ifr.ifr_hwaddr.sa_data[3],
-            (unsigned char)ifr.ifr_hwaddr.sa_data[4],
-            (unsigned char)ifr.ifr_hwaddr.sa_data[5]);
-
-
-    //
-    #else
-    //
-
-    #error Unsupported OS, please implement MainApplication::macAddress()
-    #endif
-
-    return oMacAddress;
 }

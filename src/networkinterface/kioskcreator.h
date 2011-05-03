@@ -8,18 +8,26 @@
 
 // Library includes
 #include <HUpnpCore/HDeviceModelCreator>
+#include <HUpnpCore/HDeviceInfo>
+#include <QtCore/QUuid>
 
-class KioskCreator : public Herqq::Upnp::HDeviceModelCreator
+// Local includes
+#include "networkinterface.h"
+
+namespace MIRA
 {
-protected:
-    virtual KioskCreator* newInstance() const
+    class KioskCreator : public Herqq::Upnp::HDeviceModelCreator
     {
-        return new KioskCreator();
-    }
+    protected:
+        virtual KioskCreator* newInstance() const
+        {
+            return new KioskCreator();
+        }
 
-public:
-    // Model creator interface
-    virtual Herqq::Upnp::HServerDevice* createDevice(const Herqq::Upnp::HDeviceInfo& info) const;
-    virtual Herqq::Upnp::HServerService* createService(const Herqq::Upnp::HServiceInfo& serviceInfo, const Herqq::Upnp::HDeviceInfo&) const;
-};
+    public:
+        // Model creator interface
+        virtual Herqq::Upnp::HServerDevice* createDevice(const Herqq::Upnp::HDeviceInfo& info) const;
+        virtual Herqq::Upnp::HServerService* createService(const Herqq::Upnp::HServiceInfo& serviceInfo, const Herqq::Upnp::HDeviceInfo&) const;
+    };
+}
 #endif // KIOSKCREATOR_H

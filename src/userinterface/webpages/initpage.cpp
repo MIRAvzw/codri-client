@@ -44,5 +44,5 @@ InitPage::~InitPage()
 
 QString InitPage::id() const
 {
-    return MainApplication::instance()->id();
+    return MainApplication::instance()->uuid();
 }

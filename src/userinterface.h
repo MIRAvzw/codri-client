@@ -24,7 +24,10 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        UserInterface(QWidget *parent = 0) throw(QException);
+        UserInterface(QWidget *parent = 0);
+
+        // Subsystem interface
+        void init() throw(QException);
 
         // Messaging methods
         void showNotice(const QString& iMessage) const;

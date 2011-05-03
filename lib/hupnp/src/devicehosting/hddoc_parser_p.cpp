@@ -401,6 +401,8 @@ bool HDocParser::parseDeviceInfo(
         readElementValue("serialNumber"    , deviceElement);
 
     HUdn udn(readElementValue("UDN"        , deviceElement));
+    if (udn.value().isNull())
+        udn = HUdn::createUdn();
 
     QString upc              =
         readElementValue("UPC"             , deviceElement);

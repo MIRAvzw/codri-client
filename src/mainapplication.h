@@ -19,15 +19,6 @@
 #include "userinterface.h"
 #include "networkinterface.h"
 
-// Platform-specific system includes
-#if defined(Q_OS_LINUX)
-#include <sys/ioctl.h>
-#include <net/if.h>
-#elif defined(Q_OS_WIN32)
-#include <winsock2.h>
-#include <iphlpapi.h>
-#endif
-
 namespace MIRA
 {
     class MainApplication : public QApplication
@@ -44,7 +35,7 @@ namespace MIRA
 
         // Basic I/O
     public:
-        QString id() const;
+        QUuid uuid() const;
         QDateTime startup() const;
 
     public slots:
@@ -55,6 +46,11 @@ namespace MIRA
         // Singleton object getters
     public:
         static MainApplication *instance();
+
+        // Subsystem object getters
+    public:
+        NetworkInterface* networkInterface() const;
+        UserInterface* userInterface() const;
 
         // Application control
     public:
@@ -71,7 +67,6 @@ namespace MIRA
         static MainApplication *mInstance;
 
         // Member data
-        QString mId;
         QDateTime mTimestampStartup;
 
         // Subsystem objects

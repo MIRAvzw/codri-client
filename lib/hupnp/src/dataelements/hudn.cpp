@@ -26,6 +26,9 @@
 #include <QtCore/QString>
 #include <QtCore/QByteArray>
 
+#include <sys/ioctl.h>
+#include <net/if.h>
+
 namespace Herqq
 {
 
@@ -87,7 +90,29 @@ QString HUdn::toSimpleUuid() const
 
 HUdn HUdn::createUdn()
 {
-    return HUdn(QUuid::createUuid());
+    // Create an interface request struct
+    struct ifreq ifr;
+    bzero(&ifr, sizeof(ifr));
+    ifr.ifr_addr.sa_family = AF_INET;
+    strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1);
+
+    // Open a socket and perform the IOCTL
+    int fd = socket(AF_INET, SOCK_DGRAM, 0);
+    ioctl(fd, SIOCGIFHWADDR, &ifr);
+    close(fd);
+
+    // Create an UUID
+    QUuid tUuid;
+    tUuid.data1 |= (unsigned char) ifr.ifr_hwaddr.sa_data[0] << 24;
+    tUuid.data1 |= (unsigned char) ifr.ifr_hwaddr.sa_data[1] << 16;
+    tUuid.data1 |= (unsigned char) ifr.ifr_hwaddr.sa_data[2] << 8;
+    tUuid.data1 |= (unsigned char) ifr.ifr_hwaddr.sa_data[3];
+    tUuid.data2 |= (unsigned char) ifr.ifr_hwaddr.sa_data[4] << 8;
+    tUuid.data2 |= (unsigned char) ifr.ifr_hwaddr.sa_data[5];
+    tUuid.data4[0] = (tUuid.data4[0] & 0x3F) | 0x80;        // UV_DCE
+    tUuid.data3 = (tUuid.data3 & 0x0FFF) | 0x1000;        // UV_Time (but without the actual timestamp, to persist reboots)
+
+    return HUdn(tUuid);
 }
 
 bool operator==(const HUdn& udn1, const HUdn& udn2)
