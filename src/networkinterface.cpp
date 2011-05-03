@@ -30,16 +30,19 @@ NetworkInterface::NetworkInterface(QObject *parent) throw(QException) : QObject(
     Herqq::Upnp::HDeviceHostConfiguration hostConfiguration;
 
     // Setup the device model
+    mLogger->debug() << "Setting up device model";
     KioskCreator creator;
     hostConfiguration.setDeviceModelCreator(creator);
 
     // Load the device configuration
+    mLogger->debug() << "Loading device configuration";
     Herqq::Upnp::HDeviceConfiguration config;
-    config.setPathToDeviceDescription("descriptions/kiosk.xml");
+    config.setPathToDeviceDescription("networkinterface/descriptions/kiosk.xml");
     config.setCacheControlMaxAge(30);
     hostConfiguration.add(config);
 
     // Create the device
+    mLogger->debug() << "Hosting device";
     mDeviceHost = new Herqq::Upnp::HDeviceHost(this);
     if (!mDeviceHost->init(hostConfiguration))
         throw QException("Failed to initialize the network interface: " + mDeviceHost->errorDescription());

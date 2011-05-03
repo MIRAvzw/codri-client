@@ -10,6 +10,9 @@
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
 #include <QtCore/QTimer>
+#include <QtCore/QDebug>
+#include <Log4Qt/TTCCLayout>
+#include <Log4Qt/ConsoleAppender>
 
 // System includes
 #include <sys/socket.h>
@@ -45,6 +48,19 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
 
     // Initialize logging subsystem
     mLogger = Log4Qt::Logger::logger("main");
+    if (mLogger->appenders().size() == 0)
+    {
+        // Create a layout
+        Log4Qt::TTCCLayout* tLayout = new Log4Qt::TTCCLayout();
+        tLayout->activateOptions();
+
+        // Create an appender
+        Log4Qt::ConsoleAppender* tAppender = new Log4Qt::ConsoleAppender(tLayout, Log4Qt::ConsoleAppender::STDOUT_TARGET);
+        tAppender->activateOptions();
+
+        // Set appender on root logger
+        Log4Qt::Logger::rootLogger()->addAppender(tAppender);
+    }
 
     // Generate a unique ID
     QString tMacAddress = macAddress();
