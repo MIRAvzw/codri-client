@@ -4,13 +4,16 @@
 #
 #-------------------------------------------------
 
-QT       += core gui webkit
+QT += core gui webkit xml network
 
-include(../lib/log4qt/Log4Qt.pri)
-INCLUDEPATH += ../lib/log4qt/src
+INCLUDEPATH += /usr/include/Log4Qt
+LIBS += -lLog4Qt
 
-include(../lib/hupnp/hupnp.pri)
-INCLUDEPATH += ../lib/hupnp/
+CONFIG += brisa qxt
+QXT += core web
+BRISA += upnp core utils
+INCLUDEPATH += /usr/include/BRisa
+LIBS += -lBrisaUpnp
 
 TARGET = client
 TEMPLATE = app
@@ -29,7 +32,6 @@ SOURCES += main.cpp \
     userinterface/webpages/debugpage.cpp \
     userinterface/webpages/initpage.cpp \
     networkinterface.cpp \
-    networkinterface/kioskcreator.cpp \
     networkinterface/devices/kioskdevice.cpp \
     networkinterface/services/applicationservice.cpp \
     networkinterface/services/dataservice.cpp \
@@ -43,7 +45,6 @@ HEADERS  += \
     userinterface/webpages/debugpage.h \
     userinterface/webpages/initpage.h \
     networkinterface.h \
-    networkinterface/kioskcreator.h \
     networkinterface/devices/kioskdevice.h \
     networkinterface/services/applicationservice.h \
     networkinterface/services/dataservice.h \

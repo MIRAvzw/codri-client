@@ -7,26 +7,30 @@
 #define APPLICATIONSERVICE_H
 
 // Library includes
-#include <HUpnpCore/HServerService>
-#include <HUpnpCore/HActionArguments>
+#include <BrisaUpnp/BrisaAction>
+#include <BrisaUpnp/BrisaService>
 #include <Log4Qt/Logger>
 
-class ApplicationService : public Herqq::Upnp::HServerService
+// Definitions
+#define APP_SERVICE_TYPE "urn:mira-be:service:Application:1"
+#define APP_SERVICE_ID "urn:mira-be:serviceId:Application:1"
+#define APP_SERVICE_XML_PATH "descriptions/application_scpd.xml"
+#define APP_SERVICE_CONTROL "/application/control"
+#define APP_SERVICE_EVENT_SUB "/application/eventing"
+
+class ApplicationService : public Brisa::BrisaService
 {
 public:
     // Construction and destruction
     ApplicationService();
     virtual ~ApplicationService();
 
-private:
-    // Service interface
-    virtual HActionInvokes createActionInvokes();
-
+private slots:
     // Service actions
-    qint32 Shutdown(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs);
-    qint32 Reboot(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs);
-    qint32 GetVolume(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs);
-    qint32 SetVolume(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs);
+    BrisaOutArgument* Shutdown(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction);
+    BrisaOutArgument* Reboot(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction);
+    BrisaOutArgument* GetVolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction);
+    BrisaOutArgument* SetVolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction);
 
     // Data members
     Log4Qt::Logger *mLogger;

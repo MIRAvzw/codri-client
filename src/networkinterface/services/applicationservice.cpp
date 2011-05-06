@@ -5,16 +5,16 @@
 // Local includes
 #include "applicationservice.h"
 
-// Library includes
-#include <HUpnpCore/HServerAction>
-#include <HUpnpCore/HServerStateVariable>
-
 
 //
 // Construction and destruction
 //
 
-ApplicationService::ApplicationService()
+ApplicationService::ApplicationService() : Brisa::BrisaService( APP_SERVICE_TYPE,
+                                                                APP_SERVICE_ID,
+                                                                APP_SERVICE_XML_PATH,
+                                                                APP_SERVICE_CONTROL,
+                                                                APP_SERVICE_EVENT_SUB )
 {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("ApplicationService");
@@ -29,53 +29,40 @@ ApplicationService::~ApplicationService()
 
 
 //
-// Service interface
-//
-
-Herqq::Upnp::HServerService::HActionInvokes ApplicationService::createActionInvokes()
-{
-    Herqq::Upnp::HServerService::HActionInvokes retVal;
-
-    retVal.insert("Shutdown", Herqq::Upnp::HActionInvoke(this, &ApplicationService::Shutdown));
-    retVal.insert("Reboot", Herqq::Upnp::HActionInvoke(this, &ApplicationService::Reboot));
-    retVal.insert("GetVolume", Herqq::Upnp::HActionInvoke(this, &ApplicationService::GetVolume));
-    retVal.insert("SetVolume", Herqq::Upnp::HActionInvoke(this, &ApplicationService::SetVolume));
-
-    return retVal;
-}
-
-
-//
 // Service methods
 //
 
-qint32 ApplicationService::SetVolume(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
+BrisaOutArgument* SetVolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-    Herqq::Upnp::HActionArgument iVolumeValue = inArgs.get("iVolumeValue");
+    iAction->getStateVariable("Volume")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iVolumeValue"));
 
-    stateVariables().value("Volume")->setValue(iVolumeValue.value().toInt());
-
-    return Herqq::Upnp::UpnpSuccess;
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    return oArguments;
 }
 
-qint32 ApplicationService::GetVolume(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
+BrisaOutArgument* GetVolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-    int tVolumeValue = stateVariables().value("Volume")->value().toInt();
-    outArgs->setValue("oVolumeValue", tVolumeValue);
+    Q_UNUSED(iArguments)
 
-    return Herqq::Upnp::UpnpSuccess;
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    oArguments->insert("oVolumeValue", iAction->getStateVariable("Volume")->getAttribute(Brisa::BrisaStateVariable::Value));
+    return oArguments;
 }
 
-qint32 ApplicationService::Reboot(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
+BrisaOutArgument* Reboot(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-    return Herqq::Upnp::UpnpSuccess;
+    Q_UNUSED(iArguments)
+    Q_UNUSED(iAction)
+
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    return oArguments;
 }
 
-qint32 ApplicationService::Shutdown(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
+BrisaOutArgument* Shutdown(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-    return Herqq::Upnp::UpnpSuccess;
+    Q_UNUSED(iAction)
+    Q_UNUSED(iArguments)
+
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    return oArguments;
 }

@@ -42,6 +42,16 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
     setApplicationName("Ad-Astra III");
     setApplicationVersion("0.1");
 
+    // Setup signal handling
+    if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sigintFd))
+        qFatal("Couldn't create HUP socketpair");
+    if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sigtermFd))
+        qFatal("Couldn't create TERM socketpair");
+    snInt = new QSocketNotifier(sigintFd[1], QSocketNotifier::Read, this);
+    connect(snInt, SIGNAL(activated(int)), this, SLOT(handleInterrupt()));
+    snTerm = new QSocketNotifier(sigtermFd[1], QSocketNotifier::Read, this);
+    connect(snTerm, SIGNAL(activated(int)), this, SLOT(handleTerminate()));
+
     // Load the settings
     mSettings = new QSettings(this);
 
@@ -84,16 +94,6 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
         mLogger->fatal() << "Failed to initialize: " << iException.what();
         throw QException("could not load all subsystems");
     }
-
-    // Setup signal handling
-    if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sigintFd))
-        qFatal("Couldn't create HUP socketpair");
-    if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sigtermFd))
-        qFatal("Couldn't create TERM socketpair");
-    snInt = new QSocketNotifier(sigintFd[1], QSocketNotifier::Read, this);
-    connect(snInt, SIGNAL(activated(int)), this, SLOT(handleInterrupt()));
-    snTerm = new QSocketNotifier(sigtermFd[1], QSocketNotifier::Read, this);
-    connect(snTerm, SIGNAL(activated(int)), this, SLOT(handleTerminate()));
 }
 
 MainApplication::~MainApplication()
@@ -109,7 +109,7 @@ MainApplication::~MainApplication()
 
 QUuid MainApplication::uuid() const
 {
-    return mNetworkInterface->uuid();
+    return QUuid(); // TODO
 }
 
 QDateTime MainApplication::startup() const

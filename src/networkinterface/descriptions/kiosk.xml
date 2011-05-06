@@ -13,6 +13,7 @@
          <modelName>Ad-Astra III</modelName>
          <modelNumber>3</modelNumber>
          <modelURL>https://sites.google.com/site/miraadastraiii/</modelURL>
+         <UDN>uuid:0026b900-926f-1000-8000-000000000000</UDN>
          <serviceList>
              <service>
                  <serviceType>urn:mira-be:service:Application:1</serviceType>

@@ -5,16 +5,16 @@
 // Local includes
 #include "dataservice.h"
 
-// Library includes
-#include <HUpnpCore/HServerAction>
-#include <HUpnpCore/HServerStateVariable>
-
 
 //
 // Construction and destruction
 //
 
-DataService::DataService()
+DataService::DataService() : Brisa::BrisaService(   DATA_SERVICE_TYPE,
+                                                    DATA_SERVICE_ID,
+                                                    DATA_SERVICE_XML_PATH,
+                                                    DATA_SERVICE_CONTROL,
+                                                    DATA_SERVICE_EVENT_SUB )
 {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("ApplicationService");
@@ -28,85 +28,59 @@ DataService::~DataService()
 
 
 //
-// Service interface
-//
-
-Herqq::Upnp::HServerService::HActionInvokes DataService::createActionInvokes()
-{
-    Herqq::Upnp::HServerService::HActionInvokes retVal;
-
-    retVal.insert("LoadInterface", Herqq::Upnp::HActionInvoke(this, &DataService::LoadInterface));
-    retVal.insert("SetInterfaceLocation", Herqq::Upnp::HActionInvoke(this, &DataService::SetInterfaceLocation));
-    retVal.insert("GetInterfaceRevision", Herqq::Upnp::HActionInvoke(this, &DataService::GetInterfaceRevision));
-    retVal.insert("LoadMedia", Herqq::Upnp::HActionInvoke(this, &DataService::LoadMedia));
-    retVal.insert("SetMediaLocation", Herqq::Upnp::HActionInvoke(this, &DataService::SetMediaLocation));
-    retVal.insert("GetMediaRevision", Herqq::Upnp::HActionInvoke(this, &DataService::GetMediaRevision));
-
-    return retVal;
-}
-
-
-//
 // Service methods
 //
 
-qint32 DataService::LoadInterface(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
+BrisaOutArgument* SetInterfaceLocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-    int tInterfaceRevisionValue = stateVariables().value("InterfaceRevision")->value().toInt();
+    iAction->getStateVariable("InterfaceLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceLocationValue"));
 
-    tInterfaceRevisionValue++;
-    stateVariables().value("InterfaceRevision")->setValue(tInterfaceRevisionValue);
-
-    return Herqq::Upnp::UpnpSuccess;
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    return oArguments;
 }
 
-qint32 DataService::SetInterfaceLocation(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
+BrisaOutArgument* LoadInterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-    Herqq::Upnp::HActionArgument iInterfaceLocationValue = inArgs.get("iInterfaceLocationValue");
+    Q_UNUSED(iArguments)
 
-    stateVariables().value("InterfaceLocation")->setValue(iInterfaceLocationValue.value().toString());
+    iAction->getStateVariable("InterfaceRevision")->setAttribute(Brisa::BrisaStateVariable::Value, iAction->getStateVariable("InterfaceRevision")->getValue().toInt()+1);
 
-    return Herqq::Upnp::UpnpSuccess;
-
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    return oArguments;
 }
 
-qint32 DataService::GetInterfaceRevision(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
+BrisaOutArgument* GetInterfaceRevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-    int tInterfaceRevisionValue = stateVariables().value("InterfaceRevision")->value().toInt();
-    outArgs->setValue("oInterfaceRevisionValue", tInterfaceRevisionValue);
+    Q_UNUSED(iArguments)
 
-    return Herqq::Upnp::UpnpSuccess;
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    oArguments->insert("oInterfaceRevisionValue", iAction->getStateVariable("InterfaceRevision")->getAttribute(Brisa::BrisaStateVariable::Value));
+    return oArguments;
 }
 
-qint32 DataService::LoadMedia(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
+BrisaOutArgument* SetMediaLocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-    int tMediaRevisionValue = stateVariables().value("MediaRevision")->value().toInt();
+    iAction->getStateVariable("MediaLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iMediaLocationValue"));
 
-    tMediaRevisionValue++;
-    stateVariables().value("MediaRevision")->setValue(tMediaRevisionValue);
-
-    return Herqq::Upnp::UpnpSuccess;
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    return oArguments;
 }
 
-qint32 DataService::SetMediaLocation(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
+BrisaOutArgument* LoadMedia(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-    Herqq::Upnp::HActionArgument iMediaLocationValue = inArgs.get("iMediaLocationValue");
+    Q_UNUSED(iArguments)
 
-    stateVariables().value("MediaLocation")->setValue(iMediaLocationValue.value().toString());
+    iAction->getStateVariable("MediaRevision")->setAttribute(Brisa::BrisaStateVariable::Value, iAction->getStateVariable("MediaRevision")->getValue().toInt()+1);
 
-    return Herqq::Upnp::UpnpSuccess;
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    return oArguments;
 }
 
-qint32 DataService::GetMediaRevision(const Herqq::Upnp::HActionArguments& inArgs, Herqq::Upnp::HActionArguments* outArgs)
+BrisaOutArgument* GetMediaRevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-    int oMediaRevisionValue = stateVariables().value("MediaRevision")->value().toInt();
-    outArgs->setValue("oMediaRevisionValue", oMediaRevisionValue);
+    Q_UNUSED(iArguments)
 
-    return Herqq::Upnp::UpnpSuccess;
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    oArguments->insert("oMediaRevisionValue", iAction->getStateVariable("MediaRevision")->getAttribute(Brisa::BrisaStateVariable::Value));
+    return oArguments;
 }

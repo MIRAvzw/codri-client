@@ -1,0 +1,21 @@
+# Contributor: Roberto Alsina <ralsina@kde.org>
+pkgname=libqxt
+pkgver=0.6.1
+pkgrel=1
+pkgdesc="provides a suite of cross-platform utility classes to add functionality not readily available in the Qt toolkit"
+arch=('i686' , 'x86_64')
+url="http://www.libqxt.org"
+license=('CPL')
+depends=('qt' 'openssl' 'db')
+makedepends=('qt')
+source=(http://bitbucket.org/libqxt/libqxt/get/v$pkgver.tar.bz2)
+
+noextract=()
+build() {
+	cd $startdir/src/$pkgname-*
+	./configure -prefix /usr
+	make || return 1
+	make INSTALL_ROOT=$startdir/pkg install || return 1
+}
+md5sums=('60f14fb1f93f107f3cbea416720ac851')
+
