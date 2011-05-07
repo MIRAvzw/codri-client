@@ -1,2 +1,0 @@
-[tim@firefly tmp]$ gcc main.c -llog4qt -lBrisaCore -lBrisaUpnp -lBrisaUtils -lQxt
-
