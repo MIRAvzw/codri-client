@@ -3,8 +3,8 @@
 //
 
 // Include guard
-#ifndef DATASERVICE_H
-#define DATASERVICE_H
+#ifndef MEDIASERVICE_H
+#define MEDIASERVICE_H
 
 // Library includes
 #include <QtCore/QObject>
@@ -13,24 +13,24 @@
 #include <Log4Qt/Logger>
 
 // Definitions
-#define DATA_SERVICE_TYPE "urn:mira-be:service:Data:1"
-#define DATA_SERVICE_ID "urn:mira-be:serviceId:Data:1"
-#define DATA_SERVICE_SCPD_FILE ":/descriptions/data_scpd.xml"
-#define DATA_SERVICE_SCPD_URL "/urn:mira-be:serviceId:Data:1/scpd.xml"
-#define DATA_SERVICE_CONTROL_URL "/urn:mira-be:serviceId:Data:1/control"
-#define DATA_SERVICE_EVENT_URL "/urn:mira-be:serviceId:Data:1/eventing"
+#define MEDIA_SERVICE_TYPE "urn:mira-be:service:Media:1"
+#define MEDIA_SERVICE_ID "urn:mira-be:serviceId:Media:1"
+#define MEDIA_SERVICE_SCPD_FILE ":/descriptions/media_scpd.xml"
+#define MEDIA_SERVICE_SCPD_URL "/urn:mira-be:serviceId:Media:1/scpd.xml"
+#define MEDIA_SERVICE_CONTROL_URL "/urn:mira-be:serviceId:Media:1/control"
+#define MEDIA_SERVICE_EVENT_URL "/urn:mira-be:serviceId:Media:1/eventing"
 
 // Namespaces
 using namespace Brisa;  // to prevent the MOC from being confused
 
 namespace MIRA
 {
-    class DataService : public Brisa::BrisaService
+    class MediaService : public Brisa::BrisaService
     {
     Q_OBJECT
     public:
         // Construction and destruction
-        DataService();
+        MediaService();
 
         // Service actions
     private slots:
@@ -47,4 +47,4 @@ namespace MIRA
     };
 }
 
-#endif // DATASERVICE_H
+#endif // MEDIASERVICE_H

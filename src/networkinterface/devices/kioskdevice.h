@@ -13,8 +13,8 @@
 #include <QtCore/QObject>
 
 // Local includes
-#include "networkinterface/services/applicationservice.h"
-#include "networkinterface/services/dataservice.h"
+#include "networkinterface/services/kioskservice.h"
+#include "networkinterface/services/mediaservice.h"
 
 // Definitions
 #define DEVICE_TYPE "urn:mira-be:device:Kiosk:1"
@@ -47,8 +47,8 @@ namespace MIRA
         Brisa::BrisaStateVariable* mMediaRevision;
 
         // Services
-        ApplicationService* mApplication;
-        DataService* mData;
+        KioskService* mKioskService;
+        MediaService* mMediaKiosk;
 
         // Data members
         Log4Qt::Logger *mLogger;

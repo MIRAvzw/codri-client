@@ -3,7 +3,7 @@
 //
 
 // Local includes
-#include "applicationservice.h"
+#include "kioskservice.h"
 
 // Namespaces
 using namespace MIRA;
@@ -13,18 +13,18 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-ApplicationService::ApplicationService() : Brisa::BrisaService( APP_SERVICE_TYPE,
-                                                                APP_SERVICE_ID,
-                                                                APP_SERVICE_SCPD_URL,
-                                                                APP_SERVICE_CONTROL_URL,
-                                                                APP_SERVICE_EVENT_URL )
+KioskService::KioskService() : Brisa::BrisaService( KIOSK_SERVICE_TYPE,
+                                                                KIOSK_SERVICE_ID,
+                                                                KIOSK_SERVICE_SCPD_URL,
+                                                                KIOSK_SERVICE_CONTROL_URL,
+                                                                KIOSK_SERVICE_EVENT_URL )
 {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("ApplicationService");
     mLogger->trace() << Q_FUNC_INFO;
 
     // Provide the SCPT file path
-    setDescriptionFile(APP_SERVICE_SCPD_FILE);
+    setDescriptionFile(KIOSK_SERVICE_SCPD_FILE);
 }
 
 
@@ -32,7 +32,7 @@ ApplicationService::ApplicationService() : Brisa::BrisaService( APP_SERVICE_TYPE
 // Service methods
 //
 
-BrisaOutArgument* ApplicationService::shutdown(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* KioskService::shutdown(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     Q_UNUSED(iAction)
     Q_UNUSED(iArguments)
@@ -41,7 +41,7 @@ BrisaOutArgument* ApplicationService::shutdown(BrisaInArgument* const iArguments
     return oArguments;
 }
 
-BrisaOutArgument* ApplicationService::reboot(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* KioskService::reboot(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     Q_UNUSED(iArguments)
     Q_UNUSED(iAction)
@@ -50,7 +50,7 @@ BrisaOutArgument* ApplicationService::reboot(BrisaInArgument* const iArguments, 
     return oArguments;
 }
 
-BrisaOutArgument* ApplicationService::setvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* KioskService::setvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     iAction->getStateVariable("Volume")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iVolumeValue"));
 
@@ -58,7 +58,7 @@ BrisaOutArgument* ApplicationService::setvolume(BrisaInArgument* const iArgument
     return oArguments;
 }
 
-BrisaOutArgument* ApplicationService::getvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* KioskService::getvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     Q_UNUSED(iArguments)
 
