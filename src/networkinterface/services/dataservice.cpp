@@ -5,6 +5,9 @@
 // Local includes
 #include "dataservice.h"
 
+// Namespaces
+using namespace MIRA;
+
 
 //
 // Construction and destruction
@@ -12,18 +15,16 @@
 
 DataService::DataService() : Brisa::BrisaService(   DATA_SERVICE_TYPE,
                                                     DATA_SERVICE_ID,
-                                                    DATA_SERVICE_XML_PATH,
-                                                    DATA_SERVICE_CONTROL,
-                                                    DATA_SERVICE_EVENT_SUB )
+                                                    DATA_SERVICE_SCPD_URL,
+                                                    DATA_SERVICE_CONTROL_URL,
+                                                    DATA_SERVICE_EVENT_URL )
 {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("ApplicationService");
     mLogger->trace() << Q_FUNC_INFO;
-}
 
-DataService::~DataService()
-{
-
+    // Provide the SCPT file path
+    setDescriptionFile(DATA_SERVICE_SCPD_FILE);
 }
 
 
@@ -31,7 +32,7 @@ DataService::~DataService()
 // Service methods
 //
 
-BrisaOutArgument* SetInterfaceLocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* DataService::setinterfacelocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     iAction->getStateVariable("InterfaceLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceLocationValue"));
 
@@ -39,7 +40,7 @@ BrisaOutArgument* SetInterfaceLocation(BrisaInArgument* const iArguments, Brisa:
     return oArguments;
 }
 
-BrisaOutArgument* LoadInterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* DataService::loadinterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     Q_UNUSED(iArguments)
 
@@ -49,7 +50,7 @@ BrisaOutArgument* LoadInterface(BrisaInArgument* const iArguments, Brisa::BrisaA
     return oArguments;
 }
 
-BrisaOutArgument* GetInterfaceRevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* DataService::getinterfacerevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     Q_UNUSED(iArguments)
 
@@ -58,7 +59,7 @@ BrisaOutArgument* GetInterfaceRevision(BrisaInArgument* const iArguments, Brisa:
     return oArguments;
 }
 
-BrisaOutArgument* SetMediaLocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* DataService::setmedialocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     iAction->getStateVariable("MediaLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iMediaLocationValue"));
 
@@ -66,7 +67,7 @@ BrisaOutArgument* SetMediaLocation(BrisaInArgument* const iArguments, Brisa::Bri
     return oArguments;
 }
 
-BrisaOutArgument* LoadMedia(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* DataService::loadmedia(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     Q_UNUSED(iArguments)
 
@@ -76,7 +77,7 @@ BrisaOutArgument* LoadMedia(BrisaInArgument* const iArguments, Brisa::BrisaActio
     return oArguments;
 }
 
-BrisaOutArgument* GetMediaRevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* DataService::getmediarevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     Q_UNUSED(iArguments)
 

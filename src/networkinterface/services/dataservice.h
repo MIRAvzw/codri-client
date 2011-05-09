@@ -7,36 +7,44 @@
 #define DATASERVICE_H
 
 // Library includes
+#include <QtCore/QObject>
 #include <BrisaUpnp/BrisaAction>
 #include <BrisaUpnp/BrisaService>
-#include <BrisaUpnp/brisaargument.h>
 #include <Log4Qt/Logger>
 
 // Definitions
 #define DATA_SERVICE_TYPE "urn:mira-be:service:Data:1"
 #define DATA_SERVICE_ID "urn:mira-be:serviceId:Data:1"
-#define DATA_SERVICE_XML_PATH "descriptions/data_scpd.xml"
-#define DATA_SERVICE_CONTROL "/data/control"
-#define DATA_SERVICE_EVENT_SUB "/data/eventing"
+#define DATA_SERVICE_SCPD_FILE ":/descriptions/data_scpd.xml"
+#define DATA_SERVICE_SCPD_URL "/urn:mira-be:serviceId:Data:1/scpd.xml"
+#define DATA_SERVICE_CONTROL_URL "/urn:mira-be:serviceId:Data:1/control"
+#define DATA_SERVICE_EVENT_URL "/urn:mira-be:serviceId:Data:1/eventing"
 
-class DataService : public Brisa::BrisaService
+// Namespaces
+using namespace Brisa;  // to prevent the MOC from being confused
+
+namespace MIRA
 {
-public:
-    // Construction and destruction
-    DataService();
-    virtual ~DataService();
+    class DataService : public Brisa::BrisaService
+    {
+    Q_OBJECT
+    public:
+        // Construction and destruction
+        DataService();
 
-private slots:
-    // Service actions
-    BrisaOutArgument* LoadInterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction);
-    BrisaOutArgument* SetInterfaceLocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction);
-    BrisaOutArgument* GetInterfaceRevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction);
-    BrisaOutArgument* LoadMedia(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction);
-    BrisaOutArgument* SetMediaLocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction);
-    BrisaOutArgument* GetMediaRevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction);
+        // Service actions
+    private slots:
+        BrisaOutArgument* loadinterface(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* setinterfacelocation(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* getinterfacerevision(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* loadmedia(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* setmedialocation(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* getmediarevision(BrisaInArgument* const iArguments, BrisaAction* const iAction);
 
-    // Data members
-    Log4Qt::Logger *mLogger;
-};
+    private:
+        // Data members
+        Log4Qt::Logger *mLogger;
+    };
+}
 
 #endif // DATASERVICE_H

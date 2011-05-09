@@ -32,6 +32,7 @@ KioskDevice::KioskDevice() : Brisa::BrisaDevice(DEVICE_TYPE,
     addService(mApplication);
     mData = new DataService();
     addService(mData);
+
     // Initialize state variables
     mVolume = getServiceByType("urn:mira-be:service:Application:1")->getVariable("Volume");
     mInterfaceLocation = getServiceByType("urn:mira-be:service:Data:1")->getVariable("InterfaceLocation");

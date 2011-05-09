@@ -11,9 +11,9 @@ LIBS += -lLog4Qt
 
 CONFIG += brisa qxt
 QXT += core web
-BRISA += upnp core utils
+BRISA += core upnp utils
 INCLUDEPATH += /usr/include/BRisa
-LIBS += -lBrisaUpnp
+LIBS += -lBrisaCore -lBrisaUpnp -lBrisaUtils
 
 TARGET = client
 TEMPLATE = app
