@@ -81,9 +81,13 @@ namespace MIRA
         QSocketNotifier *snInt;
         QSocketNotifier *snTerm;
 
-        // Auxiliary
-        QString macAddress();
+        // External
+        friend void doMessage(QtMsgType iMessageType, const char* iMessage);
     };
+
+    void doMessage(QtMsgType iMessageType, const char* iMessage);
 }
+
+
 
 #endif // MAINAPPLICATION_H

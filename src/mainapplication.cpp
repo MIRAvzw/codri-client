@@ -71,6 +71,7 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
         Log4Qt::Logger::rootLogger()->addAppender(tAppender);
         Log4Qt::Logger::rootLogger()->setLevel(Log4Qt::Level::ALL_INT);
     }
+    qInstallMsgHandler(doMessage);
     mLogger->info() << "Initializing";
 
     // Mark startup time
@@ -239,4 +240,28 @@ void MainApplication::handleInterrupt()
     quitGracefully();
 
     snInt->setEnabled(true);
+}
+
+
+//
+// External
+//
+
+void MIRA::doMessage(QtMsgType iMessageType, const char* iMessage)
+{
+    MainApplication* mApplication = MainApplication::instance();
+    switch (iMessageType) {
+        case QtDebugMsg:
+            mApplication->mLogger->debug() << iMessage;
+            break;
+        case QtWarningMsg:
+            mApplication->mLogger->warn() << iMessage;
+            break;
+        case QtCriticalMsg:
+            mApplication->mLogger->error() << iMessage;
+            break;
+        case QtFatalMsg:
+            mApplication->mLogger->fatal() << iMessage;
+            mApplication->quitGracefully();
+    }
 }
