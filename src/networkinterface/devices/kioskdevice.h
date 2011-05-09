@@ -9,6 +9,8 @@
 // Library includes
 #include <BrisaUpnp/BrisaDevice>
 #include <Log4Qt/Logger>
+#include <QtCore/QUuid>
+#include <QtCore/QObject>
 
 // Local includes
 #include "networkinterface/services/applicationservice.h"
@@ -30,7 +32,7 @@ namespace MIRA
     class KioskDevice : public Brisa::BrisaDevice
     {
     public:
-        KioskDevice();
+        KioskDevice(QObject* iParent = 0);
         virtual ~KioskDevice();
 
     public slots:
@@ -50,6 +52,9 @@ namespace MIRA
 
         // Data members
         Log4Qt::Logger *mLogger;
+
+        // Auxiliary
+        QUuid getHardwareUuid() const;
 
     };
 }

@@ -109,7 +109,7 @@ MainApplication::~MainApplication()
 
 QUuid MainApplication::uuid() const
 {
-    return QUuid(); // TODO
+    return mNetworkInterface->uuid();
 }
 
 QDateTime MainApplication::startup() const
@@ -125,6 +125,10 @@ QDateTime MainApplication::startup() const
 void MainApplication::start()
 {
     mLogger->trace() << Q_FUNC_INFO;
+
+    // TODO: make sure this only runs if all subsystems are initialized
+    // TODO: make sure the subsystems are only interconnected here (e.g. webpage cannot show
+    //       the networkinterface's uuid yet
 
     mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
     QTimer::singleShot(0, this, SLOT(run()));

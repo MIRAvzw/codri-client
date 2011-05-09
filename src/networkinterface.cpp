@@ -22,6 +22,9 @@ NetworkInterface::NetworkInterface(QObject *parent) : QObject(parent)
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("NetworkInterface");
     mLogger->trace() << Q_FUNC_INFO;
+
+    // Set member data pointers
+    mDevice = 0;
 }
 
 
@@ -32,6 +35,16 @@ NetworkInterface::NetworkInterface(QObject *parent) : QObject(parent)
 void NetworkInterface::init() throw(QException)
 {    
     // Create the device
-    mDevice = new KioskDevice();
+    mDevice = new KioskDevice(this);
     mDevice->start();
+}
+
+
+//
+// Getters and setters
+//
+
+QString NetworkInterface::uuid() const
+{
+    return mDevice->getAttribute(Brisa::BrisaDevice::Udn);
 }

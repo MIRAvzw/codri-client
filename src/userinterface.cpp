@@ -27,6 +27,10 @@ UserInterface::UserInterface(QWidget *parent) : QMainWindow(parent)
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("UserInterface");
     mLogger->trace() << Q_FUNC_INFO;
+
+    // Set member data pointers
+    mWebView = 0;
+    mWebPage = 0;
 }
 
 

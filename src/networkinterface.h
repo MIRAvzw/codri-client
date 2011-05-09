@@ -27,6 +27,9 @@ namespace MIRA
         // Subsystem interface
         void init() throw(QException);
 
+        // Getters and setters
+        QString uuid() const;
+
     private:
         // Data members
         QSettings *mSettings;
