@@ -13,32 +13,33 @@
 #include <Log4Qt/Logger>
 
 // Definitions
-#define MEDIA_SERVICE_TYPE "urn:mira-be:service:Media:1"
-#define MEDIA_SERVICE_ID "urn:mira-be:serviceId:Media:1"
-#define MEDIA_SERVICE_SCPD_FILE ":/descriptions/media_scpd.xml"
-#define MEDIA_SERVICE_SCPD_URL "/urn:mira-be:serviceId:Media:1/scpd.xml"
-#define MEDIA_SERVICE_CONTROL_URL "/urn:mira-be:serviceId:Media:1/control"
-#define MEDIA_SERVICE_EVENT_URL "/urn:mira-be:serviceId:Media:1/eventing"
+#define APPLICATION_SERVICE_TYPE "urn:mira-be:service:Media:1"
+#define APPLICATION_SERVICE_ID "urn:mira-be:serviceId:Media:1"
+#define APPLICATION_SERVICE_SCPD_FILE ":/descriptions/APPLICATION_scpd.xml"
+#define APPLICATION_SERVICE_SCPD_URL "/urn:mira-be:serviceId:Media:1/scpd.xml"
+#define APPLICATION_SERVICE_CONTROL_URL "/urn:mira-be:serviceId:Media:1/control"
+#define APPLICATION_SERVICE_EVENT_URL "/urn:mira-be:serviceId:Media:1/eventing"
 
 // Namespaces
 using namespace Brisa;  // to prevent the MOC from being confused
 
 namespace MIRA
 {
-    class MediaService : public Brisa::BrisaService
+    class ApplicationService : public Brisa::BrisaService
     {
     Q_OBJECT
     public:
         // Construction and destruction
-        MediaService();
+        ApplicationService();
 
         // Service actions
     private slots:
+        BrisaOutArgument* loadinterface(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* setinterfacelocation(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* getinterfacerevision(BrisaInArgument* const iArguments, BrisaAction* const iAction);
         BrisaOutArgument* loadmedia(BrisaInArgument* const iArguments, BrisaAction* const iAction);
         BrisaOutArgument* setmedialocation(BrisaInArgument* const iArguments, BrisaAction* const iAction);
         BrisaOutArgument* getmediarevision(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-        BrisaOutArgument* getvolume(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-        BrisaOutArgument* setvolume(BrisaInArgument* const iArguments, BrisaAction* const iAction);
 
     private:
         // Data members

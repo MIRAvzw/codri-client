@@ -34,8 +34,8 @@ SOURCES += main.cpp \
     networkinterface.cpp \
     networkinterface/devices/kioskdevice.cpp \
     repository.cpp \
-    networkinterface/services/kioskservice.cpp \
-    networkinterface/services/mediaservice.cpp
+    networkinterface/services/deviceservice.cpp \
+    networkinterface/services/applicationservice.cpp
 
 HEADERS  += \
     mainapplication.h \
@@ -47,5 +47,5 @@ HEADERS  += \
     networkinterface.h \
     networkinterface/devices/kioskdevice.h \
     repository.h \
-    networkinterface/services/kioskservice.h \
-    networkinterface/services/mediaservice.h
+    networkinterface/services/deviceservice.h \
+    networkinterface/services/applicationservice.h

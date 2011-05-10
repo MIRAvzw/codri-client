@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>descriptions/kiosk_scpd.xml</file>
-        <file>descriptions/media_scpd.xml</file>
+        <file>descriptions/device_scpd.xml</file>
+        <file>descriptions/application_scpd.xml</file>
     </qresource>
 </RCC>
