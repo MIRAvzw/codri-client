@@ -32,33 +32,6 @@ MediaService::MediaService() : Brisa::BrisaService(   MEDIA_SERVICE_TYPE,
 // Service methods
 //
 
-BrisaOutArgument* MediaService::setinterfacelocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
-{
-    iAction->getStateVariable("InterfaceLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceLocationValue"));
-
-    BrisaOutArgument* oArguments = new BrisaOutArgument();
-    return oArguments;
-}
-
-BrisaOutArgument* MediaService::loadinterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
-{
-    Q_UNUSED(iArguments)
-
-    iAction->getStateVariable("InterfaceRevision")->setAttribute(Brisa::BrisaStateVariable::Value, iAction->getStateVariable("InterfaceRevision")->getValue().toInt()+1);
-
-    BrisaOutArgument* oArguments = new BrisaOutArgument();
-    return oArguments;
-}
-
-BrisaOutArgument* MediaService::getinterfacerevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
-{
-    Q_UNUSED(iArguments)
-
-    BrisaOutArgument* oArguments = new BrisaOutArgument();
-    oArguments->insert("oInterfaceRevisionValue", iAction->getStateVariable("InterfaceRevision")->getAttribute(Brisa::BrisaStateVariable::Value));
-    return oArguments;
-}
-
 BrisaOutArgument* MediaService::setmedialocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     iAction->getStateVariable("MediaLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iMediaLocationValue"));
@@ -83,5 +56,23 @@ BrisaOutArgument* MediaService::getmediarevision(BrisaInArgument* const iArgumen
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     oArguments->insert("oMediaRevisionValue", iAction->getStateVariable("MediaRevision")->getAttribute(Brisa::BrisaStateVariable::Value));
+    return oArguments;
+}
+
+
+BrisaOutArgument* MediaService::setvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+{
+    iAction->getStateVariable("Volume")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iVolumeValue"));
+
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    return oArguments;
+}
+
+BrisaOutArgument* MediaService::getvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+{
+    Q_UNUSED(iArguments)
+
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    oArguments->insert("oVolumeValue", iAction->getStateVariable("Volume")->getAttribute(Brisa::BrisaStateVariable::Value));
     return oArguments;
 }

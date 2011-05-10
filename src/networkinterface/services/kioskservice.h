@@ -36,8 +36,9 @@ namespace MIRA
     private slots:
          BrisaOutArgument* shutdown(BrisaInArgument* const iArguments, BrisaAction* const iAction);
          BrisaOutArgument* reboot(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-         BrisaOutArgument* getvolume(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-         BrisaOutArgument* setvolume(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+         BrisaOutArgument* loadinterface(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+         BrisaOutArgument* setinterfacelocation(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+         BrisaOutArgument* getinterfacerevision(BrisaInArgument* const iArguments, BrisaAction* const iAction);
 
     private:
         // Data members

@@ -20,7 +20,7 @@ namespace MIRA
     public:
         // Construction and destruction
         WebPage(QUrl iURL, QObject* parent = 0);
-        ~WebPage();
+        virtual ~WebPage();
 
         // QWebPage interface
     protected:

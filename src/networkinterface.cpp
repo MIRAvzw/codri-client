@@ -27,6 +27,11 @@ NetworkInterface::NetworkInterface(QObject *parent) : QObject(parent)
     mDevice = 0;
 }
 
+NetworkInterface::~NetworkInterface()
+{
+    mLogger->debug() << "Stopping UPnP device";
+    mDevice->stop();
+}
 
 //
 // Subsystem interface
@@ -34,8 +39,9 @@ NetworkInterface::NetworkInterface(QObject *parent) : QObject(parent)
 
 void NetworkInterface::init() throw(QException)
 {    
-    // Create the device
+    // Create and start the device
     mDevice = new KioskDevice(this);
+    mLogger->debug() << "Starting UPnP device";
     mDevice->start();
 }
 

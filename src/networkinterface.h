@@ -23,6 +23,7 @@ namespace MIRA
     public:
         // Construction and destruction
         NetworkInterface(QObject *parent = 0);
+        ~NetworkInterface();
 
         // Subsystem interface
         void init() throw(QException);

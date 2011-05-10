@@ -50,19 +50,29 @@ BrisaOutArgument* KioskService::reboot(BrisaInArgument* const iArguments, Brisa:
     return oArguments;
 }
 
-BrisaOutArgument* KioskService::setvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* KioskService::setinterfacelocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
-    iAction->getStateVariable("Volume")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iVolumeValue"));
+    iAction->getStateVariable("InterfaceLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceLocationValue"));
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;
 }
 
-BrisaOutArgument* KioskService::getvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* KioskService::loadinterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+{
+    Q_UNUSED(iArguments)
+
+    iAction->getStateVariable("InterfaceRevision")->setAttribute(Brisa::BrisaStateVariable::Value, iAction->getStateVariable("InterfaceRevision")->getValue().toInt()+1);
+
+    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    return oArguments;
+}
+
+BrisaOutArgument* KioskService::getinterfacerevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     Q_UNUSED(iArguments)
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
-    oArguments->insert("oVolumeValue", iAction->getStateVariable("Volume")->getAttribute(Brisa::BrisaStateVariable::Value));
+    oArguments->insert("oInterfaceRevisionValue", iAction->getStateVariable("InterfaceRevision")->getAttribute(Brisa::BrisaStateVariable::Value));
     return oArguments;
 }

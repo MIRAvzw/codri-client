@@ -34,6 +34,7 @@ InitPage::InitPage(QObject *parent) : WebPage(QUrl("qrc:/webpages/initpage.html"
 
 InitPage::~InitPage()
 {
+    qDebug() << "DESTROY";
     Log4Qt::Logger::rootLogger()->removeAppender(mLogAppender);
 }
 

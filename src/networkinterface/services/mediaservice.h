@@ -34,12 +34,11 @@ namespace MIRA
 
         // Service actions
     private slots:
-        BrisaOutArgument* loadinterface(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-        BrisaOutArgument* setinterfacelocation(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-        BrisaOutArgument* getinterfacerevision(BrisaInArgument* const iArguments, BrisaAction* const iAction);
         BrisaOutArgument* loadmedia(BrisaInArgument* const iArguments, BrisaAction* const iAction);
         BrisaOutArgument* setmedialocation(BrisaInArgument* const iArguments, BrisaAction* const iAction);
         BrisaOutArgument* getmediarevision(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* getvolume(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* setvolume(BrisaInArgument* const iArguments, BrisaAction* const iAction);
 
     private:
         // Data members

@@ -80,15 +80,15 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
     // Initialize subsystems
     mLogger->debug() << "Loading subsystems";
     try
-    {
+    {        
+        mLogger->debug() << "Initializing network interface";
+        mNetworkInterface = new NetworkInterface(this);
+        mNetworkInterface->init();
+
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
         mUserInterface->init();
         mUserInterface->show();
-
-        mLogger->debug() << "Initializing network interface";
-        mNetworkInterface = new NetworkInterface(this);
-        mNetworkInterface->init();
     }
     catch (const QException& iException)
     {
@@ -183,6 +183,10 @@ void MainApplication::quitGracefully()
     mLogger->debug() << "Closing down";
 
     // Do some stuff here
+
+    // Delete subsystems
+    delete mUserInterface;
+    delete mNetworkInterface;
 
     // Actually quit
     quit();
