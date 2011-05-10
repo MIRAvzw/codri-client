@@ -13,7 +13,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-NetworkInterface::NetworkInterface(QObject *parent) : QObject(parent)
+NetworkInterface::NetworkInterface(QObject *parent) throw(QException) : QObject(parent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -23,26 +23,16 @@ NetworkInterface::NetworkInterface(QObject *parent) : QObject(parent)
     mLogger =  Log4Qt::Logger::logger("NetworkInterface");
     mLogger->trace() << Q_FUNC_INFO;
 
-    // Set member data pointers
-    mDevice = 0;
+    // Create and start the device
+    mDevice = new KioskDevice(this);
+    mLogger->debug() << "Starting UPnP device";
+    mDevice->start();
 }
 
 NetworkInterface::~NetworkInterface()
 {
     mLogger->debug() << "Stopping UPnP device";
     mDevice->stop();
-}
-
-//
-// Subsystem interface
-//
-
-void NetworkInterface::init() throw(QException)
-{    
-    // Create and start the device
-    mDevice = new KioskDevice(this);
-    mLogger->debug() << "Starting UPnP device";
-    mDevice->start();
 }
 
 

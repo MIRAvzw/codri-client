@@ -18,7 +18,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-UserInterface::UserInterface(QWidget *parent) : QMainWindow(parent)
+UserInterface::UserInterface(QWidget *parent) throw(QException) : QMainWindow(parent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -28,18 +28,6 @@ UserInterface::UserInterface(QWidget *parent) : QMainWindow(parent)
     mLogger =  Log4Qt::Logger::logger("UserInterface");
     mLogger->trace() << Q_FUNC_INFO;
 
-    // Set member data pointers
-    mWebView = 0;
-    mWebPage = 0;
-}
-
-
-//
-// Subsystem interface
-//
-
-void UserInterface::init() throw(QException)
-{
     // Setup UI
     mWebView = new QWebView(this);
     setCentralWidget(mWebView);

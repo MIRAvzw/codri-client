@@ -83,11 +83,9 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
     {        
         mLogger->debug() << "Initializing network interface";
         mNetworkInterface = new NetworkInterface(this);
-        mNetworkInterface->init();
 
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
-        mUserInterface->init();
         mUserInterface->show();
     }
     catch (const QException& iException)

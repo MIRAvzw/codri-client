@@ -34,6 +34,8 @@ MediaService::MediaService() : Brisa::BrisaService(   MEDIA_SERVICE_TYPE,
 
 BrisaOutArgument* MediaService::setmedialocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
+    mLogger->trace() << Q_FUNC_INFO;
+
     iAction->getStateVariable("MediaLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iMediaLocationValue"));
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
@@ -42,6 +44,7 @@ BrisaOutArgument* MediaService::setmedialocation(BrisaInArgument* const iArgumen
 
 BrisaOutArgument* MediaService::loadmedia(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
 
     iAction->getStateVariable("MediaRevision")->setAttribute(Brisa::BrisaStateVariable::Value, iAction->getStateVariable("MediaRevision")->getValue().toInt()+1);
@@ -52,6 +55,7 @@ BrisaOutArgument* MediaService::loadmedia(BrisaInArgument* const iArguments, Bri
 
 BrisaOutArgument* MediaService::getmediarevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
@@ -62,6 +66,8 @@ BrisaOutArgument* MediaService::getmediarevision(BrisaInArgument* const iArgumen
 
 BrisaOutArgument* MediaService::setvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
+    mLogger->trace() << Q_FUNC_INFO;
+
     iAction->getStateVariable("Volume")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iVolumeValue"));
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
@@ -70,6 +76,7 @@ BrisaOutArgument* MediaService::setvolume(BrisaInArgument* const iArguments, Bri
 
 BrisaOutArgument* MediaService::getvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();

@@ -34,6 +34,7 @@ KioskService::KioskService() : Brisa::BrisaService( KIOSK_SERVICE_TYPE,
 
 BrisaOutArgument* KioskService::shutdown(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iAction)
     Q_UNUSED(iArguments)
 
@@ -43,6 +44,7 @@ BrisaOutArgument* KioskService::shutdown(BrisaInArgument* const iArguments, Bris
 
 BrisaOutArgument* KioskService::reboot(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
     Q_UNUSED(iAction)
 
@@ -52,6 +54,7 @@ BrisaOutArgument* KioskService::reboot(BrisaInArgument* const iArguments, Brisa:
 
 BrisaOutArgument* KioskService::setinterfacelocation(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     iAction->getStateVariable("InterfaceLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceLocationValue"));
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
@@ -60,6 +63,7 @@ BrisaOutArgument* KioskService::setinterfacelocation(BrisaInArgument* const iArg
 
 BrisaOutArgument* KioskService::loadinterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
 
     iAction->getStateVariable("InterfaceRevision")->setAttribute(Brisa::BrisaStateVariable::Value, iAction->getStateVariable("InterfaceRevision")->getValue().toInt()+1);
@@ -70,6 +74,7 @@ BrisaOutArgument* KioskService::loadinterface(BrisaInArgument* const iArguments,
 
 BrisaOutArgument* KioskService::getinterfacerevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
+    mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();

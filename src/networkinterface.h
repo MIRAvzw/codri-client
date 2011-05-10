@@ -22,11 +22,8 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        NetworkInterface(QObject *parent = 0);
+        NetworkInterface(QObject *parent = 0) throw(QException);
         ~NetworkInterface();
-
-        // Subsystem interface
-        void init() throw(QException);
 
         // Getters and setters
         QString uuid() const;
