@@ -11,40 +11,32 @@
           <action>
               <name>Reboot</name>
           </action>
-		 <action>
-			 <name>SetInterfaceLocation</name>
-			 <argumentList>
-				 <argument>
-					 <name>iInterfaceLocationValue</name>
-					 <relatedStateVariable>InterfaceLocation</relatedStateVariable>
-					 <direction>in</direction>
-				 </argument>
-			 </argumentList>
-		  </action>
-		  <action>
-		  	<name>LoadInterface</name>
-		  </action>
-		  <action>
-		  	<name>GetInterfaceRevision</name>
-			 <argumentList>
-				 <argument>
-					 <name>oInterfaceRevisionValue</name>
-					 <relatedStateVariable>InterfaceRevision</relatedStateVariable>
-					 <direction>out</direction>
-				 </argument>
-			 </argumentList>
-		  </action>
+          <action>
+             <name>SetVolume</name>
+             <argumentList>
+                 <argument>
+                     <name>iVolumeValue</name>
+                     <relatedStateVariable>Volume</relatedStateVariable>
+                     <direction>in</direction>
+                 </argument>
+             </argumentList>
+          </action>
+          <action>
+              <name>GetVolume</name>
+              <argumentList>
+                  <argument>
+                      <name>oVolumeValue</name>
+                      <relatedStateVariable>Volume</relatedStateVariable>
+                      <direction>out</direction>
+                  </argument>
+              </argumentList>
+          </action>
       </actionList>
       <serviceStateTable>
-		  <stateVariable sendEvents="no">
-			  <name>InterfaceLocation</name>
-			  <dataType>string</dataType>
-			  <defaultValue></defaultValue>
-		  </stateVariable>
-		  <stateVariable sendEvents="yes">
-			  <name>InterfaceRevision</name>
-			  <dataType>ui4</dataType>
-			  <defaultValue>0</defaultValue>
-		  </stateVariable>
+          <stateVariable sendEvents="no">
+              <name>Volume</name>
+              <dataType>boolean</dataType>
+              <defaultValue>0</defaultValue>
+          </stateVariable>
       </serviceStateTable>
  </scpd>

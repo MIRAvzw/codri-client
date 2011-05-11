@@ -23,7 +23,7 @@ DeviceService::DeviceService() : Brisa::BrisaService(   DEVICE_SERVICE_TYPE,
     mLogger =  Log4Qt::Logger::logger("DeviceService");
     mLogger->trace() << Q_FUNC_INFO;
 
-    // Provide the SCPT file path
+    // Provide the SCPD file path
     setDescriptionFile(DEVICE_SERVICE_SCPD_FILE);
 }
 

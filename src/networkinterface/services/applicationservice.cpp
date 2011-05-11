@@ -23,7 +23,7 @@ ApplicationService::ApplicationService() : Brisa::BrisaService( APPLICATION_SERV
     mLogger =  Log4Qt::Logger::logger("ApplicationService");
     mLogger->trace() << Q_FUNC_INFO;
 
-    // Provide the SCPT file path
+    // Provide the SCPD file path
     setDescriptionFile(APPLICATION_SERVICE_SCPD_FILE);
 }
 

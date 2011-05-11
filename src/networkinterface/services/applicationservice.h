@@ -13,12 +13,12 @@
 #include <Log4Qt/Logger>
 
 // Definitions
-#define APPLICATION_SERVICE_TYPE "urn:mira-be:service:Media:1"
-#define APPLICATION_SERVICE_ID "urn:mira-be:serviceId:Media:1"
-#define APPLICATION_SERVICE_SCPD_FILE ":/descriptions/APPLICATION_scpd.xml"
-#define APPLICATION_SERVICE_SCPD_URL "/urn:mira-be:serviceId:Media:1/scpd.xml"
-#define APPLICATION_SERVICE_CONTROL_URL "/urn:mira-be:serviceId:Media:1/control"
-#define APPLICATION_SERVICE_EVENT_URL "/urn:mira-be:serviceId:Media:1/eventing"
+#define APPLICATION_SERVICE_TYPE "urn:mira-be:service:Application:1"
+#define APPLICATION_SERVICE_ID "urn:mira-be:serviceId:Application:1"
+#define APPLICATION_SERVICE_SCPD_FILE ":/descriptions/application_scpd.xml"
+#define APPLICATION_SERVICE_SCPD_URL "/urn:mira-be:serviceId:Application:1/scpd.xml"
+#define APPLICATION_SERVICE_CONTROL_URL "/urn:mira-be:serviceId:Application:1/control"
+#define APPLICATION_SERVICE_EVENT_URL "/urn:mira-be:serviceId:Application:1/eventing"
 
 // Namespaces
 using namespace Brisa;  // to prevent the MOC from being confused
