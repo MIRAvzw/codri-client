@@ -22,7 +22,7 @@
 #define DEVICE_MANUFACTURER "Volkssterrenwacht MIRA vzw"
 #define DEVICE_MANUFACTURER_URL "www.mira.be"
 #define DEVICE_MODEL_DESCRIPTION "Flexible network-enabled multimedia kiosk"
-#define DEVICE_MODEL_NAME "Ad-Astra"
+#define DEVICE_MODEL_NAME "Ad-Astra Kiosk"
 #define DEVICE_MODEL_NUMBER "3.0"
 #define DEVICE_MODEL_URL "https://sites.google.com/site/miraadastraiii/"
 #define DEVICE_SERIAL_NUMBER "1.0"
