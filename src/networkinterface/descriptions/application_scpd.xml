@@ -6,17 +6,14 @@
 	 </specVersion>
 	 <actionList>
 		 <action>
-			 <name>SetInterfaceLocation</name>
+			 <name>SetInterface</name>
 			 <argumentList>
 				 <argument>
-					 <name>iInterfaceLocationValue</name>
-					 <relatedStateVariable>InterfaceLocation</relatedStateVariable>
+					 <name>iInterfaceValue</name>
+					 <relatedStateVariable>Interface</relatedStateVariable>
 					 <direction>in</direction>
 				 </argument>
 			 </argumentList>
-		  </action>
-		  <action>
-		  	<name>LoadInterface</name>
 		  </action>
 		  <action>
 		  	<name>GetInterfaceRevision</name>
@@ -29,17 +26,14 @@
 			 </argumentList>
 		  </action>
 		  <action>
-			  <name>SetMediaLocation</name>
+			  <name>SetMedia</name>
 			  <argumentList>
 				  <argument>
-					  <name>iMediaLocationValue</name>
-					  <relatedStateVariable>MediaLocation</relatedStateVariable>
+					  <name>iMediaValue</name>
+					  <relatedStateVariable>Media</relatedStateVariable>
 					  <direction>in</direction>
 				  </argument>
 			  </argumentList>
-		  </action>
-		  <action>
-		  	<name>LoadMedia</name>
 		  </action>
 		  <action>
 		  	<name>GetMediaRevision</name>
@@ -54,7 +48,7 @@
 	  </actionList>
 	  <serviceStateTable>
 		  <stateVariable sendEvents="no">
-			  <name>InterfaceLocation</name>
+			  <name>Interface</name>
 			  <dataType>string</dataType>
 			  <defaultValue></defaultValue>
 		  </stateVariable>
@@ -64,7 +58,7 @@
 			  <defaultValue>0</defaultValue>
 		  </stateVariable>
 		  <stateVariable sendEvents="no">
-			  <name>MediaLocation</name>
+			  <name>Media</name>
 			  <dataType>string</dataType>
 			  <defaultValue></defaultValue>
 		  </stateVariable>
