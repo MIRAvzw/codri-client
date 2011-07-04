@@ -49,3 +49,8 @@ HEADERS  += \
     repository.h \
     networkinterface/services/deviceservice.h \
     networkinterface/services/applicationservice.h
+
+OTHER_FILES += \
+    networkinterface/descriptions/device_scpd.xml \
+    networkinterface/descriptions/application_scpd.xml \
+    userinterface/webpages/initpage.html
