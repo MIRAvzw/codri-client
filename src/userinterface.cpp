@@ -31,6 +31,7 @@ UserInterface::UserInterface(QWidget *parent) throw(QException) : QMainWindow(pa
     // Setup UI
     mWebView = new QWebView(this);
     setCentralWidget(mWebView);
+    showFullScreen();
 
     // Load debug page
     mWebPage = new InitPage(mWebView);
