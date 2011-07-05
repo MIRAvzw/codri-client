@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>webpages/initpage.html</file>
+        <file>webpages/logpage.html</file>
+        <file>webpages/statuspage.html</file>
     </qresource>
 </RCC>

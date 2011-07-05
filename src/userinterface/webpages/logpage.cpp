@@ -3,7 +3,7 @@
 //
 
 // Local includes
-#include "initpage.h"
+#include "logpage.h"
 #include "mainapplication.h"
 
 // Library includes
@@ -17,7 +17,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-InitPage::InitPage(QObject *parent) : WebPage(QUrl("qrc:/webpages/initpage.html"), parent)
+LogPage::LogPage(QObject *parent) : WebPage(QUrl("qrc:/webpages/logpage.html"), parent)
 {
     // Create log layout
     mLogLayout = new Log4Qt::SimpleLayout(this);
@@ -32,7 +32,7 @@ InitPage::InitPage(QObject *parent) : WebPage(QUrl("qrc:/webpages/initpage.html"
     Log4Qt::Logger::rootLogger()->addAppender(mLogAppender);
 }
 
-InitPage::~InitPage()
+LogPage::~LogPage()
 {
     qDebug() << "DESTROY";
     Log4Qt::Logger::rootLogger()->removeAppender(mLogAppender);
@@ -43,7 +43,7 @@ InitPage::~InitPage()
 // Basic I/O
 //
 
-QString InitPage::id() const
+QString LogPage::id() const
 {
     return MainApplication::instance()->uuid();
 }

@@ -3,8 +3,8 @@
 //
 
 // Include guard
-#ifndef INITPAGE_H
-#define INITPAGE_H
+#ifndef LOGPAGE_H
+#define LOGPAGE_H
 
 // Library includes
 #include <QtCore/QObject>
@@ -16,14 +16,14 @@
 
 namespace MIRA
 {
-    class InitPage : public WebPage
+    class LogPage : public WebPage
     {
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)
     public:
         // Construction and destruction
-        InitPage(QObject* parent = 0);
-        ~InitPage();
+        LogPage(QObject* parent = 0);
+        ~LogPage();
 
         // Basic I/O
     public:
@@ -38,4 +38,4 @@ namespace MIRA
     };
 }
 
-#endif // INITPAGE_H
+#endif // LOGPAGE_H

@@ -5,7 +5,7 @@
 // Local includes
 #include "userinterface.h"
 #include "mainapplication.h"
-#include "userinterface/webpages/initpage.h"
+#include "userinterface/webpages/logpage.h"
 
 // Library includes
 #include <QtCore/QStringList>
@@ -34,7 +34,7 @@ UserInterface::UserInterface(QWidget *parent) throw(QException) : QMainWindow(pa
     showFullScreen();
 
     // Load debug page
-    mWebPage = new InitPage(mWebView);
+    mWebPage = new LogPage(mWebView);
     mWebView->setPage(mWebPage);
 }
 

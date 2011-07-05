@@ -3,8 +3,8 @@
 //
 
 // Include guard
-#ifndef DEBUGPAGE_H
-#define DEBUGPAGE_H
+#ifndef STATUSPAGE_H
+#define STATUSPAGE_H
 
 // Library includes
 #include <QtCore/QObject>
@@ -16,15 +16,15 @@
 
 namespace MIRA
 {
-    class DebugPage : public WebPage
+    class StatusPage : public WebPage
     {
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)
     Q_PROPERTY(QDateTime startup READ startup CONSTANT)
     public:
         // Construction and destruction
-        DebugPage(QObject* parent = 0);
-        ~DebugPage();
+        StatusPage(QObject* parent = 0);
+        ~StatusPage();
 
         // Basic I/O
     public:
@@ -40,4 +40,4 @@ namespace MIRA
     };
 }
 
-#endif // DEBUGPAGE_H
+#endif // STATUSPAGE_H

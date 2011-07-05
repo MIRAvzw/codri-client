@@ -3,7 +3,7 @@
 //
 
 // Local includes
-#include "debugpage.h"
+#include "statuspage.h"
 #include "mainapplication.h"
 
 // Library includes
@@ -17,7 +17,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-DebugPage::DebugPage(QObject *parent) : WebPage(QUrl("qrc:/webpages/debug.html"), parent)
+StatusPage::StatusPage(QObject *parent) : WebPage(QUrl("qrc:/webpages/statuspage.html"), parent)
 {
     // Create log layout
     mLogLayout = new Log4Qt::SimpleLayout(this);
@@ -32,7 +32,7 @@ DebugPage::DebugPage(QObject *parent) : WebPage(QUrl("qrc:/webpages/debug.html")
     Log4Qt::Logger::rootLogger()->addAppender(mLogAppender);
 }
 
-DebugPage::~DebugPage()
+StatusPage::~StatusPage()
 {
     Log4Qt::Logger::rootLogger()->removeAppender(mLogAppender);
 }
@@ -42,12 +42,12 @@ DebugPage::~DebugPage()
 // Basic I/O
 //
 
-QString DebugPage::id() const
+QString StatusPage::id() const
 {
     return MainApplication::instance()->uuid();
 }
 
-QDateTime DebugPage::startup() const
+QDateTime StatusPage::startup() const
 {
     return MainApplication::instance()->startup();
 }

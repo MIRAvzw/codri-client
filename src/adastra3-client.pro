@@ -29,28 +29,29 @@ SOURCES += main.cpp \
     mainapplication.cpp \
     userinterface.cpp \
     userinterface/webpage.cpp \
-    userinterface/webpages/debugpage.cpp \
-    userinterface/webpages/initpage.cpp \
     networkinterface.cpp \
     networkinterface/devices/kioskdevice.cpp \
     repository.cpp \
     networkinterface/services/deviceservice.cpp \
-    networkinterface/services/applicationservice.cpp
+    networkinterface/services/applicationservice.cpp \
+    userinterface/webpages/statuspage.cpp \
+    userinterface/webpages/logpage.cpp
 
 HEADERS  += \
     mainapplication.h \
     qexception.h \
     userinterface.h \
     userinterface/webpage.h \
-    userinterface/webpages/debugpage.h \
-    userinterface/webpages/initpage.h \
     networkinterface.h \
     networkinterface/devices/kioskdevice.h \
     repository.h \
     networkinterface/services/deviceservice.h \
-    networkinterface/services/applicationservice.h
+    networkinterface/services/applicationservice.h \
+    userinterface/webpages/statuspage.h \
+    userinterface/webpages/logpage.h
 
 OTHER_FILES += \
     networkinterface/descriptions/device_scpd.xml \
     networkinterface/descriptions/application_scpd.xml \
-    userinterface/webpages/initpage.html
+    userinterface/webpages/logpage.html \
+    userinterface/webpages/statuspage.html
