@@ -6,7 +6,7 @@
 	 </specVersion>
 	 <actionList>
 		 <action>
-			 <name>SetInterface</name>
+                         <name>DownloadInterface</name>
 			 <argumentList>
 				 <argument>
 					 <name>iInterfaceValue</name>
@@ -16,17 +16,10 @@
 			 </argumentList>
 		  </action>
 		  <action>
-		  	<name>GetInterfaceRevision</name>
-			 <argumentList>
-				 <argument>
-					 <name>oInterfaceRevisionValue</name>
-					 <relatedStateVariable>InterfaceRevision</relatedStateVariable>
-					 <direction>out</direction>
-				 </argument>
-			 </argumentList>
+                        <name>LoadInterface</name>
 		  </action>
 		  <action>
-			  <name>SetMedia</name>
+                          <name>DownloadMedia</name>
 			  <argumentList>
 				  <argument>
 					  <name>iMediaValue</name>
@@ -36,14 +29,7 @@
 			  </argumentList>
 		  </action>
 		  <action>
-		  	<name>GetMediaRevision</name>
-			 <argumentList>
-				 <argument>
-					 <name>oMediaRevisionValue</name>
-					 <relatedStateVariable>MediaRevision</relatedStateVariable>
-					 <direction>out</direction>
-				 </argument>
-			 </argumentList>
+                        <name>LoadMedia</name>
 		  </action>
 	  </actionList>
 	  <serviceStateTable>
@@ -51,21 +37,11 @@
 			  <name>Interface</name>
 			  <dataType>string</dataType>
 			  <defaultValue></defaultValue>
-		  </stateVariable>
-		  <stateVariable sendEvents="yes">
-			  <name>InterfaceRevision</name>
-			  <dataType>ui4</dataType>
-			  <defaultValue>0</defaultValue>
-		  </stateVariable>
+                  </stateVariable>
 		  <stateVariable sendEvents="no">
 			  <name>Media</name>
 			  <dataType>string</dataType>
 			  <defaultValue></defaultValue>
-		  </stateVariable>
-		  <stateVariable sendEvents="yes">
-			  <name>MediaRevision</name>
-			  <dataType>ui4</dataType>
-			  <defaultValue>0</defaultValue>
-		  </stateVariable>
+                  </stateVariable>
 	  </serviceStateTable>
  </scpd>

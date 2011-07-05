@@ -42,9 +42,7 @@ namespace MIRA
         // State variables
         Brisa::BrisaStateVariable* mVolume;
         Brisa::BrisaStateVariable* mInterface;
-        Brisa::BrisaStateVariable* mInterfaceRevision;
         Brisa::BrisaStateVariable* mMedia;
-        Brisa::BrisaStateVariable* mMediaRevision;
 
         // Services
         DeviceService* mKioskService;

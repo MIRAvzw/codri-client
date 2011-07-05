@@ -32,45 +32,49 @@ ApplicationService::ApplicationService() : Brisa::BrisaService( APPLICATION_SERV
 // Service methods
 //
 
-BrisaOutArgument* ApplicationService::setinterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* ApplicationService::downloadinterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    mLogger->debug() << "Loading the interface from " << iArguments->value("iInterfaceValue");
+    mLogger->debug() << "Downloading the interface from " << iArguments->value("iInterfaceValue");
     iAction->getStateVariable("Interface")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceValue"));
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;
 }
 
-BrisaOutArgument* ApplicationService::getinterfacerevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* ApplicationService::loadinterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
+    Q_UNUSED(iAction)
+
+    mLogger->debug() << "Loading the interface";
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
-    oArguments->insert("oInterfaceRevisionValue", iAction->getStateVariable("InterfaceRevision")->getAttribute(Brisa::BrisaStateVariable::Value));
     return oArguments;
 }
 
-BrisaOutArgument* ApplicationService::setmedia(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* ApplicationService::downloadmedia(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    mLogger->debug() << "Loading the media from " << iArguments->value("iInterfaceValue");
+    mLogger->debug() << "Downloading the media from " << iArguments->value("iInterfaceValue");
     iAction->getStateVariable("Media")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iMediaValue"));
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;
 }
 
-BrisaOutArgument* ApplicationService::getmediarevision(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument* ApplicationService::loadmedia(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
+    Q_UNUSED(iAction)
+
+    mLogger->debug() << "Loading the media";
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
-    oArguments->insert("oMediaRevisionValue", iAction->getStateVariable("MediaRevision")->getAttribute(Brisa::BrisaStateVariable::Value));
     return oArguments;
 }
 

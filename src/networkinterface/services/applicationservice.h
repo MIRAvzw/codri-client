@@ -34,10 +34,10 @@ namespace MIRA
 
         // Service actions
     private slots:
-        BrisaOutArgument* setinterface(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-        BrisaOutArgument* getinterfacerevision(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-        BrisaOutArgument* setmedia(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-        BrisaOutArgument* getmediarevision(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* downloadinterface(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* loadinterface(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* downloadmedia(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+        BrisaOutArgument* loadmedia(BrisaInArgument* const iArguments, BrisaAction* const iAction);
 
     private:
         // Data members
