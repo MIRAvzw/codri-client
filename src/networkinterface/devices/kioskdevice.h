@@ -35,6 +35,10 @@ namespace MIRA
         KioskDevice(QObject* iParent = 0);
         virtual ~KioskDevice();
 
+        // Getters and setters
+        DeviceService* deviceService();
+        ApplicationService* applicationService();
+
     public slots:
         void stateChanged(Brisa::BrisaStateVariable* iVariable);
 
@@ -45,8 +49,8 @@ namespace MIRA
         Brisa::BrisaStateVariable* mMedia;
 
         // Services
-        DeviceService* mKioskService;
-        ApplicationService* mMediaKiosk;
+        DeviceService* mDeviceService;
+        ApplicationService* mApplicationKiosk;
 
         // Data members
         Log4Qt::Logger *mLogger;

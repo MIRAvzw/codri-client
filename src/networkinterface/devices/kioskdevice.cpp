@@ -35,10 +35,10 @@ KioskDevice::KioskDevice(QObject* iParent) : Brisa::BrisaDevice(DEVICE_TYPE,
     mLogger->trace() << Q_FUNC_INFO;
 
     // Add services
-    mKioskService = new DeviceService();
-    addService(mKioskService);
-    mMediaKiosk = new ApplicationService();
-    addService(mMediaKiosk);
+    mDeviceService = new DeviceService();
+    addService(mDeviceService);
+    mApplicationKiosk = new ApplicationService();
+    addService(mApplicationKiosk);
 
     // Initialize state variables
     mInterface = getServiceByType("urn:mira-be:service:Application:1")->getVariable("Interface");
@@ -50,6 +50,22 @@ KioskDevice::~KioskDevice()
 {
 
 }
+
+
+//
+// Getters and setters
+//
+
+DeviceService* KioskDevice::deviceService()
+{
+    return mDeviceService;
+}
+
+ApplicationService* KioskDevice::applicationService()
+{
+    return mApplicationKiosk;
+}
+
 
 void KioskDevice::stateChanged(Brisa::BrisaStateVariable *iVariable)
 {

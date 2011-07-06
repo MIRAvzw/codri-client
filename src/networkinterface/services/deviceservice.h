@@ -32,6 +32,12 @@ namespace MIRA
         // Construction and destruction
         DeviceService();
 
+        // Signals
+    signals:
+        void shutdown();
+        void reboot();
+        void volumeChanged(unsigned int iVolume);
+
         // Service actions
     private slots:
          BrisaOutArgument* shutdown(BrisaInArgument* const iArguments, BrisaAction* const iAction);

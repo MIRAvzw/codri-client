@@ -38,6 +38,7 @@ BrisaOutArgument* ApplicationService::downloadinterface(BrisaInArgument* const i
 
     mLogger->debug() << "Downloading the interface from " << iArguments->value("iInterfaceValue");
     iAction->getStateVariable("Interface")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceValue"));
+    emit interfaceAdded(iArguments->value("iInterfaceValue"));
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;
@@ -50,6 +51,7 @@ BrisaOutArgument* ApplicationService::loadinterface(BrisaInArgument* const iArgu
     Q_UNUSED(iAction)
 
     mLogger->debug() << "Loading the interface";
+    emit interfaceLoad();
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;
@@ -59,8 +61,9 @@ BrisaOutArgument* ApplicationService::downloadmedia(BrisaInArgument* const iArgu
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    mLogger->debug() << "Downloading the media from " << iArguments->value("iInterfaceValue");
+    mLogger->debug() << "Downloading the media from " << iArguments->value("iMediaValue");
     iAction->getStateVariable("Media")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iMediaValue"));
+    emit mediaAdded(iArguments->value("iMediaValue"));
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;
@@ -73,6 +76,7 @@ BrisaOutArgument* ApplicationService::loadmedia(BrisaInArgument* const iArgument
     Q_UNUSED(iAction)
 
     mLogger->debug() << "Loading the media";
+    emit mediaLoad();
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;

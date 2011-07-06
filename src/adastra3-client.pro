@@ -6,6 +6,9 @@
 
 QT += core gui webkit xml network
 
+include(../lib/svnqt/src/svnqt.pri)
+LIBS += -lsvn_client-1 -lsvn_wc-1 -lsvn_diff-1 -lsvn_fs-1 -lsvn_repos-1 -lsvn_ra-1 -lsvn_subr-1 -lapr-1 -laprutil-1
+
 INCLUDEPATH += /usr/include/Log4Qt
 LIBS += -lLog4Qt
 
@@ -31,11 +34,11 @@ SOURCES += main.cpp \
     userinterface/webpage.cpp \
     networkinterface.cpp \
     networkinterface/devices/kioskdevice.cpp \
-    repository.cpp \
     networkinterface/services/deviceservice.cpp \
     networkinterface/services/applicationservice.cpp \
     userinterface/webpages/statuspage.cpp \
-    userinterface/webpages/logpage.cpp
+    userinterface/webpages/logpage.cpp \
+    datamanager.cpp
 
 HEADERS  += \
     mainapplication.h \
@@ -44,11 +47,11 @@ HEADERS  += \
     userinterface/webpage.h \
     networkinterface.h \
     networkinterface/devices/kioskdevice.h \
-    repository.h \
     networkinterface/services/deviceservice.h \
     networkinterface/services/applicationservice.h \
     userinterface/webpages/statuspage.h \
-    userinterface/webpages/logpage.h
+    userinterface/webpages/logpage.h \
+    datamanager.h
 
 OTHER_FILES += \
     networkinterface/descriptions/device_scpd.xml \

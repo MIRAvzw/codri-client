@@ -32,6 +32,13 @@ namespace MIRA
         // Construction and destruction
         ApplicationService();
 
+        // Signals
+    signals:
+        void interfaceAdded(const QString& iInterface);
+        void interfaceLoad();
+        void mediaAdded(const QString& iMedia);
+        void mediaLoad();
+
         // Service actions
     private slots:
         BrisaOutArgument* downloadinterface(BrisaInArgument* const iArguments, BrisaAction* const iAction);

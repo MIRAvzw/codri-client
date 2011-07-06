@@ -25,8 +25,20 @@ namespace MIRA
         NetworkInterface(QObject *parent = 0) throw(QException);
         ~NetworkInterface();
 
+        // Functionality
+
         // Getters and setters
         QString uuid() const;
+
+        // Signals
+    signals:
+        void shutdown();
+        void reboot();
+        void volumeChanged(unsigned int iVolume);
+        void interfaceAdded(const QString& iInterface);
+        void interfaceLoad();
+        void mediaAdded(const QString& iMedia);
+        void mediaLoad();
 
     private:
         // Data members
