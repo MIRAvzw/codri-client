@@ -15,6 +15,7 @@
 #include "qexception.h"
 #include "userinterface.h"
 #include "networkinterface.h"
+#include "datamanager.h"
 
 namespace MIRA
 {
@@ -31,15 +32,26 @@ namespace MIRA
         QUuid uuid() const;
         QDateTime startup() const;
 
-        // Subsystem object getters
-    public:
-        NetworkInterface* networkInterface() const;
-        UserInterface* userInterface() const;
-
         // Application control
     public slots:
         void start();
         void stop();
+
+        // Subsystem object getters
+    public:
+        NetworkInterface* networkInterface() const;
+        UserInterface* userInterface() const;
+        DataManager* dataManager() const;
+
+        // Subsystem events
+    private slots:
+        void _shutdown();
+        void _reboot();
+        void _volumeChanged(unsigned int iVolume);
+        void _interfaceAdded(const QString& iInterface);
+        void _interfaceLoad();
+        void _mediaAdded(const QString& iMedia);
+        void _mediaLoad();
 
     private:
         // Member data
@@ -50,6 +62,7 @@ namespace MIRA
         Log4Qt::Logger *mLogger;
         UserInterface* mUserInterface;
         NetworkInterface* mNetworkInterface;
+        DataManager* mDataManager;
     };
 }
 

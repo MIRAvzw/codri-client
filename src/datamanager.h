@@ -25,6 +25,8 @@ namespace MIRA
         // Functionality
         void downloadData(const QString& iUrl);
 
+        // Signals
+
         // Repository listening
         virtual void sendWarning(const QString&msg)
         {

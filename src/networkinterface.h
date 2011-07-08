@@ -25,8 +25,6 @@ namespace MIRA
         NetworkInterface(QObject *parent = 0) throw(QException);
         ~NetworkInterface();
 
-        // Functionality
-
         // Getters and setters
         QString uuid() const;
 

@@ -38,7 +38,6 @@ BrisaOutArgument* DeviceService::shutdown(BrisaInArgument* const iArguments, Bri
     Q_UNUSED(iAction)
     Q_UNUSED(iArguments)
 
-    mLogger->debug() << "Shutting down";
     emit shutdown();
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
@@ -51,7 +50,6 @@ BrisaOutArgument* DeviceService::reboot(BrisaInArgument* const iArguments, Brisa
     Q_UNUSED(iArguments)
     Q_UNUSED(iAction)
 
-    mLogger->debug() << "Rebooting";
     emit reboot();
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
@@ -62,7 +60,6 @@ BrisaOutArgument* DeviceService::setvolume(BrisaInArgument* const iArguments, Br
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    mLogger->debug() << "Changing the volume to " << iArguments->value("iVolumeValue");
     iAction->getStateVariable("Volume")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iVolumeValue"));
     emit volumeChanged(iArguments->value("iVolumeValue").toInt());
 

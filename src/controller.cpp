@@ -41,10 +41,20 @@ Controller::Controller(QObject* iParent) throw(QException) : QObject(iParent)
     {
         mLogger->debug() << "Initializing network interface";
         mNetworkInterface = new NetworkInterface(this);
+        connect(mNetworkInterface, SIGNAL(shutdown()), this, SLOT(_shutdown()));
+        connect(mNetworkInterface, SIGNAL(reboot()), this, SLOT(_reboot()));
+        connect(mNetworkInterface, SIGNAL(volumeChanged(uint)), this, SLOT(_volumeChanged(uint)));
+        connect(mNetworkInterface, SIGNAL(interfaceAdded(const QString&)), this, SLOT(_interfaceAdded(const QString&)));
+        connect(mNetworkInterface, SIGNAL(interfaceLoad()), this, SLOT(_interfaceLoad()));
+        connect(mNetworkInterface, SIGNAL(interfaceAdded(const QString&)), this, SLOT(_interfaceAdded(const QString&)));
+        connect(mNetworkInterface, SIGNAL(interfaceLoad()), this, SLOT(_interfaceLoad()));
 
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
         mUserInterface->show();
+
+        mLogger->debug() << "Initializing data manager";
+        mDataManager = new DataManager(this);
     }
     catch (const QException& iException)
     {
@@ -118,4 +128,51 @@ NetworkInterface* Controller::networkInterface() const
 UserInterface* Controller::userInterface() const
 {
     return mUserInterface;
+}
+
+
+//
+// Subsystem events
+//
+
+void Controller::_shutdown()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+}
+
+void Controller::_reboot()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+}
+
+void Controller::_volumeChanged(unsigned int iVolume)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+}
+
+void Controller::_interfaceAdded(const QString& iInterface)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+}
+
+void Controller::_interfaceLoad()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+}
+
+void Controller::_mediaAdded(const QString& iMedia)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+}
+
+void Controller::_mediaLoad()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
 }

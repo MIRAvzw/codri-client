@@ -32,10 +32,10 @@ NetworkInterface::NetworkInterface(QObject *parent) throw(QException) : QObject(
     connect(mDevice->deviceService(), SIGNAL(shutdown()), this, SIGNAL(shutdown()));
     connect(mDevice->deviceService(), SIGNAL(reboot()), this, SIGNAL(reboot()));
     connect(mDevice->deviceService(), SIGNAL(volumeChanged(unsigned int)), this, SIGNAL(volumeChanged(unsigned int)));
-    connect(mDevice->deviceService(), SIGNAL(interfaceAdded(const QString&)), this, SIGNAL(interfaceAdded(const QSQtring&)));
-    connect(mDevice->deviceService(), SIGNAL(interfaceLoad()), this, SIGNAL(interfaceLoad()));
-    connect(mDevice->deviceService(), SIGNAL(mediaAdded(const QString&)), this, SIGNAL(mediaAdded(const QSQtring&)));
-    connect(mDevice->deviceService(), SIGNAL(mediaLoad()), this, SIGNAL(mediaLoad()));
+    connect(mDevice->applicationService(), SIGNAL(interfaceAdded(const QString&)), this, SIGNAL(interfaceAdded(const QString&)));
+    connect(mDevice->applicationService(), SIGNAL(interfaceLoad()), this, SIGNAL(interfaceLoad()));
+    connect(mDevice->applicationService(), SIGNAL(mediaAdded(const QString&)), this, SIGNAL(mediaAdded(const QString&)));
+    connect(mDevice->applicationService(), SIGNAL(mediaLoad()), this, SIGNAL(mediaLoad()));
 }
 
 NetworkInterface::~NetworkInterface()
