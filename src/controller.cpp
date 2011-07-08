@@ -45,8 +45,8 @@ Controller::Controller(QObject* iParent) throw(QException) : QObject(iParent)
         connect(mNetworkInterface, SIGNAL(shutdown()), this, SLOT(_shutdown()));
         connect(mNetworkInterface, SIGNAL(reboot()), this, SLOT(_reboot()));
         connect(mNetworkInterface, SIGNAL(changeVolume(uint)), this, SLOT(_changeVolume(uint)));
-        connect(mNetworkInterface, SIGNAL(loadInterface(const QString&, const QString&, const QString&)), this, SLOT(_loadInterface(const QString&, const QString&, const QString&)));
-        connect(mNetworkInterface, SIGNAL(loadMedia(const QString&, const QString&)), this, SLOT(_loadMedia(const QString&, const QString&)));
+        connect(mNetworkInterface, SIGNAL(loadInterface(QString, QString, QString)), this, SLOT(_loadInterface(QString, QString, QString)));
+        connect(mNetworkInterface, SIGNAL(loadMedia(QString, QString)), this, SLOT(_loadMedia(QString, QString)));
 
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
