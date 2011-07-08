@@ -44,10 +44,8 @@ Controller::Controller(QObject* iParent) throw(QException) : QObject(iParent)
         connect(mNetworkInterface, SIGNAL(shutdown()), this, SLOT(_shutdown()));
         connect(mNetworkInterface, SIGNAL(reboot()), this, SLOT(_reboot()));
         connect(mNetworkInterface, SIGNAL(changeVolume(uint)), this, SLOT(_changeVolume(uint)));
-        connect(mNetworkInterface, SIGNAL(downloadInterface(const QString&, const QString&)), this, SLOT(_downloadInterface(const QString&, const QString&)));
-        connect(mNetworkInterface, SIGNAL(loadInterface()), this, SLOT(_loadInterface()));
-        connect(mNetworkInterface, SIGNAL(downloadMedia(const QString&, const QString&)), this, SLOT(_downloadMedia(const QString&, const QString&)));
-        connect(mNetworkInterface, SIGNAL(loadMedia()), this, SLOT(_loadMedia()));
+        connect(mNetworkInterface, SIGNAL(loadInterface(const QString&, const QString&, const QString&)), this, SLOT(_loadInterface(const QString&, const QString&, const QString&)));
+        connect(mNetworkInterface, SIGNAL(loadMedia(const QString&, const QString&)), this, SLOT(_loadMedia(const QString&, const QString&)));
 
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
@@ -158,27 +156,16 @@ void Controller::_changeVolume(unsigned int iVolume)
 
 }
 
-void Controller::_downloadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaceLocation)
+void Controller::_loadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaceRole, const QString& iInterfaceLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
 }
 
-void Controller::_loadInterface()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-}
-
-void Controller::_downloadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation)
+void Controller::_loadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
     dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
 }
 
-void Controller::_loadMedia()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-}

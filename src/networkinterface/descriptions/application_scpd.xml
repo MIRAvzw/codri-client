@@ -6,7 +6,7 @@
 	 </specVersion>
 	 <actionList>
 		 <action>
-                         <name>DownloadInterface</name>
+                         <name>LoadInterface</name>
 			 <argumentList>
 				 <argument>
                                          <name>iInterfaceIdentifierValue</name>
@@ -14,17 +14,19 @@
 					 <direction>in</direction>
 				 </argument>
                                  <argument>
+                                         <name>iInterfaceRoleValue</name>
+                                         <relatedStateVariable>InterfaceRole</relatedStateVariable>
+                                         <direction>in</direction>
+                                 </argument>
+                                 <argument>
                                          <name>iInterfaceLocationValue</name>
                                          <relatedStateVariable>InterfaceLocation</relatedStateVariable>
                                          <direction>in</direction>
                                  </argument>
 			 </argumentList>
-		  </action>
+                  </action>
 		  <action>
-                        <name>LoadInterface</name>
-		  </action>
-		  <action>
-                          <name>DownloadMedia</name>
+                          <name>LoadMedia</name>
 			  <argumentList>
 				  <argument>
                                           <name>iMediaIdentifierValue</name>
@@ -37,16 +39,18 @@
                                           <direction>in</direction>
                                   </argument>
 			  </argumentList>
-		  </action>
-		  <action>
-                        <name>LoadMedia</name>
-		  </action>
+                  </action>
 	  </actionList>
 	  <serviceStateTable>
 		  <stateVariable sendEvents="no">
                           <name>InterfaceIdentifier</name>
 			  <dataType>string</dataType>
 			  <defaultValue></defaultValue>
+                  </stateVariable>
+                  <stateVariable sendEvents="no">
+                          <name>InterfaceRole</name>
+                          <dataType>string</dataType>
+                          <defaultValue></defaultValue>
                   </stateVariable>
                   <stateVariable sendEvents="no">
                           <name>InterfaceLocation</name>

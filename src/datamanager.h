@@ -9,6 +9,7 @@
 // Library includes
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
+#include <QtCore/QList>
 #include <Log4Qt/Logger>
 #include "repositorylistener.h"
 #include "context_listener.h"
@@ -40,7 +41,7 @@ namespace MIRA
         virtual bool isCanceld(){return false;}
 
         // Context listening
-        virtual void contextProgress(long long int , long long int ){};
+        virtual void contextProgress(long long int , long long int ){}
         virtual bool contextSslClientCertPwPrompt (QString &,const QString &, bool &){return false;}
         virtual bool contextLoadSslClientCertPw(QString&,const QString&){return false;}
         virtual bool contextSslClientCertPrompt (QString &){return false;}
