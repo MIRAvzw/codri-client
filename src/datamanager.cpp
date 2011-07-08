@@ -6,12 +6,16 @@
 #include "datamanager.h"
 
 // Library includes
-#include "client.h"
+#include <QtCore/QDir>
 #include "repository.h"
 #include "repositorylistener.h"
 #include "repoparameter.h"
 #include "targets.h"
 #include "client_parameter.h"
+#include "client_update_parameter.h"
+
+// Definitions
+#define CHECKOUT_PATH "/tmp"
 
 // Namespaces
 using namespace MIRA;
@@ -30,6 +34,13 @@ DataManager::DataManager(QObject *parent) : QObject(parent)
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("Repository");
     mLogger->trace() << Q_FUNC_INFO;
+
+    // Configure subversion
+    svn::ContextP tSubversionContext;
+    mSubversionClient = svn::Client::getobject(0,0);
+    tSubversionContext = new svn::Context();
+    tSubversionContext->setListener(this);
+    mSubversionClient->setContext(tSubversionContext);
 }
 
 
@@ -37,37 +48,51 @@ DataManager::DataManager(QObject *parent) : QObject(parent)
 // Functionality
 //
 
-void DataManager::downloadData(const QString& iUrl)
+void DataManager::downloadData(const QString& iIdentifier, const QString& iUrl)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    /*
-    QString p = iUrl;
-    svn::repository::Repository rp(this);
-    try {
-        rp.CreateOpen(svn::repository::CreateRepoParameter().path(p).fstype("fsfs"));
-    } catch (svn::ClientException e) {
-        QString ex = e.msg();
-        mLogger->error() << "Could not open repository: " << ex.toUtf8().data();
-        return;
+    // Existing checkout?
+    QDir tCheckoutDirectory(QString(CHECKOUT_PATH) + "/" + iIdentifier);
+    if (tCheckoutDirectory.exists())
+    {
+        mLogger->debug() << "Updating media at " << tCheckoutDirectory.absolutePath();
+        svn::UpdateParameter tUpdateParameters;
+        tUpdateParameters
+                .targets(tCheckoutDirectory.absolutePath())
+                .revision(svn::Revision::HEAD)
+                .depth(svn::DepthInfinity);
+
+        try
+        {
+            mSubversionClient->update(tUpdateParameters);
+        }
+        catch (svn::ClientException iException)
+        {
+            mLogger->error() << "Could not update repository: " << iException.msg();
+            return;
+        }
     }
-    */
 
-    svn::ContextP m_CurrentContext;
-    svn::Client* m_Svnclient;
-    m_Svnclient=svn::Client::getobject(0,0);
-    m_CurrentContext = new svn::Context();
-    m_CurrentContext->setListener(this);
+    // New checkout?
+    else
+    {
+        mLogger->debug() << "Download media into " << tCheckoutDirectory.absolutePath();
+        svn::CheckoutParameter tCheckoutParameters;
+        tCheckoutParameters
+                .moduleName(iUrl)
+                .destination(tCheckoutDirectory.absolutePath())
+                .revision(svn::Revision::HEAD)
+                .peg(svn::Revision::HEAD)
+                .depth(svn::DepthInfinity);
 
-    m_Svnclient->setContext(m_CurrentContext);
-    svn::CheckoutParameter cparams;
-    cparams.moduleName(iUrl).destination("/tmp/test2").revision(svn::Revision::HEAD).peg(svn::Revision::HEAD).depth(svn::DepthInfinity);
-
-    try {
-        m_Svnclient->checkout(cparams);
-    } catch (svn::ClientException e) {
-        QString ex = e.msg();
-        mLogger->error() << "Could not checkout repository: " << ex.toUtf8().data();
-        return;
+        try
+        {
+            mSubversionClient->checkout(tCheckoutParameters);
+        }
+        catch (svn::ClientException iException) {
+            mLogger->error() << "Could not checkout repository: " << iException.msg();
+            return;
+        }
     }
 }

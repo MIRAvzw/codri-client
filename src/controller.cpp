@@ -158,7 +158,7 @@ void Controller::_changeVolume(unsigned int iVolume)
 
 }
 
-void Controller::_downloadInterface(const QString& iInterfaceIdentifier, const QString& iInterface)
+void Controller::_downloadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaceLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -170,11 +170,11 @@ void Controller::_loadInterface()
 
 }
 
-void Controller::_downloadMedia(const QString& iMediaIdentifier, const QString& iMedia)
+void Controller::_downloadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    dataManager()->downloadData(iMedia);
+    dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
 }
 
 void Controller::_loadMedia()

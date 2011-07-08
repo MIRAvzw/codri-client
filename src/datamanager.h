@@ -12,6 +12,7 @@
 #include <Log4Qt/Logger>
 #include "repositorylistener.h"
 #include "context_listener.h"
+#include "client.h"
 
 namespace MIRA
 {
@@ -23,7 +24,7 @@ namespace MIRA
         DataManager(QObject *parent = 0);
 
         // Functionality
-        void downloadData(const QString& iUrl);
+        void downloadData(const QString& iIdentifier, const QString& iUrl);
 
         // Signals
 
@@ -66,6 +67,7 @@ namespace MIRA
         // Member objects
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
+        svn::Client *mSubversionClient;
     };
 }
 
