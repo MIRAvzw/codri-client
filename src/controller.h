@@ -17,6 +17,18 @@
 #include "networkinterface.h"
 #include "datamanager.h"
 
+/*
+  This class controls the entire application. It uses and coordinates
+  the actual subsystems in order to properly respond and react to
+  external events.
+
+  A note about the exceptions: they are only thrown within subsystems,
+  and should not be used anywhere else in the application. Only the
+  controller uses try/catch statements to catch errors within the
+  subsystems, but doesn't rethrow them, and rather reacts properly to
+  error conditions.
+  */
+
 namespace MIRA
 {
     class Controller : public QObject
@@ -48,7 +60,7 @@ namespace MIRA
         void _shutdown();
         void _reboot();
         void _changeVolume(unsigned int iVolume);
-        void _loadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaaceRole, const QString& iInterfaceLocation);
+        void _loadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaceRole, const QString& iInterfaceLocation);
         void _loadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation);
 
     private:

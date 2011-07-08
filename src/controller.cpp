@@ -5,6 +5,7 @@
 // Local includes
 #include "controller.h"
 #include "mainapplication.h"
+#include "qexception.h"
 
 // Library includes
 #include <QtGui/QDesktopServices>
@@ -57,7 +58,7 @@ Controller::Controller(QObject* iParent) throw(QException) : QObject(iParent)
     catch (const QException& iException)
     {
         mLogger->fatal() << "Failed to initialize: " << iException.what();
-        throw QException("could not load all subsystems");
+        throw QException(QString("could not load all subsystems"));
     }
 }
 
@@ -166,6 +167,13 @@ void Controller::_loadMedia(const QString& iMediaIdentifier, const QString& iMed
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
+    try
+    {
+        dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
+    }
+    catch (const QException& iException)
+    {
+        mLogger->error() << "Could not download the new media" << iException.string();
+    }
 }
 

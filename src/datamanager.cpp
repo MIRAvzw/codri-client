@@ -48,7 +48,7 @@ DataManager::DataManager(QObject *parent) : QObject(parent)
 // Functionality
 //
 
-void DataManager::downloadData(const QString& iIdentifier, const QString& iUrl)
+QString DataManager::downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -69,8 +69,7 @@ void DataManager::downloadData(const QString& iIdentifier, const QString& iUrl)
         }
         catch (svn::ClientException iException)
         {
-            mLogger->error() << "Could not update repository: " << iException.msg();
-            return;
+            throw QException("could not update the repository", iException);
         }
     }
 
@@ -90,9 +89,9 @@ void DataManager::downloadData(const QString& iIdentifier, const QString& iUrl)
         {
             mSubversionClient->checkout(tCheckoutParameters);
         }
-        catch (svn::ClientException iException) {
-            mLogger->error() << "Could not checkout repository: " << iException.msg();
-            return;
+        catch (svn::ClientException iException)
+        {
+            throw QException("could not checkout the repository", iException);
         }
     }
 }

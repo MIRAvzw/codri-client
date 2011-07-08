@@ -15,6 +15,9 @@
 #include "context_listener.h"
 #include "client.h"
 
+// Local includes
+#include "qexception.h"
+
 namespace MIRA
 {
     class DataManager : public QObject, public svn::repository::RepositoryListener, public svn::ContextListener
@@ -25,7 +28,7 @@ namespace MIRA
         DataManager(QObject *parent = 0);
 
         // Functionality
-        void downloadData(const QString& iIdentifier, const QString& iUrl);
+        QString downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException);
 
         // Signals
 
