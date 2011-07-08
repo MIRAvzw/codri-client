@@ -61,7 +61,7 @@ BrisaOutArgument* DeviceService::setvolume(BrisaInArgument* const iArguments, Br
     mLogger->trace() << Q_FUNC_INFO;
 
     iAction->getStateVariable("Volume")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iVolumeValue"));
-    emit volumeChanged(iArguments->value("iVolumeValue").toInt());
+    emit changeVolume(iArguments->value("iVolumeValue").toInt());
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;

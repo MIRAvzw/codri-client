@@ -36,8 +36,9 @@ BrisaOutArgument* ApplicationService::downloadinterface(BrisaInArgument* const i
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    iAction->getStateVariable("Interface")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceValue"));
-    emit interfaceAdded(iArguments->value("iInterfaceValue"));
+    iAction->getStateVariable("InterfaceIdentifier")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceIdentifierValue"));
+    iAction->getStateVariable("InterfaceLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceLocationValue"));
+    emit downloadInterface(iArguments->value("iInterfaceIdentifierValue"), iArguments->value("iInterfaceLocationValue"));
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;
@@ -49,7 +50,7 @@ BrisaOutArgument* ApplicationService::loadinterface(BrisaInArgument* const iArgu
     Q_UNUSED(iArguments)
     Q_UNUSED(iAction)
 
-    emit interfaceLoad();
+    emit loadInterface();
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;
@@ -59,8 +60,9 @@ BrisaOutArgument* ApplicationService::downloadmedia(BrisaInArgument* const iArgu
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    iAction->getStateVariable("Media")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iMediaValue"));
-    emit mediaAdded(iArguments->value("iMediaValue"));
+    iAction->getStateVariable("MediaIdentifier")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iMediaIdentifierValue"));
+    iAction->getStateVariable("MediaLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iMediaLocationValue"));
+    emit downloadMedia(iArguments->value("iMediaIdentifierValue"), iArguments->value("iMediaLocationValue"));
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;
@@ -72,7 +74,7 @@ BrisaOutArgument* ApplicationService::loadmedia(BrisaInArgument* const iArgument
     Q_UNUSED(iArguments)
     Q_UNUSED(iAction)
 
-    emit mediaLoad();
+    emit loadMedia();
 
     BrisaOutArgument* oArguments = new BrisaOutArgument();
     return oArguments;

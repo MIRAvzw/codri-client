@@ -34,10 +34,10 @@ namespace MIRA
 
         // Signals
     signals:
-        void interfaceAdded(const QString& iInterface);
-        void interfaceLoad();
-        void mediaAdded(const QString& iMedia);
-        void mediaLoad();
+        void downloadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaceLocation);
+        void loadInterface();
+        void downloadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation);
+        void loadMedia();
 
         // Service actions
     private slots:

@@ -41,8 +41,10 @@ KioskDevice::KioskDevice(QObject* iParent) : Brisa::BrisaDevice(DEVICE_TYPE,
     addService(mApplicationKiosk);
 
     // Initialize state variables
-    mInterface = getServiceByType("urn:mira-be:service:Application:1")->getVariable("Interface");
-    mMedia = getServiceByType("urn:mira-be:service:Application:1")->getVariable("Media");
+    mInterfaceIdentifier = getServiceByType("urn:mira-be:service:Application:1")->getVariable("InterfaceIdentifier");
+    mInterfaceLocation = getServiceByType("urn:mira-be:service:Application:1")->getVariable("InterfaceLocation");
+    mMediaIdentifier = getServiceByType("urn:mira-be:service:Application:1")->getVariable("MediaIdentifier");
+    mMediaLocation = getServiceByType("urn:mira-be:service:Application:1")->getVariable("MediaLocation");
     mVolume = getServiceByType("urn:mira-be:service:Device:1")->getVariable("Volume");
 }
 

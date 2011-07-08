@@ -43,11 +43,11 @@ Controller::Controller(QObject* iParent) throw(QException) : QObject(iParent)
         mNetworkInterface = new NetworkInterface(this);
         connect(mNetworkInterface, SIGNAL(shutdown()), this, SLOT(_shutdown()));
         connect(mNetworkInterface, SIGNAL(reboot()), this, SLOT(_reboot()));
-        connect(mNetworkInterface, SIGNAL(volumeChanged(uint)), this, SLOT(_volumeChanged(uint)));
-        connect(mNetworkInterface, SIGNAL(interfaceAdded(const QString&)), this, SLOT(_interfaceAdded(const QString&)));
-        connect(mNetworkInterface, SIGNAL(interfaceLoad()), this, SLOT(_interfaceLoad()));
-        connect(mNetworkInterface, SIGNAL(interfaceAdded(const QString&)), this, SLOT(_interfaceAdded(const QString&)));
-        connect(mNetworkInterface, SIGNAL(interfaceLoad()), this, SLOT(_interfaceLoad()));
+        connect(mNetworkInterface, SIGNAL(changeVolume(uint)), this, SLOT(_changeVolume(uint)));
+        connect(mNetworkInterface, SIGNAL(downloadInterface(const QString&, const QString&)), this, SLOT(_downloadInterface(const QString&, const QString&)));
+        connect(mNetworkInterface, SIGNAL(loadInterface()), this, SLOT(_loadInterface()));
+        connect(mNetworkInterface, SIGNAL(downloadMedia(const QString&, const QString&)), this, SLOT(_downloadMedia(const QString&, const QString&)));
+        connect(mNetworkInterface, SIGNAL(loadMedia()), this, SLOT(_loadMedia()));
 
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
@@ -130,6 +130,11 @@ UserInterface* Controller::userInterface() const
     return mUserInterface;
 }
 
+DataManager* Controller::dataManager() const
+{
+    return mDataManager;
+}
+
 
 //
 // Subsystem events
@@ -147,31 +152,32 @@ void Controller::_reboot()
 
 }
 
-void Controller::_volumeChanged(unsigned int iVolume)
+void Controller::_changeVolume(unsigned int iVolume)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
 }
 
-void Controller::_interfaceAdded(const QString& iInterface)
+void Controller::_downloadInterface(const QString& iInterfaceIdentifier, const QString& iInterface)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
 }
 
-void Controller::_interfaceLoad()
+void Controller::_loadInterface()
 {
     mLogger->trace() << Q_FUNC_INFO;
 
 }
 
-void Controller::_mediaAdded(const QString& iMedia)
+void Controller::_downloadMedia(const QString& iMediaIdentifier, const QString& iMedia)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
+    dataManager()->downloadData(iMedia);
 }
 
-void Controller::_mediaLoad()
+void Controller::_loadMedia()
 {
     mLogger->trace() << Q_FUNC_INFO;
 

@@ -47,11 +47,11 @@ namespace MIRA
     private slots:
         void _shutdown();
         void _reboot();
-        void _volumeChanged(unsigned int iVolume);
-        void _interfaceAdded(const QString& iInterface);
-        void _interfaceLoad();
-        void _mediaAdded(const QString& iMedia);
-        void _mediaLoad();
+        void _changeVolume(unsigned int iVolume);
+        void _downloadInterface(const QString& iInterfaceIdentifier, const QString& iInterface);
+        void _loadInterface();
+        void _downloadMedia(const QString& iMediaIdentifier, const QString& iMedia);
+        void _loadMedia();
 
     private:
         // Member data

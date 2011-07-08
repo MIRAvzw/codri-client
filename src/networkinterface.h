@@ -32,11 +32,11 @@ namespace MIRA
     signals:
         void shutdown();
         void reboot();
-        void volumeChanged(unsigned int iVolume);
-        void interfaceAdded(const QString& iInterface);
-        void interfaceLoad();
-        void mediaAdded(const QString& iMedia);
-        void mediaLoad();
+        void changeVolume(unsigned int iVolume);
+        void downloadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaceLocation);
+        void loadInterface();
+        void downloadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation);
+        void loadMedia();
 
     private:
         // Data members

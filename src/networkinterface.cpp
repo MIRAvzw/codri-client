@@ -31,11 +31,11 @@ NetworkInterface::NetworkInterface(QObject *parent) throw(QException) : QObject(
     // Connect the signals
     connect(mDevice->deviceService(), SIGNAL(shutdown()), this, SIGNAL(shutdown()));
     connect(mDevice->deviceService(), SIGNAL(reboot()), this, SIGNAL(reboot()));
-    connect(mDevice->deviceService(), SIGNAL(volumeChanged(unsigned int)), this, SIGNAL(volumeChanged(unsigned int)));
-    connect(mDevice->applicationService(), SIGNAL(interfaceAdded(const QString&)), this, SIGNAL(interfaceAdded(const QString&)));
-    connect(mDevice->applicationService(), SIGNAL(interfaceLoad()), this, SIGNAL(interfaceLoad()));
-    connect(mDevice->applicationService(), SIGNAL(mediaAdded(const QString&)), this, SIGNAL(mediaAdded(const QString&)));
-    connect(mDevice->applicationService(), SIGNAL(mediaLoad()), this, SIGNAL(mediaLoad()));
+    connect(mDevice->deviceService(), SIGNAL(changeVolume(unsigned int)), this, SIGNAL(changeVolume(unsigned int)));
+    connect(mDevice->applicationService(), SIGNAL(downloadInterface(const QString&, const QString&)), this, SIGNAL(downloadInterface(const QString&, const QString&)));
+    connect(mDevice->applicationService(), SIGNAL(loadInterface()), this, SIGNAL(loadInterface()));
+    connect(mDevice->applicationService(), SIGNAL(downloadMedia(const QString&, const QString&)), this, SIGNAL(downloadMedia(const QString&, const QString&)));
+    connect(mDevice->applicationService(), SIGNAL(loadMedia()), this, SIGNAL(loadMedia()));
 }
 
 NetworkInterface::~NetworkInterface()

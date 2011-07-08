@@ -45,8 +45,10 @@ namespace MIRA
     private:
         // State variables
         Brisa::BrisaStateVariable* mVolume;
-        Brisa::BrisaStateVariable* mInterface;
-        Brisa::BrisaStateVariable* mMedia;
+        Brisa::BrisaStateVariable* mInterfaceIdentifier;
+        Brisa::BrisaStateVariable* mInterfaceLocation;
+        Brisa::BrisaStateVariable* mMediaIdentifier;
+        Brisa::BrisaStateVariable* mMediaLocation;
 
         // Services
         DeviceService* mDeviceService;

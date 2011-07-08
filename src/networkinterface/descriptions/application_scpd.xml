@@ -9,10 +9,15 @@
                          <name>DownloadInterface</name>
 			 <argumentList>
 				 <argument>
-					 <name>iInterfaceValue</name>
-					 <relatedStateVariable>Interface</relatedStateVariable>
+                                         <name>iInterfaceIdentifierValue</name>
+                                         <relatedStateVariable>InterfaceIdentifier</relatedStateVariable>
 					 <direction>in</direction>
 				 </argument>
+                                 <argument>
+                                         <name>iInterfaceLocationValue</name>
+                                         <relatedStateVariable>InterfaceLocation</relatedStateVariable>
+                                         <direction>in</direction>
+                                 </argument>
 			 </argumentList>
 		  </action>
 		  <action>
@@ -22,10 +27,15 @@
                           <name>DownloadMedia</name>
 			  <argumentList>
 				  <argument>
-					  <name>iMediaValue</name>
-					  <relatedStateVariable>Media</relatedStateVariable>
+                                          <name>iMediaIdentifierValue</name>
+                                          <relatedStateVariable>MediaIdentifier</relatedStateVariable>
 					  <direction>in</direction>
 				  </argument>
+                                  <argument>
+                                          <name>iMediaLocationValue</name>
+                                          <relatedStateVariable>MediaLocation</relatedStateVariable>
+                                          <direction>in</direction>
+                                  </argument>
 			  </argumentList>
 		  </action>
 		  <action>
@@ -34,14 +44,24 @@
 	  </actionList>
 	  <serviceStateTable>
 		  <stateVariable sendEvents="no">
-			  <name>Interface</name>
+                          <name>InterfaceIdentifier</name>
 			  <dataType>string</dataType>
 			  <defaultValue></defaultValue>
                   </stateVariable>
+                  <stateVariable sendEvents="no">
+                          <name>InterfaceLocation</name>
+                          <dataType>string</dataType>
+                          <defaultValue></defaultValue>
+                  </stateVariable>
 		  <stateVariable sendEvents="no">
-			  <name>Media</name>
+                          <name>MediaIdentifier</name>
 			  <dataType>string</dataType>
 			  <defaultValue></defaultValue>
+                  </stateVariable>
+                  <stateVariable sendEvents="no">
+                          <name>MediaLocation</name>
+                          <dataType>string</dataType>
+                          <defaultValue></defaultValue>
                   </stateVariable>
 	  </serviceStateTable>
  </scpd>

@@ -41,6 +41,7 @@ void DataManager::downloadData(const QString& iUrl)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
+    /*
     QString p = iUrl;
     svn::repository::Repository rp(this);
     try {
@@ -50,21 +51,19 @@ void DataManager::downloadData(const QString& iUrl)
         mLogger->error() << "Could not open repository: " << ex.toUtf8().data();
         return;
     }
+    */
 
     svn::ContextP m_CurrentContext;
     svn::Client* m_Svnclient;
     m_Svnclient=svn::Client::getobject(0,0);
     m_CurrentContext = new svn::Context();
     m_CurrentContext->setListener(this);
-    p = "file://"+p;
 
     m_Svnclient->setContext(m_CurrentContext);
-    QStringList s; s.append(p+"/trunk"); s.append(p+"/branches"); s.append(p+"/tags");
     svn::CheckoutParameter cparams;
-    cparams.moduleName(p).destination("/tmp").revision(svn::Revision::HEAD).peg(svn::Revision::HEAD).depth(svn::DepthInfinity);
+    cparams.moduleName(iUrl).destination("/tmp/test2").revision(svn::Revision::HEAD).peg(svn::Revision::HEAD).depth(svn::DepthInfinity);
 
     try {
-        m_Svnclient->mkdir(svn::Targets(s),"Test mkdir");
         m_Svnclient->checkout(cparams);
     } catch (svn::ClientException e) {
         QString ex = e.msg();

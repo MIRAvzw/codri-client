@@ -36,9 +36,9 @@ namespace MIRA
     signals:
         void shutdown();
         void reboot();
-        void volumeChanged(unsigned int iVolume);
+        void changeVolume(unsigned int iVolume);
 
-        // Service actions
+        // Service action
     private slots:
          BrisaOutArgument* shutdown(BrisaInArgument* const iArguments, BrisaAction* const iAction);
          BrisaOutArgument* reboot(BrisaInArgument* const iArguments, BrisaAction* const iAction);
