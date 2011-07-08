@@ -6,8 +6,10 @@
 
 QT += core gui webkit xml network
 
-include(../lib/svnqt/src/svnqt.pri)
-LIBS += -lsvn_client-1 -lsvn_wc-1 -lsvn_diff-1 -lsvn_fs-1 -lsvn_repos-1 -lsvn_ra-1 -lsvn_subr-1 -lapr-1 -laprutil-1
+INCLUDEPATH += /usr/include/svnqt
+INCLUDEPATH += /usr/include/subversion-1
+INCLUDEPATH += /usr/include/apr-1
+LIBS += -lsvnqt
 
 INCLUDEPATH += /usr/include/Log4Qt
 LIBS += -lLog4Qt

@@ -11,9 +11,9 @@
 #include <QtCore/QSettings>
 #include <QtCore/QList>
 #include <Log4Qt/Logger>
-#include "repositorylistener.h"
-#include "context_listener.h"
-#include "client.h"
+#include <svnqt/repositorylistener.h>
+#include <svnqt/context_listener.h>
+#include <svnqt/client.h>
 
 // Local includes
 #include "qexception.h"

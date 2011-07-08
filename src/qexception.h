@@ -8,7 +8,7 @@
 
 // Library includes
 #include <QtCore/QString>
-#include "exception.h"
+#include <svnqt/exception.h>
 
 class QException
 {

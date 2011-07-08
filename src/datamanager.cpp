@@ -7,12 +7,12 @@
 
 // Library includes
 #include <QtCore/QDir>
-#include "repository.h"
-#include "repositorylistener.h"
-#include "repoparameter.h"
-#include "targets.h"
-#include "client_parameter.h"
-#include "client_update_parameter.h"
+#include <svnqt/repository.h>
+#include <svnqt/repositorylistener.h>
+#include <svnqt/repoparameter.h>
+#include <svnqt/targets.h>
+#include <svnqt/client_parameter.h>
+#include <svnqt/client_update_parameter.h>
 
 // Definitions
 #define CHECKOUT_PATH "/tmp"

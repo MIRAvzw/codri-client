@@ -1,3 +1,0 @@
-[submodule "lib/svnqt"]
-	path = lib/svnqt
-	url = git@github.com:maleadt/svnqt.git
