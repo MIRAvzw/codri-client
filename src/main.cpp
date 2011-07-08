@@ -60,21 +60,5 @@ int main(int argc, char *argv[])
     }
 
     // Run the application
-    try
-    {
-        tApplication->start();
-        return tApplication->exec();
-    }
-    catch (const QException& iException)
-    {
-         QTextStream qerr(stderr);
-
-         qerr << "---------------------------------------\n";
-         qerr << "          UNTRAPPED EXCEPTION          \n";
-         qerr << "---------------------------------------\n";
-         qerr << "\n";
-         qerr << "Exception details: " << iException.what() << "\n";
-
-         return 0;
-    }
+    return tApplication->exec();
 }

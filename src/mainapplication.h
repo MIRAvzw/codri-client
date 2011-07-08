@@ -16,8 +16,7 @@
 
 // Local includes
 #include "qexception.h"
-#include "userinterface.h"
-#include "networkinterface.h"
+#include "controller.h"
 
 namespace MIRA
 {
@@ -33,10 +32,8 @@ namespace MIRA
         static void handleInterruptUnix(int unused);
         static void handleTerminateUnix(int unused);
 
-        // Basic I/O
-    public:
-        QUuid uuid() const;
-        QDateTime startup() const;
+        // Subsystem object getters
+        Controller* controller() const;
 
     public slots:
         // System signals
@@ -47,33 +44,14 @@ namespace MIRA
     public:
         static MainApplication *instance();
 
-        // Subsystem object getters
-    public:
-        NetworkInterface* networkInterface() const;
-        UserInterface* userInterface() const;
-
-        // Application control
-    public:
-        void start();
-        void fatal();
-
-        // UI events
-    public slots:
-        void run();
-        void quitGracefully();
-
     private:
         // Singleton object
         static MainApplication *mInstance;
 
-        // Member data
-        QDateTime mTimestampStartup;
-
         // Subsystem objects
         QSettings* mSettings;
         Log4Qt::Logger *mLogger;
-        UserInterface* mUserInterface;
-        NetworkInterface* mNetworkInterface;
+        Controller *mController;
 
         static int sigintFd[2];
         static int sigtermFd[2];
@@ -87,7 +65,5 @@ namespace MIRA
 
     void doMessage(QtMsgType iMessageType, const char* iMessage);
 }
-
-
 
 #endif // MAINAPPLICATION_H

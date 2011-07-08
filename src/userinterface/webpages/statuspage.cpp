@@ -44,10 +44,10 @@ StatusPage::~StatusPage()
 
 QString StatusPage::id() const
 {
-    return MainApplication::instance()->uuid();
+    return MainApplication::instance()->controller()->uuid();
 }
 
 QDateTime StatusPage::startup() const
 {
-    return MainApplication::instance()->startup();
+    return MainApplication::instance()->controller()->startup();
 }

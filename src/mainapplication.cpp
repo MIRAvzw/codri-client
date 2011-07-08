@@ -74,25 +74,10 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
     qInstallMsgHandler(doMessage);
     mLogger->info() << "Initializing";
 
-    // Mark startup time
-    mTimestampStartup = QDateTime::currentDateTime();
-
-    // Initialize subsystems
-    mLogger->debug() << "Loading subsystems";
-    try
-    {        
-        mLogger->debug() << "Initializing network interface";
-        mNetworkInterface = new NetworkInterface(this);
-
-        mLogger->debug() << "Initializing user interface";
-        mUserInterface = new UserInterface();
-        mUserInterface->show();
-    }
-    catch (const QException& iException)
-    {
-        mLogger->fatal() << "Failed to initialize: " << iException.what();
-        throw QException("could not load all subsystems");
-    }
+    // Start the application controller
+    mController = new Controller(this);
+    connect(this, SIGNAL(aboutToQuit()), mController, SLOT(stop()));
+    QTimer::singleShot(0, mController, SLOT(start()));
 }
 
 MainApplication::~MainApplication()
@@ -103,44 +88,14 @@ MainApplication::~MainApplication()
 
 
 //
-// Basic I/O
+// Subsystem object getters
 //
 
-QUuid MainApplication::uuid() const
+Controller* MainApplication::controller() const
 {
-    return mNetworkInterface->uuid();
+    return mController;
 }
 
-QDateTime MainApplication::startup() const
-{
-    return mTimestampStartup;
-}
-
-
-//
-// Application control
-//
-
-void MainApplication::start()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    // TODO: make sure this only runs if all subsystems are initialized
-    // TODO: make sure the subsystems are only interconnected here (e.g. webpage cannot show
-    //       the networkinterface's uuid yet
-
-    mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
-    QTimer::singleShot(0, this, SLOT(run()));
-    QObject::connect(this, SIGNAL(lastWindowClosed()), this, SLOT(quitGracefully()));
-}
-
-void MainApplication::fatal()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    mLogger->fatal() << "Fatal error occured, halting application";
-    quitGracefully();
-}
 
 //
 // Singleton objects getters
@@ -149,45 +104,6 @@ void MainApplication::fatal()
 MainApplication *MainApplication::instance()
 {
     return mInstance;
-}
-
-
-//
-// Subsystem object getters
-//
-
-NetworkInterface* MainApplication::networkInterface() const
-{
-    return mNetworkInterface;
-}
-
-UserInterface* MainApplication::userInterface() const
-{
-    return mUserInterface;
-}
-
-//
-// UI events
-//
-
-void MainApplication::run()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-}
-
-void MainApplication::quitGracefully()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-    mLogger->debug() << "Closing down";
-
-    // Do some stuff here
-
-    // Delete subsystems
-    delete mUserInterface;
-    delete mNetworkInterface;
-
-    // Actually quit
-    quit();
 }
 
 
@@ -224,7 +140,7 @@ void MainApplication::handleTerminate()
     ::read(sigtermFd[1], &tmp, sizeof(tmp));
 
     // Quit the application
-    quitGracefully();
+    mController->stop();
 
     snTerm->setEnabled(true);
 }
@@ -239,7 +155,7 @@ void MainApplication::handleInterrupt()
     ::read(sigintFd[1], &tmp, sizeof(tmp));
 
     // Quit the application
-    quitGracefully();
+    mController->stop();
 
     snInt->setEnabled(true);
 }
@@ -264,6 +180,6 @@ void MIRA::doMessage(QtMsgType iMessageType, const char* iMessage)
             break;
         case QtFatalMsg:
             mApplication->mLogger->fatal() << iMessage;
-            mApplication->quitGracefully();
+            mApplication->controller()->stop();
     }
 }

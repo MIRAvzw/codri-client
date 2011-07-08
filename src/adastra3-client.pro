@@ -38,7 +38,8 @@ SOURCES += main.cpp \
     networkinterface/services/applicationservice.cpp \
     userinterface/webpages/statuspage.cpp \
     userinterface/webpages/logpage.cpp \
-    datamanager.cpp
+    datamanager.cpp \
+    controller.cpp
 
 HEADERS  += \
     mainapplication.h \
@@ -51,7 +52,8 @@ HEADERS  += \
     networkinterface/services/applicationservice.h \
     userinterface/webpages/statuspage.h \
     userinterface/webpages/logpage.h \
-    datamanager.h
+    datamanager.h \
+    controller.h
 
 OTHER_FILES += \
     networkinterface/descriptions/device_scpd.xml \
