@@ -13,11 +13,14 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-ApplicationService::ApplicationService() : Brisa::BrisaService( APPLICATION_SERVICE_TYPE,
-                                                                APPLICATION_SERVICE_ID,
-                                                                APPLICATION_SERVICE_SCPD_URL,
-                                                                APPLICATION_SERVICE_CONTROL_URL,
-                                                                APPLICATION_SERVICE_EVENT_URL )
+ApplicationService::ApplicationService(QObject* iParent) : Brisa::BrisaService(
+        APPLICATION_SERVICE_TYPE,
+        APPLICATION_SERVICE_ID,
+        APPLICATION_SERVICE_SCPD_URL,
+        APPLICATION_SERVICE_CONTROL_URL,
+        APPLICATION_SERVICE_EVENT_URL,
+        QString(),
+        iParent)
 {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("ApplicationService");

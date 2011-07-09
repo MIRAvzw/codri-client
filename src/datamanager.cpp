@@ -69,6 +69,7 @@ QString DataManager::downloadData(const QString& iIdentifier, const QString& iUr
         }
         catch (svn::ClientException iException)
         {
+            mLogger->debug() << "Throwing";
             throw QException("could not update the repository", iException);
         }
     }

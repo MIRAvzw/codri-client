@@ -13,11 +13,13 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-DeviceService::DeviceService() : Brisa::BrisaService(   DEVICE_SERVICE_TYPE,
-                                                        DEVICE_SERVICE_ID,
-                                                        DEVICE_SERVICE_SCPD_URL,
-                                                        DEVICE_SERVICE_CONTROL_URL,
-                                                        DEVICE_SERVICE_EVENT_URL )
+DeviceService::DeviceService(QObject* iParent) : Brisa::BrisaService(   DEVICE_SERVICE_TYPE,
+        DEVICE_SERVICE_ID,
+        DEVICE_SERVICE_SCPD_URL,
+        DEVICE_SERVICE_CONTROL_URL,
+        DEVICE_SERVICE_EVENT_URL,
+        QString(),
+        iParent)
 {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("DeviceService");

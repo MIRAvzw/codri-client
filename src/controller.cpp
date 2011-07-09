@@ -157,13 +157,13 @@ void Controller::_changeVolume(unsigned int iVolume)
 
 }
 
-void Controller::_loadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaceRole, const QString& iInterfaceLocation)
+void Controller::_loadInterface(QString iInterfaceIdentifier, QString iInterfaceRole, QString iInterfaceLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
 }
 
-void Controller::_loadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation)
+void Controller::_loadMedia(QString iMediaIdentifier, QString iMediaLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 

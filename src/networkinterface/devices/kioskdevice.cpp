@@ -35,9 +35,9 @@ KioskDevice::KioskDevice(QObject* iParent) : Brisa::BrisaDevice(DEVICE_TYPE,
     mLogger->trace() << Q_FUNC_INFO;
 
     // Add services
-    mDeviceService = new DeviceService();
+    mDeviceService = new DeviceService(this);
     addService(mDeviceService);
-    mApplicationKiosk = new ApplicationService();
+    mApplicationKiosk = new ApplicationService(this);
     addService(mApplicationKiosk);
 
     // Initialize state variables

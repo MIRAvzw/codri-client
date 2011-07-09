@@ -30,7 +30,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        DeviceService();
+        DeviceService(QObject* iParent = 0);
 
         // Signals
     signals:
