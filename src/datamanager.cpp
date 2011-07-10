@@ -48,7 +48,7 @@ DataManager::DataManager(QObject *parent) : QObject(parent)
 // Functionality
 //
 
-QString DataManager::downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException)
+void DataManager::downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 

@@ -28,7 +28,7 @@ namespace MIRA
         DataManager(QObject *parent = 0);
 
         // Functionality
-        QString downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException);
+        void downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException);
 
         // Signals
 
