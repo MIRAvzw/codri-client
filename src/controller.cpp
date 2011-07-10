@@ -45,8 +45,8 @@ Controller::Controller(QObject* iParent) throw(QException) : QObject(iParent)
         connect(mNetworkInterface, SIGNAL(shutdown()), this, SLOT(_shutdown()));
         connect(mNetworkInterface, SIGNAL(reboot()), this, SLOT(_reboot()));
         connect(mNetworkInterface, SIGNAL(changeVolume(uint)), this, SLOT(_changeVolume(uint)));
-        connect(mNetworkInterface, SIGNAL(loadInterface(QString, QString, QString)), this, SLOT(_loadInterface(QString, QString, QString)));
-        connect(mNetworkInterface, SIGNAL(loadMedia(QString, QString)), this, SLOT(_loadMedia(QString, QString)));
+        connect(mNetworkInterface, SIGNAL(loadInterface(const QString&, const QString&, const QString&)), this, SLOT(_loadInterface(const QString&, const QString&, const QString&)));
+        connect(mNetworkInterface, SIGNAL(loadMedia(const QString&, const QString&)), this, SLOT(_loadMedia(const QString&, const QString&)));
 
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
@@ -157,13 +157,13 @@ void Controller::_changeVolume(unsigned int iVolume)
 
 }
 
-void Controller::_loadInterface(QString iInterfaceIdentifier, QString iInterfaceRole, QString iInterfaceLocation)
+void Controller::_loadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaceRole, const QString& iInterfaceLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
 }
 
-void Controller::_loadMedia(QString iMediaIdentifier, QString iMediaLocation)
+void Controller::_loadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
