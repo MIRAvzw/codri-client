@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>webpages/logpage.html</file>
         <file>webpages/statuspage.html</file>
+        <file>webpages/mediapage.html</file>
     </qresource>
 </RCC>

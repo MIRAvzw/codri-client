@@ -12,7 +12,6 @@
 // Namespaces
 using namespace MIRA;
 
-
 //
 // Construction and destruction
 //

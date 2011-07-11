@@ -41,7 +41,8 @@ SOURCES += main.cpp \
     userinterface/webpages/statuspage.cpp \
     userinterface/webpages/logpage.cpp \
     datamanager.cpp \
-    controller.cpp
+    controller.cpp \
+    userinterface/webpages/mediapage.cpp
 
 HEADERS  += \
     mainapplication.h \
@@ -55,10 +56,12 @@ HEADERS  += \
     userinterface/webpages/statuspage.h \
     userinterface/webpages/logpage.h \
     datamanager.h \
-    controller.h
+    controller.h \
+    userinterface/webpages/mediapage.h
 
 OTHER_FILES += \
     networkinterface/descriptions/device_scpd.xml \
     networkinterface/descriptions/application_scpd.xml \
     userinterface/webpages/logpage.html \
-    userinterface/webpages/statuspage.html
+    userinterface/webpages/statuspage.html \
+    userinterface/webpages/mediapage.html
