@@ -174,13 +174,25 @@ void Controller::_loadMedia(const QString& iMediaIdentifier, const QString& iMed
 {
     mLogger->trace() << Q_FUNC_INFO;
 
+    QDir tCheckoutPath;
     try
     {
-        dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
+        tCheckoutPath = dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
     }
     catch (const QException& iException)
     {
         mLogger->error() << "Could not download the new media" << iException.string();
+        return;
+    }
+
+    try
+    {
+        userInterface()->showMedia(tCheckoutPath);
+    }
+    catch (const QException& iException)
+    {
+        mLogger->error() << "Could not show the new media" << iException.string();
+        return;
     }
 }
 

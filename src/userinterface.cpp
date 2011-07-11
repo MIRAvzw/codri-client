@@ -45,6 +45,20 @@ UserInterface::UserInterface(QWidget *parent) throw(QException) : QMainWindow(pa
 
 
 //
+// Functionality
+//
+
+void UserInterface::showMedia(const QDir &iMedia) throw(QException)
+{
+    QFile tFile(iMedia.absolutePath() + "/index.html");
+    if (!tFile.exists())
+        throw new QException("invalid media format");
+
+    mPageMedia->load("file://" + iMedia.absolutePath() + "/index.html");
+}
+
+
+//
 // UI events
 //
 

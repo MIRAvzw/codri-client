@@ -21,9 +21,10 @@ public:
     {
 
     }
-    QException(const svn::Exception& iException) : mMessage("SVN exception -- " + iException.msg()), mNull(false), mCause(QException())
-    {
 
+    static QException fromSVNException(const svn::Exception& iException)
+    {
+        return QException("SVN exception -- " + iException.msg());
     }
 
     const QString& what() const

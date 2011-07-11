@@ -10,6 +10,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
 #include <QtCore/QList>
+#include <QtCore/QDir>
 #include <Log4Qt/Logger>
 #include <svnqt/repositorylistener.h>
 #include <svnqt/context_listener.h>
@@ -24,11 +25,11 @@ namespace MIRA
     {
     Q_OBJECT
     public:
-        // Construction and destruction
+        // ConstructQStringion and destruction
         DataManager(QObject *parent = 0);
 
         // Functionality
-        void downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException);
+        QDir downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException);
 
         // Signals
 

@@ -9,6 +9,7 @@
 // Library includes
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
+#include <QtCore/QDir>
 #include <QtGui/QMainWindow>
 #include <QtGui/QKeyEvent>
 #include <QtWebKit/QWebView>
@@ -29,6 +30,9 @@ namespace MIRA
 
         // UI events
         bool eventFilter(QObject* iObject, QEvent* iEvent);
+
+        // Functionality
+        void showMedia(const QDir& iMedia) throw(QException);
 
         // Signals
     signals:

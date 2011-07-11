@@ -19,8 +19,11 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        WebPage(QUrl iURL, QObject* parent = 0);
+        WebPage(const QUrl& iURL, QObject* parent = 0);
         virtual ~WebPage();
+
+        // Functionality
+        void load(const QUrl& iUrl);
 
         // QWebPage interface
     protected:

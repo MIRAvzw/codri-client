@@ -6,7 +6,6 @@
 #include "datamanager.h"
 
 // Library includes
-#include <QtCore/QDir>
 #include <svnqt/repository.h>
 #include <svnqt/repositorylistener.h>
 #include <svnqt/repoparameter.h>
@@ -48,7 +47,7 @@ DataManager::DataManager(QObject *parent) : QObject(parent)
 // Functionality
 //
 
-void DataManager::downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException)
+QDir DataManager::downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -69,8 +68,7 @@ void DataManager::downloadData(const QString& iIdentifier, const QString& iUrl) 
         }
         catch (svn::ClientException iException)
         {
-            mLogger->debug() << "Throwing";
-            throw QException("could not update the repository", iException);
+            throw QException("could not update the repository", QException::fromSVNException(iException));
         }
     }
 
@@ -92,7 +90,13 @@ void DataManager::downloadData(const QString& iIdentifier, const QString& iUrl) 
         }
         catch (svn::ClientException iException)
         {
-            throw QException("could not checkout the repository", iException);
+            throw QException("could not checkout the repository", QException::fromSVNException(iException));
         }
     }
+
+    // TODO: if we get here, the media has been downloaded and loaded properly
+    // cache it!
+    // Also: don't use conflicting cache/checkout directories, for obvious reasons
+
+    return tCheckoutDirectory;
 }
