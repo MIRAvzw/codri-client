@@ -33,6 +33,7 @@ namespace MIRA
 
         // Functionality
         void showMedia(const QDir& iMedia) throw(QException);
+        void hideMedia() throw(QException);
 
         // Signals
     signals:

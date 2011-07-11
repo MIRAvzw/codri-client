@@ -11,6 +11,7 @@
 #include <QtCore/QSettings>
 #include <QtCore/QList>
 #include <QtCore/QDir>
+#include <QtCore/QUrl>
 #include <Log4Qt/Logger>
 #include <svnqt/repositorylistener.h>
 #include <svnqt/context_listener.h>
@@ -29,7 +30,7 @@ namespace MIRA
         DataManager(QObject *parent = 0);
 
         // Functionality
-        QDir downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException);
+        QDir downloadData(const QString& iIdentifier, const QUrl& iUrl) throw(QException);
 
         // Signals
 
@@ -73,6 +74,10 @@ namespace MIRA
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         svn::Client *mSubversionClient;
+
+        // Auxiliary
+        void _checkoutRepository(const QDir& iDestination, const QUrl& iUrl) throw(QException);
+        void _updateRepository(const QDir& iDestination) throw(QException);
     };
 }
 

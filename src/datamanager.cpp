@@ -14,7 +14,8 @@
 #include <svnqt/client_update_parameter.h>
 
 // Definitions
-#define CHECKOUT_PATH "/tmp"
+#define CHECKOUT_CACHE "/tmp/cache"
+#define CHECKOUT_MEMORY "/tmp/memory"
 
 // Namespaces
 using namespace MIRA;
@@ -47,56 +48,104 @@ DataManager::DataManager(QObject *parent) : QObject(parent)
 // Functionality
 //
 
-QDir DataManager::downloadData(const QString& iIdentifier, const QString& iUrl) throw(QException)
+QDir DataManager::downloadData(const QString& iIdentifier, const QUrl& iUrl) throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    // Existing checkout?
-    QDir tCheckoutDirectory(QString(CHECKOUT_PATH) + "/" + iIdentifier);
-    if (tCheckoutDirectory.exists())
+    QDir tCache(CHECKOUT_CACHE);
+    if (tCache.exists())
     {
-        mLogger->debug() << "Updating media at " << tCheckoutDirectory.absolutePath();
-        svn::UpdateParameter tUpdateParameters;
-        tUpdateParameters
-                .targets(tCheckoutDirectory.absolutePath())
-                .revision(svn::Revision::HEAD)
-                .depth(svn::DepthInfinity);
+        // Load the cache entries
+        tCache.setFilter(QDir::Dirs);
+        QStringList tCacheEntries = tCache.entryList();
 
-        try
+        // Delete old cache entries?
+        bool tCacheHit = false;
+        foreach (const QString& tCacheEntry, tCacheEntries)
         {
-            mSubversionClient->update(tUpdateParameters);
+            if (tCacheEntry == "." || tCacheEntry == "..")
+                continue;
+
+            if (tCacheEntry != iIdentifier)
+                mLogger->warn() << "detected unknown cache entry '" << tCacheEntry << "'";
+            else
+                tCacheHit = true;
         }
-        catch (svn::ClientException iException)
+
+        // Manage the data
+        QDir tCachedMedia(tCache.absolutePath() + "/" + iIdentifier);
+        if (tCacheHit)
         {
-            throw QException("could not update the repository", QException::fromSVNException(iException));
+            mLogger->debug() << "cache hit, updating media";
+            _updateRepository(tCachedMedia);
         }
+        else
+        {
+            mLogger->debug() << "cache miss, checking-out media";
+            _checkoutRepository(tCachedMedia, iUrl);
+        }
+        return tCachedMedia;
     }
-
-    // New checkout?
     else
     {
-        mLogger->debug() << "Download media into " << tCheckoutDirectory.absolutePath();
-        svn::CheckoutParameter tCheckoutParameters;
-        tCheckoutParameters
-                .moduleName(iUrl)
-                .destination(tCheckoutDirectory.absolutePath())
-                .revision(svn::Revision::HEAD)
-                .peg(svn::Revision::HEAD)
-                .depth(svn::DepthInfinity);
+        mLogger->warn() << "cache does not exist, performing full checkout";
 
-        try
+        // Manage the data
+        QDir tMedia(CHECKOUT_MEMORY + QString("/") + iIdentifier);
+        if (tMedia.exists())
         {
-            mSubversionClient->checkout(tCheckoutParameters);
+            mLogger->debug() << "memory hit, updating media";
+            _updateRepository(tMedia);
         }
-        catch (svn::ClientException iException)
+        else
         {
-            throw QException("could not checkout the repository", QException::fromSVNException(iException));
+            mLogger->debug() << "memory miss, checking-out media";
+            _checkoutRepository(tMedia, iUrl);
         }
+        return tMedia;
+    }
+}
+
+
+//
+// Auxiliary
+//
+
+void DataManager::_checkoutRepository(const QDir& iDestination, const QUrl& iUrl) throw(QException)
+{
+    svn::CheckoutParameter tCheckoutParameters;
+    tCheckoutParameters
+            .moduleName(iUrl.toString())
+            .destination(iDestination.absolutePath())
+            .revision(svn::Revision::HEAD)
+            .peg(svn::Revision::HEAD)
+            .depth(svn::DepthInfinity);
+
+    try
+    {
+        mSubversionClient->checkout(tCheckoutParameters);
+    }
+    catch (svn::ClientException iException)
+    {
+        throw QException("could not checkout the repository", QException::fromSVNException(iException));
     }
 
-    // TODO: if we get here, the media has been downloaded and loaded properly
-    // cache it!
-    // Also: don't use conflicting cache/checkout directories, for obvious reasons
+}
 
-    return tCheckoutDirectory;
+void DataManager::_updateRepository(const QDir& iDestination) throw(QException)
+{
+    svn::UpdateParameter tUpdateParameters;
+    tUpdateParameters
+            .targets(iDestination.absolutePath())
+            .revision(svn::Revision::HEAD)
+            .depth(svn::DepthInfinity);
+
+    try
+    {
+        mSubversionClient->update(tUpdateParameters);
+    }
+    catch (svn::ClientException iException)
+    {
+        throw QException("could not update the repository", QException::fromSVNException(iException));
+    }
 }

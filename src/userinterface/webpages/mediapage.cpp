@@ -20,4 +20,3 @@ MediaPage::MediaPage(QObject *parent) : WebPage(QUrl("qrc:/webpages/mediapage.ht
 MediaPage::~MediaPage()
 {
 }
-

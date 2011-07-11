@@ -174,10 +174,14 @@ void Controller::_loadMedia(const QString& iMediaIdentifier, const QString& iMed
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    QDir tCheckoutPath;
+    // Disable the user interface
+    userInterface()->hideMedia();
+
+    // Checkout the media
+    QDir tMedia;
     try
     {
-        tCheckoutPath = dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
+        tMedia = dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
     }
     catch (const QException& iException)
     {
@@ -185,9 +189,10 @@ void Controller::_loadMedia(const QString& iMediaIdentifier, const QString& iMed
         return;
     }
 
+    // Show the media
     try
     {
-        userInterface()->showMedia(tCheckoutPath);
+        userInterface()->showMedia(tMedia);
     }
     catch (const QException& iException)
     {

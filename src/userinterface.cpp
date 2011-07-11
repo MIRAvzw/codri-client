@@ -50,11 +50,12 @@ UserInterface::UserInterface(QWidget *parent) throw(QException) : QMainWindow(pa
 
 void UserInterface::showMedia(const QDir &iMedia) throw(QException)
 {
-    QFile tFile(iMedia.absolutePath() + "/index.html");
-    if (!tFile.exists())
-        throw new QException("invalid media format");
-
     mPageMedia->load("file://" + iMedia.absolutePath() + "/index.html");
+}
+
+void UserInterface::hideMedia() throw(QException)
+{
+    mPageMedia->loadFallback();
 }
 
 
@@ -65,7 +66,7 @@ void UserInterface::showMedia(const QDir &iMedia) throw(QException)
 bool UserInterface::eventFilter(QObject* iObject, QEvent* iEvent)
 {
     if (iEvent->type() == QEvent::KeyPress) {
-        QKeyEvent *iKeyEvent = static_cast<QKeyEvent *>(iEvent);
+        QKeyEvent *iKeyEvent = static_cast<QKeyEvent*>(iEvent);
         switch (iKeyEvent->key())
         {
         // Default passthrough keys

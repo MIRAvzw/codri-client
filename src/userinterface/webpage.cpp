@@ -20,7 +20,8 @@ WebPage::WebPage(const QUrl& iURL, QObject *parent) : QWebPage(parent)
 {
     // Setup the webpage
     mainFrame()->addToJavaScriptWindowObject("application", this);
-    load(iURL);
+    mFallback = iURL;
+    loadFallback();
 
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("WebPage");
@@ -39,6 +40,11 @@ WebPage::~WebPage()
 void WebPage::load(const QUrl &iUrl)
 {
     mainFrame()->load(iUrl);
+}
+
+void WebPage::loadFallback()
+{
+    load(mFallback);
 }
 
 //
