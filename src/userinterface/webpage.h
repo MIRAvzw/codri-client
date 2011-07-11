@@ -26,16 +26,6 @@ namespace MIRA
     protected:
         void javaScriptConsoleMessage(const QString& iMessage, int iLineNumber, const QString& iSourceId);
 
-        // Messaging methods
-    public:
-        void showNotice(const QString& iMessage) const;
-        void showAlert(const QString& iMessage) const;
-
-        // Messaging signals
-    signals:
-        void notice(const QString& iMessage) const;
-        void alert(const QString& iMessage) const;
-
     protected:
         Log4Qt::Logger *mLogger;
     };

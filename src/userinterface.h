@@ -10,6 +10,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
 #include <QtGui/QMainWindow>
+#include <QtGui/QKeyEvent>
 #include <QtWebKit/QWebView>
 #include <Log4Qt/Logger>
 
@@ -26,16 +27,17 @@ namespace MIRA
         // Construction and destruction
         UserInterface(QWidget *parent = 0) throw(QException);
 
-        // Messaging methods
-        void showNotice(const QString& iMessage) const;
-        void showAlert(const QString& iMessage) const;
+        // UI events
+        bool eventFilter(QObject* iObject, QEvent* iEvent);
 
     private:
         // Member objects
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         QWebView *mWebView;
-        WebPage* mWebPage;
+
+        // Webpages
+        WebPage *mPageMedia, *mPageLog, *mPageStatus;
     };
 }
 
