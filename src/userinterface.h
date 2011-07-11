@@ -30,6 +30,10 @@ namespace MIRA
         // UI events
         bool eventFilter(QObject* iObject, QEvent* iEvent);
 
+        // Signals
+    signals:
+        void quit();
+
     private:
         // Member objects
         QSettings *mSettings;

@@ -57,6 +57,7 @@ namespace MIRA
 
         // Subsystem events
     private slots:
+        void _quit();
         void _shutdown();
         void _reboot();
         void _changeVolume(unsigned int iVolume);

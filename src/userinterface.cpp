@@ -73,6 +73,16 @@ bool UserInterface::eventFilter(QObject* iObject, QEvent* iEvent)
             mWebView->setPage( mWebView->page() != mPageLog ? mPageLog : mPageMedia );
             return false;
             break;
+
+        // Quit the application
+        case Qt::Key_Q:
+            emit quit();
+            break;
+
+        // Default case
+        default:
+            return QObject::eventFilter(iObject, iEvent);
+            break;
         }
 
         return false;

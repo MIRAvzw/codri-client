@@ -50,6 +50,7 @@ Controller::Controller(QObject* iParent) throw(QException) : QObject(iParent)
 
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
+        connect(mUserInterface, SIGNAL(quit()), this, SLOT(_quit()));
         mUserInterface->show();
 
         mLogger->debug() << "Initializing data manager";
@@ -138,6 +139,12 @@ DataManager* Controller::dataManager() const
 //
 // Subsystem events
 //
+
+void Controller::_quit()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+    stop();
+}
 
 void Controller::_shutdown()
 {
