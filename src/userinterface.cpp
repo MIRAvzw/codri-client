@@ -74,19 +74,19 @@ bool UserInterface::eventFilter(QObject* iObject, QEvent* iEvent)
         case Qt::Key_Right:
         case Qt::Key_Return:
         case Qt::Key_Backspace:
-            return true;
+            return false;
             break;
 
         // Status page
         case Qt::Key_1:
             mWebView->setPage( mWebView->page() != mPageStatus ? mPageStatus : mPageMedia );
-            return false;
+            return true;
             break;
 
         // Log page
         case Qt::Key_2:
             mWebView->setPage( mWebView->page() != mPageLog ? mPageLog : mPageMedia );
-            return false;
+            return true;
             break;
 
         // Quit the application
