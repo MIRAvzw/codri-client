@@ -59,6 +59,7 @@ namespace MIRA
 
         // Auxiliary
         QUuid getHardwareUuid() const;
+        QString getUPNPUuid() const;
 
     };
 }
