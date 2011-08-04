@@ -41,20 +41,7 @@ SOURCES += controller.cpp \
     userinterface/webpages/logpage.cpp \
     userinterface/webpages/mediapage.cpp \
     userinterface/webpages/statuspage.cpp \
-    userinterface.cpp \
-    main.cpp \
-    mainapplication.cpp \
-    userinterface.cpp \
-    userinterface/webpage.cpp \
-    networkinterface.cpp \
-    networkinterface/devices/kioskdevice.cpp \
-    networkinterface/services/deviceservice.cpp \
-    networkinterface/services/applicationservice.cpp \
-    userinterface/webpages/statuspage.cpp \
-    userinterface/webpages/logpage.cpp \
-    datamanager.cpp \
-    controller.cpp \
-    userinterface/webpages/mediapage.cpp
+    userinterface.cpp
 HEADERS += controller.h \
     datamanager.h \
     logfacility.h \
@@ -69,20 +56,7 @@ HEADERS += controller.h \
     userinterface/webpages/logpage.h \
     userinterface/webpages/mediapage.h \
     userinterface/webpages/statuspage.h \
-    userinterface.h \
-    mainapplication.h \
-    qexception.h \
-    userinterface.h \
-    userinterface/webpage.h \
-    networkinterface.h \
-    networkinterface/devices/kioskdevice.h \
-    networkinterface/services/deviceservice.h \
-    networkinterface/services/applicationservice.h \
-    userinterface/webpages/statuspage.h \
-    userinterface/webpages/logpage.h \
-    datamanager.h \
-    controller.h \
-    userinterface/webpages/mediapage.h
+    userinterface.h
 OTHER_FILES += networkinterface/descriptions/device_scpd.xml \
     networkinterface/descriptions/application_scpd.xml \
     userinterface/webpages/logpage.html \
