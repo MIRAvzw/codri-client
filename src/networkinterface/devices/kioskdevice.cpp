@@ -25,7 +25,7 @@ KioskDevice::KioskDevice(QObject* iParent) : Brisa::BrisaDevice(DEVICE_TYPE,
                                                                 DEVICE_MODEL_NUMBER,
                                                                 DEVICE_MODEL_URL,
                                                                 DEVICE_SERIAL_NUMBER,
-                                                                getHardwareUuid(),
+                                                                getUPNPUuid(),
                                                                 "",
                                                                 "",
                                                                 iParent)
@@ -103,4 +103,9 @@ QUuid KioskDevice::getHardwareUuid() const
     oUuid.data4[0] = (oUuid.data4[0] & 0x3F) | 0x80; // UV_MAC
     oUuid.data3 = (oUuid.data3 & 0x0FFF) | 0x1000; // UV_Time (but without the actual timestamp, to persist reboots)
     return oUuid;
+}
+
+QString KioskDevice::getUPNPUuid() const
+{
+    return "uuid:" + getHardwareUuid().toString().mid(1, 36);
 }
