@@ -100,7 +100,7 @@ QUuid KioskDevice::getHardwareUuid() const
     oUuid.data1 |= (unsigned char) ifr.ifr_hwaddr.sa_data[3];
     oUuid.data2 |= (unsigned char) ifr.ifr_hwaddr.sa_data[4] << 8;
     oUuid.data2 |= (unsigned char) ifr.ifr_hwaddr.sa_data[5];
-    oUuid.data4[0] = (oUuid.data4[0] & 0x3F) | 0x80; // UV_DCE
+    oUuid.data4[0] = (oUuid.data4[0] & 0x3F) | 0x80; // UV_MAC
     oUuid.data3 = (oUuid.data3 & 0x0FFF) | 0x1000; // UV_Time (but without the actual timestamp, to persist reboots)
     return oUuid;
 }
