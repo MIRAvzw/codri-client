@@ -29,8 +29,6 @@ RESOURCES += userinterface/webpage.qrc \
     networkinterface/descriptions.qrc
 SOURCES += controller.cpp \
     datamanager.cpp \
-    logfacility.cpp \
-    logstream.cpp \
     main.cpp \
     mainapplication.cpp \
     networkinterface/devices/kioskdevice.cpp \
@@ -44,8 +42,6 @@ SOURCES += controller.cpp \
     userinterface.cpp
 HEADERS += controller.h \
     datamanager.h \
-    logfacility.h \
-    logstream.h \
     mainapplication.h \
     networkinterface/devices/kioskdevice.h \
     networkinterface/services/applicationservice.h \
