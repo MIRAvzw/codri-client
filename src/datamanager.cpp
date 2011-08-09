@@ -125,7 +125,7 @@ void DataManager::_checkoutRepository(const QDir& iDestination, const QUrl& iUrl
     {
         mSubversionClient->checkout(tCheckoutParameters);
     }
-    catch (svn::ClientException iException)
+    catch (const svn::ClientException& iException)
     {
         throw QException("could not checkout the repository", QException::fromSVNException(iException));
     }
@@ -144,7 +144,7 @@ void DataManager::_updateRepository(const QDir& iDestination) throw(QException)
     {
         mSubversionClient->update(tUpdateParameters);
     }
-    catch (svn::ClientException iException)
+    catch (const svn::ClientException& iException)
     {
         throw QException("could not update the repository", QException::fromSVNException(iException));
     }

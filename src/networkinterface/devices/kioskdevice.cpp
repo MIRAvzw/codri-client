@@ -83,7 +83,7 @@ QUuid KioskDevice::getHardwareUuid() const
 {
     // Create an interface request struct
     struct ifreq ifr;
-    bzero(&ifr, sizeof(ifr));
+    memset(&ifr, '\0', sizeof(ifr));
     ifr.ifr_addr.sa_family = AF_INET;
     strncpy(ifr.ifr_name, "eth0", IFNAMSIZ-1);
 
