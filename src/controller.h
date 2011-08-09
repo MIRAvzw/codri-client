@@ -36,7 +36,7 @@ namespace MIRA
         Q_OBJECT
     public:
         // Construction and destruction
-        explicit Controller(QObject* iParent = 0) throw(QException);
+        Controller(QObject* iParent = 0) throw(QException);
         ~Controller();
 
         // Basic I/O

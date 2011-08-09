@@ -73,7 +73,7 @@ QDir DataManager::downloadData(const QString& iIdentifier, const QUrl& iUrl) thr
         }
 
         // Manage the data
-        QDir tCachedMedia(tCache.absolutePath() + "/" + iIdentifier);
+        QDir tCachedMedia(tCache.absolutePath() + '/' + iIdentifier);
         if (tCacheHit)
         {
             mLogger->debug() << "cache hit, updating media";

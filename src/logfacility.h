@@ -17,9 +17,10 @@ namespace MIRA
 {
     class LogFacility : public QObject
     {
+    Q_OBJECT
     public:
         // Construction and destruction
-        LogFacility(QString iSubsystem, QObject* parent = 0);
+        explicit LogFacility(QString iSubsystem, QObject* parent = 0);
         ~LogFacility();
 
         // Specialised loggers

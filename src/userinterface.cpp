@@ -34,7 +34,7 @@ UserInterface::UserInterface(QWidget *parent) throw(QException) : QMainWindow(pa
     mWebView = new QWebView(this);
     mWebView->installEventFilter(this);
     setCentralWidget(mWebView);
-    showFullScreen();
+    setWindowState(windowState() | Qt::WindowFullScreen);
 
     // Load the pages (child of the mainwindow, because QWebView::setPage deletes its previous childs)
     mPageMedia = new MediaPage(this);
