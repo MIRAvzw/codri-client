@@ -13,7 +13,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-ApplicationService::ApplicationService(QObject* iParent) : Brisa::BrisaService(
+ApplicationService::ApplicationService(QObject *iParent) : Brisa::BrisaService(
         APPLICATION_SERVICE_TYPE,
         APPLICATION_SERVICE_ID,
         APPLICATION_SERVICE_SCPD_URL,
@@ -35,7 +35,7 @@ ApplicationService::ApplicationService(QObject* iParent) : Brisa::BrisaService(
 // Service methods
 //
 
-BrisaOutArgument* ApplicationService::loadinterface(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument *ApplicationService::loadinterface(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -44,11 +44,11 @@ BrisaOutArgument* ApplicationService::loadinterface(BrisaInArgument* const iArgu
     iAction->getStateVariable("InterfaceLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceLocationValue"));
     emit loadInterface(iArguments->value("iInterfaceIdentifierValue"), iArguments->value("iInterfaceRoleValue"), iArguments->value("iInterfaceLocationValue"));
 
-    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
     return oArguments;
 }
 
-BrisaOutArgument* ApplicationService::loadmedia(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument *ApplicationService::loadmedia(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -56,6 +56,6 @@ BrisaOutArgument* ApplicationService::loadmedia(BrisaInArgument* const iArgument
     iAction->getStateVariable("MediaLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iMediaLocationValue"));
     emit loadMedia(iArguments->value("iMediaIdentifierValue"), iArguments->value("iMediaLocationValue"));
 
-    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
     return oArguments;
 }

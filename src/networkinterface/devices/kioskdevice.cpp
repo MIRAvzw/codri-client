@@ -16,20 +16,21 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-KioskDevice::KioskDevice(QObject* iParent) : Brisa::BrisaDevice(DEVICE_TYPE,
-                                                                DEVICE_FRIENDLY_NAME,
-                                                                DEVICE_MANUFACTURER,
-                                                                DEVICE_MANUFACTURER_URL,
-                                                                DEVICE_MODEL_DESCRIPTION,
-                                                                DEVICE_MODEL_NAME,
-                                                                DEVICE_MODEL_NUMBER,
-                                                                DEVICE_MODEL_URL,
-                                                                DEVICE_SERIAL_NUMBER,
-                                                                getUPNPUuid(),
-                                                                "",
-                                                                "",
-                                                                iParent)
-{
+KioskDevice::KioskDevice(QObject *iParent) : Brisa::BrisaDevice(
+        DEVICE_TYPE,
+        DEVICE_FRIENDLY_NAME,
+        DEVICE_MANUFACTURER,
+        DEVICE_MANUFACTURER_URL,
+        DEVICE_MODEL_DESCRIPTION,
+        DEVICE_MODEL_NAME,
+        DEVICE_MODEL_NUMBER,
+        DEVICE_MODEL_URL,
+        DEVICE_SERIAL_NUMBER,
+        getUPNPUuid(),
+        "",
+        "",
+        iParent)
+    {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("KioskDevice");
     mLogger->trace() << Q_FUNC_INFO;
@@ -50,7 +51,6 @@ KioskDevice::KioskDevice(QObject* iParent) : Brisa::BrisaDevice(DEVICE_TYPE,
 
 KioskDevice::~KioskDevice()
 {
-
 }
 
 
@@ -58,12 +58,12 @@ KioskDevice::~KioskDevice()
 // Getters and setters
 //
 
-DeviceService* KioskDevice::deviceService()
+DeviceService *KioskDevice::deviceService()
 {
     return mDeviceService;
 }
 
-ApplicationService* KioskDevice::applicationService()
+ApplicationService *KioskDevice::applicationService()
 {
     return mApplicationKiosk;
 }
@@ -100,8 +100,8 @@ QUuid KioskDevice::getHardwareUuid() const
     oUuid.data1 |= (unsigned char) ifr.ifr_hwaddr.sa_data[3];
     oUuid.data2 |= (unsigned char) ifr.ifr_hwaddr.sa_data[4] << 8;
     oUuid.data2 |= (unsigned char) ifr.ifr_hwaddr.sa_data[5];
-    oUuid.data4[0] = (oUuid.data4[0] & 0x3F) | 0x80; // UV_MAC
-    oUuid.data3 = (oUuid.data3 & 0x0FFF) | 0x1000; // UV_Time (but without the actual timestamp, to persist reboots)
+    oUuid.data4[0] = (oUuid.data4[0] & 0x3F) | 0x80;    // UV_MAC
+    oUuid.data3 = (oUuid.data3 & 0x0FFF) | 0x1000;      // UV_Time (but without the actual timestamp, to persist reboots)
     return oUuid;
 }
 

@@ -22,7 +22,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        NetworkInterface(QObject *parent = 0) throw(QException);
+        NetworkInterface(QObject *iParent = 0) throw(QException);
         ~NetworkInterface();
 
         // Getters and setters
@@ -33,14 +33,14 @@ namespace MIRA
         void shutdown();
         void reboot();
         void changeVolume(unsigned int iVolume);
-        void loadInterface(const QString& iInterfaceIdentifier, const QString& iIndetraceRole, const QString& iInterfaceLocation);
-        void loadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation);
+        void loadInterface(const QString &iInterfaceIdentifier, const QString &iIndetraceRole, const QString &iInterfaceLocation);
+        void loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation);
 
     private:
         // Data members
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
-        KioskDevice* mDevice;
+        KioskDevice *mDevice;
     };
 }
 

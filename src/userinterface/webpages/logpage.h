@@ -22,7 +22,7 @@ namespace MIRA
     Q_PROPERTY(QString id READ id CONSTANT)
     public:
         // Construction and destruction
-        LogPage(QObject* parent = 0);
+        LogPage(QObject *iParent = 0);
         ~LogPage();
 
         // Basic I/O
@@ -30,11 +30,11 @@ namespace MIRA
         QString id() const;
 
     signals:
-        void newMessage(const QString& iMessage);
+        void newMessage(const QString &iMessage);
 
     private:
-        Log4Qt::Layout* mLogLayout;
-        Log4Qt::SignalAppender* mLogAppender;
+        Log4Qt::Layout *mLogLayout;
+        Log4Qt::SignalAppender *mLogAppender;
     };
 }
 

@@ -26,11 +26,11 @@ using namespace MIRA;
 //
 
 // Initialize static members
-MainApplication* MainApplication::mInstance = NULL;
+MainApplication *MainApplication::mInstance = NULL;
 int MainApplication::sigintFd[2];
 int MainApplication::sigtermFd[2];
 
-MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QApplication(argc, argv)
+MainApplication::MainApplication(int iArgumentCount, char **iArgumentValues) throw(QException) : QApplication(iArgumentCount, iArgumentValues)
 {
     // Singleton assertion (well, some singleton-hybrid, to be fair)
     Q_ASSERT(mInstance == NULL);
@@ -60,11 +60,11 @@ MainApplication::MainApplication(int& argc, char** argv) throw(QException) : QAp
     if (mLogger->appenders().size() == 0)
     {
         // Create a layout
-        Log4Qt::TTCCLayout* tLayout = new Log4Qt::TTCCLayout();
+        Log4Qt::TTCCLayout *tLayout = new Log4Qt::TTCCLayout();
         tLayout->activateOptions();
 
         // Create an appender
-        Log4Qt::ConsoleAppender* tAppender = new Log4Qt::ConsoleAppender(tLayout, Log4Qt::ConsoleAppender::STDOUT_TARGET);
+        Log4Qt::ConsoleAppender *tAppender = new Log4Qt::ConsoleAppender(tLayout, Log4Qt::ConsoleAppender::STDOUT_TARGET);
         tAppender->activateOptions();
 
         // Set appender on root logger
@@ -91,7 +91,7 @@ MainApplication::~MainApplication()
 // Subsystem object getters
 //
 
-Controller* MainApplication::controller() const
+Controller *MainApplication::controller() const
 {
     return mController;
 }
@@ -165,9 +165,9 @@ void MainApplication::handleInterrupt()
 // External
 //
 
-void MIRA::doMessage(QtMsgType iMessageType, const char* iMessage)
+void MIRA::doMessage(QtMsgType iMessageType, const char *iMessage)
 {
-    MainApplication* mApplication = MainApplication::instance();
+    MainApplication *mApplication = MainApplication::instance();
     switch (iMessageType) {
         case QtDebugMsg:
             mApplication->mLogger->debug() << iMessage;

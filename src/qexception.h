@@ -13,7 +13,7 @@
 class QException
 {
 public:
-    QException(const QString& iMessage, const QException& iCause = QException()) throw() : mMessage(iMessage), mNull(false), mCause(iCause)
+    QException(const QString &iMessage, const QException &iCause = QException()) throw() : mMessage(iMessage), mNull(false), mCause(iCause)
     {
 
     }
@@ -22,16 +22,16 @@ public:
 
     }
 
-    static QException fromSVNException(const svn::Exception& iException)
+    static QException fromSVNException(const svn::Exception &iException)
     {
         return QException("SVN exception -- " + iException.msg());
     }
 
-    const QString& what() const
+    const QString &what() const
     {
         return mMessage;
     }
-    const QException& who() const
+    const QException &who() const
     {
         return mCause;
     }
@@ -52,7 +52,7 @@ public:
 private:
     QString mMessage;
     bool mNull;
-    const QException& mCause;
+    const QException &mCause;
 };
 
 #endif // EXCEPTION_H

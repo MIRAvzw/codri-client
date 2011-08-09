@@ -16,7 +16,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-WebPage::WebPage(const QUrl& iURL, QObject *parent) : QWebPage(parent)
+WebPage::WebPage(const QUrl &iURL, QObject *iParent) : QWebPage(iParent)
 {
     // Setup the webpage
     mainFrame()->addToJavaScriptWindowObject("application", this);
@@ -51,7 +51,7 @@ void WebPage::loadFallback()
 // QWebPage interface
 //
 
-void WebPage::javaScriptConsoleMessage(const QString& iMessage, int iLineNumber, const QString& iSourceId)
+void WebPage::javaScriptConsoleMessage(const QString &iMessage, int iLineNumber, const QString &iSourceId)
 {
     mLogger->debug() << "Javascript console message at line " << iLineNumber << " of " << iSourceId << ": " << iMessage;
 }

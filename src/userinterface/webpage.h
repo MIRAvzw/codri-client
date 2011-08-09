@@ -19,16 +19,16 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        explicit WebPage(const QUrl& iURL, QObject* parent = 0);
+        explicit WebPage(const QUrl &iURL, QObject *iParent = 0);
         virtual ~WebPage();
 
         // Functionality
         void loadFallback();
-        void load(const QUrl& iUrl);
+        void load(const QUrl &iUrl);
 
         // QWebPage interface
     protected:
-        void javaScriptConsoleMessage(const QString& iMessage, int iLineNumber, const QString& iSourceId);
+        void javaScriptConsoleMessage(const QString &iMessage, int iLineNumber, const QString &iSourceId);
 
     protected:
         Log4Qt::Logger *mLogger;

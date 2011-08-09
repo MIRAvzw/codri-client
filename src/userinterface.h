@@ -26,13 +26,13 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        UserInterface(QWidget *parent = 0) throw(QException);
+        UserInterface(QWidget *iParent = 0) throw(QException);
 
         // UI events
-        bool eventFilter(QObject* iObject, QEvent* iEvent);
+        bool eventFilter(QObject *iObject, QEvent *iEvent);
 
         // Functionality
-        void showMedia(const QDir& iMedia) throw(QException);
+        void showMedia(const QDir &iMedia) throw(QException);
         void hideMedia() throw(QException);
 
         // Signals

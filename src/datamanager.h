@@ -27,10 +27,10 @@ namespace MIRA
     Q_OBJECT
     public:
         // ConstructQStringion and destruction
-        DataManager(QObject *parent = 0);
+        DataManager(QObject *iParent = 0);
 
         // Functionality
-        QDir downloadData(const QString& iIdentifier, const QUrl& iUrl) throw(QException);
+        QDir downloadData(const QString &iIdentifier, const QUrl &iUrl) throw(QException);
 
         // Signals
 
@@ -46,28 +46,27 @@ namespace MIRA
         virtual bool isCanceld(){return false;}
 
         // Context listening
-        virtual void contextProgress(long long int , long long int ){}
-        virtual bool contextSslClientCertPwPrompt (QString &,const QString &, bool &){return false;}
-        virtual bool contextLoadSslClientCertPw(QString&,const QString&){return false;}
-        virtual bool contextSslClientCertPrompt (QString &){return false;}
-        virtual svn::ContextListener::SslServerTrustAnswer
-                contextSslServerTrustPrompt (const SslServerTrustData &,
-                                             apr_uint32_t & ){return svn::ContextListener::SslServerTrustAnswer();}
-        virtual bool contextGetLogMessage (QString &,const svn::CommitItemList&){return false;}
-        virtual bool contextCancel(){return false;}
-        virtual void contextNotify (const svn_wc_notify_t *){}
-        virtual void contextNotify (const char *,svn_wc_notify_action_t,
+        virtual void contextProgress(long long int, long long int) {}
+        virtual bool contextSslClientCertPwPrompt (QString &, const QString &, bool &) { return false; }
+        virtual bool contextLoadSslClientCertPw(QString &, const QString &) { return false; }
+        virtual bool contextSslClientCertPrompt (QString &) { return false; }
+        virtual svn::ContextListener::SslServerTrustAnswer contextSslServerTrustPrompt(const SslServerTrustData &, apr_uint32_t &)
+        { return svn::ContextListener::SslServerTrustAnswer(); }
+        virtual bool contextGetLogMessage (QString &, const svn::CommitItemList &) { return false; }
+        virtual bool contextCancel() { return false; }
+        virtual void contextNotify(const svn_wc_notify_t *) { }
+        virtual void contextNotify(const char *,svn_wc_notify_action_t,
                                     svn_node_kind_t,
                                     const char *,
                                     svn_wc_notify_state_t,
                                     svn_wc_notify_state_t,
-                                    svn_revnum_t){}
-        virtual bool contextGetSavedLogin (const QString & ,QString & ,QString & ){return false;}
-        virtual bool contextGetCachedLogin (const QString & ,QString & ,QString & ){return false;}
-        virtual bool contextGetLogin (const QString & ,
-                                      QString & ,
-                                      QString & ,
-                                      bool & maySave){maySave=false;return false;}
+                                    svn_revnum_t) { }
+        virtual bool contextGetSavedLogin(const QString &, QString &, QString &) { return false; }
+        virtual bool contextGetCachedLogin(const QString &, QString &, QString &) { return false; }
+        virtual bool contextGetLogin(const QString &,
+                                     QString &,
+                                     QString &,
+                                     bool & maySave) { maySave = false; return false; }
 
     private:
         // Member objects
@@ -76,8 +75,8 @@ namespace MIRA
         svn::Client *mSubversionClient;
 
         // Auxiliary
-        void _checkoutRepository(const QDir& iDestination, const QUrl& iUrl) throw(QException);
-        void _updateRepository(const QDir& iDestination) throw(QException);
+        void checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException);
+        void updateRepository(const QDir &iDestination) throw(QException);
     };
 }
 

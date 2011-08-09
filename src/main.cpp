@@ -16,37 +16,37 @@ using namespace MIRA;
 static int initSignalHandlers()
 {
     // Set-up and register the SIGINT handler
-    struct sigaction sigint;
-    sigint.sa_handler = MainApplication::handleInterruptUnix;
-    sigemptyset(&sigint.sa_mask);
-    sigint.sa_flags = 0;
-    sigint.sa_flags |= SA_RESTART;
-    if (sigaction(SIGINT, &sigint, 0) > 0)
+    struct sigaction tSignalInterrupt;
+    tSignalInterrupt.sa_handler = MainApplication::handleInterruptUnix;
+    sigemptyset(&tSignalInterrupt.sa_mask);
+    tSignalInterrupt.sa_flags = 0;
+    tSignalInterrupt.sa_flags |= SA_RESTART;
+    if (sigaction(SIGINT, &tSignalInterrupt, 0) > 0)
         return 1;
 
     // Set-up and register the SIGTERM handler
-    struct sigaction sigterm;
-    sigterm.sa_handler = MainApplication::handleTerminateUnix;
-    sigemptyset(&sigterm.sa_mask);
-    sigterm.sa_flags |= SA_RESTART;
-    if (sigaction(SIGTERM, &sigterm, 0) > 0)
+    struct sigaction tSignalTerminate;
+    tSignalTerminate.sa_handler = MainApplication::handleTerminateUnix;
+    sigemptyset(&tSignalTerminate.sa_mask);
+    tSignalTerminate.sa_flags |= SA_RESTART;
+    if (sigaction(SIGTERM, &tSignalTerminate, 0) > 0)
         return 2;
 
     return 0;
 }
 
-int main(int argc, char *argv[])
+int main(int iArgumentCount, char *iArgumentValues[])
 {
     // Handle Unix signals
     initSignalHandlers();
 
     // Initialize the application
-    MainApplication* tApplication;
+    MainApplication *tApplication;
     try
     {
-        tApplication = new MainApplication(argc, argv);
+        tApplication = new MainApplication(iArgumentCount, iArgumentValues);
     }
-    catch (const QException& iException)
+    catch (const QException &iException)
     {
         QTextStream qerr(stderr);
 

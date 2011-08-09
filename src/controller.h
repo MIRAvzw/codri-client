@@ -36,7 +36,7 @@ namespace MIRA
         Q_OBJECT
     public:
         // Construction and destruction
-        Controller(QObject* iParent = 0) throw(QException);
+        Controller(QObject *iParent = 0) throw(QException);
         ~Controller();
 
         // Basic I/O
@@ -51,9 +51,9 @@ namespace MIRA
 
         // Subsystem object getters
     public:
-        NetworkInterface* networkInterface() const;
-        UserInterface* userInterface() const;
-        DataManager* dataManager() const;
+        NetworkInterface *networkInterface() const;
+        UserInterface *userInterface() const;
+        DataManager *dataManager() const;
 
         // Subsystem events
     private slots:
@@ -61,19 +61,19 @@ namespace MIRA
         void _shutdown();
         void _reboot();
         void _changeVolume(unsigned int iVolume);
-        void _loadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaceRole, const QString& iInterfaceLocation);
-        void _loadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation);
+        void _loadInterface(const QString &iInterfaceIdentifier, const QString &iInterfaceRole, const QString &iInterfaceLocation);
+        void _loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation);
 
     private:
         // Member data
         QDateTime mTimestampStartup;
 
         // Subsystem objects
-        QSettings* mSettings;
+        QSettings *mSettings;
         Log4Qt::Logger *mLogger;
-        UserInterface* mUserInterface;
-        NetworkInterface* mNetworkInterface;
-        DataManager* mDataManager;
+        UserInterface *mUserInterface;
+        NetworkInterface *mNetworkInterface;
+        DataManager *mDataManager;
     };
 }
 

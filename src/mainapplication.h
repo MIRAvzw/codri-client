@@ -25,7 +25,7 @@ namespace MIRA
         Q_OBJECT
     public:
         // Construction and destruction
-        explicit MainApplication(int& argc, char** argv) throw(QException);
+        explicit MainApplication(int iArgumentCount, char **iArgumentValues) throw(QException);
         ~MainApplication();
 
         // System signals (Unix)
@@ -33,7 +33,7 @@ namespace MIRA
         static void handleTerminateUnix(int unused);
 
         // Subsystem object getters
-        Controller* controller() const;
+        Controller *controller() const;
 
     public slots:
         // System signals
@@ -49,7 +49,7 @@ namespace MIRA
         static MainApplication *mInstance;
 
         // Subsystem objects
-        QSettings* mSettings;
+        QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         Controller *mController;
 
@@ -60,10 +60,10 @@ namespace MIRA
         QSocketNotifier *snTerm;
 
         // External
-        friend void doMessage(QtMsgType iMessageType, const char* iMessage);
+        friend void doMessage(QtMsgType iMessageType, const char *iMessage);
     };
 
-    void doMessage(QtMsgType iMessageType, const char* iMessage);
+    void doMessage(QtMsgType iMessageType, const char *iMessage);
 }
 
 #endif // MAINAPPLICATION_H

@@ -20,7 +20,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-UserInterface::UserInterface(QWidget *parent) throw(QException) : QMainWindow(parent)
+UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -63,7 +63,7 @@ void UserInterface::hideMedia() throw(QException)
 // UI events
 //
 
-bool UserInterface::eventFilter(QObject* iObject, QEvent* iEvent)
+bool UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 {
     if (iEvent->type() == QEvent::KeyPress) {
         QKeyEvent *iKeyEvent = static_cast<QKeyEvent*>(iEvent);
@@ -79,13 +79,13 @@ bool UserInterface::eventFilter(QObject* iObject, QEvent* iEvent)
 
         // Status page
         case Qt::Key_1:
-            mWebView->setPage( mWebView->page() != mPageStatus ? mPageStatus : mPageMedia );
+            mWebView->setPage(mWebView->page() != mPageStatus ? mPageStatus : mPageMedia);
             return true;
             break;
 
         // Log page
         case Qt::Key_2:
-            mWebView->setPage( mWebView->page() != mPageLog ? mPageLog : mPageMedia );
+            mWebView->setPage(mWebView->page() != mPageLog ? mPageLog : mPageMedia);
             return true;
             break;
 

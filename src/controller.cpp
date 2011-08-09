@@ -23,7 +23,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-Controller::Controller(QObject* iParent) throw(QException) : QObject(iParent)
+Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -56,7 +56,7 @@ Controller::Controller(QObject* iParent) throw(QException) : QObject(iParent)
         mLogger->debug() << "Initializing data manager";
         mDataManager = new DataManager(this);
     }
-    catch (const QException& iException)
+    catch (const QException &iException)
     {
         mLogger->fatal() << "Failed to initialize: " << iException.what();
         throw QException(QString("could not load all subsystems"));
@@ -96,7 +96,6 @@ void Controller::start()
     //       the networkinterface's uuid yet
 
     mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
-
 }
 
 void Controller::stop()
@@ -120,17 +119,17 @@ void Controller::stop()
 // Subsystem object getters
 //
 
-NetworkInterface* Controller::networkInterface() const
+NetworkInterface *Controller::networkInterface() const
 {
     return mNetworkInterface;
 }
 
-UserInterface* Controller::userInterface() const
+UserInterface *Controller::userInterface() const
 {
     return mUserInterface;
 }
 
-DataManager* Controller::dataManager() const
+DataManager *Controller::dataManager() const
 {
     return mDataManager;
 }
@@ -149,28 +148,24 @@ void Controller::_quit()
 void Controller::_shutdown()
 {
     mLogger->trace() << Q_FUNC_INFO;
-
 }
 
 void Controller::_reboot()
 {
     mLogger->trace() << Q_FUNC_INFO;
-
 }
 
 void Controller::_changeVolume(unsigned int iVolume)
 {
     mLogger->trace() << Q_FUNC_INFO;
-
 }
 
-void Controller::_loadInterface(const QString& iInterfaceIdentifier, const QString& iInterfaceRole, const QString& iInterfaceLocation)
+void Controller::_loadInterface(const QString &iInterfaceIdentifier, const QString &iInterfaceRole, const QString &iInterfaceLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
-
 }
 
-void Controller::_loadMedia(const QString& iMediaIdentifier, const QString& iMediaLocation)
+void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -183,7 +178,7 @@ void Controller::_loadMedia(const QString& iMediaIdentifier, const QString& iMed
     {
         tMedia = dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
     }
-    catch (const QException& iException)
+    catch (const QException &iException)
     {
         mLogger->error() << "Could not download the new media" << iException.string();
         return;
@@ -194,7 +189,7 @@ void Controller::_loadMedia(const QString& iMediaIdentifier, const QString& iMed
     {
         userInterface()->showMedia(tMedia);
     }
-    catch (const QException& iException)
+    catch (const QException &iException)
     {
         mLogger->error() << "Could not show the new media" << iException.string();
         return;

@@ -25,7 +25,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-DataManager::DataManager(QObject *parent) : QObject(parent)
+DataManager::DataManager(QObject *iParent) : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -48,7 +48,7 @@ DataManager::DataManager(QObject *parent) : QObject(parent)
 // Functionality
 //
 
-QDir DataManager::downloadData(const QString& iIdentifier, const QUrl& iUrl) throw(QException)
+QDir DataManager::downloadData(const QString &iIdentifier, const QUrl &iUrl) throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -61,7 +61,7 @@ QDir DataManager::downloadData(const QString& iIdentifier, const QUrl& iUrl) thr
 
         // Delete old cache entries?
         bool tCacheHit = false;
-        foreach (const QString& tCacheEntry, tCacheEntries)
+        foreach (const QString &tCacheEntry, tCacheEntries)
         {
             if (tCacheEntry == "." || tCacheEntry == "..")
                 continue;
@@ -77,12 +77,12 @@ QDir DataManager::downloadData(const QString& iIdentifier, const QUrl& iUrl) thr
         if (tCacheHit)
         {
             mLogger->debug() << "cache hit, updating media";
-            _updateRepository(tCachedMedia);
+            updateRepository(tCachedMedia);
         }
         else
         {
             mLogger->debug() << "cache miss, checking-out media";
-            _checkoutRepository(tCachedMedia, iUrl);
+            checkoutRepository(tCachedMedia, iUrl);
         }
         return tCachedMedia;
     }
@@ -95,12 +95,12 @@ QDir DataManager::downloadData(const QString& iIdentifier, const QUrl& iUrl) thr
         if (tMedia.exists())
         {
             mLogger->debug() << "memory hit, updating media";
-            _updateRepository(tMedia);
+            updateRepository(tMedia);
         }
         else
         {
             mLogger->debug() << "memory miss, checking-out media";
-            _checkoutRepository(tMedia, iUrl);
+            checkoutRepository(tMedia, iUrl);
         }
         return tMedia;
     }
@@ -111,7 +111,7 @@ QDir DataManager::downloadData(const QString& iIdentifier, const QUrl& iUrl) thr
 // Auxiliary
 //
 
-void DataManager::_checkoutRepository(const QDir& iDestination, const QUrl& iUrl) throw(QException)
+void DataManager::checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException)
 {
     svn::CheckoutParameter tCheckoutParameters;
     tCheckoutParameters
@@ -125,14 +125,14 @@ void DataManager::_checkoutRepository(const QDir& iDestination, const QUrl& iUrl
     {
         mSubversionClient->checkout(tCheckoutParameters);
     }
-    catch (const svn::ClientException& iException)
+    catch (const svn::ClientException &iException)
     {
         throw QException("could not checkout the repository", QException::fromSVNException(iException));
     }
 
 }
 
-void DataManager::_updateRepository(const QDir& iDestination) throw(QException)
+void DataManager::updateRepository(const QDir &iDestination) throw(QException)
 {
     svn::UpdateParameter tUpdateParameters;
     tUpdateParameters
@@ -144,7 +144,7 @@ void DataManager::_updateRepository(const QDir& iDestination) throw(QException)
     {
         mSubversionClient->update(tUpdateParameters);
     }
-    catch (const svn::ClientException& iException)
+    catch (const svn::ClientException &iException)
     {
         throw QException("could not update the repository", QException::fromSVNException(iException));
     }

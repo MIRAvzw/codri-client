@@ -17,7 +17,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-StatusPage::StatusPage(QObject *parent) : WebPage(QUrl("qrc:/webpages/statuspage.html"), parent)
+StatusPage::StatusPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/statuspage.html"), iParent)
 {
     // Create log layout
     mLogLayout = new Log4Qt::SimpleLayout(this);

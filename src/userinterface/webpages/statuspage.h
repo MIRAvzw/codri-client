@@ -23,7 +23,7 @@ namespace MIRA
     Q_PROPERTY(QDateTime startup READ startup CONSTANT)
     public:
         // Construction and destruction
-        StatusPage(QObject* parent = 0);
+        StatusPage(QObject *iParent = 0);
         ~StatusPage();
 
         // Basic I/O
@@ -32,11 +32,11 @@ namespace MIRA
         QDateTime startup() const;
 
     signals:
-        void newMessage(const QString& iMessage);
+        void newMessage(const QString &iMessage);
 
     private:
-        Log4Qt::Layout* mLogLayout;
-        Log4Qt::SignalAppender* mLogAppender;
+        Log4Qt::Layout *mLogLayout;
+        Log4Qt::SignalAppender *mLogAppender;
     };
 }
 

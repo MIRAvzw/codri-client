@@ -13,7 +13,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-NetworkInterface::NetworkInterface(QObject *parent) throw(QException) : QObject(parent)
+NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);

@@ -30,7 +30,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        DeviceService(QObject* iParent = 0);
+        DeviceService(QObject *iParent = 0);
 
         // Signals
     signals:
@@ -40,10 +40,10 @@ namespace MIRA
 
         // Service action
     private slots:
-         BrisaOutArgument* shutdown(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-         BrisaOutArgument* reboot(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-         BrisaOutArgument* getvolume(BrisaInArgument* const iArguments, BrisaAction* const iAction);
-         BrisaOutArgument* setvolume(BrisaInArgument* const iArguments, BrisaAction* const iAction);
+         BrisaOutArgument *shutdown(BrisaInArgument *const iArguments, BrisaAction *const iAction);
+         BrisaOutArgument *reboot(BrisaInArgument *const iArguments, BrisaAction *const iAction);
+         BrisaOutArgument *getvolume(BrisaInArgument *const iArguments, BrisaAction *const iAction);
+         BrisaOutArgument *setvolume(BrisaInArgument *const iArguments, BrisaAction *const iAction);
 
     private:
         // Data members

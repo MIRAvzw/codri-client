@@ -13,7 +13,8 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-DeviceService::DeviceService(QObject* iParent) : Brisa::BrisaService(   DEVICE_SERVICE_TYPE,
+DeviceService::DeviceService(QObject *iParent) : Brisa::BrisaService(
+        DEVICE_SERVICE_TYPE,
         DEVICE_SERVICE_ID,
         DEVICE_SERVICE_SCPD_URL,
         DEVICE_SERVICE_CONTROL_URL,
@@ -34,7 +35,7 @@ DeviceService::DeviceService(QObject* iParent) : Brisa::BrisaService(   DEVICE_S
 // Service methods
 //
 
-BrisaOutArgument* DeviceService::shutdown(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument *DeviceService::shutdown(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iAction)
@@ -42,11 +43,11 @@ BrisaOutArgument* DeviceService::shutdown(BrisaInArgument* const iArguments, Bri
 
     emit shutdown();
 
-    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
     return oArguments;
 }
 
-BrisaOutArgument* DeviceService::reboot(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument *DeviceService::reboot(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
@@ -54,27 +55,27 @@ BrisaOutArgument* DeviceService::reboot(BrisaInArgument* const iArguments, Brisa
 
     emit reboot();
 
-    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
     return oArguments;
 }
 
-BrisaOutArgument* DeviceService::setvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument *DeviceService::setvolume(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
     iAction->getStateVariable("Volume")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iVolumeValue"));
     emit changeVolume(iArguments->value("iVolumeValue").toInt());
 
-    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
     return oArguments;
 }
 
-BrisaOutArgument* DeviceService::getvolume(BrisaInArgument* const iArguments, Brisa::BrisaAction* const iAction)
+BrisaOutArgument *DeviceService::getvolume(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
 
-    BrisaOutArgument* oArguments = new BrisaOutArgument();
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
     oArguments->insert("oVolumeValue", iAction->getStateVariable("Volume")->getAttribute(Brisa::BrisaStateVariable::Value));
     return oArguments;
 }
