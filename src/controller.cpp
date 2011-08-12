@@ -160,17 +160,12 @@ void Controller::_changeVolume(unsigned int iVolume)
     mLogger->trace() << Q_FUNC_INFO;
 }
 
-void Controller::_loadInterface(const QString &iInterfaceIdentifier, const QString &iInterfaceRole, const QString &iInterfaceLocation)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-}
-
 void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
     // Disable the user interface
-    userInterface()->hideMedia();
+    userInterface()->showInit();
 
     // Checkout the media
     QDir tMedia;
@@ -192,6 +187,7 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     catch (const QException &iException)
     {
         mLogger->error() << "Could not show the new media" << iException.string();
+        userInterface()->showError(iException.string());
         return;
     }
 }

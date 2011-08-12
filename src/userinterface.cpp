@@ -5,6 +5,8 @@
 // Local includes
 #include "userinterface.h"
 #include "mainapplication.h"
+#include "userinterface/webpages/initpage.h"
+#include "userinterface/webpages/errorpage.h"
 #include "userinterface/webpages/logpage.h"
 #include "userinterface/webpages/mediapage.h"
 #include "userinterface/webpages/statuspage.h"
@@ -37,10 +39,12 @@ UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(i
     setWindowState(windowState() | Qt::WindowFullScreen);
 
     // Load the pages (child of the mainwindow, because QWebView::setPage deletes its previous childs)
+    mPageInit = new InitPage(this);
+    mPageError = new ErrorPage(this);
     mPageMedia = new MediaPage(this);
     mPageLog = new LogPage(this);
     mPageStatus = new StatusPage(this);
-    mWebView->setPage(mPageMedia);
+    mWebView->setPage(mPageInit);
 }
 
 
@@ -48,11 +52,28 @@ UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(i
 // Functionality
 //
 
+void UserInterface::showInit()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    mWebView->setPage(mPageInit);
+}
+
+void UserInterface::showError(const QString& iError)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    mWebView->setPage(mPageError);
+    // TODO: load the error in the page
+}
+
 void UserInterface::showMedia(const QDir &iMedia) throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
     mPageMedia->load("file://" + iMedia.absolutePath() + "/index.html");
+    mWebView->setPage(mPageMedia);
+    // TODO: detect load error, throw exception if that happens
 }
 
 void UserInterface::hideMedia() throw(QException)

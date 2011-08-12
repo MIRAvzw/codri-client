@@ -34,12 +34,10 @@ namespace MIRA
 
         // Signals
     signals:
-        void loadInterface(const QString &iInterfaceIdentifier, const QString &iInterfaceRole, const QString &iInterfaceLocation);
         void loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation);
 
         // Service actions
     private slots:
-        BrisaOutArgument *loadinterface(BrisaInArgument *const iArguments, BrisaAction *const iAction);
         BrisaOutArgument *loadmedia(BrisaInArgument *const iArguments, BrisaAction *const iAction);
 
     private:

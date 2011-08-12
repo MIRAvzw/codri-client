@@ -39,7 +39,9 @@ SOURCES += controller.cpp \
     userinterface/webpages/logpage.cpp \
     userinterface/webpages/mediapage.cpp \
     userinterface/webpages/statuspage.cpp \
-    userinterface.cpp
+    userinterface.cpp \
+    userinterface/webpages/initpage.cpp \
+    userinterface/webpages/errorpage.cpp
 HEADERS += controller.h \
     datamanager.h \
     mainapplication.h \
@@ -52,9 +54,12 @@ HEADERS += controller.h \
     userinterface/webpages/logpage.h \
     userinterface/webpages/mediapage.h \
     userinterface/webpages/statuspage.h \
-    userinterface.h
+    userinterface.h \
+    userinterface/webpages/initpage.h \
+    userinterface/webpages/errorpage.h
 OTHER_FILES += networkinterface/descriptions/device_scpd.xml \
     networkinterface/descriptions/application_scpd.xml \
     userinterface/webpages/logpage.html \
     userinterface/webpages/statuspage.html \
-    userinterface/webpages/mediapage.html
+    userinterface/webpages/initpage.html \
+    userinterface/webpages/errorpage.html

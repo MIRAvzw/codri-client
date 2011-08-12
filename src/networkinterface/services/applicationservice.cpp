@@ -35,19 +35,6 @@ ApplicationService::ApplicationService(QObject *iParent) : Brisa::BrisaService(
 // Service methods
 //
 
-BrisaOutArgument *ApplicationService::loadinterface(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    iAction->getStateVariable("InterfaceIdentifier")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceIdentifierValue"));
-    iAction->getStateVariable("InterfaceRole")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceRoleValue"));
-    iAction->getStateVariable("InterfaceLocation")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iInterfaceLocationValue"));
-    emit loadInterface(iArguments->value("iInterfaceIdentifierValue"), iArguments->value("iInterfaceRoleValue"), iArguments->value("iInterfaceLocationValue"));
-
-    BrisaOutArgument *oArguments = new BrisaOutArgument();
-    return oArguments;
-}
-
 BrisaOutArgument *ApplicationService::loadmedia(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;

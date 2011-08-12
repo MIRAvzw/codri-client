@@ -61,7 +61,6 @@ namespace MIRA
         void _shutdown();
         void _reboot();
         void _changeVolume(unsigned int iVolume);
-        void _loadInterface(const QString &iInterfaceIdentifier, const QString &iInterfaceRole, const QString &iInterfaceLocation);
         void _loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation);
 
     private:

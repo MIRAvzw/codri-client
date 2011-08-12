@@ -13,7 +13,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-MediaPage::MediaPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/mediapage.html"), iParent)
+MediaPage::MediaPage(QObject *iParent) : WebPage(QUrl("about:none"), iParent)
 {
 }
 

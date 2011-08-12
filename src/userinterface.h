@@ -32,6 +32,8 @@ namespace MIRA
         bool eventFilter(QObject *iObject, QEvent *iEvent);
 
         // Functionality
+        void showInit();
+        void showError(const QString& iError);
         void showMedia(const QDir &iMedia) throw(QException);
         void hideMedia() throw(QException);
 
@@ -46,7 +48,7 @@ namespace MIRA
         QWebView *mWebView;
 
         // Webpages
-        WebPage *mPageMedia, *mPageLog, *mPageStatus;
+        WebPage *mPageInit, *mPageError, *mPageMedia, *mPageLog, *mPageStatus;
     };
 }
 
