@@ -27,7 +27,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // ConstructQStringion and destruction
-        DataManager(QObject *iParent = 0);
+        DataManager(QObject *iParent = 0) throw(QException);
 
         // Functionality
         QDir downloadData(const QString &iIdentifier, const QUrl &iUrl) throw(QException);
@@ -73,10 +73,12 @@ namespace MIRA
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         svn::Client *mSubversionClient;
+        QDir *mCache;
 
         // Auxiliary
-        void checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException);
-        void updateRepository(const QDir &iDestination) throw(QException);
+        svn::Revision checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException);
+        svn::Revision updateRepository(const QDir &iDestination) throw(QException);
+        bool removeDirectory(const QDir &iDirectory);
     };
 }
 

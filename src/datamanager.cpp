@@ -12,11 +12,7 @@
 #include <svnqt/targets.h>
 #include <svnqt/client_parameter.h>
 #include <svnqt/client_update_parameter.h>
-
-// Definitions
-#define CHECKOUT_CACHE "/tmp/cache"
-#define CHECKOUT_MEMORY "/tmp/memory"
-// TODO: configure these values
+#include <svnqt/revision.h>
 
 // Namespaces
 using namespace MIRA;
@@ -26,7 +22,7 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-DataManager::DataManager(QObject *iParent) : QObject(iParent)
+DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -42,6 +38,14 @@ DataManager::DataManager(QObject *iParent) : QObject(iParent)
     tSubversionContext = new svn::Context();
     tSubversionContext->setListener(this);
     mSubversionClient->setContext(tSubversionContext);
+
+    mCache = new QDir(mSettings->value("location", "/tmp/cache").toString());
+    if (! mCache->exists())
+        QDir().mkdir(mCache->absolutePath());
+    QFileInfo tCacheInfo(mCache->path());
+    if (!tCacheInfo.isDir() || !tCacheInfo.isWritable()) {
+        throw new QException("Data cache directory does not exist or is not writable");
+    }
 }
 
 
@@ -53,58 +57,32 @@ QDir DataManager::downloadData(const QString &iIdentifier, const QUrl &iUrl) thr
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    QDir tCache(CHECKOUT_CACHE);
-    if (tCache.exists())
+    // Load the cache entries
+    foreach (const QFileInfo &tCacheEntry, mCache->entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs))
     {
-        // Load the cache entries
-        tCache.setFilter(QDir::Dirs);
-        QStringList tCacheEntries = tCache.entryList();
-
-        // Delete old cache entries?
-        bool tCacheHit = false;
-        foreach (const QString &tCacheEntry, tCacheEntries)
+        if (tCacheEntry.fileName() != iIdentifier)
         {
-            if (tCacheEntry == "." || tCacheEntry == "..")
-                continue;
+            mLogger->debug() << "Removing old cache entry " << tCacheEntry.fileName();
+            if (!removeDirectory(tCacheEntry.absoluteFilePath()))
+            {
+                mLogger->warn() << "Could not remove old cache entry " << tCacheEntry.fileName();
+            }
+        }
+    }
 
-            if (tCacheEntry != iIdentifier)
-                mLogger->warn() << "detected unknown cache entry '" << tCacheEntry << "'";
-            else
-                tCacheHit = true;
-        }
-
-        // Manage the data
-        QDir tCachedMedia(tCache.absolutePath() + '/' + iIdentifier);
-        if (tCacheHit)
-        {
-            mLogger->debug() << "cache hit, updating media";
-            updateRepository(tCachedMedia);
-        }
-        else
-        {
-            mLogger->debug() << "cache miss, checking-out media";
-            checkoutRepository(tCachedMedia, iUrl);
-        }
-        return tCachedMedia;
+    // Manage the data
+    QDir tCachedMedia(mCache->absolutePath() + '/' + iIdentifier);
+    if (tCachedMedia.exists())
+    {
+        mLogger->debug() << "cache hit, updating media";
+        updateRepository(tCachedMedia);
     }
     else
     {
-        mLogger->warn() << "cache does not exist, performing full checkout";
-
-        // Manage the data
-        QDir tMedia(CHECKOUT_MEMORY + QString("/") + iIdentifier);
-        if (tMedia.exists())
-        {
-            mLogger->debug() << "memory hit, updating media";
-            updateRepository(tMedia);
-        }
-        else
-        {
-            mLogger->debug() << "memory miss, checking-out media";
-            checkoutRepository(tMedia, iUrl);
-        }
-        return tMedia;
+        mLogger->debug() << "cache miss, checking-out media";
+        checkoutRepository(tCachedMedia, iUrl);
     }
+    return tCachedMedia;
 }
 
 
@@ -112,7 +90,7 @@ QDir DataManager::downloadData(const QString &iIdentifier, const QUrl &iUrl) thr
 // Auxiliary
 //
 
-void DataManager::checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException)
+svn::Revision DataManager::checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException)
 {
     svn::CheckoutParameter tCheckoutParameters;
     tCheckoutParameters
@@ -124,7 +102,7 @@ void DataManager::checkoutRepository(const QDir &iDestination, const QUrl &iUrl)
 
     try
     {
-        mSubversionClient->checkout(tCheckoutParameters);
+        return mSubversionClient->checkout(tCheckoutParameters);
     }
     catch (const svn::ClientException &iException)
     {
@@ -133,7 +111,7 @@ void DataManager::checkoutRepository(const QDir &iDestination, const QUrl &iUrl)
 
 }
 
-void DataManager::updateRepository(const QDir &iDestination) throw(QException)
+svn::Revision DataManager::updateRepository(const QDir &iDestination) throw(QException)
 {
     svn::UpdateParameter tUpdateParameters;
     tUpdateParameters
@@ -143,10 +121,38 @@ void DataManager::updateRepository(const QDir &iDestination) throw(QException)
 
     try
     {
-        mSubversionClient->update(tUpdateParameters);
+        QList<svn::Revision> tRevisions = mSubversionClient->update(tUpdateParameters);
+        // TODO: verify that .back() is the latest revision
+        return tRevisions.back();
     }
     catch (const svn::ClientException &iException)
     {
         throw QException("could not update the repository", QException::fromSVNException(iException));
     }
+}
+
+bool DataManager::removeDirectory(const QDir &iDirectory)
+{
+    bool tError = false;
+    if (iDirectory.exists())
+    {
+        const QFileInfoList &tEntries = iDirectory.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+        foreach (const QFileInfo &tEntry, tEntries)
+        {
+            QString tEntryPath = tEntry.absoluteFilePath();
+            if (tEntry.isDir())
+            {
+                tError = removeDirectory(QDir(tEntryPath));
+            }
+            else
+            {
+                QFile tFile(tEntryPath);
+                if (!tFile.remove())
+                    tError = true;
+            }
+        }
+        if (!iDirectory.rmdir(iDirectory.absolutePath()))
+            tError = true;
+    }
+    return tError;
 }
