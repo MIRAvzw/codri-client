@@ -30,7 +30,7 @@ MainApplication *MainApplication::mInstance = NULL;
 int MainApplication::sigintFd[2];
 int MainApplication::sigtermFd[2];
 
-MainApplication::MainApplication(int iArgumentCount, char **iArgumentValues) throw(QException) : QApplication(iArgumentCount, iArgumentValues)
+MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException) : QApplication(iArgumentCount, iArgumentValues)
 {
     // Singleton assertion (well, some singleton-hybrid, to be fair)
     Q_ASSERT(mInstance == NULL);

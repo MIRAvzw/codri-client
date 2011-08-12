@@ -25,7 +25,7 @@ namespace MIRA
         Q_OBJECT
     public:
         // Construction and destruction
-        explicit MainApplication(int iArgumentCount, char **iArgumentValues) throw(QException);
+        explicit MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException);
         ~MainApplication();
 
         // System signals (Unix)

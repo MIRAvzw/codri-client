@@ -36,12 +36,14 @@ namespace MIRA
     signals:
         void shutdown();
         void reboot();
+        void echo(const QString& iEcho);
         void changeVolume(unsigned int iVolume);
 
         // Service action
     private slots:
          BrisaOutArgument *shutdown(BrisaInArgument *const iArguments, BrisaAction *const iAction);
          BrisaOutArgument *reboot(BrisaInArgument *const iArguments, BrisaAction *const iAction);
+         BrisaOutArgument *echo(BrisaInArgument *const iArguments, BrisaAction *const iAction);
          BrisaOutArgument *getvolume(BrisaInArgument *const iArguments, BrisaAction *const iAction);
          BrisaOutArgument *setvolume(BrisaInArgument *const iArguments, BrisaAction *const iAction);
 

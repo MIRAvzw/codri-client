@@ -59,6 +59,18 @@ BrisaOutArgument *DeviceService::reboot(BrisaInArgument *const iArguments, Brisa
     return oArguments;
 }
 
+BrisaOutArgument *DeviceService::echo(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    iAction->getStateVariable("Echo")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iEchoValue"));
+    emit echo(iArguments->value("iEchoValue"));
+
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
+    oArguments->insert("oEchoValue", iAction->getStateVariable("Echo")->getAttribute(Brisa::BrisaStateVariable::Value));
+    return oArguments;
+}
+
 BrisaOutArgument *DeviceService::setvolume(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
