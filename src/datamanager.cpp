@@ -16,6 +16,7 @@
 // Definitions
 #define CHECKOUT_CACHE "/tmp/cache"
 #define CHECKOUT_MEMORY "/tmp/memory"
+// TODO: configure these values
 
 // Namespaces
 using namespace MIRA;

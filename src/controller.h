@@ -62,6 +62,7 @@ namespace MIRA
         void _reboot();
         void _changeVolume(unsigned int iVolume);
         void _loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation);
+        void _mediaError(const QString& iError);
 
     private:
         // Member data

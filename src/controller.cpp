@@ -45,12 +45,12 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
         connect(mNetworkInterface, SIGNAL(shutdown()), this, SLOT(_shutdown()));
         connect(mNetworkInterface, SIGNAL(reboot()), this, SLOT(_reboot()));
         connect(mNetworkInterface, SIGNAL(changeVolume(uint)), this, SLOT(_changeVolume(uint)));
-        connect(mNetworkInterface, SIGNAL(loadInterface(const QString&, const QString&, const QString&)), this, SLOT(_loadInterface(const QString&, const QString&, const QString&)));
         connect(mNetworkInterface, SIGNAL(loadMedia(const QString&, const QString&)), this, SLOT(_loadMedia(const QString&, const QString&)));
 
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
         connect(mUserInterface, SIGNAL(quit()), this, SLOT(_quit()));
+        connect(mUserInterface, SIGNAL(mediaError(QString)), this, SLOT(_mediaError(QString)));
         mUserInterface->show();
 
         mLogger->debug() << "Initializing data manager";
@@ -148,16 +148,22 @@ void Controller::_quit()
 void Controller::_shutdown()
 {
     mLogger->trace() << Q_FUNC_INFO;
+
+    // TODO: actually change the volume
 }
 
 void Controller::_reboot()
 {
     mLogger->trace() << Q_FUNC_INFO;
+
+    // TODO: actually reboot
 }
 
 void Controller::_changeVolume(unsigned int iVolume)
 {
     mLogger->trace() << Q_FUNC_INFO;
+
+    // TODO: actually change the volume
 }
 
 void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation)
@@ -192,3 +198,11 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     }
 }
 
+void Controller::_mediaError(const QString& iError)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    mLogger->error("Error on loaded media: " + iError);
+    // TODO: revert media or smth
+    userInterface()->showError(iError);
+}

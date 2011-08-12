@@ -34,12 +34,18 @@ namespace MIRA
         // Functionality
         void showInit();
         void showError(const QString& iError);
-        void showMedia(const QDir &iMedia) throw(QException);
+        void showMedia(const QDir &iMedia);
         void hideMedia() throw(QException);
+
+        // Slots
+    private slots:
+        void _loadFinished(bool iOk);
+        void _loadProgress(int iProgress);
 
         // Signals
     signals:
         void quit();
+        void mediaError(QString iError);
 
     private:
         // Member objects

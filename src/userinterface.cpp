@@ -45,6 +45,8 @@ UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(i
     mPageLog = new LogPage(this);
     mPageStatus = new StatusPage(this);
     mWebView->setPage(mPageInit);
+    connect(mWebView, SIGNAL(loadFinished(bool)), this, SLOT(_loadFinished(bool)));
+    connect(mWebView, SIGNAL(loadProgress(int)), this, SLOT(_loadProgress(int)));
 }
 
 
@@ -67,13 +69,12 @@ void UserInterface::showError(const QString& iError)
     // TODO: load the error in the page
 }
 
-void UserInterface::showMedia(const QDir &iMedia) throw(QException)
+void UserInterface::showMedia(const QDir &iMedia)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
     mPageMedia->load("file://" + iMedia.absolutePath() + "/index.html");
     mWebView->setPage(mPageMedia);
-    // TODO: detect load error, throw exception if that happens
 }
 
 void UserInterface::hideMedia() throw(QException)
@@ -90,7 +91,8 @@ void UserInterface::hideMedia() throw(QException)
 
 bool UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 {
-    if (iEvent->type() == QEvent::KeyPress) {
+    if (iEvent->type() == QEvent::KeyPress)
+    {
         QKeyEvent *iKeyEvent = static_cast<QKeyEvent*>(iEvent);
         switch (iKeyEvent->key())
         {
@@ -126,8 +128,34 @@ bool UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
         }
 
         return false;
-    } else {
+    }
+    else
+    {
         // standard event processing
         return QObject::eventFilter(iObject, iEvent);
     }
+}
+
+
+//
+// Slots
+//
+
+void UserInterface::_loadFinished(bool iOk)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    if (mWebView->page() == mPageMedia && !iOk)
+    {
+        emit mediaError("unknown error");
+    }
+    else
+    {
+        mLogger->warn("WebView error on internal webpage");
+    }
+}
+
+void UserInterface::_loadProgress(int iProgress)
+{
+    // TODO: relay to initpage
 }
