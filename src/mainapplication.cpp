@@ -82,6 +82,8 @@ MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) th
 
 MainApplication::~MainApplication()
 {
+    mLogger->trace() << Q_FUNC_INFO;
+
     // Remove the singleton configuration
     mInstance = NULL;
 }

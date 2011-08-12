@@ -50,11 +50,15 @@ UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(i
 
 void UserInterface::showMedia(const QDir &iMedia) throw(QException)
 {
+    mLogger->trace() << Q_FUNC_INFO;
+
     mPageMedia->load("file://" + iMedia.absolutePath() + "/index.html");
 }
 
 void UserInterface::hideMedia() throw(QException)
 {
+    mLogger->trace() << Q_FUNC_INFO;
+
     mPageMedia->loadFallback();
 }
 

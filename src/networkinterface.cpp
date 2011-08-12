@@ -34,10 +34,17 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     connect(mDevice->deviceService(), SIGNAL(changeVolume(unsigned int)), this, SIGNAL(changeVolume(unsigned int)));
     connect(mDevice->applicationService(), SIGNAL(loadInterface(QString, QString, QString)), this, SIGNAL(loadInterface(QString, QString, QString)));
     connect(mDevice->applicationService(), SIGNAL(loadMedia(QString, QString)), this, SIGNAL(loadMedia(QString, QString)));
+
+    // Schedule an alive timer
+    mAliveTimer = new QTimer(this);
+    connect(mAliveTimer, SIGNAL(timeout()), this, SLOT(_sendAlive()));
+    mAliveTimer->start(mSettings->value("alivetimer", 300*1000).toInt());
 }
 
 NetworkInterface::~NetworkInterface()
 {
+    mLogger->trace() << Q_FUNC_INFO;
+
     mLogger->debug() << "Stopping UPnP device";
     mDevice->stop();
 }
@@ -50,4 +57,17 @@ NetworkInterface::~NetworkInterface()
 QString NetworkInterface::uuid() const
 {
     return mDevice->getAttribute(Brisa::BrisaDevice::Udn);
+}
+
+
+//
+// Event handlers
+//
+
+void NetworkInterface::_sendAlive() const
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    mLogger->debug() << "Sending UPnP alive notice";
+    mDevice->doNotify();
 }

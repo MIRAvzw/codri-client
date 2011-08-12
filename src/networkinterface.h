@@ -9,6 +9,7 @@
 // Library includes
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
+#include <QtCore/QTimer>
 #include <Log4Qt/Logger>
 
 // Local includes
@@ -36,11 +37,16 @@ namespace MIRA
         void loadInterface(const QString &iInterfaceIdentifier, const QString &iIndetraceRole, const QString &iInterfaceLocation);
         void loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation);
 
+        // Event handlers
+    private slots:
+        void _sendAlive() const;
+
     private:
         // Data members
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         KioskDevice *mDevice;
+        QTimer *mAliveTimer;
     };
 }
 
