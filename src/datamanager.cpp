@@ -50,14 +50,29 @@ DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
         throw new QException("Data cache directory does not exist or is not writable");
     }
 
-    // Load the cache subdirectories
-    mCacheMedia = new QDir(mCache->filePath(mSettings->value("mediadir", "media").toString()));
+    // Load the individual caches
+    mCacheMedia = new QDir(mCache->filePath("media"));
+    mCacheConfiguration = new QSettings(mCache->filePath("configuration"), QSettings::NativeFormat, this);
+}
+
+DataManager::~DataManager()
+{
+    // Delete parent-less objects
+    delete mCacheMedia;
+    delete mCache;
 }
 
 
 //
 // Functionality
 //
+
+QSettings& DataManager::getConfiguration()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    return *mCacheConfiguration;
+}
 
 DataManager::DataEntry DataManager::getMedia(const QUrl &iUrl) throw(QException)
 {
@@ -88,6 +103,9 @@ void DataManager::removeMedia() throw(QException)
 
 DataManager::DataEntry DataManager::getCachedMedia() throw(QException)
 {
+    if (! mCacheMedia->exists())
+        throw new QException("Media cache does not exist");
+
     svn::Revision tRevision = checkRepository(*mCacheMedia);
 
     DataEntry tData;

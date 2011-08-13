@@ -36,8 +36,10 @@ namespace MIRA
 
         // Construction and destruction
         DataManager(QObject *iParent = 0) throw(QException);
+        ~DataManager();
 
         // Functionality
+        QSettings &getConfiguration();
         DataEntry getMedia(const QUrl &iUrl) throw(QException);
         void removeMedia() throw(QException);
         DataEntry getCachedMedia() throw(QException);
@@ -84,6 +86,7 @@ namespace MIRA
         Log4Qt::Logger *mLogger;
         svn::Client *mSubversionClient;
         QDir *mCache, *mCacheMedia;
+        QSettings* mCacheConfiguration;
 
         // Auxiliary
         svn::Revision checkRepository(const QDir &iSource) throw(QException);

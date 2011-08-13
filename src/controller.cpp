@@ -97,7 +97,21 @@ void Controller::start()
 
     mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
 
-    // TODO: load the cache here (media as well as configuration)
+    // Load the configuration (this also provides the default configuration)
+    _changeVolume(dataManager()->getConfiguration().value("volume", 255).toInt());
+    if (dataManager()->getConfiguration().contains("media/identifier"))
+    {
+        try
+        {
+            loadCachedMedia();
+        }
+        catch (const QException& tException)
+        {
+            mLogger->error() << "Could not load cached media" << tException.what();
+            foreach (const QString& tCause, tException.causes())
+                mLogger->error() << "Caused by: " << tCause;
+        }
+    }
 }
 
 void Controller::stop()
@@ -107,6 +121,7 @@ void Controller::stop()
     mLogger->fatal() << "Fatal error occured, halting application";
 
     // Clean up
+    dataManager()->getConfiguration().sync();
 
     // Delete subsystems
     delete mUserInterface;
@@ -165,6 +180,9 @@ void Controller::_changeVolume(unsigned int iVolume)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
+    // Cache the value
+    dataManager()->getConfiguration().setValue("volume", iVolume);
+
     // TODO: actually change the volume
 }
 
@@ -175,36 +193,46 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     // Disable the user interface
     userInterface()->showInit();
 
+    // Cache the value
+    QVariant tPreviousIdentifier = dataManager()->getConfiguration().value("media/identifier");
+    dataManager()->getConfiguration().setValue("media/identifier", iMediaIdentifier);
+    dataManager()->getConfiguration().setValue("media/location", iMediaLocation);
+
     // Checkout the media
     DataManager::DataEntry tMedia;
     try
     {
-        // TODO: only delete the data if it differs from the previous time
-        //       (save iMediaIdentifier)
-        dataManager()->removeMedia();
-        tMedia = dataManager()->getMedia(iMediaLocation);
+        // Delete the media if the identifier changed
+        if (tPreviousIdentifier.isNull() || tPreviousIdentifier.toString() != iMediaIdentifier)
+        {
+            dataManager()->removeMedia();
+            tMedia = dataManager()->getMedia(iMediaLocation);
+        }
+        else
+        {
+            try
+            {
+                tMedia = dataManager()->getMedia(iMediaLocation);
+            }
+            catch (const QException &tException)
+            {
+                mLogger->warn() << "Incremental download failed, trying with a clean cache now";
+                dataManager()->removeMedia();
+                tMedia = dataManager()->getMedia(iMediaLocation);
+            }
+        }
     }
     catch (const QException &tException)
     {
         mLogger->error() << "Could not download the new media" << tException.what();
         foreach (const QString& tCause, tException.causes())
             mLogger->error() << "Caused by: " << tCause;
+        userInterface()->showError("could not download media");
         return;
     }
 
     // Show the media
-    try
-    {
-        userInterface()->showMedia(tMedia.Location);
-    }
-    catch (const QException &tException)
-    {
-        mLogger->error() << "Could not show the new media" << tException.what();
-        foreach (const QString& tCause, tException.causes())
-            mLogger->error() << "Caused by: " << tCause;
-        userInterface()->showError(tException.what());
-        return;
-    }
+    userInterface()->showMedia(tMedia.Location);
 }
 
 void Controller::_mediaError(const QString& iError)
@@ -214,4 +242,31 @@ void Controller::_mediaError(const QString& iError)
     mLogger->error("Error on loaded media: " + iError);
     // TODO: revert media or smth
     userInterface()->showError(iError);
+}
+
+
+//
+// Auxiliary
+//
+
+void Controller::loadCachedMedia()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    // Check the media
+    DataManager::DataEntry tMedia;
+    try
+    {
+        tMedia = dataManager()->getCachedMedia();
+    }
+    catch (const QException& tException)
+    {
+        mLogger->error() << "Could not check the cached media" << tException.what();
+        foreach (const QString& tCause, tException.causes())
+            mLogger->error() << "Caused by: " << tCause;
+        return;
+    }
+
+    // Show the media
+    userInterface()->showMedia(tMedia.Location);
 }

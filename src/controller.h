@@ -64,6 +64,9 @@ namespace MIRA
         void _loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation);
         void _mediaError(const QString& iError);
 
+        // Auxiliary
+        void loadCachedMedia();
+
     private:
         // Member data
         QDateTime mTimestampStartup;
