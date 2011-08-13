@@ -121,14 +121,18 @@ DataManager::Media DataManager::getMedia(const QUrl &iUrl) throw(QException)
 
 void DataManager::removeMedia() throw(QException)
 {
-    if (mCacheMedia->exists() && !removeDirectory(*mCacheMedia))
-        throw QException("Could not remove media");
+    mLogger->trace() << Q_FUNC_INFO;
+
+    if (removeDirectory(*mCacheMedia))
+        throw QException("could not remove media");
 }
 
 DataManager::Media DataManager::getCachedMedia() throw(QException)
 {
+    mLogger->trace() << Q_FUNC_INFO;
+
     if (! mCacheMedia->exists())
-        throw new QException("Media cache does not exist");
+        throw QException("media cache does not exist");
 
     svn::Revision tRevision = checkRepository(*mCacheMedia);
 
@@ -211,7 +215,7 @@ bool DataManager::removeDirectory(const QDir &iDirectory)
     bool tError = false;
     if (iDirectory.exists())
     {
-        const QFileInfoList &tEntries = iDirectory.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files);
+        const QFileInfoList &tEntries = iDirectory.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files | QDir::Hidden);
         foreach (const QFileInfo &tEntry, tEntries)
         {
             QString tEntryPath = tEntry.absoluteFilePath();

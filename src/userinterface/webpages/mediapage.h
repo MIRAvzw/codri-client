@@ -8,6 +8,7 @@
 
 // Library includes
 #include <QtCore/QObject>
+#include <QtCore/QDir>
 
 // Local incudes
 #include "userinterface/webpage.h"
@@ -19,7 +20,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        MediaPage(QObject *iParent = 0);
+        MediaPage(const QDir& iLocation, QObject *iParent = 0);
         ~MediaPage();
     };
 }

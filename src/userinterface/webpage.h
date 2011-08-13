@@ -23,7 +23,6 @@ namespace MIRA
         virtual ~WebPage();
 
         // Functionality
-        void loadFallback();
         void load(const QUrl &iUrl);
 
         // QWebPage interface
@@ -32,7 +31,6 @@ namespace MIRA
 
     protected:
         Log4Qt::Logger *mLogger;
-        QUrl mFallback;
     };
 }
 

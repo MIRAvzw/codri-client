@@ -33,7 +33,6 @@ LogPage::LogPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/logpage.html"),
 
 LogPage::~LogPage()
 {
-    qDebug() << "DESTROY";
     Log4Qt::Logger::rootLogger()->removeAppender(mLogAppender);
 }
 

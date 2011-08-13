@@ -20,32 +20,19 @@ WebPage::WebPage(const QUrl &iURL, QObject *iParent) : QWebPage(iParent)
 {
     // Setup the webpage
     mainFrame()->addToJavaScriptWindowObject("application", this);
-    mFallback = iURL;
-    loadFallback();
 
     // Setup logging
     mLogger =  Log4Qt::Logger::logger("WebPage");
     mLogger->trace() << Q_FUNC_INFO;
+
+    // Load the contents
+    mainFrame()->load(iURL);
 }
 
 WebPage::~WebPage()
 {
 }
 
-
-//
-// Functionality
-//
-
-void WebPage::load(const QUrl &iUrl)
-{
-    mainFrame()->load(iUrl);
-}
-
-void WebPage::loadFallback()
-{
-    load(mFallback);
-}
 
 //
 // QWebPage interface

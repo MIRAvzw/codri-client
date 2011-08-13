@@ -33,9 +33,10 @@ namespace MIRA
 
         // Functionality
         void showInit();
+        void showLog();
+        void showStatus();
         void showError(const QString& iError);
-        void showMedia(const QDir &iMedia);
-        void hideMedia() throw(QException);
+        void showMedia(const QDir &iLocation);
 
         // Slots
     private slots:
@@ -52,9 +53,6 @@ namespace MIRA
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         QWebView *mWebView;
-
-        // Webpages
-        WebPage *mPageInit, *mPageError, *mPageMedia, *mPageLog, *mPageStatus;
     };
 }
 

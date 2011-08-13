@@ -109,6 +109,8 @@ void Controller::start()
         try
         {
             loadCachedMedia(dataManager()->config("media/identifier").toString());
+            // TODO: loads, but screen blanks after this.
+            // Maybe happens before all subsystems are loaded?
         }
         catch (const QException& tException)
         {
@@ -204,6 +206,7 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
         // Delete the media if the identifier changed
         if (! dataManager()->containsConfig("media/identifier") || dataManager()->config("media/identifier").toString() != iMediaIdentifier)
         {
+            mLogger->debug() << "Clearing";
             dataManager()->removeMedia();
             mMedia = dataManager()->getMedia(iMediaLocation);
         }
@@ -223,7 +226,7 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     }
     catch (const QException &tException)
     {
-        mLogger->error() << "Could not download the new media" << tException.what();
+        mLogger->error() << "Could not download the new media: " << tException.what();
         foreach (const QString& tCause, tException.causes())
             mLogger->error() << "Caused by: " << tCause;
         userInterface()->showError("could not download media");
@@ -247,7 +250,6 @@ void Controller::_mediaError(const QString& iError)
 
     mLogger->error("Error on loaded media: " + iError);
     // TODO: revert media or smth
-    userInterface()->showError(iError);
 }
 
 

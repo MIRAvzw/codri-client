@@ -37,13 +37,8 @@ UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(i
     setCentralWidget(mWebView);
     setWindowState(windowState() | Qt::WindowFullScreen);
 
-    // Load the pages (child of the mainwindow, because QWebView::setPage deletes its previous childs)
-    mPageInit = new InitPage(this);
-    mPageError = new ErrorPage(this);
-    mPageMedia = new MediaPage(this);
-    mPageLog = new LogPage(this);
-    mPageStatus = new StatusPage(this);
-    mWebView->setPage(mPageInit);
+    // Configure the webview
+    showInit();
     connect(mWebView, SIGNAL(loadFinished(bool)), this, SLOT(_loadFinished(bool)));
     connect(mWebView, SIGNAL(loadProgress(int)), this, SLOT(_loadProgress(int)));
 }
@@ -53,34 +48,49 @@ UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(i
 // Functionality
 //
 
+// TODO: track current page, do or do not reload (yes on media, no on log)?
+
 void UserInterface::showInit()
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    mWebView->setPage(mPageInit);
+    QWebPage *tPageInit = new InitPage(mWebView);
+    mWebView->setPage(tPageInit);
+}
+
+void UserInterface::showLog()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    QWebPage *tPageLog = new LogPage(mWebView);
+    mWebView->setPage(tPageLog);
+}
+
+void UserInterface::showStatus()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    QWebPage *tPageStatus = new StatusPage(mWebView);
+    mWebView->setPage(tPageStatus);
 }
 
 void UserInterface::showError(const QString& iError)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    mWebView->setPage(mPageError);
     // TODO: load the error in the page
+
+    QWebPage *tPageError = new ErrorPage(mWebView);
+    mWebView->setPage(tPageError);
 }
 
-void UserInterface::showMedia(const QDir &iMedia)
+void UserInterface::showMedia(const QDir& iLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    mPageMedia->load("file://" + iMedia.absolutePath() + "/index.html");
-    mWebView->setPage(mPageMedia);
-}
-
-void UserInterface::hideMedia() throw(QException)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    mPageMedia->loadFallback();
+    // TODO: is webview specification necessary? Does'tn setpage properly configure the parent?
+    QWebPage *tPageMedia = new MediaPage(iLocation, mWebView);
+    mWebView->setPage(tPageMedia);
 }
 
 
@@ -105,13 +115,13 @@ bool UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 
         // Status page
         case Qt::Key_1:
-            mWebView->setPage(mWebView->page() != mPageStatus ? mPageStatus : mPageMedia);
+            showStatus();
             return true;
             break;
 
         // Log page
         case Qt::Key_2:
-            mWebView->setPage(mWebView->page() != mPageLog ? mPageLog : mPageMedia);
+            showLog();
             return true;
             break;
 
@@ -144,13 +154,19 @@ void UserInterface::_loadFinished(bool iOk)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    if (mWebView->page() == mPageMedia && !iOk)
+    if (iOk)
+        return;
+
+    // Media page handling
+    if (mWebView->page() == 0)  // TODO: track
     {
+        showError("unknown error");
         emit mediaError("unknown error");
     }
     else
     {
-        mLogger->warn("WebView error on internal webpage");
+        // TODO: emit fatal error (we can't trust on loading the error page)
+        mLogger->error("WebView error on internal webpage");
     }
 }
 
