@@ -96,6 +96,8 @@ void Controller::start()
     //       the networkinterface's uuid yet
 
     mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
+
+    // TODO: load the cache here (media as well as configuration)
 }
 
 void Controller::stop()
