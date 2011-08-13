@@ -67,11 +67,34 @@ DataManager::~DataManager()
 // Functionality
 //
 
-QSettings& DataManager::getConfiguration()
+bool DataManager::containsConfig(const QString& iKey)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    return *mCacheConfiguration;
+    return mCacheConfiguration->contains(iKey);
+}
+
+QVariant DataManager::config(const QString& iKey, const QVariant &iDefaultValue)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    return mCacheConfiguration->value(iKey, iDefaultValue);
+}
+
+void DataManager::setConfig(const QString& iKey, const QVariant &iValue)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    mCacheConfiguration->setValue(iKey, iValue);
+}
+
+void DataManager::saveConfig()
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    // TODO: shouldn't be neccesary if the delete would work properly (segfaults now)
+
+    mCacheConfiguration->sync();
 }
 
 DataManager::DataEntry DataManager::getMedia(const QUrl &iUrl) throw(QException)

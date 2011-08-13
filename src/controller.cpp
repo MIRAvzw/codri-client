@@ -98,8 +98,8 @@ void Controller::start()
     mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
 
     // Load the configuration (this also provides the default configuration)
-    _changeVolume(dataManager()->getConfiguration().value("volume", 255).toInt());
-    if (dataManager()->getConfiguration().contains("media/identifier"))
+    _changeVolume(dataManager()->config("volume", 255).toInt());
+    if (dataManager()->containsConfig("media/identifier"))
     {
         try
         {
@@ -121,7 +121,7 @@ void Controller::stop()
     mLogger->fatal() << "Fatal error occured, halting application";
 
     // Clean up
-    dataManager()->getConfiguration().sync();
+    dataManager()->saveConfig();
 
     // Delete subsystems
     delete mUserInterface;
@@ -181,7 +181,7 @@ void Controller::_changeVolume(unsigned int iVolume)
     mLogger->trace() << Q_FUNC_INFO;
 
     // Cache the value
-    dataManager()->getConfiguration().setValue("volume", iVolume);
+    dataManager()->setConfig("volume", iVolume);
 
     // TODO: actually change the volume
 }
@@ -193,17 +193,12 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     // Disable the user interface
     userInterface()->showInit();
 
-    // Cache the value
-    QVariant tPreviousIdentifier = dataManager()->getConfiguration().value("media/identifier");
-    dataManager()->getConfiguration().setValue("media/identifier", iMediaIdentifier);
-    dataManager()->getConfiguration().setValue("media/location", iMediaLocation);
-
     // Checkout the media
     DataManager::DataEntry tMedia;
     try
     {
         // Delete the media if the identifier changed
-        if (tPreviousIdentifier.isNull() || tPreviousIdentifier.toString() != iMediaIdentifier)
+        if (! dataManager()->containsConfig("media/identifier") || dataManager()->config("media/identifier").toString() != iMediaIdentifier)
         {
             dataManager()->removeMedia();
             tMedia = dataManager()->getMedia(iMediaLocation);
@@ -230,6 +225,10 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
         userInterface()->showError("could not download media");
         return;
     }
+
+    // Cache the values
+    dataManager()->setConfig("media/identifier", iMediaIdentifier);
+    dataManager()->setConfig("media/location", iMediaLocation);
 
     // Show the media
     userInterface()->showMedia(tMedia.Location);
