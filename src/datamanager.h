@@ -39,8 +39,8 @@ namespace MIRA
         ~DataManager();
 
         // Functionality
-        bool containsConfig(const QString& iKey);
-        QVariant config(const QString& iKey, const QVariant &iDefaultValue = QVariant());
+        bool containsConfig(const QString& iKey) const;
+        QVariant config(const QString& iKey, const QVariant &iDefaultValue = QVariant()) const;
         void setConfig(const QString& iKey, const QVariant &iValue);
         void saveConfig();
         DataEntry getMedia(const QUrl &iUrl) throw(QException);

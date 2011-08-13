@@ -43,6 +43,7 @@ namespace MIRA
     public:
         QUuid uuid() const;
         QDateTime startup() const;
+        QString media() const;
 
         // Application control
     public slots:

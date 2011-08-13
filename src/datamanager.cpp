@@ -67,14 +67,14 @@ DataManager::~DataManager()
 // Functionality
 //
 
-bool DataManager::containsConfig(const QString& iKey)
+bool DataManager::containsConfig(const QString& iKey) const
 {
     mLogger->trace() << Q_FUNC_INFO;
 
     return mCacheConfiguration->contains(iKey);
 }
 
-QVariant DataManager::config(const QString& iKey, const QVariant &iDefaultValue)
+QVariant DataManager::config(const QString& iKey, const QVariant &iDefaultValue) const
 {
     mLogger->trace() << Q_FUNC_INFO;
 

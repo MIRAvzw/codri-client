@@ -39,6 +39,7 @@ namespace MIRA
         // Service actions
     private slots:
         BrisaOutArgument *loadmedia(BrisaInArgument *const iArguments, BrisaAction *const iAction);
+        BrisaOutArgument *getmedia(BrisaInArgument *const iArguments, BrisaAction *const iAction);
 
     private:
         // Data members

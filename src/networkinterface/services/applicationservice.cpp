@@ -4,6 +4,7 @@
 
 // Local includes
 #include "applicationservice.h"
+#include "mainapplication.h"
 
 // Namespaces
 using namespace MIRA;
@@ -44,5 +45,14 @@ BrisaOutArgument *ApplicationService::loadmedia(BrisaInArgument *const iArgument
     emit loadMedia(iArguments->value("iMediaIdentifierValue"), iArguments->value("iMediaLocationValue"));
 
     BrisaOutArgument *oArguments = new BrisaOutArgument();
+    return oArguments;
+}
+
+BrisaOutArgument *ApplicationService::getmedia(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
+    oArguments->insert("oMediaIdentifierValue", MainApplication::instance()->controller()->media());
     return oArguments;
 }

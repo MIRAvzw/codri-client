@@ -20,6 +20,16 @@
         </argument>
       </argumentList>
     </action>
+    <action>
+      <name>GetMedia</name>
+      <argumentList>
+        <argument>
+          <name>oMediaIdentifierValue</name>
+          <relatedStateVariable>MediaIdentifier</relatedStateVariable>
+          <direction>out</direction>
+        </argument>
+      </argumentList>
+    </action>
   </actionList>
   <serviceStateTable>
     <stateVariable sendEvents="no">

@@ -82,6 +82,11 @@ QDateTime Controller::startup() const
     return mTimestampStartup;
 }
 
+QString Controller::media() const
+{
+    return mDataManager->config("media/identifier").toString();
+}
+
 
 //
 // Application control
