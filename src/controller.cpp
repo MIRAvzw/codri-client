@@ -174,10 +174,13 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     userInterface()->showInit();
 
     // Checkout the media
-    QDir tMedia;
+    DataManager::DataEntry tMedia;
     try
     {
-        tMedia = dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
+        // TODO: only delete the data if it differs from the previous time
+        //       (save iMediaIdentifier)
+        dataManager()->removeMedia();
+        tMedia = dataManager()->getMedia(iMediaLocation);
     }
     catch (const QException &tException)
     {
@@ -190,7 +193,7 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     // Show the media
     try
     {
-        userInterface()->showMedia(tMedia);
+        userInterface()->showMedia(tMedia.Location);
     }
     catch (const QException &tException)
     {

@@ -16,6 +16,7 @@
 #include <svnqt/repositorylistener.h>
 #include <svnqt/context_listener.h>
 #include <svnqt/client.h>
+#include <svnqt/revision.h>
 
 // Local includes
 #include "qexception.h"
@@ -25,12 +26,21 @@ namespace MIRA
     class DataManager : public QObject, public svn::repository::RepositoryListener, public svn::ContextListener
     {
     Q_OBJECT
-    public:
-        // ConstructQStringion and destruction
+    public:        
+        // Auxiliary classes
+        struct DataEntry
+        {
+            QDir Location;
+            svn::Revision Revision;
+        };
+
+        // Construction and destruction
         DataManager(QObject *iParent = 0) throw(QException);
 
         // Functionality
-        QDir downloadData(const QString &iIdentifier, const QUrl &iUrl) throw(QException);
+        DataEntry getMedia(const QUrl &iUrl) throw(QException);
+        void removeMedia() throw(QException);
+        DataEntry getCachedMedia() throw(QException);
 
         // Signals
 
@@ -73,7 +83,7 @@ namespace MIRA
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         svn::Client *mSubversionClient;
-        QDir *mCache;
+        QDir *mCache, *mCacheMedia;
 
         // Auxiliary
         svn::Revision checkRepository(const QDir &iSource) throw(QException);

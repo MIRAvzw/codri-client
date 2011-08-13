@@ -12,7 +12,6 @@
 #include <svnqt/targets.h>
 #include <svnqt/client_parameter.h>
 #include <svnqt/client_update_parameter.h>
-#include <svnqt/revision.h>
 #include <svnqt/info_entry.h>
 
 #include <QDebug>
@@ -44,35 +43,15 @@ DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
 
     // Check the cache
     mCache = new QDir(mSettings->value("location", "/tmp/cache").toString());
-    if (! mCache->exists())
-        QDir().mkdir(mCache->absolutePath());
+    if (!mCache->exists() && !QDir().mkpath(mCache->absolutePath()))
+        throw new QException("Could not create main cache directory");
     QFileInfo tCacheInfo(mCache->path());
     if (!tCacheInfo.isDir() || !tCacheInfo.isWritable()) {
         throw new QException("Data cache directory does not exist or is not writable");
     }
 
-    // Load a cache entry
-    // TODO: load the entry based on the latest configuration
-    // TODO: save the configuration within the cache as well
-    // TODO: name the media cache "media", and compare with the previous data to check
-    //       if the media has changes
-    try
-    {
-        QList<QFileInfo> tCacheEntries = mCache->entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs);
-        if (tCacheEntries.size() > 0)
-        {
-            QDir tCacheEntry = tCacheEntries.first().filePath();
-            mLogger->debug() << "Loading cache entry " << tCacheEntry.path();
-            checkRepository(tCacheEntry);
-            // TODO: save revision
-        }
-    }
-    catch (const QException& tException)
-    {
-        mLogger->warn() << "Could not load existing cache checkout: " << tException.what();
-        foreach (const QString& tCause, tException.causes())
-            mLogger->warn() << "Caused by: " << tCause;
-    }
+    // Load the cache subdirectories
+    mCacheMedia = new QDir(mCache->filePath(mSettings->value("mediadir", "media").toString()));
 }
 
 
@@ -80,36 +59,41 @@ DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
 // Functionality
 //
 
-QDir DataManager::downloadData(const QString &iIdentifier, const QUrl &iUrl) throw(QException)
+DataManager::DataEntry DataManager::getMedia(const QUrl &iUrl) throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    // Load the cache entries
-    foreach (const QFileInfo &tCacheEntry, mCache->entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs))
-    {
-        if (tCacheEntry.fileName() != iIdentifier)
-        {
-            mLogger->debug() << "Removing old cache entry " << tCacheEntry.fileName();
-            if (!removeDirectory(tCacheEntry.absoluteFilePath()))
-            {
-                mLogger->warn() << "Could not remove old cache entry " << tCacheEntry.fileName();
-            }
-        }
-    }
+    DataEntry tData;
+    tData.Location = *mCacheMedia;
 
-    // Manage the data
-    QDir tCachedMedia(mCache->absolutePath() + '/' + iIdentifier);
-    if (tCachedMedia.exists())
+    if (mCacheMedia->exists())
     {
         mLogger->debug() << "cache hit, updating media";
-        updateRepository(tCachedMedia);
+        tData.Revision = updateRepository(*mCacheMedia);
     }
     else
     {
         mLogger->debug() << "cache miss, checking-out media";
-        checkoutRepository(tCachedMedia, iUrl);
+        tData.Revision = checkoutRepository(*mCacheMedia, iUrl);
     }
-    return tCachedMedia;
+
+    return tData;
+}
+
+void DataManager::removeMedia() throw(QException)
+{
+    if (mCacheMedia->exists() && !removeDirectory(*mCacheMedia))
+        throw QException("Could not remove media");
+}
+
+DataManager::DataEntry DataManager::getCachedMedia() throw(QException)
+{
+    svn::Revision tRevision = checkRepository(*mCacheMedia);
+
+    DataEntry tData;
+    tData.Location = *mCacheMedia;
+    tData.Revision = tRevision;
+    return tData;
 }
 
 
