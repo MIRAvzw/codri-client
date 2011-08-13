@@ -4,7 +4,6 @@
 
 // Local includes
 #include "userinterface.h"
-#include "mainapplication.h"
 #include "userinterface/webpages/initpage.h"
 #include "userinterface/webpages/errorpage.h"
 #include "userinterface/webpages/logpage.h"
