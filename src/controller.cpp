@@ -179,9 +179,11 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     {
         tMedia = dataManager()->downloadData(iMediaIdentifier, iMediaLocation);
     }
-    catch (const QException &iException)
+    catch (const QException &tException)
     {
-        mLogger->error() << "Could not download the new media" << iException.string();
+        mLogger->error() << "Could not download the new media" << tException.what();
+        foreach (const QString& tCause, tException.causes())
+            mLogger->error() << "Caused by: " << tCause;
         return;
     }
 
@@ -190,10 +192,12 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     {
         userInterface()->showMedia(tMedia);
     }
-    catch (const QException &iException)
+    catch (const QException &tException)
     {
-        mLogger->error() << "Could not show the new media" << iException.string();
-        userInterface()->showError(iException.string());
+        mLogger->error() << "Could not show the new media" << tException.what();
+        foreach (const QString& tCause, tException.causes())
+            mLogger->error() << "Caused by: " << tCause;
+        userInterface()->showError(tException.what());
         return;
     }
 }

@@ -9,50 +9,77 @@
 // Library includes
 #include <QtCore/QString>
 #include <svnqt/exception.h>
+#include <QtCore/QStringList>
 
 class QException
 {
 public:
-    QException(const QString &iMessage, const QException &iCause = QException()) throw() : mMessage(iMessage), mNull(false), mCause(iCause)
+    // Destructor
+    ~QException()
+    {
+        if (hasCause())
+        {
+            delete mCause;
+        }
+    }
+
+    // Copy constructor
+    QException(const QException& iException) : mMessage(iException.what()), mCause(iException.hasCause() ? new QException(iException.cause()) : 0)
+    {
+    }
+
+    // Value constructors
+    QException(const QString &iMessage, const QException &iCause) throw() : mMessage(iMessage), mCause(new QException(iCause))
     {
 
     }
-    QException() : mNull(true), mCause(QException())
+    QException(const QString &iMessage) throw() : mMessage(iMessage), mCause(0)
     {
 
     }
 
+    // Default constructor
+    QException() : mCause(0)
+    {
+
+    }
+
+    // Convertors
     static QException fromSVNException(const svn::Exception &iException)
     {
         return QException("SVN exception -- " + iException.msg());
     }
 
+    // Getters
     const QString &what() const
     {
         return mMessage;
     }
-    const QException &who() const
+    const QException &cause() const
     {
-        return mCause;
+        return *mCause;
     }
 
-    bool null() const
+    // Flags
+    bool hasCause() const
     {
-        return mNull;
+        return mCause != 0;
     }
 
-    QString string() const
+    QStringList causes() const
     {
-        QString oMessage = what();
-        if (! who().null())
-            oMessage += "\nCaused by: " + who().string();
-        return oMessage;
+        QStringList tCauses;
+        if (hasCause())
+        {
+            tCauses << cause().what();
+            tCauses << cause().causes();
+        }
+        return tCauses;
     }
 
 private:
     QString mMessage;
-    bool mNull;
-    const QException &mCause;
+    QException const* const mCause;
 };
 
 #endif // EXCEPTION_H

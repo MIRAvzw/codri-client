@@ -13,6 +13,9 @@
 #include <svnqt/client_parameter.h>
 #include <svnqt/client_update_parameter.h>
 #include <svnqt/revision.h>
+#include <svnqt/info_entry.h>
+
+#include <QDebug>
 
 // Namespaces
 using namespace MIRA;
@@ -39,12 +42,36 @@ DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
     tSubversionContext->setListener(this);
     mSubversionClient->setContext(tSubversionContext);
 
+    // Check the cache
     mCache = new QDir(mSettings->value("location", "/tmp/cache").toString());
     if (! mCache->exists())
         QDir().mkdir(mCache->absolutePath());
     QFileInfo tCacheInfo(mCache->path());
     if (!tCacheInfo.isDir() || !tCacheInfo.isWritable()) {
         throw new QException("Data cache directory does not exist or is not writable");
+    }
+
+    // Load a cache entry
+    // TODO: load the entry based on the latest configuration
+    // TODO: save the configuration within the cache as well
+    // TODO: name the media cache "media", and compare with the previous data to check
+    //       if the media has changes
+    try
+    {
+        QList<QFileInfo> tCacheEntries = mCache->entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs);
+        if (tCacheEntries.size() > 0)
+        {
+            QDir tCacheEntry = tCacheEntries.first().filePath();
+            mLogger->debug() << "Loading cache entry " << tCacheEntry.path();
+            checkRepository(tCacheEntry);
+            // TODO: save revision
+        }
+    }
+    catch (const QException& tException)
+    {
+        mLogger->warn() << "Could not load existing cache checkout: " << tException.what();
+        foreach (const QString& tCause, tException.causes())
+            mLogger->warn() << "Caused by: " << tCause;
     }
 }
 
@@ -89,6 +116,28 @@ QDir DataManager::downloadData(const QString &iIdentifier, const QUrl &iUrl) thr
 //
 // Auxiliary
 //
+
+svn::Revision DataManager::checkRepository(const QDir &iSource) throw(QException)
+{
+    try
+    {
+        QList<svn::InfoEntry> tInfoEntries =  mSubversionClient->info(
+                    iSource.absolutePath(),
+                    svn::DepthEmpty,
+                    svn::Revision::HEAD);
+        if (tInfoEntries.size() != 1)
+            throw QException("unexpected amount of info entries");
+        return tInfoEntries.first().revision();
+    }
+    catch (const svn::ClientException &iException)
+    {
+        throw QException("could not check the repository", QException::fromSVNException(iException));
+    }
+    catch (const QException &iException)
+    {
+        throw QException("could not check the repository", iException);
+    }
+}
 
 svn::Revision DataManager::checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException)
 {

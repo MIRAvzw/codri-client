@@ -76,6 +76,7 @@ namespace MIRA
         QDir *mCache;
 
         // Auxiliary
+        svn::Revision checkRepository(const QDir &iSource) throw(QException);
         svn::Revision checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException);
         svn::Revision updateRepository(const QDir &iDestination) throw(QException);
         bool removeDirectory(const QDir &iDirectory);
