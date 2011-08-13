@@ -43,7 +43,7 @@ namespace MIRA
     public:
         QUuid uuid() const;
         QDateTime startup() const;
-        QString media() const;
+        DataManager::Media media() const;
 
         // Application control
     public slots:
@@ -66,11 +66,12 @@ namespace MIRA
         void _mediaError(const QString& iError);
 
         // Auxiliary
-        void loadCachedMedia();
+        void loadCachedMedia(const QString &iMediaIdentifier);
 
     private:
         // Member data
         QDateTime mTimestampStartup;
+        DataManager::Media mMedia;
 
         // Subsystem objects
         QSettings *mSettings;

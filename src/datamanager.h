@@ -28,9 +28,11 @@ namespace MIRA
     Q_OBJECT
     public:        
         // Auxiliary classes
-        struct DataEntry
+        struct Media
         {
-            QDir Location;
+            QString Identifier;
+            QDir LocalLocation;
+            QUrl RemoteLocation;
             svn::Revision Revision;
         };
 
@@ -43,9 +45,9 @@ namespace MIRA
         QVariant config(const QString& iKey, const QVariant &iDefaultValue = QVariant()) const;
         void setConfig(const QString& iKey, const QVariant &iValue);
         void saveConfig();
-        DataEntry getMedia(const QUrl &iUrl) throw(QException);
+        Media getMedia(const QUrl &iUrl) throw(QException);
         void removeMedia() throw(QException);
-        DataEntry getCachedMedia() throw(QException);
+        Media getCachedMedia() throw(QException);
 
         // Signals
 

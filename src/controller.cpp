@@ -82,9 +82,9 @@ QDateTime Controller::startup() const
     return mTimestampStartup;
 }
 
-QString Controller::media() const
+DataManager::Media Controller::media() const
 {
-    return mDataManager->config("media/identifier").toString();
+    return mMedia;
 }
 
 
@@ -108,7 +108,7 @@ void Controller::start()
     {
         try
         {
-            loadCachedMedia();
+            loadCachedMedia(dataManager()->config("media/identifier").toString());
         }
         catch (const QException& tException)
         {
@@ -198,27 +198,26 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     // Disable the user interface
     userInterface()->showInit();
 
-    // Checkout the media
-    DataManager::DataEntry tMedia;
+    // Load the data from a remote source
     try
     {
         // Delete the media if the identifier changed
         if (! dataManager()->containsConfig("media/identifier") || dataManager()->config("media/identifier").toString() != iMediaIdentifier)
         {
             dataManager()->removeMedia();
-            tMedia = dataManager()->getMedia(iMediaLocation);
+            mMedia = dataManager()->getMedia(iMediaLocation);
         }
         else
         {
             try
             {
-                tMedia = dataManager()->getMedia(iMediaLocation);
+                mMedia = dataManager()->getMedia(iMediaLocation);
             }
             catch (const QException &tException)
             {
                 mLogger->warn() << "Incremental download failed, trying with a clean cache now";
                 dataManager()->removeMedia();
-                tMedia = dataManager()->getMedia(iMediaLocation);
+                mMedia = dataManager()->getMedia(iMediaLocation);
             }
         }
     }
@@ -231,12 +230,15 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
         return;
     }
 
+    // Fill in other details (stuff the datamanager doesn't know)
+    mMedia.Identifier = iMediaIdentifier;
+
     // Cache the values
-    dataManager()->setConfig("media/identifier", iMediaIdentifier);
-    dataManager()->setConfig("media/location", iMediaLocation);
+    dataManager()->setConfig("media/identifier", mMedia.Identifier);
+    dataManager()->setConfig("media/location", mMedia.RemoteLocation);
 
     // Show the media
-    userInterface()->showMedia(tMedia.Location);
+    userInterface()->showMedia(mMedia.LocalLocation);
 }
 
 void Controller::_mediaError(const QString& iError)
@@ -253,15 +255,14 @@ void Controller::_mediaError(const QString& iError)
 // Auxiliary
 //
 
-void Controller::loadCachedMedia()
+void Controller::loadCachedMedia(const QString &iMediaIdentifier)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
     // Check the media
-    DataManager::DataEntry tMedia;
     try
     {
-        tMedia = dataManager()->getCachedMedia();
+        mMedia = dataManager()->getCachedMedia();
     }
     catch (const QException& tException)
     {
@@ -271,6 +272,9 @@ void Controller::loadCachedMedia()
         return;
     }
 
+    // Fill in other details (stuff the datamanager doesn't know)
+    mMedia.Identifier = iMediaIdentifier;
+
     // Show the media
-    userInterface()->showMedia(tMedia.Location);
+    userInterface()->showMedia(mMedia.LocalLocation);
 }

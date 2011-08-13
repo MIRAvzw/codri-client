@@ -51,8 +51,11 @@ BrisaOutArgument *ApplicationService::loadmedia(BrisaInArgument *const iArgument
 BrisaOutArgument *ApplicationService::getmedia(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
+    Q_UNUSED(iArguments)
+    Q_UNUSED(iAction)
 
     BrisaOutArgument *oArguments = new BrisaOutArgument();
-    oArguments->insert("oMediaIdentifierValue", MainApplication::instance()->controller()->media());
+    oArguments->insert("oMediaIdentifierValue", MainApplication::instance()->controller()->media().Identifier);
+    oArguments->insert("oMediaLocationValue", MainApplication::instance()->controller()->media().RemoteLocation.toString());
     return oArguments;
 }

@@ -97,12 +97,13 @@ void DataManager::saveConfig()
     mCacheConfiguration->sync();
 }
 
-DataManager::DataEntry DataManager::getMedia(const QUrl &iUrl) throw(QException)
+DataManager::Media DataManager::getMedia(const QUrl &iUrl) throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    DataEntry tData;
-    tData.Location = *mCacheMedia;
+    Media tData;
+    tData.LocalLocation = *mCacheMedia;
+    tData.RemoteLocation = iUrl;
 
     if (mCacheMedia->exists())
     {
@@ -124,15 +125,15 @@ void DataManager::removeMedia() throw(QException)
         throw QException("Could not remove media");
 }
 
-DataManager::DataEntry DataManager::getCachedMedia() throw(QException)
+DataManager::Media DataManager::getCachedMedia() throw(QException)
 {
     if (! mCacheMedia->exists())
         throw new QException("Media cache does not exist");
 
     svn::Revision tRevision = checkRepository(*mCacheMedia);
 
-    DataEntry tData;
-    tData.Location = *mCacheMedia;
+    Media tData;
+    tData.LocalLocation = *mCacheMedia;
     tData.Revision = tRevision;
     return tData;
 }

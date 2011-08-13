@@ -28,6 +28,11 @@
           <relatedStateVariable>MediaIdentifier</relatedStateVariable>
           <direction>out</direction>
         </argument>
+        <argument>
+          <name>oMediaLocationValue</name>
+          <relatedStateVariable>MediaLocation</relatedStateVariable>
+          <direction>out</direction>
+        </argument>
       </argumentList>
     </action>
   </actionList>
