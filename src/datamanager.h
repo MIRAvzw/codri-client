@@ -33,7 +33,11 @@ namespace MIRA
             QString Identifier;
             QDir LocalLocation;
             QUrl RemoteLocation;
-            svn::Revision Revision;
+            unsigned long Revision;
+        };
+        struct Configuration
+        {
+            unsigned long Revision;
         };
 
         // Construction and destruction
@@ -45,7 +49,7 @@ namespace MIRA
         QVariant config(const QString& iKey, const QVariant &iDefaultValue = QVariant()) const;
         void setConfig(const QString& iKey, const QVariant &iValue);
         void saveConfig();
-        Media getMedia(const QUrl &iUrl) throw(QException);
+        Media getRemoteMedia(const QUrl &iUrl) throw(QException);
         void removeMedia() throw(QException);
         Media getCachedMedia() throw(QException);
 
@@ -83,7 +87,7 @@ namespace MIRA
         virtual bool contextGetLogin(const QString &,
                                      QString &,
                                      QString &,
-                                     bool & maySave) { maySave = false; return false; }
+                                     bool &maySave) { maySave = false; return false; }
 
     private:
         // Member objects
@@ -94,9 +98,9 @@ namespace MIRA
         QSettings* mCacheConfiguration;
 
         // Auxiliary
-        svn::Revision checkRepository(const QDir &iSource) throw(QException);
-        svn::Revision checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException);
-        svn::Revision updateRepository(const QDir &iDestination) throw(QException);
+        unsigned long checkRepository(const QDir &iSource) throw(QException);
+        unsigned long checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException);
+        unsigned long updateRepository(const QDir &iDestination) throw(QException);
         bool removeDirectory(const QDir &iDirectory);
     };
 }

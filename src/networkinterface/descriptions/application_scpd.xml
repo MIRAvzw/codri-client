@@ -6,6 +6,36 @@
   </specVersion>
   <actionList>
     <action>
+      <name>GetConfigurationRevision</name>
+      <argumentList>
+        <argument>
+          <name>oConfigurationRevisionValue</name>
+          <relatedStateVariable>ConfigurationRevision</relatedStateVariable>
+          <direction>out</direction>
+        </argument>
+      </argumentList>
+    </action>
+    <action>
+      <name>SetConfigurationRevision</name>
+      <argumentList>
+        <argument>
+          <name>iConfigurationRevisionValue</name>
+          <relatedStateVariable>ConfigurationRevision</relatedStateVariable>
+          <direction>in</direction>
+        </argument>
+      </argumentList>
+    </action>
+    <action>
+      <name>GetMediaRevision</name>
+      <argumentList>
+        <argument>
+          <name>oMediaRevisionValue</name>
+          <relatedStateVariable>MediaRevision</relatedStateVariable>
+          <direction>out</direction>
+        </argument>
+      </argumentList>
+    </action>
+    <action>
       <name>LoadMedia</name>
       <argumentList>
         <argument>
@@ -45,6 +75,16 @@
     <stateVariable sendEvents="no">
       <name>MediaLocation</name>
       <dataType>string</dataType>
+      <defaultValue></defaultValue>
+    </stateVariable>
+    <stateVariable sendEvents="no">
+      <name>MediaRevision</name>
+      <dataType>ui4</dataType>
+      <defaultValue></defaultValue>
+    </stateVariable>
+    <stateVariable sendEvents="no">
+      <name>ConfigurationRevision</name>
+      <dataType>ui4</dataType>
       <defaultValue></defaultValue>
     </stateVariable>
   </serviceStateTable>

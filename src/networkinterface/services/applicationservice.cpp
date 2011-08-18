@@ -36,6 +36,39 @@ ApplicationService::ApplicationService(QObject *iParent) : Brisa::BrisaService(
 // Service methods
 //
 
+BrisaOutArgument *ApplicationService::getconfigurationrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+    Q_UNUSED(iArguments)
+    Q_UNUSED(iAction)
+
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
+    oArguments->insert("oConfigurationRevisionValue", QString::number(MainApplication::instance()->controller()->media().Revision));
+    return oArguments;
+}
+
+BrisaOutArgument *ApplicationService::setconfigurationrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    iAction->getStateVariable("ConfigurationRevision")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iConfigurationRevisionValue"));
+    emit setConfigurationRevision(atol(iArguments->value("iConfigurationRevisionValue").toStdString().c_str()));
+
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
+    return oArguments;
+}
+
+BrisaOutArgument *ApplicationService::getmediarevision(BrisaInArgument *const iArguments, BrisaAction *const iAction)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+    Q_UNUSED(iArguments)
+    Q_UNUSED(iAction)
+
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
+    oArguments->insert("oMediaRevisionValue", QString::number(MainApplication::instance()->controller()->media().Revision));
+    return oArguments;
+}
+
 BrisaOutArgument *ApplicationService::loadmedia(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;

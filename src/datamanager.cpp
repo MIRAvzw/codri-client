@@ -97,7 +97,7 @@ void DataManager::saveConfig()
     mCacheConfiguration->sync();
 }
 
-DataManager::Media DataManager::getMedia(const QUrl &iUrl) throw(QException)
+DataManager::Media DataManager::getRemoteMedia(const QUrl &iUrl) throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -134,7 +134,7 @@ DataManager::Media DataManager::getCachedMedia() throw(QException)
     if (! mCacheMedia->exists())
         throw QException("media cache does not exist");
 
-    svn::Revision tRevision = checkRepository(*mCacheMedia);
+    unsigned long tRevision = checkRepository(*mCacheMedia);
 
     Media tData;
     tData.LocalLocation = *mCacheMedia;
@@ -147,7 +147,7 @@ DataManager::Media DataManager::getCachedMedia() throw(QException)
 // Auxiliary
 //
 
-svn::Revision DataManager::checkRepository(const QDir &iSource) throw(QException)
+unsigned long DataManager::checkRepository(const QDir &iSource) throw(QException)
 {
     try
     {
@@ -157,7 +157,7 @@ svn::Revision DataManager::checkRepository(const QDir &iSource) throw(QException
                     svn::Revision::HEAD);
         if (tInfoEntries.size() != 1)
             throw QException("unexpected amount of info entries");
-        return tInfoEntries.first().revision();
+        return tInfoEntries.first().revision().revnum();
     }
     catch (const svn::ClientException &iException)
     {
@@ -169,7 +169,7 @@ svn::Revision DataManager::checkRepository(const QDir &iSource) throw(QException
     }
 }
 
-svn::Revision DataManager::checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException)
+unsigned long DataManager::checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException)
 {
     svn::CheckoutParameter tCheckoutParameters;
     tCheckoutParameters
@@ -181,7 +181,7 @@ svn::Revision DataManager::checkoutRepository(const QDir &iDestination, const QU
 
     try
     {
-        return mSubversionClient->checkout(tCheckoutParameters);
+        return mSubversionClient->checkout(tCheckoutParameters).revnum();
     }
     catch (const svn::ClientException &iException)
     {
@@ -190,7 +190,7 @@ svn::Revision DataManager::checkoutRepository(const QDir &iDestination, const QU
 
 }
 
-svn::Revision DataManager::updateRepository(const QDir &iDestination) throw(QException)
+unsigned long DataManager::updateRepository(const QDir &iDestination) throw(QException)
 {
     svn::UpdateParameter tUpdateParameters;
     tUpdateParameters
@@ -202,7 +202,7 @@ svn::Revision DataManager::updateRepository(const QDir &iDestination) throw(QExc
     {
         QList<svn::Revision> tRevisions = mSubversionClient->update(tUpdateParameters);
         // TODO: verify that .back() is the latest revision
-        return tRevisions.back();
+        return tRevisions.back().revnum();
     }
     catch (const svn::ClientException &iException)
     {

@@ -45,6 +45,7 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
         connect(mNetworkInterface, SIGNAL(shutdown()), this, SLOT(_shutdown()));
         connect(mNetworkInterface, SIGNAL(reboot()), this, SLOT(_reboot()));
         connect(mNetworkInterface, SIGNAL(changeVolume(uint)), this, SLOT(_changeVolume(uint)));
+        connect(mNetworkInterface, SIGNAL(setConfigurationRevision(unsigned long)), this, SLOT(_setConfigurationRevision(usigned long)));
         connect(mNetworkInterface, SIGNAL(loadMedia(const QString&, const QString&)), this, SLOT(_loadMedia(const QString&, const QString&)));
 
         mLogger->debug() << "Initializing user interface";
@@ -104,6 +105,7 @@ void Controller::start()
 
     // Load the configuration (this also provides the default configuration)
     _changeVolume(dataManager()->config("volume", 255).toInt());
+    _setConfigurationRevision(dataManager()->config("configuration/revision", 0).toULongLong());
     if (dataManager()->containsConfig("media/identifier"))
     {
         try
@@ -193,6 +195,15 @@ void Controller::_changeVolume(unsigned int iVolume)
     // TODO: actually change the volume
 }
 
+void Controller::_setConfigurationRevision(unsigned long iConfigurationRevision)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    mConfiguration.Revision = iConfigurationRevision;
+    dataManager()->config("configuration/revision", (unsigned long long) iConfigurationRevision);
+
+}
+
 void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
@@ -208,19 +219,19 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
         {
             mLogger->debug() << "Clearing";
             dataManager()->removeMedia();
-            mMedia = dataManager()->getMedia(iMediaLocation);
+            mMedia = dataManager()->getRemoteMedia(iMediaLocation);
         }
         else
         {
             try
             {
-                mMedia = dataManager()->getMedia(iMediaLocation);
+                mMedia = dataManager()->getRemoteMedia(iMediaLocation);
             }
             catch (const QException &tException)
             {
                 mLogger->warn() << "Incremental download failed, trying with a clean cache now";
                 dataManager()->removeMedia();
-                mMedia = dataManager()->getMedia(iMediaLocation);
+                mMedia = dataManager()->getRemoteMedia(iMediaLocation);
             }
         }
     }
@@ -239,6 +250,7 @@ void Controller::_loadMedia(const QString &iMediaIdentifier, const QString &iMed
     // Cache the values
     dataManager()->setConfig("media/identifier", mMedia.Identifier);
     dataManager()->setConfig("media/location", mMedia.RemoteLocation);
+    dataManager()->setConfig("media/revision", (unsigned long long) mMedia.Revision);
 
     // Show the media
     userInterface()->showMedia(mMedia.LocalLocation);

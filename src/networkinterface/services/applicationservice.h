@@ -35,9 +35,13 @@ namespace MIRA
         // Signals
     signals:
         void loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation);
+        void setConfigurationRevision(long iConfigurationRevision);
 
         // Service actions
     private slots:
+        BrisaOutArgument *getconfigurationrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction);
+        BrisaOutArgument *setconfigurationrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction);
+        BrisaOutArgument *getmediarevision(BrisaInArgument *const iArguments, BrisaAction *const iAction);
         BrisaOutArgument *loadmedia(BrisaInArgument *const iArguments, BrisaAction *const iAction);
         BrisaOutArgument *getmedia(BrisaInArgument *const iArguments, BrisaAction *const iAction);
 
