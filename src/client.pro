@@ -6,9 +6,10 @@ QT += core \
     webkit \
     xml \
     network
+CONFIG += link_pkgconfig
+PKGCONFIG += apr-1
 INCLUDEPATH += /usr/include/svnqt
 INCLUDEPATH += /usr/include/subversion-1
-INCLUDEPATH += /usr/include/apr-1
 LIBS += -lsvnqt
 INCLUDEPATH += /usr/include/Log4Qt
 LIBS += -lLog4Qt
