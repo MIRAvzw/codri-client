@@ -1,0 +1,21 @@
+Source: aa3client
+Maintainer: Tim Besard <tim.besard@gmail.com>
+Homepage: https://sites.google.com/site/miraadastraiii/
+Priority: extra
+Build-Depends: debhelper (>= 7.0.50~), qt4-qmake, libqt4-dev, libbrisa-dev, liblog4qt-dev, libsvnqt2-dev, pkg-config
+Standards-Version: 3.8.4
+Vcs-Git: git://github.com/MIRAvzw/qt-brisa.git
+Vcs-Browser: https://github.com/MIRAvzw/qt-brisa
+
+Package: aa3client
+Section: lib
+Architecture: any
+Depends: libqt4-core, libqt4-gui, libqt4-webkit, libbrisa, liblog4qt, libsvnqt2, ${misc:Depends}, ${shlibs:Depends}
+Description: Ad-Astra III client application.
+
+Package: aa3client-dbg
+Section: libdevel
+Architecture: any
+Depends: libbrisa (= ${binary:Version}), ${misc:Depends}
+Description: Debug symbols for the Ad-Astra III client application.
+

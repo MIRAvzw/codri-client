@@ -1,11 +1,12 @@
 # -------------------------------------------------
 # Project created by QtCreator 2011-03-07T15:07:36
 # -------------------------------------------------
+
 QT += core \
     gui \
     webkit \
-    xml \
-    network
+    network \
+    xml
 CONFIG += link_pkgconfig
 PKGCONFIG += apr-1
 INCLUDEPATH += /usr/include/svnqt
@@ -13,10 +14,7 @@ INCLUDEPATH += /usr/include/subversion-1
 LIBS += -lsvnqt
 INCLUDEPATH += /usr/include/Log4Qt
 LIBS += -lLog4Qt
-CONFIG += brisa \
-    qxt
-QXT += core \
-    web
+CONFIG += brisa
 BRISA += core \
     upnp \
     utils
@@ -26,6 +24,7 @@ LIBS += -lBrisaCore \
     -lBrisaUtils
 TARGET = client
 TEMPLATE = app
+
 RESOURCES += userinterface/webpage.qrc \
     networkinterface/descriptions.qrc
 SOURCES += controller.cpp \
@@ -64,3 +63,12 @@ OTHER_FILES += networkinterface/descriptions/device_scpd.xml \
     userinterface/webpages/statuspage.html \
     userinterface/webpages/initpage.html \
     userinterface/webpages/errorpage.html
+
+isEmpty(PREFIX) {
+  PREFIX = /usr
+}
+BINDIR = $$PREFIX/bin
+DATADIR =$$PREFIX/share
+INSTALLS += target
+target.path =$$BINDIR
+
