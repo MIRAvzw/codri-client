@@ -15,7 +15,7 @@
 // Definitions
 #define MEDIA_SERVICE_TYPE "urn:mira-be:service:Media:1"
 #define MEDIA_SERVICE_ID "urn:mira-be:serviceId:Media:1"
-#define MEDIA_SERVICE_SCPD_FILE ":/descriptions/MEDIA_scpd.xml"
+#define MEDIA_SERVICE_SCPD_FILE ":/descriptions/media_scpd.xml"
 #define MEDIA_SERVICE_SCPD_URL "/urn:mira-be:serviceId:Media:1/scpd.xml"
 #define MEDIA_SERVICE_CONTROL_URL "/urn:mira-be:serviceId:Media:1/control"
 #define MEDIA_SERVICE_EVENT_URL "/urn:mira-be:serviceId:Media:1/eventing"
