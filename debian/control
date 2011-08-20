@@ -11,11 +11,11 @@ Package: aa3client
 Section: lib
 Architecture: any
 Depends: libqt4-core, libqt4-gui, libqt4-webkit, libbrisa, liblog4qt, libsvnqt2, ${misc:Depends}, ${shlibs:Depends}
-Description: Ad-Astra III client application.
+Description: Ad-Astra III client application
 
 Package: aa3client-dbg
 Section: libdevel
 Architecture: any
 Depends: libbrisa (= ${binary:Version}), ${misc:Depends}
-Description: Debug symbols for the Ad-Astra III client application.
+Description: Ad-Astra III client application (debug symbols)
 
