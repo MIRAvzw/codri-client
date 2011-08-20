@@ -41,8 +41,7 @@ namespace MIRA
     private slots:
         BrisaOutArgument *getconfigurationrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction);
         BrisaOutArgument *setconfigurationrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction);
-        BrisaOutArgument *getmediarevision(BrisaInArgument *const iArguments, BrisaAction *const iAction);
-        BrisaOutArgument *loadmedia(BrisaInArgument *const iArguments, BrisaAction *const iAction);
+        BrisaOutArgument *setmedia(BrisaInArgument *const iArguments, BrisaAction *const iAction);
         BrisaOutArgument *getmedia(BrisaInArgument *const iArguments, BrisaAction *const iAction);
 
     private:

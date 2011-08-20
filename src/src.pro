@@ -22,7 +22,7 @@ INCLUDEPATH += /usr/include/BRisa
 LIBS += -lBrisaCore \
     -lBrisaUpnp \
     -lBrisaUtils
-TARGET = client
+TARGET = aa3client
 TEMPLATE = app
 
 RESOURCES += userinterface/webpage.qrc \

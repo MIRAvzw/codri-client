@@ -58,18 +58,7 @@ BrisaOutArgument *ApplicationService::setconfigurationrevision(BrisaInArgument *
     return oArguments;
 }
 
-BrisaOutArgument *ApplicationService::getmediarevision(BrisaInArgument *const iArguments, BrisaAction *const iAction)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-    Q_UNUSED(iArguments)
-    Q_UNUSED(iAction)
-
-    BrisaOutArgument *oArguments = new BrisaOutArgument();
-    oArguments->insert("oMediaRevisionValue", QString::number(MainApplication::instance()->controller()->media().Revision));
-    return oArguments;
-}
-
-BrisaOutArgument *ApplicationService::loadmedia(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
+BrisaOutArgument *ApplicationService::setmedia(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -90,5 +79,6 @@ BrisaOutArgument *ApplicationService::getmedia(BrisaInArgument *const iArguments
     BrisaOutArgument *oArguments = new BrisaOutArgument();
     oArguments->insert("oMediaIdentifierValue", MainApplication::instance()->controller()->media().Identifier);
     oArguments->insert("oMediaLocationValue", MainApplication::instance()->controller()->media().RemoteLocation.toString());
+    oArguments->insert("oMediaRevisionValue", QString::number(MainApplication::instance()->controller()->media().Revision));
     return oArguments;
 }

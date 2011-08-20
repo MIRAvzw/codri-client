@@ -1,4 +1,4 @@
-VERSION 1.0
+VERSION 0.9
 -----------
 
 * General
@@ -19,8 +19,12 @@ VERSION 1.0
 * Repository subsystem
   - Data caches
 
+* OS
+  - Deploy application on Efika MX
+  - Disable squeeze
 
-VERSION 2.0
+
+VERSION 1.0
 -----------
 
 * General
@@ -30,8 +34,8 @@ VERSION 2.0
   - Eventing
 
 
-FUTURE
-------
+VERSION 2.0
+-----------
 
 * Interface subsystem
   - Dynamic interfaces

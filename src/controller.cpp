@@ -45,7 +45,7 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
         connect(mNetworkInterface, SIGNAL(shutdown()), this, SLOT(_shutdown()));
         connect(mNetworkInterface, SIGNAL(reboot()), this, SLOT(_reboot()));
         connect(mNetworkInterface, SIGNAL(changeVolume(uint)), this, SLOT(_changeVolume(uint)));
-        connect(mNetworkInterface, SIGNAL(setConfigurationRevision(unsigned long)), this, SLOT(_setConfigurationRevision(usigned long)));
+        connect(mNetworkInterface, SIGNAL(setConfigurationRevision(unsigned long)), this, SLOT(_setConfigurationRevision(unsigned long)));
         connect(mNetworkInterface, SIGNAL(loadMedia(const QString&, const QString&)), this, SLOT(_loadMedia(const QString&, const QString&)));
 
         mLogger->debug() << "Initializing user interface";
@@ -108,18 +108,14 @@ void Controller::start()
     _setConfigurationRevision(dataManager()->config("configuration/revision", 0).toULongLong());
     if (dataManager()->containsConfig("media/identifier"))
     {
-        try
-        {
-            loadCachedMedia(dataManager()->config("media/identifier").toString());
-            // TODO: loads, but screen blanks after this.
-            // Maybe happens before all subsystems are loaded?
-        }
-        catch (const QException& tException)
-        {
-            mLogger->error() << "Could not load cached media" << tException.what();
-            foreach (const QString& tCause, tException.causes())
-                mLogger->error() << "Caused by: " << tCause;
-        }
+        loadCachedMedia(dataManager()->config("media/identifier").toString());
+    }
+    else
+    {
+        mMedia.Identifier = "none";
+        mMedia.LocalLocation = "none";
+        mMedia.RemoteLocation = "none";
+        mMedia.Revision = 0;
     }
 }
 
@@ -273,6 +269,9 @@ void Controller::loadCachedMedia(const QString &iMediaIdentifier)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
+    // Disable the user interface
+    userInterface()->showInit();
+
     // Check the media
     try
     {
@@ -280,9 +279,13 @@ void Controller::loadCachedMedia(const QString &iMediaIdentifier)
     }
     catch (const QException& tException)
     {
-        mLogger->error() << "Could not check the cached media" << tException.what();
+        mLogger->error() << "Could not load the cached media" << tException.what();
         foreach (const QString& tCause, tException.causes())
             mLogger->error() << "Caused by: " << tCause;
+        userInterface()->showError("could not load cached media");
+
+        mMedia.Revision = 0;
+
         return;
     }
 

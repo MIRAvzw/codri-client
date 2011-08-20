@@ -131,14 +131,14 @@ DataManager::Media DataManager::getCachedMedia() throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
+    Media tData;
+    tData.LocalLocation = *mCacheMedia;
+    tData.RemoteLocation = "locally cached data";
+
     if (! mCacheMedia->exists())
         throw QException("media cache does not exist");
 
-    unsigned long tRevision = checkRepository(*mCacheMedia);
-
-    Media tData;
-    tData.LocalLocation = *mCacheMedia;
-    tData.Revision = tRevision;
+    tData.Revision = checkRepository(*mCacheMedia);;
     return tData;
 }
 

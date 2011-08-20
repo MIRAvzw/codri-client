@@ -26,17 +26,7 @@
       </argumentList>
     </action>
     <action>
-      <name>GetMediaRevision</name>
-      <argumentList>
-        <argument>
-          <name>oMediaRevisionValue</name>
-          <relatedStateVariable>MediaRevision</relatedStateVariable>
-          <direction>out</direction>
-        </argument>
-      </argumentList>
-    </action>
-    <action>
-      <name>LoadMedia</name>
+      <name>SetMedia</name>
       <argumentList>
         <argument>
           <name>iMediaIdentifierValue</name>
@@ -61,6 +51,11 @@
         <argument>
           <name>oMediaLocationValue</name>
           <relatedStateVariable>MediaLocation</relatedStateVariable>
+          <direction>out</direction>
+        </argument>
+        <argument>
+          <name>oMediaRevisionValue</name>
+          <relatedStateVariable>MediaRevision</relatedStateVariable>
           <direction>out</direction>
         </argument>
       </argumentList>

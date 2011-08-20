@@ -1,5 +1,5 @@
 *~
 *-build-*
-
+*.pro.user
 .cproject
 .project
