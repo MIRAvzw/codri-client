@@ -32,7 +32,6 @@ SOURCES += controller.cpp \
     main.cpp \
     mainapplication.cpp \
     networkinterface/devices/kioskdevice.cpp \
-    networkinterface/services/applicationservice.cpp \
     networkinterface/services/deviceservice.cpp \
     networkinterface.cpp \
     userinterface/webpage.cpp \
@@ -41,12 +40,12 @@ SOURCES += controller.cpp \
     userinterface/webpages/statuspage.cpp \
     userinterface.cpp \
     userinterface/webpages/initpage.cpp \
-    userinterface/webpages/errorpage.cpp
+    userinterface/webpages/errorpage.cpp \
+    networkinterface/services/mediaservice.cpp
 HEADERS += controller.h \
     datamanager.h \
     mainapplication.h \
     networkinterface/devices/kioskdevice.h \
-    networkinterface/services/applicationservice.h \
     networkinterface/services/deviceservice.h \
     networkinterface.h \
     qexception.h \
@@ -56,13 +55,14 @@ HEADERS += controller.h \
     userinterface/webpages/statuspage.h \
     userinterface.h \
     userinterface/webpages/initpage.h \
-    userinterface/webpages/errorpage.h
+    userinterface/webpages/errorpage.h \
+    networkinterface/services/mediaservice.h
 OTHER_FILES += networkinterface/descriptions/device_scpd.xml \
-    networkinterface/descriptions/application_scpd.xml \
     userinterface/webpages/logpage.html \
     userinterface/webpages/statuspage.html \
     userinterface/webpages/initpage.html \
-    userinterface/webpages/errorpage.html
+    userinterface/webpages/errorpage.html \
+    networkinterface/descriptions/media_scpd.xml
 
 isEmpty(PREFIX) {
   PREFIX = /usr
@@ -71,4 +71,3 @@ BINDIR = $$PREFIX/bin
 DATADIR =$$PREFIX/share
 INSTALLS += target
 target.path =$$BINDIR
-

@@ -5,6 +5,26 @@
     <minor>0</minor>
   </specVersion>
   <actionList>
+  <action>
+    <name>GetRevision</name>
+    <argumentList>
+      <argument>
+        <name>oRevisionValue</name>
+        <relatedStateVariable>Revision</relatedStateVariable>
+        <direction>out</direction>
+      </argument>
+    </argumentList>
+  </action>
+  <action>
+    <name>SetRevision</name>
+    <argumentList>
+      <argument>
+        <name>iRevisionValue</name>
+        <relatedStateVariable>Revision</relatedStateVariable>
+        <direction>in</direction>
+      </argument>
+    </argumentList>
+  </action>
     <action>
       <name>Shutdown</name>
     </action>
@@ -56,6 +76,11 @@
       <name>Volume</name>
       <dataType>ui1</dataType>
       <defaultValue>0</defaultValue>
+    </stateVariable>
+    <stateVariable sendEvents="no">
+      <name>Revision</name>
+      <dataType>ui4</dataType>
+      <defaultValue></defaultValue>
     </stateVariable>
   </serviceStateTable>
 </scpd>

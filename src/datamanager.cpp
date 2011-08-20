@@ -42,24 +42,17 @@ DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
     mSubversionClient->setContext(tSubversionContext);
 
     // Check the cache
-    mCache = new QDir(mSettings->value("location", "/tmp/cache").toString());
-    if (!mCache->exists() && !QDir().mkpath(mCache->absolutePath()))
+    mCache = QDir(mSettings->value("location", "/tmp/cache").toString());
+    if (!mCache.exists() && !QDir().mkpath(mCache.absolutePath()))
         throw new QException("Could not create main cache directory");
-    QFileInfo tCacheInfo(mCache->path());
+    QFileInfo tCacheInfo(mCache.path());
     if (!tCacheInfo.isDir() || !tCacheInfo.isWritable()) {
         throw new QException("Data cache directory does not exist or is not writable");
     }
 
     // Load the individual caches
-    mCacheMedia = new QDir(mCache->filePath("media"));
-    mCacheConfiguration = new QSettings(mCache->filePath("configuration"), QSettings::NativeFormat, this);
-}
-
-DataManager::~DataManager()
-{
-    // Delete parent-less objects
-    delete mCacheMedia;
-    delete mCache;
+    mCacheMedia = QDir(mCache.filePath("media"));
+    mCacheConfiguration = new QSettings(mCache.filePath("configuration"), QSettings::NativeFormat, this);
 }
 
 
@@ -102,18 +95,17 @@ DataManager::Media DataManager::getRemoteMedia(const QUrl &iUrl) throw(QExceptio
     mLogger->trace() << Q_FUNC_INFO;
 
     Media tData;
-    tData.LocalLocation = *mCacheMedia;
-    tData.RemoteLocation = iUrl;
+    tData.Location = iUrl;
 
-    if (mCacheMedia->exists())
+    if (mCacheMedia.exists())
     {
         mLogger->debug() << "cache hit, updating media";
-        tData.Revision = updateRepository(*mCacheMedia);
+        tData.Revision = updateRepository(mCacheMedia);
     }
     else
     {
         mLogger->debug() << "cache miss, checking-out media";
-        tData.Revision = checkoutRepository(*mCacheMedia, iUrl);
+        tData.Revision = checkoutRepository(mCacheMedia, iUrl);
     }
 
     return tData;
@@ -123,7 +115,7 @@ void DataManager::removeMedia() throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    if (removeDirectory(*mCacheMedia))
+    if (removeDirectory(mCacheMedia))
         throw QException("could not remove media");
 }
 
@@ -132,14 +124,18 @@ DataManager::Media DataManager::getCachedMedia() throw(QException)
     mLogger->trace() << Q_FUNC_INFO;
 
     Media tData;
-    tData.LocalLocation = *mCacheMedia;
-    tData.RemoteLocation = "locally cached data";
+    tData.Location = "locally cached data";
 
-    if (! mCacheMedia->exists())
+    if (! mCacheMedia.exists())
         throw QException("media cache does not exist");
 
-    tData.Revision = checkRepository(*mCacheMedia);;
+    tData.Revision = checkRepository(mCacheMedia);;
     return tData;
+}
+
+QDir DataManager::getMediaLocation() const
+{
+    return mCacheMedia;
 }
 
 

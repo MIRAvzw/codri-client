@@ -14,7 +14,7 @@
 
 // Local includes
 #include "networkinterface/services/deviceservice.h"
-#include "networkinterface/services/applicationservice.h"
+#include "networkinterface/services/mediaservice.h"
 
 // Definitions
 #define DEVICE_TYPE "urn:mira-be:device:Kiosk:1"
@@ -37,22 +37,21 @@ namespace MIRA
 
         // Getters and setters
         DeviceService *deviceService();
-        ApplicationService *applicationService();
+        MediaService *mediaService();
 
     public slots:
         void stateChanged(Brisa::BrisaStateVariable *iVariable);
 
     private:
         // State variables
-        Brisa::BrisaStateVariable *mVolume;
-        Brisa::BrisaStateVariable *mConfigurationRevision;
-        Brisa::BrisaStateVariable *mMediaIdentifier;
-        Brisa::BrisaStateVariable *mMediaLocation;
+        Brisa::BrisaStateVariable *mDeviceRevision;
+        Brisa::BrisaStateVariable *mDeviceVolume;
         Brisa::BrisaStateVariable *mMediaRevision;
+        Brisa::BrisaStateVariable *mMediaLocation;
 
         // Services
         DeviceService *mDeviceService;
-        ApplicationService *mApplicationKiosk;
+        MediaService *mMediaService;
 
         // Data members
         Log4Qt::Logger *mLogger;

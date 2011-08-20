@@ -29,10 +29,11 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     mDevice->start();
 
     // Connect the signals
+    connect(mDevice->deviceService(), SIGNAL(setRevision(unsigned long)), this, SIGNAL(setDeviceRevision(unsigned long)));
     connect(mDevice->deviceService(), SIGNAL(shutdown()), this, SIGNAL(shutdown()));
     connect(mDevice->deviceService(), SIGNAL(reboot()), this, SIGNAL(reboot()));
-    connect(mDevice->deviceService(), SIGNAL(changeVolume(unsigned int)), this, SIGNAL(changeVolume(unsigned int)));
-    connect(mDevice->applicationService(), SIGNAL(loadMedia(QString, QString)), this, SIGNAL(loadMedia(QString, QString)));
+    connect(mDevice->deviceService(), SIGNAL(setVolume(unsigned int)), this, SIGNAL(setVolume(unsigned int)));
+    connect(mDevice->mediaService(), SIGNAL(setLocation(QString)), this, SIGNAL(setMediaLocation(QString)));
 
     // Schedule an alive timer
     mAliveTimer = new QTimer(this);

@@ -61,18 +61,18 @@ namespace MIRA
         void _quit();
         void _shutdown();
         void _reboot();
-        void _changeVolume(unsigned int iVolume);
-        void _setConfigurationRevision(unsigned long iConfigurationRevision);
-        void _loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation);
+        void _setVolume(unsigned int iVolume);
+        void _setDeviceRevision(unsigned long iConfigurationRevision);
+        void _setMediaLocation(const QString &iMediaLocation);
         void _mediaError(const QString& iError);
 
         // Auxiliary
-        void loadCachedMedia(const QString &iMediaIdentifier);
+        void loadCachedMedia();
 
     private:
         // Member data
         QDateTime mTimestampStartup;
-        DataManager::Configuration mConfiguration;
+        DataManager::Device mDevice;
         DataManager::Media mMedia;
 
         // Subsystem objects

@@ -38,15 +38,14 @@ KioskDevice::KioskDevice(QObject *iParent) : Brisa::BrisaDevice(
     // Add services
     mDeviceService = new DeviceService(this);
     addService(mDeviceService);
-    mApplicationKiosk = new ApplicationService(this);
-    addService(mApplicationKiosk);
+    mMediaService = new MediaService(this);
+    addService(mMediaService);
 
     // Initialize state variables
-    mVolume = getServiceByType("urn:mira-be:service:Device:1")->getVariable("Volume");
-    mConfigurationRevision = getServiceByType("urn:mira-be:service:Device:1")->getVariable("ConfigurationRevision");
-    mMediaRevision = getServiceByType("urn:mira-be:service:Application:1")->getVariable("MediaRevision");
-    mMediaIdentifier = getServiceByType("urn:mira-be:service:Application:1")->getVariable("MediaIdentifier");
-    mMediaLocation = getServiceByType("urn:mira-be:service:Application:1")->getVariable("MediaLocation");
+    mDeviceRevision = getServiceByType("urn:mira-be:service:Device:1")->getVariable("Revision");
+    mDeviceVolume = getServiceByType("urn:mira-be:service:Device:1")->getVariable("Volume");
+    mMediaRevision = getServiceByType("urn:mira-be:service:Media:1")->getVariable("Revision");
+    mMediaLocation = getServiceByType("urn:mira-be:service:Media:1")->getVariable("Location");
 }
 
 KioskDevice::~KioskDevice()
@@ -63,9 +62,9 @@ DeviceService *KioskDevice::deviceService()
     return mDeviceService;
 }
 
-ApplicationService *KioskDevice::applicationService()
+MediaService *KioskDevice::mediaService()
 {
-    return mApplicationKiosk;
+    return mMediaService;
 }
 
 

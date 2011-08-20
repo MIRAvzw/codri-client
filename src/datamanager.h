@@ -30,19 +30,16 @@ namespace MIRA
         // Auxiliary classes
         struct Media
         {
-            QString Identifier;
-            QDir LocalLocation;
-            QUrl RemoteLocation;
             unsigned long Revision;
+            QUrl Location;
         };
-        struct Configuration
+        struct Device
         {
             unsigned long Revision;
         };
 
         // Construction and destruction
         DataManager(QObject *iParent = 0) throw(QException);
-        ~DataManager();
 
         // Functionality
         bool containsConfig(const QString& iKey) const;
@@ -52,6 +49,7 @@ namespace MIRA
         Media getRemoteMedia(const QUrl &iUrl) throw(QException);
         void removeMedia() throw(QException);
         Media getCachedMedia() throw(QException);
+        QDir getMediaLocation() const;
 
         // Signals
 
@@ -94,7 +92,7 @@ namespace MIRA
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         svn::Client *mSubversionClient;
-        QDir *mCache, *mCacheMedia;
+        QDir mCache, mCacheMedia;
         QSettings* mCacheConfiguration;
 
         // Auxiliary

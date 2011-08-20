@@ -4,6 +4,7 @@
 
 // Local includes
 #include "deviceservice.h"
+#include "mainapplication.h"
 
 // Namespaces
 using namespace MIRA;
@@ -34,6 +35,29 @@ DeviceService::DeviceService(QObject *iParent) : Brisa::BrisaService(
 //
 // Service methods
 //
+
+
+BrisaOutArgument *DeviceService::getrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+    Q_UNUSED(iArguments)
+    Q_UNUSED(iAction)
+
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
+    oArguments->insert("oRevisionValue", QString::number(MainApplication::instance()->controller()->media().Revision));
+    return oArguments;
+}
+
+BrisaOutArgument *DeviceService::setrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    iAction->getStateVariable("Revision")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iRevisionValue"));
+    emit setRevision(atol(iArguments->value("iRevisionValue").toStdString().c_str()));
+
+    BrisaOutArgument *oArguments = new BrisaOutArgument();
+    return oArguments;
+}
 
 BrisaOutArgument *DeviceService::shutdown(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
@@ -76,7 +100,7 @@ BrisaOutArgument *DeviceService::setvolume(BrisaInArgument *const iArguments, Br
     mLogger->trace() << Q_FUNC_INFO;
 
     iAction->getStateVariable("Volume")->setAttribute(Brisa::BrisaStateVariable::Value, iArguments->value("iVolumeValue"));
-    emit changeVolume(iArguments->value("iVolumeValue").toInt());
+    emit setVolume(iArguments->value("iVolumeValue").toInt());
 
     BrisaOutArgument *oArguments = new BrisaOutArgument();
     return oArguments;

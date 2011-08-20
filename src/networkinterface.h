@@ -31,11 +31,11 @@ namespace MIRA
 
         // Signals
     signals:
+        void setDeviceRevision(const unsigned long iRevision);
         void shutdown();
         void reboot();
-        void changeVolume(unsigned int iVolume);
-        void loadInterface(const QString &iInterfaceIdentifier, const QString &iIndetraceRole, const QString &iInterfaceLocation);
-        void loadMedia(const QString &iMediaIdentifier, const QString &iMediaLocation);
+        void setVolume(unsigned int iVolume);
+        void setMediaLocation(const QString &iMediaLocation);
 
         // Event handlers
     private slots:
