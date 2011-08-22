@@ -8,16 +8,15 @@ VERSION 0.9
     for all events, and trace messages for individual actions; but how to apply
     this in auxiliary systems?)
   - Syslog logging
+  - Debug the new stuff
 
 * Application controller
 
 * Interface subsystem
-  - Error page (when no index.html is present etc)
 
 * Network subsystem
 
 * Repository subsystem
-  - Data caches
 
 * OS
   - Deploy application on Efika MX
