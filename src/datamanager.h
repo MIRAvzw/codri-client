@@ -28,12 +28,12 @@ namespace MIRA
     Q_OBJECT
     public:        
         // Auxiliary classes
-        struct Media
+        struct Presentation
         {
             unsigned long Revision;
             QUrl Location;
         };
-        struct Device
+        struct Configuration
         {
             unsigned long Revision;
         };
@@ -46,9 +46,9 @@ namespace MIRA
         QVariant config(const QString& iKey, const QVariant &iDefaultValue = QVariant()) const;
         void setConfig(const QString& iKey, const QVariant &iValue);
         void saveConfig();
-        Media getRemoteMedia(const QUrl &iUrl) throw(QException);
+        Presentation getRemoteMedia(const QUrl &iUrl) throw(QException);
         void removeMedia() throw(QException);
-        Media getCachedMedia() throw(QException);
+        Presentation getCachedMedia() throw(QException);
         QDir getMediaLocation() const;
 
         // Signals

@@ -45,13 +45,13 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
         connect(mNetworkInterface, SIGNAL(shutdown()), this, SLOT(_shutdown()));
         connect(mNetworkInterface, SIGNAL(reboot()), this, SLOT(_reboot()));
         connect(mNetworkInterface, SIGNAL(setVolume(uint)), this, SLOT(_setVolume(uint)));
-        connect(mNetworkInterface, SIGNAL(setDeviceRevision(unsigned long)), this, SLOT(_setDeviceRevision(unsigned long)));
-        connect(mNetworkInterface, SIGNAL(setMediaLocation(const QString&)), this, SLOT(_setMediaLocation(const QString&)));
+        connect(mNetworkInterface, SIGNAL(setConfigurationRevision(unsigned long)), this, SLOT(_setConfigurationRevision(unsigned long)));
+        connect(mNetworkInterface, SIGNAL(setPresentationLocation(const QString&)), this, SLOT(_setPresentationLocation(const QString&)));
 
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
         connect(mUserInterface, SIGNAL(quit()), this, SLOT(_quit()));
-        connect(mUserInterface, SIGNAL(mediaError(QString)), this, SLOT(_mediaError(QString)));
+        connect(mUserInterface, SIGNAL(mediaError(QString)), this, SLOT(_presentationError(QString)));
         mUserInterface->show();
 
         mLogger->debug() << "Initializing data manager";
@@ -83,9 +83,14 @@ QDateTime Controller::startup() const
     return mTimestampStartup;
 }
 
-DataManager::Media Controller::media() const
+DataManager::Presentation Controller::presentation() const
 {
-    return mMedia;
+    return mPresentation;
+}
+
+DataManager::Configuration Controller::configuration() const
+{
+    return mConfiguration;
 }
 
 
@@ -105,15 +110,15 @@ void Controller::start()
 
     // Load the configuration (this also provides the default configuration)
     _setVolume(dataManager()->config("device/volume", 255).toInt());
-    _setDeviceRevision(dataManager()->config("device/revision", 0).toULongLong());
+    _setConfigurationRevision(dataManager()->config("device/revision", 0).toULongLong());
     if (dataManager()->containsConfig("media/location"))
     {
         loadCachedMedia();
     }
     else
     {
-        mMedia.Location = "none";
-        mMedia.Revision = 0;
+        mPresentation.Location = "none";
+        mPresentation.Revision = 0;
     }
 }
 
@@ -189,16 +194,16 @@ void Controller::_setVolume(unsigned int iVolume)
     // TODO: actually change the volume
 }
 
-void Controller::_setDeviceRevision(unsigned long iConfigurationRevision)
+void Controller::_setConfigurationRevision(unsigned long iConfigurationRevision)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    mDevice.Revision = iConfigurationRevision;
+    mConfiguration.Revision = iConfigurationRevision;
     dataManager()->config("device/revision", (unsigned long long) iConfigurationRevision);
 
 }
 
-void Controller::_setMediaLocation(const QString &iMediaLocation)
+void Controller::_setPresentationLocation(const QString &iMediaLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -213,19 +218,19 @@ void Controller::_setMediaLocation(const QString &iMediaLocation)
         {
             mLogger->debug() << "Clearing";
             dataManager()->removeMedia();
-            mMedia = dataManager()->getRemoteMedia(iMediaLocation);
+            mPresentation = dataManager()->getRemoteMedia(iMediaLocation);
         }
         else
         {
             try
             {
-                mMedia = dataManager()->getRemoteMedia(iMediaLocation);
+                mPresentation = dataManager()->getRemoteMedia(iMediaLocation);
             }
             catch (const QException &tException)
             {
                 mLogger->warn() << "Incremental download failed, trying with a clean cache now";
                 dataManager()->removeMedia();
-                mMedia = dataManager()->getRemoteMedia(iMediaLocation);
+                mPresentation = dataManager()->getRemoteMedia(iMediaLocation);
             }
         }
     }
@@ -239,14 +244,14 @@ void Controller::_setMediaLocation(const QString &iMediaLocation)
     }
 
     // Cache the values
-    dataManager()->setConfig("media/location", mMedia.Location);
-    dataManager()->setConfig("media/revision", (unsigned long long) mMedia.Revision);
+    dataManager()->setConfig("media/location", mPresentation.Location);
+    dataManager()->setConfig("media/revision", (unsigned long long) mPresentation.Revision);
 
     // Show the media
-    userInterface()->showMedia(dataManager()->getMediaLocation());
+    userInterface()->showPresentation(dataManager()->getMediaLocation());
 }
 
-void Controller::_mediaError(const QString& iError)
+void Controller::_presentationError(const QString& iError)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -269,7 +274,7 @@ void Controller::loadCachedMedia()
     // Check the media
     try
     {
-        mMedia = dataManager()->getCachedMedia();
+        mPresentation = dataManager()->getCachedMedia();
     }
     catch (const QException& tException)
     {
@@ -278,11 +283,11 @@ void Controller::loadCachedMedia()
             mLogger->error() << "Caused by: " << tCause;
         userInterface()->showError("could not load cached media");
 
-        mMedia.Revision = 0;
+        mPresentation.Revision = 0;
 
         return;
     }
 
     // Show the media
-    userInterface()->showMedia(dataManager()->getMediaLocation());
+    userInterface()->showPresentation(dataManager()->getMediaLocation());
 }

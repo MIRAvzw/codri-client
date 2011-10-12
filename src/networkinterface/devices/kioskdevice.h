@@ -13,8 +13,8 @@
 #include <QtCore/QObject>
 
 // Local includes
-#include "networkinterface/services/deviceservice.h"
-#include "networkinterface/services/mediaservice.h"
+#include "networkinterface/services/configurationservice.h"
+#include "networkinterface/services/presentationservice.h"
 
 // Definitions
 #define DEVICE_TYPE "urn:mira-be:device:Kiosk:1"
@@ -36,22 +36,22 @@ namespace MIRA
         virtual ~KioskDevice();
 
         // Getters and setters
-        DeviceService *deviceService();
-        MediaService *mediaService();
+        ConfigurationService *configurationService();
+        PresentationService *presentationService();
 
     public slots:
         void stateChanged(Brisa::BrisaStateVariable *iVariable);
 
     private:
         // State variables
-        Brisa::BrisaStateVariable *mDeviceRevision;
-        Brisa::BrisaStateVariable *mDeviceVolume;
-        Brisa::BrisaStateVariable *mMediaRevision;
-        Brisa::BrisaStateVariable *mMediaLocation;
+        Brisa::BrisaStateVariable *mConfigurationRevision;
+        Brisa::BrisaStateVariable *mConfigurationVolume;
+        Brisa::BrisaStateVariable *mPresentationRevision;
+        Brisa::BrisaStateVariable *mPresentationLocation;
 
         // Services
-        DeviceService *mDeviceService;
-        MediaService *mMediaService;
+        ConfigurationService *mConfigurationService;
+        PresentationService *mPresentationService;
 
         // Data members
         Log4Qt::Logger *mLogger;

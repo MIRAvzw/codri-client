@@ -36,7 +36,7 @@ namespace MIRA
         void showLog();
         void showStatus();
         void showError(const QString& iError);
-        void showMedia(const QDir &iLocation);
+        void showPresentation(const QDir &iLocation);
 
         // Slots
     private slots:
@@ -46,7 +46,7 @@ namespace MIRA
         // Signals
     signals:
         void quit();
-        void mediaError(QString iError);
+        void presentationError(QString iError);
 
     private:
         // Member objects

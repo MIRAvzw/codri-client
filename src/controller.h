@@ -43,7 +43,8 @@ namespace MIRA
     public:
         QUuid uuid() const;
         QDateTime startup() const;
-        DataManager::Media media() const;
+        DataManager::Presentation presentation() const;
+        DataManager::Configuration configuration() const;
 
         // Application control
     public slots:
@@ -62,9 +63,9 @@ namespace MIRA
         void _shutdown();
         void _reboot();
         void _setVolume(unsigned int iVolume);
-        void _setDeviceRevision(unsigned long iConfigurationRevision);
-        void _setMediaLocation(const QString &iMediaLocation);
-        void _mediaError(const QString& iError);
+        void _setConfigurationRevision(unsigned long iConfigurationRevision);
+        void _setPresentationLocation(const QString &iPresentationLocation);
+        void _presentationError(const QString& iError);
 
         // Auxiliary
         void loadCachedMedia();
@@ -72,8 +73,8 @@ namespace MIRA
     private:
         // Member data
         QDateTime mTimestampStartup;
-        DataManager::Device mDevice;
-        DataManager::Media mMedia;
+        DataManager::Configuration mConfiguration;
+        DataManager::Presentation mPresentation;
 
         // Subsystem objects
         QSettings *mSettings;

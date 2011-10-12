@@ -3,7 +3,7 @@
 //
 
 // Local includes
-#include "deviceservice.h"
+#include "configurationservice.h"
 #include "mainapplication.h"
 
 // Namespaces
@@ -14,21 +14,21 @@ using namespace MIRA;
 // Construction and destruction
 //
 
-DeviceService::DeviceService(QObject *iParent) : Brisa::BrisaService(
-        DEVICE_SERVICE_TYPE,
-        DEVICE_SERVICE_ID,
-        DEVICE_SERVICE_SCPD_URL,
-        DEVICE_SERVICE_CONTROL_URL,
-        DEVICE_SERVICE_EVENT_URL,
+ConfigurationService::ConfigurationService(QObject *iParent) : Brisa::BrisaService(
+        CONFIGURATION_SERVICE_TYPE,
+        CONFIGURATION_SERVICE_ID,
+        CONFIGURATION_SERVICE_SCPD_URL,
+        CONFIGURATION_SERVICE_CONTROL_URL,
+        CONFIGURATION_SERVICE_EVENT_URL,
         QString(),
         iParent)
 {
     // Setup logging
-    mLogger =  Log4Qt::Logger::logger("DeviceService");
+    mLogger =  Log4Qt::Logger::logger("ConfigurationService");
     mLogger->trace() << Q_FUNC_INFO;
 
     // Provide the SCPD file path
-    setDescriptionFile(DEVICE_SERVICE_SCPD_FILE);
+    setDescriptionFile(CONFIGURATION_SERVICE_SCPD_FILE);
 }
 
 
@@ -37,18 +37,18 @@ DeviceService::DeviceService(QObject *iParent) : Brisa::BrisaService(
 //
 
 
-BrisaOutArgument *DeviceService::getrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction)
+BrisaOutArgument *ConfigurationService::getrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
     Q_UNUSED(iAction)
 
     BrisaOutArgument *oArguments = new BrisaOutArgument();
-    oArguments->insert("oRevisionValue", QString::number(MainApplication::instance()->controller()->media().Revision));
+    oArguments->insert("oRevisionValue", QString::number(MainApplication::instance()->controller()->configuration().Revision));
     return oArguments;
 }
 
-BrisaOutArgument *DeviceService::setrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction)
+BrisaOutArgument *ConfigurationService::setrevision(BrisaInArgument *const iArguments, BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -59,7 +59,7 @@ BrisaOutArgument *DeviceService::setrevision(BrisaInArgument *const iArguments, 
     return oArguments;
 }
 
-BrisaOutArgument *DeviceService::shutdown(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
+BrisaOutArgument *ConfigurationService::shutdown(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iAction)
@@ -71,7 +71,7 @@ BrisaOutArgument *DeviceService::shutdown(BrisaInArgument *const iArguments, Bri
     return oArguments;
 }
 
-BrisaOutArgument *DeviceService::reboot(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
+BrisaOutArgument *ConfigurationService::reboot(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)
@@ -83,7 +83,7 @@ BrisaOutArgument *DeviceService::reboot(BrisaInArgument *const iArguments, Brisa
     return oArguments;
 }
 
-BrisaOutArgument *DeviceService::echo(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
+BrisaOutArgument *ConfigurationService::echo(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -95,7 +95,7 @@ BrisaOutArgument *DeviceService::echo(BrisaInArgument *const iArguments, Brisa::
     return oArguments;
 }
 
-BrisaOutArgument *DeviceService::setvolume(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
+BrisaOutArgument *ConfigurationService::setvolume(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -106,7 +106,7 @@ BrisaOutArgument *DeviceService::setvolume(BrisaInArgument *const iArguments, Br
     return oArguments;
 }
 
-BrisaOutArgument *DeviceService::getvolume(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
+BrisaOutArgument *ConfigurationService::getvolume(BrisaInArgument *const iArguments, Brisa::BrisaAction *const iAction)
 {
     mLogger->trace() << Q_FUNC_INFO;
     Q_UNUSED(iArguments)

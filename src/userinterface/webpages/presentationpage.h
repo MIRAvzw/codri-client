@@ -3,8 +3,8 @@
 //
 
 // Include guard
-#ifndef MEDIAPAGE_H
-#define MEDIAPAGE_H
+#ifndef PRESENTATIONPAGE_H
+#define PRESENTATIONPAGE_H
 
 // Library includes
 #include <QtCore/QObject>
@@ -15,14 +15,14 @@
 
 namespace MIRA
 {
-    class MediaPage : public WebPage
+    class PresentationPage : public WebPage
     {
     Q_OBJECT
     public:
         // Construction and destruction
-        MediaPage(const QDir& iLocation, QObject *iParent = 0);
-        ~MediaPage();
+        PresentationPage(const QDir& iLocation, QObject *iParent = 0);
+        ~PresentationPage();
     };
 }
 
-#endif // MEDIAPAGE_H
+#endif // PRESENTATIONPAGE_H

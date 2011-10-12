@@ -7,7 +7,7 @@
 #include "userinterface/webpages/initpage.h"
 #include "userinterface/webpages/errorpage.h"
 #include "userinterface/webpages/logpage.h"
-#include "userinterface/webpages/mediapage.h"
+#include "userinterface/webpages/presentationpage.h"
 #include "userinterface/webpages/statuspage.h"
 
 // Library includes
@@ -84,13 +84,13 @@ void UserInterface::showError(const QString& iError)
     mWebView->setPage(tPageError);
 }
 
-void UserInterface::showMedia(const QDir& iLocation)
+void UserInterface::showPresentation(const QDir& iLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
     // TODO: is webview specification necessary? Does'tn setpage properly configure the parent?
-    QWebPage *tPageMedia = new MediaPage(iLocation, mWebView);
-    mWebView->setPage(tPageMedia);
+    QWebPage *tPagetPresentation = new PresentationPage(iLocation, mWebView);
+    mWebView->setPage(tPagetPresentation);
 }
 
 
@@ -161,7 +161,7 @@ void UserInterface::_loadFinished(bool iOk)
     if (mWebView->page() == 0)  // TODO: track
     {
         showError("unknown error");
-        emit mediaError("unknown error");
+        emit presentationError("unknown error");
     }
     else
     {

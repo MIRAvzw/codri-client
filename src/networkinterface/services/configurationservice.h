@@ -13,24 +13,24 @@
 #include <Log4Qt/Logger>
 
 // Definitions
-#define DEVICE_SERVICE_TYPE "urn:mira-be:service:Device:1"
-#define DEVICE_SERVICE_ID "urn:mira-be:serviceId:Device:1"
-#define DEVICE_SERVICE_SCPD_FILE ":/descriptions/device_scpd.xml"
-#define DEVICE_SERVICE_SCPD_URL "/urn:mira-be:serviceId:Device:1/scpd.xml"
-#define DEVICE_SERVICE_CONTROL_URL "/urn:mira-be:serviceId:Device:1/control"
-#define DEVICE_SERVICE_EVENT_URL "/urn:mira-be:serviceId:Device:1/eventing"
+#define CONFIGURATION_SERVICE_TYPE "urn:mira-be:service:Configuration:1"
+#define CONFIGURATION_SERVICE_ID "urn:mira-be:serviceId:Configuration:1"
+#define CONFIGURATION_SERVICE_SCPD_FILE ":/descriptions/configuration_scpd.xml"
+#define CONFIGURATION_SERVICE_SCPD_URL "/urn:mira-be:serviceId:Configuration:1/scpd.xml"
+#define CONFIGURATION_SERVICE_CONTROL_URL "/urn:mira-be:serviceId:Configuration:1/control"
+#define CONFIGURATION_SERVICE_EVENT_URL "/urn:mira-be:serviceId:Configuration:1/eventing"
 
 // Namespaces
 using namespace Brisa;  // to prevent the MOC from being confused
 
 namespace MIRA
 {
-    class DeviceService : public Brisa::BrisaService
+    class ConfigurationService : public Brisa::BrisaService
     {
     Q_OBJECT
     public:
         // Construction and destruction
-        DeviceService(QObject *iParent = 0);
+        ConfigurationService(QObject *iParent = 0);
 
         // Signals
     signals:

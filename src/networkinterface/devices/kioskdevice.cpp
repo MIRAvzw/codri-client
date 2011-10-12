@@ -36,16 +36,16 @@ KioskDevice::KioskDevice(QObject *iParent) : Brisa::BrisaDevice(
     mLogger->trace() << Q_FUNC_INFO;
 
     // Add services
-    mDeviceService = new DeviceService(this);
-    addService(mDeviceService);
-    mMediaService = new MediaService(this);
-    addService(mMediaService);
+    mConfigurationService = new ConfigurationService(this);
+    addService(mConfigurationService);
+    mPresentationService = new PresentationService(this);
+    addService(mPresentationService);
 
     // Initialize state variables
-    mDeviceRevision = getServiceByType("urn:mira-be:service:Device:1")->getVariable("Revision");
-    mDeviceVolume = getServiceByType("urn:mira-be:service:Device:1")->getVariable("Volume");
-    mMediaRevision = getServiceByType("urn:mira-be:service:Media:1")->getVariable("Revision");
-    mMediaLocation = getServiceByType("urn:mira-be:service:Media:1")->getVariable("Location");
+    mConfigurationRevision = getServiceByType("urn:mira-be:service:Configuration:1")->getVariable("Revision");
+    mConfigurationVolume = getServiceByType("urn:mira-be:service:Configuration:1")->getVariable("Volume");
+    mPresentationRevision = getServiceByType("urn:mira-be:service:Presentation:1")->getVariable("Revision");
+    mPresentationLocation = getServiceByType("urn:mira-be:service:Presentation:1")->getVariable("Location");
 }
 
 KioskDevice::~KioskDevice()
@@ -57,14 +57,14 @@ KioskDevice::~KioskDevice()
 // Getters and setters
 //
 
-DeviceService *KioskDevice::deviceService()
+ConfigurationService *KioskDevice::configurationService()
 {
-    return mDeviceService;
+    return mConfigurationService;
 }
 
-MediaService *KioskDevice::mediaService()
+PresentationService *KioskDevice::presentationService()
 {
-    return mMediaService;
+    return mPresentationService;
 }
 
 

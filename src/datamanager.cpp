@@ -90,11 +90,11 @@ void DataManager::saveConfig()
     mCacheConfiguration->sync();
 }
 
-DataManager::Media DataManager::getRemoteMedia(const QUrl &iUrl) throw(QException)
+DataManager::Presentation DataManager::getRemoteMedia(const QUrl &iUrl) throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    Media tData;
+    Presentation tData;
     tData.Location = iUrl;
 
     if (mCacheMedia.exists())
@@ -119,11 +119,11 @@ void DataManager::removeMedia() throw(QException)
         throw QException("could not remove media");
 }
 
-DataManager::Media DataManager::getCachedMedia() throw(QException)
+DataManager::Presentation DataManager::getCachedMedia() throw(QException)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    Media tData;
+    Presentation tData;
     tData.Location = "locally cached data";
 
     if (! mCacheMedia.exists())
