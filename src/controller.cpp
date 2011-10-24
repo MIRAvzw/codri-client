@@ -51,7 +51,7 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
         connect(mUserInterface, SIGNAL(quit()), this, SLOT(_quit()));
-        connect(mUserInterface, SIGNAL(mediaError(QString)), this, SLOT(_presentationError(QString)));
+        connect(mUserInterface, SIGNAL(presentationError(QString)), this, SLOT(_presentationError(QString)));
         mUserInterface->show();
 
         mLogger->debug() << "Initializing data manager";
