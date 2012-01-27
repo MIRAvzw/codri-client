@@ -9,6 +9,7 @@
 // Library includes
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
+#include <QtCore/QUuid>
 #include <Log4Qt/Logger>
 
 // Local includes

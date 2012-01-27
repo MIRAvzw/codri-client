@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>descriptions/presentation_scpd.xml</file>
-        <file>descriptions/configuration_scpd.xml</file>
-    </qresource>
-</RCC>

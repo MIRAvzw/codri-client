@@ -14,7 +14,7 @@
 
 // Local includes
 #include "qexception.h"
-#include "networkinterface/devices/kioskdevice.h"
+#include "networkinterface/webservicedispatcher.h"
 
 namespace MIRA
 {
@@ -37,16 +37,12 @@ namespace MIRA
         void setVolume(unsigned int iVolume);
         void setPresentationLocation(const QString &iMediaLocation);
 
-        // Event handlers
-    private slots:
-        void _sendAlive() const;
-
     private:
-        // Data members
+        // Subsystem objects
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
-        KioskDevice *mDevice;
         QTimer *mAliveTimer;
+        WebserviceDispatcher *mWebserviceDispatcher;
     };
 }
 

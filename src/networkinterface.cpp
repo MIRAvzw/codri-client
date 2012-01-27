@@ -4,6 +4,7 @@
 
 // Local includes
 #include "networkinterface.h"
+#include "networkinterface/resources/applicationresource.h"
 
 // Namespaces
 using namespace MIRA;
@@ -23,30 +24,26 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     mLogger =  Log4Qt::Logger::logger("NetworkInterface");
     mLogger->trace() << Q_FUNC_INFO;
 
-    // Create and start the device
-    mDevice = new KioskDevice(this);
-    mLogger->debug() << "Starting UPnP device";
-    mDevice->start();
+    // TODO: connect signals
 
-    // Connect the signals
-    connect(mDevice->configurationService(), SIGNAL(setRevision(unsigned long)), this, SIGNAL(setConfigurationRevision(unsigned long)));
-    connect(mDevice->configurationService(), SIGNAL(shutdown()), this, SIGNAL(shutdown()));
-    connect(mDevice->configurationService(), SIGNAL(reboot()), this, SIGNAL(reboot()));
-    connect(mDevice->configurationService(), SIGNAL(setVolume(unsigned int)), this, SIGNAL(setVolume(unsigned int)));
-    connect(mDevice->presentationService(), SIGNAL(setLocation(QString)), this, SIGNAL(setPresentationLocation(QString)));
+    // TODO: fix memory
+    mLogger->debug() << "Starting webservice dispatcher";
+    mWebserviceDispatcher = new WebserviceDispatcher(QHostAddress("127.0.0.1"), 8080);
+    Resource* tApplicationResource = new ApplicationResource(mWebserviceDispatcher, 0);
+    mWebserviceDispatcher->addService("application", tApplicationResource);
+    mWebserviceDispatcher->start();
 
     // Schedule an alive timer
+    /*
     mAliveTimer = new QTimer(this);
     connect(mAliveTimer, SIGNAL(timeout()), this, SLOT(_sendAlive()));
     mAliveTimer->start(mSettings->value("alivetimer", 300*1000).toInt());
+    */
 }
 
 NetworkInterface::~NetworkInterface()
 {
     mLogger->trace() << Q_FUNC_INFO;
-
-    mLogger->debug() << "Stopping UPnP device";
-    mDevice->stop();
 }
 
 
@@ -56,18 +53,6 @@ NetworkInterface::~NetworkInterface()
 
 QString NetworkInterface::uuid() const
 {
-    return mDevice->getAttribute(Brisa::BrisaDevice::Udn);
-}
-
-
-//
-// Event handlers
-//
-
-void NetworkInterface::_sendAlive() const
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    mLogger->debug() << "Sending UPnP alive notice";
-    mDevice->doNotify();
+    // TODO
+    return "";
 }
