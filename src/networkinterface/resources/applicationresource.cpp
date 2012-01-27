@@ -14,6 +14,6 @@ using namespace MIRA;
 //
 
 ApplicationResource::ApplicationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
-    : Resource(iSessionManager, iParent)
+    : JsonResource(iSessionManager, iParent)
 {
 }

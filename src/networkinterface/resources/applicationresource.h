@@ -7,33 +7,40 @@
 #define APPLICATIONRESOURCE_H
 
 // Local includes
-#include "networkinterface/resource.h"
+#include "networkinterface/jsonresource.h"
+
+// Library includes
+#include <QtCore/QVariant>
 
 namespace MIRA
 {
-    class ApplicationResource : public Resource
+    class ApplicationResource : public JsonResource
     {
     public:
         // Construction and destruction
         ApplicationResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0);
 
     protected:
-        // Resource implementation
-        void doGET(QxtWebRequestEvent *iEvent)
-        {
-            postEvent(new QxtWebPageEvent(iEvent->sessionID, iEvent->requestID, "foobar"));
+        // JsonResource implementation
+        QVariant doJsonGET(int iSessionId, int iRequestId) {
+            QVariantMap tReply;
+            tReply["method"] = "GET";
+            return tReply;
         }
-
-        void doPUT(QxtWebRequestEvent *iEvent)
-        {
+        QVariant doJsonPUT(int iSessionId, int iRequestId, QVariant& iData) {
+            QVariantMap tReply;
+            tReply["method"] = "PUT";
+            return tReply;
         }
-
-        void doPOST(QxtWebRequestEvent *iEvent)
-        {
+        QVariant doJsonPOST(int iSessionId, int iRequestId, QVariant& iData) {
+            QVariantMap tReply;
+            tReply["method"] = "POST";
+            return tReply;
         }
-
-        void doDELETE(QxtWebRequestEvent *iEvent)
-        {
+        QVariant doJsonDELETE(int iSessionId, int iRequestId) {
+            QVariantMap tReply;
+            tReply["method"] = "DELETE";
+            return tReply;
         }
     };
 }

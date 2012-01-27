@@ -10,6 +10,7 @@
 #include <QtCore/QString>
 #include <QxtWeb/QxtWebServiceDirectory>
 #include <QxtWeb/QxtWebRequestEvent>
+#include <QxtWeb/QxtWebContent>
 
 namespace MIRA
 {
@@ -28,37 +29,83 @@ namespace MIRA
         }
 
     protected:
-        // QxtWebServiceDirectory implementation
-        void indexRequested(QxtWebRequestEvent *iEvent)
+        // Service methods
+        virtual void doGET(const int iSessionId, int iRequestId)
         {
-            if (iEvent->method.compare("GET") == 0)
-            {
-                doGET(iEvent);
-            }
-            else if (iEvent->method.compare("PUT") == 0)
-            {
-                doPUT(iEvent);
-            }
-            else if (iEvent->method.compare("POST") == 0)
-            {
-                doPOST(iEvent);
-            }
-            else if (iEvent->method.compare("DELETE") == 0)
-            {
-                doDELETE(iEvent);
-            }
-            else
-            {
-                // not implemented - status code: 501
-            }
+            postUnsupportedMethod(iSessionId, iRequestId);
+        }
+        virtual void doPUT(int iSessionId, int iRequestId, QString& iDataString)
+        {
+            postUnsupportedMethod(iSessionId, iRequestId);
+        }
+        virtual void doPOST(int iSessionId, int iRequestId, QString& iDataString)
+        {
+            postUnsupportedMethod(iSessionId, iRequestId);
+        }
+        virtual void doDELETE(int iSessionId, int iRequestId)
+        {
+            postUnsupportedMethod(iSessionId, iRequestId);
+        }
+
+        // Helper methods
+        void postUnsupportedMethod(int iSessionId, int iRequestId)
+        {
+            // TODO: check if this error code conforms the Java one
+            postEvent(new QxtWebErrorEvent(iSessionId, iRequestId, 405, "Method Not Allowed"));
         }
 
     private:
-        // Resource service methods
-        virtual void doGET(QxtWebRequestEvent *iEvent) = 0;
-        virtual void doPUT(QxtWebRequestEvent *iEvent) = 0;
-        virtual void doPOST(QxtWebRequestEvent *iEvent) = 0;
-        virtual void doDELETE(QxtWebRequestEvent *iEvent) = 0;
+        // QxtWebServiceDirectory implementation
+        void indexRequested(QxtWebRequestEvent *iEvent)
+        {
+            // Prepare the data
+            // FIXME: this essentially makes the processing single-threadedly
+            // http://libqxt.bitbucket.org/doc/tip/qxtwebcontent.html#waitForAllContent
+            // http://dev.libqxt.org/libqxt/src/a79d60a66a86/src/web/qxtwebjsonrpcservice.cpp#cl-495
+            if (iEvent->content) {
+                iEvent->content->waitForAllContent();
+            }
+            handleCompleteEvent(iEvent);
+        }
+
+        // Event handlers
+        void handleCompleteEvent(QxtWebRequestEvent *iEvent) {
+            // Process all requests
+            if (iEvent->method == "GET")
+            {
+                doGET(iEvent->sessionID, iEvent->requestID);
+            }
+            else if (iEvent->method == "DELETE")
+            {
+                doDELETE(iEvent->sessionID, iEvent->requestID);
+            }
+            else if (iEvent->method == "POST")
+            {
+                QString tDataString = readBody(iEvent);
+                doPOST(iEvent->sessionID, iEvent->requestID, tDataString);
+            }
+            else if (iEvent->method == "PUT")
+            {
+                QString tDataString = readBody(iEvent);
+                doPUT(iEvent->sessionID, iEvent->requestID, tDataString);
+            }
+            else
+            {
+                postUnsupportedMethod(iEvent->sessionID, iEvent->requestID);
+            }
+        }
+
+        // Data handling
+        QString readBody(QxtWebRequestEvent *iEvent) {
+            if (iEvent->content)
+            {
+                return QString::fromUtf8(iEvent->content->readAll());
+            }
+            else
+            {
+                return QString();
+            }
+        }
     };
 }
 

@@ -66,7 +66,7 @@ HEADERS += controller.h \
     networkinterface/resource.h \
     networkinterface/webservicedispatcher.h \
     networkinterface/resources/applicationresource.h \
-    networkinterface/resources/emptyresource.h
+    networkinterface/jsonresource.h
 OTHER_FILES += \
     userinterface/webpages/logpage.html \
     userinterface/webpages/statuspage.html \

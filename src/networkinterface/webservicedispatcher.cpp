@@ -4,7 +4,6 @@
 
 // Local includes
 #include "webservicedispatcher.h"
-#include "resources/emptyresource.h"
 
 // Namespaces
 using namespace MIRA;
@@ -25,7 +24,7 @@ WebserviceDispatcher::WebserviceDispatcher(const QHostAddress &iHost, quint16 iP
     mLogger->trace() << Q_FUNC_INFO;
 
     QxtHttpSessionManager(this);
-    mRootService = new EmptyResource(this, this);
+    mRootService = new Resource(this, this);
     setPort(iPort);
     setListenInterface(iHost);
     setConnector(HttpServer);
