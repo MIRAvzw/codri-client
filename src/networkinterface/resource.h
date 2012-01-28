@@ -17,95 +17,28 @@ namespace MIRA
     class Resource : public QxtWebServiceDirectory
     {
         Q_OBJECT
-
     public:
         // Construction and destruction
-        Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0)
-            : QxtWebServiceDirectory(iSessionManager, iParent)
-        {
-        }
-        virtual ~Resource()
-        {
-        }
+        Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0);
+        virtual ~Resource();
 
     protected:
         // Service methods
-        virtual void doGET(const int iSessionId, int iRequestId)
-        {
-            postUnsupportedMethod(iSessionId, iRequestId);
-        }
-        virtual void doPUT(int iSessionId, int iRequestId, QString& iDataString)
-        {
-            postUnsupportedMethod(iSessionId, iRequestId);
-        }
-        virtual void doPOST(int iSessionId, int iRequestId, QString& iDataString)
-        {
-            postUnsupportedMethod(iSessionId, iRequestId);
-        }
-        virtual void doDELETE(int iSessionId, int iRequestId)
-        {
-            postUnsupportedMethod(iSessionId, iRequestId);
-        }
+        virtual void doGET(const int iSessionId, int iRequestId);
+        virtual void doPUT(int iSessionId, int iRequestId, QString& iDataString);
+        virtual void doPOST(int iSessionId, int iRequestId, QString& iDataString);
+        virtual void doDELETE(int iSessionId, int iRequestId);
 
         // Helper methods
-        void postUnsupportedMethod(int iSessionId, int iRequestId)
-        {
-            // TODO: check if this error code conforms the Java one
-            postEvent(new QxtWebErrorEvent(iSessionId, iRequestId, 405, "Method Not Allowed"));
-        }
+        void postUnsupportedMethod(int iSessionId, int iRequestId);
 
     private:
         // QxtWebServiceDirectory implementation
-        void indexRequested(QxtWebRequestEvent *iEvent)
-        {
-            // Prepare the data
-            // FIXME: this essentially makes the processing single-threadedly
-            // http://libqxt.bitbucket.org/doc/tip/qxtwebcontent.html#waitForAllContent
-            // http://dev.libqxt.org/libqxt/src/a79d60a66a86/src/web/qxtwebjsonrpcservice.cpp#cl-495
-            if (iEvent->content) {
-                iEvent->content->waitForAllContent();
-            }
-            handleCompleteEvent(iEvent);
-        }
+        void indexRequested(QxtWebRequestEvent *iEvent);
 
-        // Event handlers
-        void handleCompleteEvent(QxtWebRequestEvent *iEvent) {
-            // Process all requests
-            if (iEvent->method == "GET")
-            {
-                doGET(iEvent->sessionID, iEvent->requestID);
-            }
-            else if (iEvent->method == "DELETE")
-            {
-                doDELETE(iEvent->sessionID, iEvent->requestID);
-            }
-            else if (iEvent->method == "POST")
-            {
-                QString tDataString = readBody(iEvent);
-                doPOST(iEvent->sessionID, iEvent->requestID, tDataString);
-            }
-            else if (iEvent->method == "PUT")
-            {
-                QString tDataString = readBody(iEvent);
-                doPUT(iEvent->sessionID, iEvent->requestID, tDataString);
-            }
-            else
-            {
-                postUnsupportedMethod(iEvent->sessionID, iEvent->requestID);
-            }
-        }
-
-        // Data handling
-        QString readBody(QxtWebRequestEvent *iEvent) {
-            if (iEvent->content)
-            {
-                return QString::fromUtf8(iEvent->content->readAll());
-            }
-            else
-            {
-                return QString();
-            }
-        }
+        // Auxiliary
+        void handleCompleteEvent(QxtWebRequestEvent *iEvent);
+        QString readBody(QxtWebRequestEvent *iEvent);
     };
 }
 
