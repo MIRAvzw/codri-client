@@ -26,22 +26,22 @@ JsonResource::~JsonResource()
 // Service methods
 //
 
-QVariant JsonResource::doJsonGET(int iSessionId, int iRequestId)
+void JsonResource::doJsonGET(int iSessionId, int iRequestId)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-QVariant JsonResource::doJsonPUT(int iSessionId, int iRequestId, QVariant& iData)
+void JsonResource::doJsonPUT(int iSessionId, int iRequestId, QVariant&)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-QVariant JsonResource::doJsonPOST(int iSessionId, int iRequestId, QVariant& iData)
+void JsonResource::doJsonPOST(int iSessionId, int iRequestId, QVariant&)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-QVariant JsonResource::doJsonDELETE(int iSessionId, int iRequestId)
+void JsonResource::doJsonDELETE(int iSessionId, int iRequestId)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
@@ -57,7 +57,7 @@ void JsonResource::postInvalidSyntax(int iSessionId, int iRequestId)
     postEvent(new QxtWebErrorEvent(iSessionId, iRequestId, 400, "Bad Request"));
 }
 
-void JsonResource::postReply(int iSessionId, int iRequestId, QVariant &iData)
+void JsonResource::postReply(int iSessionId, int iRequestId, QVariantMap &iData)
 {
     QString tDataString = QxtJSON::stringify(iData);
     postEvent(new QxtWebPageEvent(iSessionId, iRequestId, tDataString.toUtf8()));
@@ -70,8 +70,7 @@ void JsonResource::postReply(int iSessionId, int iRequestId, QVariant &iData)
 
 void JsonResource::doGET(int iSessionId, int iRequestId)
 {
-    QVariant tReply = doJsonGET(iSessionId, iRequestId);
-    postReply(iSessionId, iRequestId, tReply);
+    doJsonGET(iSessionId, iRequestId);
 
 }
 
@@ -80,8 +79,7 @@ void JsonResource::doPUT(int iSessionId, int iRequestId, QString& iDataString)
     if (iDataString.length() > 0) {
         QVariant tData = QxtJSON::parse(iDataString);
         if (! tData.isNull()) {
-            QVariant tReply = doJsonPUT(iSessionId, iRequestId, tData);
-            postReply(iSessionId, iRequestId, tReply);
+            doJsonPUT(iSessionId, iRequestId, tData);
         } else {
             postInvalidSyntax(iSessionId, iRequestId);
         }
@@ -95,8 +93,7 @@ void JsonResource::doPOST(int iSessionId, int iRequestId, QString& iDataString)
     if (iDataString.length() > 0) {
         QVariant tData = QxtJSON::parse(iDataString);
         if (! tData.isNull()) {
-            QVariant tReply = doJsonPOST(iSessionId, iRequestId, tData);
-            postReply(iSessionId, iRequestId, tReply);
+            doJsonPOST(iSessionId, iRequestId, tData);
         } else {
             postInvalidSyntax(iSessionId, iRequestId);
         }
@@ -107,6 +104,5 @@ void JsonResource::doPOST(int iSessionId, int iRequestId, QString& iDataString)
 
 void JsonResource::doDELETE(int iSessionId, int iRequestId)
 {
-    QVariant tReply = doJsonDELETE(iSessionId, iRequestId);
-    postReply(iSessionId, iRequestId, tReply);
+    doJsonDELETE(iSessionId, iRequestId);
 }

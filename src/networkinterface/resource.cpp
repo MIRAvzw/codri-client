@@ -31,12 +31,12 @@ void Resource::doGET(const int iSessionId, int iRequestId)
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-void Resource::doPUT(int iSessionId, int iRequestId, QString& iDataString)
+void Resource::doPUT(int iSessionId, int iRequestId, QString&)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-void Resource::doPOST(int iSessionId, int iRequestId, QString& iDataString)
+void Resource::doPOST(int iSessionId, int iRequestId, QString&)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }

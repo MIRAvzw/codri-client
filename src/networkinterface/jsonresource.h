@@ -26,14 +26,14 @@ namespace MIRA
 
     protected:
         // Service methods
-        virtual QVariant doJsonGET(int iSessionId, int iRequestId);
-        virtual QVariant doJsonPUT(int iSessionId, int iRequestId, QVariant& iData);
-        virtual QVariant doJsonPOST(int iSessionId, int iRequestId, QVariant& iData);
-        virtual QVariant doJsonDELETE(int iSessionId, int iRequestId);
+        virtual void doJsonGET(int iSessionId, int iRequestId);
+        virtual void doJsonPUT(int iSessionId, int iRequestId, QVariant& iData);
+        virtual void doJsonPOST(int iSessionId, int iRequestId, QVariant& iData);
+        virtual void doJsonDELETE(int iSessionId, int iRequestId);
 
         // Helper methods
         void postInvalidSyntax(int iSessionId, int iRequestId);
-        void postReply(int iSessionId, int iRequestId, QVariant &iData);
+        void postReply(int iSessionId, int iRequestId, QVariantMap &iData);
 
     private:
         // Resource implementation

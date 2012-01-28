@@ -22,25 +22,25 @@ namespace MIRA
 
     protected:
         // JsonResource implementation
-        QVariant doJsonGET(int iSessionId, int iRequestId) {
+        void doJsonGET(int iSessionId, int iRequestId) {
             QVariantMap tReply;
             tReply["method"] = "GET";
-            return tReply;
+            postReply(iSessionId, iRequestId, tReply);
         }
-        QVariant doJsonPUT(int iSessionId, int iRequestId, QVariant& iData) {
+        void doJsonPUT(int iSessionId, int iRequestId, QVariant& iData) {
             QVariantMap tReply;
             tReply["method"] = "PUT";
-            return tReply;
+            postReply(iSessionId, iRequestId, tReply);
         }
-        QVariant doJsonPOST(int iSessionId, int iRequestId, QVariant& iData) {
+        void doJsonPOST(int iSessionId, int iRequestId, QVariant& iData) {
             QVariantMap tReply;
             tReply["method"] = "POST";
-            return tReply;
+            postReply(iSessionId, iRequestId, tReply);
         }
-        QVariant doJsonDELETE(int iSessionId, int iRequestId) {
+        void doJsonDELETE(int iSessionId, int iRequestId) {
             QVariantMap tReply;
             tReply["method"] = "DELETE";
-            return tReply;
+            postReply(iSessionId, iRequestId, tReply);
         }
     };
 }
