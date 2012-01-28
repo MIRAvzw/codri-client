@@ -22,7 +22,7 @@ namespace MIRA
 
     private:
         // JsonResource implementation
-        void doJsonGET(int iSessionId, int iRequestId);
+        Result doJsonGET(QVariant& iReply);
     };
 }
 

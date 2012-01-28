@@ -4,6 +4,7 @@
 
 // Local includes
 #include "networkinterface.h"
+#include "networkinterface/resources/kioskresource.h"
 #include "networkinterface/resources/configurationresource.h"
 
 // Namespaces
@@ -29,8 +30,8 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     // TODO: fix memory
     mLogger->debug() << "Starting webservice dispatcher";
     mWebserviceDispatcher = new WebserviceDispatcher(QHostAddress("127.0.0.1"), 8080);
-    Resource* tConfigurationResource = new ConfigurationResource(mWebserviceDispatcher, 0);
-    mWebserviceDispatcher->addService("configuration", tConfigurationResource);
+    mWebserviceDispatcher->addService("kiosk", new KioskResource(mWebserviceDispatcher));
+    mWebserviceDispatcher->addService("configuration", new ConfigurationResource(mWebserviceDispatcher));
     mWebserviceDispatcher->start();
 
     // Schedule an alive timer

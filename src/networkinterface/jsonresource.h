@@ -8,6 +8,7 @@
 
 // Local includes
 #include "resource.h"
+#include "qexception.h"
 
 // Library includes
 #include <QtCore/QString>
@@ -25,15 +26,30 @@ namespace MIRA
         virtual ~JsonResource();
 
     protected:
+        // Result enum
+        // TODO: similar way in Resource? Passing ByteArray?
+        enum Result {
+            VALID,
+            INVALID,
+            CONFLICT,
+            UNSUPPORTED
+        };
+        void aggregateResult(Result& a, const Result& b) {
+            if (b != VALID)
+                a = b;
+        }
+
         // Service methods
-        virtual void doJsonGET(int iSessionId, int iRequestId);
-        virtual void doJsonPUT(int iSessionId, int iRequestId, QVariant& iData);
-        virtual void doJsonPOST(int iSessionId, int iRequestId, QVariant& iData);
-        virtual void doJsonDELETE(int iSessionId, int iRequestId);
+        virtual Result doJsonGET(QVariant& iReply);
+        virtual Result doJsonPUT(QVariant& iRequest, QVariant& iReply);
+        virtual Result doJsonPOST(QVariant& iRequest, QVariant& iReply);
+        virtual Result doJsonDELETE(QVariant& iReply);
 
         // Helper methods
-        void postInvalidSyntax(int iSessionId, int iRequestId);
-        void postReply(int iSessionId, int iRequestId, QVariantMap &iData);
+        void doJsonReply(int iSessionId, int iRequestId, QVariant& iReply, Result iResult);
+        void postInvalidPayload(int iSessionId, int iRequestId, QString iMessage);
+        void postConflictingPayload(int iSessionId, int iRequestId);
+        void postReply(int iSessionId, int iRequestId, QVariant &iData);
 
     private:
         // Resource implementation

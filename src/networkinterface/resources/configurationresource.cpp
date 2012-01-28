@@ -4,7 +4,6 @@
 
 // Local includes
 #include "configurationresource.h"
-#include "mainapplication.h"
 
 // Namespaces
 using namespace MIRA;
@@ -25,11 +24,13 @@ ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager* iSess
 //
 
 
-void ConfigurationResource::doJsonGET(int iSessionId, int iRequestId)
+JsonResource::Result ConfigurationResource::doJsonGET(QVariant& iReply)
 {
-    QVariantMap tReply;
+    QVariantMap tObject;
+    Result tResult = VALID;
 
-    tReply["foo"] = "bar";
+    tObject["foo"] = "bar";
 
-    postReply(iSessionId, iRequestId, tReply);
+    iReply = tObject;
+    return tResult;
 }

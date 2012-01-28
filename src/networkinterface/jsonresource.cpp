@@ -26,41 +26,24 @@ JsonResource::~JsonResource()
 // Service methods
 //
 
-void JsonResource::doJsonGET(int iSessionId, int iRequestId)
+JsonResource::Result JsonResource::doJsonGET(QVariant&)
 {
-    postUnsupportedMethod(iSessionId, iRequestId);
+    return UNSUPPORTED;
 }
 
-void JsonResource::doJsonPUT(int iSessionId, int iRequestId, QVariant&)
+JsonResource::Result JsonResource::doJsonPUT(QVariant&, QVariant&)
 {
-    postUnsupportedMethod(iSessionId, iRequestId);
+    return UNSUPPORTED;
 }
 
-void JsonResource::doJsonPOST(int iSessionId, int iRequestId, QVariant&)
+JsonResource::Result JsonResource::doJsonPOST(QVariant&, QVariant&)
 {
-    postUnsupportedMethod(iSessionId, iRequestId);
+    return UNSUPPORTED;
 }
 
-void JsonResource::doJsonDELETE(int iSessionId, int iRequestId)
+JsonResource::Result JsonResource::doJsonDELETE(QVariant&)
 {
-    postUnsupportedMethod(iSessionId, iRequestId);
-}
-
-
-//
-// Helper methods
-//
-
-void JsonResource::postInvalidSyntax(int iSessionId, int iRequestId)
-{
-    // TODO: check if this error code conforms the Java one
-    postEvent(new QxtWebErrorEvent(iSessionId, iRequestId, 400, "Bad Request"));
-}
-
-void JsonResource::postReply(int iSessionId, int iRequestId, QVariantMap &iData)
-{
-    QString tDataString = QxtJSON::stringify(iData);
-    postEvent(new QxtWebPageEvent(iSessionId, iRequestId, tDataString.toUtf8()));
+    return UNSUPPORTED;
 }
 
 
@@ -70,39 +53,85 @@ void JsonResource::postReply(int iSessionId, int iRequestId, QVariantMap &iData)
 
 void JsonResource::doGET(int iSessionId, int iRequestId)
 {
-    doJsonGET(iSessionId, iRequestId);
-
+    QVariant tReply;
+    Result tResult = doJsonGET(tReply);
+    doJsonReply(iSessionId, iRequestId, tReply, tResult);
 }
 
 void JsonResource::doPUT(int iSessionId, int iRequestId, QString& iDataString)
 {
     if (iDataString.length() > 0) {
-        QVariant tData = QxtJSON::parse(iDataString);
-        if (! tData.isNull()) {
-            doJsonPUT(iSessionId, iRequestId, tData);
-        } else {
-            postInvalidSyntax(iSessionId, iRequestId);
+        QVariant tRequest = QxtJSON::parse(iDataString);
+        if (!tRequest.isNull())
+        {
+            QVariant tReply;
+            Result tResult = doJsonPUT(tRequest, tReply);
+            doJsonReply(iSessionId, iRequestId, tReply, tResult);
+            return;
         }
-    } else {
-        postInvalidSyntax(iSessionId, iRequestId);
     }
+    postInvalidPayload(iSessionId, iRequestId, "Unparseable Payload");
 }
 
 void JsonResource::doPOST(int iSessionId, int iRequestId, QString& iDataString)
 {
     if (iDataString.length() > 0) {
-        QVariant tData = QxtJSON::parse(iDataString);
-        if (! tData.isNull()) {
-            doJsonPOST(iSessionId, iRequestId, tData);
-        } else {
-            postInvalidSyntax(iSessionId, iRequestId);
+        QVariant tRequest = QxtJSON::parse(iDataString);
+        if (!tRequest.isNull())
+        {
+            QVariant tReply;
+            Result tResult = doJsonPOST(tRequest, tReply);
+            doJsonReply(iSessionId, iRequestId, tReply, tResult);
+            return;
         }
-    } else {
-        postInvalidSyntax(iSessionId, iRequestId);
     }
+    postInvalidPayload(iSessionId, iRequestId, "Unparseable Payload");
 }
 
 void JsonResource::doDELETE(int iSessionId, int iRequestId)
 {
-    doJsonDELETE(iSessionId, iRequestId);
+    QVariant tReply;
+    Result tResult = doJsonDELETE(tReply);
+    doJsonReply(iSessionId, iRequestId, tReply, tResult);
+}
+
+
+
+//
+// Helper methods
+//
+
+void JsonResource::doJsonReply(int iSessionId, int iRequestId, QVariant& iReply, Result iResult)
+{
+    switch (iResult)
+    {
+    case VALID:
+        postReply(iSessionId, iRequestId, iReply);
+        break;
+    case CONFLICT:
+        postConflictingPayload(iSessionId, iRequestId);
+        break;
+    case INVALID:
+        postInvalidPayload(iSessionId, iRequestId, "Invalid Payload");
+        break;
+    case UNSUPPORTED:
+        postUnsupportedMethod(iSessionId, iRequestId);
+        break;
+    }
+}
+
+void JsonResource::postInvalidPayload(int iSessionId, int iRequestId, QString iErrorMessage)
+{
+    postError(iSessionId, iRequestId, 400, iErrorMessage);
+}
+
+void JsonResource::postConflictingPayload(int iSessionId, int iRequestId)
+{
+    postError(iSessionId, iRequestId, 409, "Conflicting Payload");
+}
+
+void JsonResource::postReply(int iSessionId, int iRequestId, QVariant &iData)
+{
+    QString tDataString = QxtJSON::stringify(iData);
+    postEvent(new QxtWebPageEvent(iSessionId, iRequestId, tDataString.toUtf8()));
 }

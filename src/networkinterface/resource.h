@@ -30,6 +30,7 @@ namespace MIRA
         virtual void doDELETE(int iSessionId, int iRequestId);
 
         // Helper methods
+        void postError(int iSessionId, int iRequestId, int iErrorCode, QString iErrorMessage);
         void postUnsupportedMethod(int iSessionId, int iRequestId);
 
     private:

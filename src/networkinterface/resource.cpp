@@ -52,10 +52,15 @@ void Resource::doDELETE(int iSessionId, int iRequestId)
 //
 
 
+void Resource::postError(int iSessionId, int iRequestId, int iErrorCode, QString iErrorMessage)
+{
+    postEvent(new QxtWebErrorEvent(iSessionId, iRequestId, iErrorCode, iErrorMessage.toUtf8()));
+}
+
 void Resource::postUnsupportedMethod(int iSessionId, int iRequestId)
 {
-    // TODO: check if this error code conforms the Java one
-    postEvent(new QxtWebErrorEvent(iSessionId, iRequestId, 405, "Method Not Allowed"));
+    // TODO: check if this error code conforms the Java
+    postError(iSessionId, iRequestId, 405, "Method Not Allowed");
 }
 
 
