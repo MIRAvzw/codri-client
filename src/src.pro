@@ -50,9 +50,9 @@ SOURCES += controller.cpp \
     userinterface/webpages/errorpage.cpp \
     userinterface/webpages/presentationpage.cpp \
     networkinterface/webservicedispatcher.cpp \
-    networkinterface/resources/applicationresource.cpp \
     networkinterface/jsonresource.cpp \
-    networkinterface/resource.cpp
+    networkinterface/resource.cpp \
+    networkinterface/resources/configurationresource.cpp
 HEADERS += controller.h \
     datamanager.h \
     mainapplication.h \
@@ -67,8 +67,8 @@ HEADERS += controller.h \
     userinterface/webpages/presentationpage.h \
     networkinterface/resource.h \
     networkinterface/webservicedispatcher.h \
-    networkinterface/resources/applicationresource.h \
-    networkinterface/jsonresource.h
+    networkinterface/jsonresource.h \
+    networkinterface/resources/configurationresource.h
 OTHER_FILES += \
     userinterface/webpages/logpage.html \
     userinterface/webpages/statuspage.html \

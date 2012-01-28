@@ -4,7 +4,7 @@
 
 // Local includes
 #include "networkinterface.h"
-#include "networkinterface/resources/applicationresource.h"
+#include "networkinterface/resources/configurationresource.h"
 
 // Namespaces
 using namespace MIRA;
@@ -29,8 +29,8 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     // TODO: fix memory
     mLogger->debug() << "Starting webservice dispatcher";
     mWebserviceDispatcher = new WebserviceDispatcher(QHostAddress("127.0.0.1"), 8080);
-    Resource* tApplicationResource = new ApplicationResource(mWebserviceDispatcher, 0);
-    mWebserviceDispatcher->addService("application", tApplicationResource);
+    Resource* tConfigurationResource = new ConfigurationResource(mWebserviceDispatcher, 0);
+    mWebserviceDispatcher->addService("configuration", tConfigurationResource);
     mWebserviceDispatcher->start();
 
     // Schedule an alive timer
