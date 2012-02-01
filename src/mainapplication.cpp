@@ -39,7 +39,7 @@ MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) th
     // Configure the application
     setOrganizationName("MIRA");
     setOrganizationDomain("mira.be");
-    setApplicationName("Ad-Astra III");
+    setApplicationName("Codri");
     setApplicationVersion("0.1");
 
     // Setup signal handling

@@ -1,7 +1,3 @@
-# -------------------------------------------------
-# Project created by QtCreator 2011-03-07T15:07:36
-# -------------------------------------------------
-
 #
 # Dependencies
 #
@@ -37,7 +33,7 @@ LIBS += -lqjson
 # Configuration
 #
 
-TARGET = aa3client
+TARGET = codri-client
 TEMPLATE = app
 
 RESOURCES += userinterface/webpage.qrc
