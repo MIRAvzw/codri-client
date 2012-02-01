@@ -67,8 +67,7 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
 
     // Initialize the presentation state
     mPresentation = new Presentation(this);
-    connect(mPresentation, SIGNAL(onLocationChanged(QString&, QDir&, unsigned long)), this, SLOT(_onPresentationLocationChanged(QString&, QDir&, unsigned long)));
-    connect(mPresentation, SIGNAL(onPendingLocationChanged(QString&)), this, SLOT(_onPresentationPendingLocationChanged(QString&)));
+    connect(mPresentation, SIGNAL(onLocationChanged(const QString&)), this, SLOT(_onPresentationLocationChanged(const QString&)));
 }
 
 Controller::~Controller()
@@ -201,75 +200,29 @@ void Controller::_onConfigurationVolumeChanged(unsigned char iVolume)
     // TODO: actually change the volume
 }
 
-void Controller::_onPresentationPendingLocationChanged(const QString &iLocation)
+void Controller::_onPresentationLocationChanged(const QString &iLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
-    // TODO: check for errors
 
     try
     {
-        if (mPresentation->getState() == Presentation::ACTIVE)
-        {
-            // Manage the checkout directory
-            QDir tPendingCheckout = QDir::temp().absoluteFilePath("pendingPresentation");
-            dataManager()->removeDirectory(tPendingCheckout);
+        // Disable the current presentation
+        // TODO: updating message
+        userInterface()->showInit();
 
-            // Check if we need to update or get a new copy
-            unsigned long tRevision;
-            if (dataManager()->getRepositoryLocation(mPresentation->getCheckout()) == iLocation)
-            {
-                // Copy current presentation to temporary directory
-                dataManager()->copyDirectory(mPresentation->getCheckout(), tPendingCheckout);
+        // Download the new presentation
+        QPair<QDir, unsigned long> tCheckout = dataManager()->downloadPresentation(iLocation);
 
-                // Update the copy
-                tRevision = dataManager()->updateRepository(tPendingCheckout);
-            }
-            else
-            {
-                // Do a full checkout
-                tRevision = dataManager()->checkoutRepository(tPendingCheckout, iLocation);
-            }
-
-            // Disable the current presentation
-            // TODO: updating message
-            userInterface()->showInit();
-            // TODO: check errors
-            dataManager()->removeDirectory(mPresentation->getCheckout());
-
-            // Put the new copy in place
-            // TODO: this can easily fail (if on other partition)
-            tPendingCheckout.rename(tPendingCheckout.absolutePath(), mPresentation->getCheckout().absolutePath());
-
-            mPresentation->setPendingLocation("");
-            mPresentation->setLocation(iLocation, mPresentation->getCheckout(), tRevision);
-        }
-        else
-        {
-            // Manage the checkout directory
-            // TODO: choose appropriate directory here
-            QDir tCheckout = QDir::temp().absoluteFilePath("presentation");
-            dataManager()->removeDirectory(tCheckout);
-
-            // Do a full checkout
-            unsigned long tRevision = dataManager()->checkoutRepository(tCheckout, iLocation);
-
-            mPresentation->setPendingLocation("");
-            mPresentation->setLocation(iLocation, iLocation, tRevision);
-        }
+        // Show the new presentation
+        mPresentation->setContents(tCheckout.first, tCheckout.second);
+        userInterface()->showPresentation(tCheckout.first);
     }
     catch (const QException &tException)
     {
         mLogger->error() << "Could not download the new presentation: " << tException.what();
         foreach (const QString& tCause, tException.causes())
             mLogger->error() << "Caused by: " << tCause;
-        // FIXME: no error, keep previous (cached) presentation
         userInterface()->showError("could not download presentation");
         return;
     }
-}
-
-void Controller::_onPresentationLocationChanged(const QString &iLocation, const QDir &iCheckout, unsigned long iRevision)
-{
-    // Show the media
-    userInterface()->showPresentation(iCheckout);
 }

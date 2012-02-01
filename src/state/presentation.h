@@ -19,32 +19,23 @@ namespace MIRA
         // Construction and destruction
         Presentation(QObject *iParent = 0);
 
-        // State enum
-        enum State {
-            UNINITIALIZED,
-            ACTIVE
-        };
-
         // Basic I/O
-        State getState() const;
         unsigned long getRevision() const;
         QDir getCheckout() const;
         QString getLocation() const;
-        void setLocation(const QString& iLocation, const QDir& iCheckout, unsigned long iRevision);
-        QString getPendingLocation() const;
-        void setPendingLocation(const QString &iLocation);
+        void setLocation(const QString& iLocation);
+        void setContents(const QDir& iCheckout, unsigned long iRevision);
 
     signals:
         // Signals
-        void onLocationChanged(const QString& iLocation, const QDir& iCheckout, unsigned long iRevision);
-        void onPendingLocationChanged(const QString& iPendingLocation);
+        void onLocationChanged(const QString& iLocation);
+        void onContentsChanged(const QDir& iCheckout, unsigned long iRevision);
 
     private:
         // Member data
-        State mState;
         unsigned long mRevision;
         QDir mCheckout;
-        QString mLocation, mPendingLocation;
+        QString mLocation;
 
     };
 }

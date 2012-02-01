@@ -4,6 +4,7 @@
 
 // Local includes
 #include "datamanager.h"
+#include "mainapplication.h"
 
 // Library includes
 #include <svnqt/repository.h>
@@ -45,7 +46,33 @@ DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
 
 
 //
-// Functionality
+// High-level functionality
+//
+
+QPair<QDir, unsigned long> DataManager::downloadPresentation(const QString &iLocation) throw(QException) {
+    // Manage the checkout directory
+    QDir tCheckout(mSettings->value("presentations/checkout", "/tmp/data/presentation").toString());
+
+    // Check if we need to update or get a new copy
+    unsigned long tRevision;
+    if (tCheckout.exists() && getRepositoryLocation(tCheckout) == iLocation)
+    {
+        // Update the copy
+        tRevision = updateRepository(tCheckout);
+    }
+    else
+    {
+        // Do a full checkout
+        removeDirectory(tCheckout);
+        tRevision = checkoutRepository(tCheckout, iLocation);
+    }
+
+    return QPair<QDir, unsigned long>(tCheckout, tRevision);
+}
+
+
+//
+// Low-level functionality
 //
 
 QString DataManager::getRepositoryLocation(const QDir &iCheckout) throw(QException)

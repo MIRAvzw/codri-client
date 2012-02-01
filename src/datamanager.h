@@ -30,12 +30,16 @@ namespace MIRA
         // Construction and destruction
         DataManager(QObject *iParent = 0) throw(QException);
 
-        // Functionality
+        // High-level functionality
+        QPair<QDir, unsigned long> downloadPresentation(const QString &iLocation) throw(QException);
+
+        // Low-level functionality
         QString getRepositoryLocation(const QDir& iCheckout) throw(QException);
         unsigned long getRepositoryRevision(const QDir &iCheckout) throw(QException);
         unsigned long checkoutRepository(const QDir &iCheckout, const QUrl &iUrl) throw(QException);
         unsigned long updateRepository(const QDir &iDestination) throw(QException);
 
+    private:
         // Auxiliary
         bool removeDirectory(const QDir &iDirectory);
         void copyDirectory(const QDir &tSource, const QDir &tDestination);

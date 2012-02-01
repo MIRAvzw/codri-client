@@ -15,18 +15,12 @@ using namespace MIRA;
 
 Presentation::Presentation(QObject *iParent) : QObject(iParent)
 {
-    mState = UNINITIALIZED;
 }
 
 
 //
 // Basic I/O
 //
-
-Presentation::State Presentation::getState() const
-{
-    return mState;
-}
 
 unsigned long Presentation::getRevision() const
 {
@@ -43,25 +37,15 @@ QString Presentation::getLocation() const
     return mLocation;
 }
 
-void Presentation::setLocation(const QString& iLocation, const QDir& iCheckout, unsigned long iRevision)
+void Presentation::setLocation(const QString &iLocation)
 {
     mLocation = iLocation;
+    emit onLocationChanged(iLocation);
+}
+
+void Presentation::setContents(const QDir& iCheckout, unsigned long iRevision)
+{
     mCheckout = iCheckout;
     mRevision = iRevision;
-    mState = ACTIVE;
-    emit onLocationChanged(iLocation, iCheckout, iRevision);
-}
-
-QString Presentation::getPendingLocation() const
-{
-    return mLocation;
-}
-
-void Presentation::setPendingLocation(const QString &iPendingLocation)
-{
-    mPendingLocation = iPendingLocation;
-    if (iPendingLocation != "")
-    {
-        emit onPendingLocationChanged(iPendingLocation);
-    }
+    emit onContentsChanged(iCheckout, iRevision);
 }

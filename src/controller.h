@@ -69,8 +69,7 @@ namespace MIRA
         // State events
         void _onKioskPowerChanged(Kiosk::Power iPower);
         void _onConfigurationVolumeChanged(unsigned char iVolume);
-        void _onPresentationLocationChanged(const QString& iLocation, const QDir& iCheckout, unsigned long iRevision);
-        void _onPresentationPendingLocationChanged(const QString& iPendingLocation);
+        void _onPresentationLocationChanged(const QString& iLocation);
 
     private:
         // Member data

@@ -26,6 +26,11 @@ namespace MIRA
         NetworkInterface(QObject *iParent = 0) throw(QException);
         ~NetworkInterface();
 
+    signals:
+        // Signals
+        void onServerConnected();
+        void onServerDisconnected();
+
     private:
         // Subsystem objects
         QSettings *mSettings;
