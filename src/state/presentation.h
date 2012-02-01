@@ -21,20 +21,18 @@ namespace MIRA
 
         // Basic I/O
         unsigned long getRevision() const;
-        QDir getCheckout() const;
         QString getLocation() const;
         void setLocation(const QString& iLocation);
-        void setContents(const QDir& iCheckout, unsigned long iRevision);
+        void setRevision(unsigned long iRevision);
 
     signals:
         // Signals
         void onLocationChanged(const QString& iLocation);
-        void onContentsChanged(const QDir& iCheckout, unsigned long iRevision);
+        void onRevisionChanged(unsigned long iRevision);
 
     private:
         // Member data
         unsigned long mRevision;
-        QDir mCheckout;
         QString mLocation;
 
     };

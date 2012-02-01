@@ -214,7 +214,7 @@ void Controller::_onPresentationLocationChanged(const QString &iLocation)
         QPair<QDir, unsigned long> tCheckout = dataManager()->downloadPresentation(iLocation);
 
         // Show the new presentation
-        mPresentation->setContents(tCheckout.first, tCheckout.second);
+        mPresentation->setRevision(tCheckout.second);
         userInterface()->showPresentation(tCheckout.first);
     }
     catch (const QException &tException)
