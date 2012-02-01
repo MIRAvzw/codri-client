@@ -31,8 +31,19 @@ namespace MIRA
                 : JsonResource(iSessionManager, iParent)
             { }
             Result doJsonGET(QVariant& iReply);
+            Result doJsonPUT(QVariant &iRequest, QVariant &iReply);
         };
         Power *mPower;
+
+        // Uuid resource
+        class Uuid : public JsonResource {
+        public:
+            Uuid(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0)
+                : JsonResource(iSessionManager, iParent)
+            { }
+            Result doJsonGET(QVariant& iReply);
+        };
+        Uuid *mUuid;
     };
 }
 

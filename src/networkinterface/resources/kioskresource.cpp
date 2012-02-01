@@ -4,6 +4,7 @@
 
 // Local includes
 #include "kioskresource.h"
+#include "mainapplication.h"
 
 // Namespaces
 using namespace MIRA;
@@ -19,6 +20,10 @@ KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObj
     // Power resource
     mPower = new Power(iSessionManager, this);
     addService("power", mPower);
+
+    // Uuid resource
+    mUuid = new Uuid(iSessionManager, this);
+    addService("uuid", mUuid);
 }
 
 
@@ -32,6 +37,7 @@ JsonResource::Result KioskResource::doJsonGET(QVariant& iReply)
     Result tResult = VALID;
 
     aggregateResult(tResult, mPower->doJsonGET(tObject["power"]));
+    aggregateResult(tResult, mUuid->doJsonGET(tObject["uuid"]));
 
     iReply = tObject;
     return tResult;
@@ -39,6 +45,33 @@ JsonResource::Result KioskResource::doJsonGET(QVariant& iReply)
 
 JsonResource::Result KioskResource::Power::doJsonGET(QVariant& iReply)
 {
-    iReply = "on";
+    switch (MainApplication::instance()->controller()->kiosk()->getPower())
+    {
+    case Kiosk::ON:
+        iReply = "on";
+        break;
+    case Kiosk::OFF:
+        iReply = "off";
+        break;
+    }
+
+    return VALID;
+}
+
+JsonResource::Result KioskResource::Power::doJsonPUT(QVariant &iRequest, QVariant&)
+{
+    if (iRequest.toString() == "on")
+        MainApplication::instance()->controller()->kiosk()->setPower(Kiosk::ON);
+    else if (iRequest.toString() == "off")
+        MainApplication::instance()->controller()->kiosk()->setPower(Kiosk::OFF);
+    else
+        return INVALID;
+
+    return VALID;
+}
+
+JsonResource::Result KioskResource::Uuid::doJsonGET(QVariant& iReply)
+{
+    iReply = MainApplication::instance()->controller()->kiosk()->getUuid().toString();
     return VALID;
 }

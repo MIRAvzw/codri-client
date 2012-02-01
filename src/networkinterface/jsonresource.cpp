@@ -17,6 +17,7 @@ JsonResource::JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObjec
     : Resource(iSessionManager, iParent)
 {
 }
+
 JsonResource::~JsonResource()
 {
 }
@@ -133,5 +134,7 @@ void JsonResource::postConflictingPayload(int iSessionId, int iRequestId)
 void JsonResource::postReply(int iSessionId, int iRequestId, QVariant &iData)
 {
     QString tDataString = QxtJSON::stringify(iData);
-    postEvent(new QxtWebPageEvent(iSessionId, iRequestId, tDataString.toUtf8()));
+    QxtWebPageEvent *tReply = new QxtWebPageEvent(iSessionId, iRequestId, tDataString.toUtf8());
+    tReply->contentType = "application/json";
+    postEvent(tReply);
 }

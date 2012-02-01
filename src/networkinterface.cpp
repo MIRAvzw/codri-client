@@ -6,6 +6,7 @@
 #include "networkinterface.h"
 #include "networkinterface/resources/kioskresource.h"
 #include "networkinterface/resources/configurationresource.h"
+#include "networkinterface/resources/presentationresource.h"
 
 // Namespaces
 using namespace MIRA;
@@ -31,6 +32,7 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     mWebserviceDispatcher = new WebserviceDispatcher(QHostAddress("127.0.0.1"), 8080);
     mWebserviceDispatcher->addService("kiosk", new KioskResource(mWebserviceDispatcher));
     mWebserviceDispatcher->addService("configuration", new ConfigurationResource(mWebserviceDispatcher));
+    mWebserviceDispatcher->addService("presentation", new PresentationResource(mWebserviceDispatcher));
     mWebserviceDispatcher->start();
 
     // Schedule an alive timer
