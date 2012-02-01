@@ -27,10 +27,6 @@ namespace MIRA
         // Functionality
         void addService(QString iUri, Resource* iSubService);
 
-    protected:
-        // QxtHttpSessionManager implementation
-        void incomingRequest(quint32 iRequestId, const QHttpRequestHeader &iHeader, QxtWebContent *iDeviceContent);
-
     private:
         // Member data
         Resource* mRootService;
