@@ -16,10 +16,17 @@ using namespace MIRA;
 JsonResource::JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
     : Resource(iSessionManager, iParent)
 {
+    // QJson objects
+    mParser = new QJson::Parser();
+    mSerializer = new QJson::Serializer();
 }
 
 JsonResource::~JsonResource()
 {
+    // QJson objects
+    // FIXME: memory management through Qt semantics
+    delete mParser;
+    delete mSerializer;
 }
 
 
@@ -59,32 +66,30 @@ void JsonResource::doGET(int iSessionId, int iRequestId)
     doJsonReply(iSessionId, iRequestId, tReply, tResult);
 }
 
-void JsonResource::doPUT(int iSessionId, int iRequestId, QString& iDataString)
+void JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iContent)
 {
-    if (iDataString.length() > 0) {
-        QVariant tRequest = QxtJSON::parse(iDataString);
-        if (!tRequest.isNull())
-        {
-            QVariant tReply;
-            Result tResult = doJsonPUT(tRequest, tReply);
-            doJsonReply(iSessionId, iRequestId, tReply, tResult);
-            return;
-        }
+    bool tRequestValid;
+    QVariant tRequest = mParser->parse(iContent, &tRequestValid);
+    if (tRequestValid)
+    {
+        QVariant tReply;
+        Result tResult = doJsonPUT(tRequest, tReply);
+        doJsonReply(iSessionId, iRequestId, tReply, tResult);
+        return;
     }
     postInvalidPayload(iSessionId, iRequestId, "Unparseable Payload");
 }
 
-void JsonResource::doPOST(int iSessionId, int iRequestId, QString& iDataString)
+void JsonResource::doPOST(int iSessionId, int iRequestId, QIODevice *iContent)
 {
-    if (iDataString.length() > 0) {
-        QVariant tRequest = QxtJSON::parse(iDataString);
-        if (!tRequest.isNull())
-        {
-            QVariant tReply;
-            Result tResult = doJsonPOST(tRequest, tReply);
-            doJsonReply(iSessionId, iRequestId, tReply, tResult);
-            return;
-        }
+    bool tRequestValid;
+    QVariant tRequest = mParser->parse(iContent, &tRequestValid);
+    if (tRequestValid)
+    {
+        QVariant tReply;
+        Result tResult = doJsonPOST(tRequest, tReply);
+        doJsonReply(iSessionId, iRequestId, tReply, tResult);
+        return;
     }
     postInvalidPayload(iSessionId, iRequestId, "Unparseable Payload");
 }
@@ -133,7 +138,7 @@ void JsonResource::postConflictingPayload(int iSessionId, int iRequestId)
 
 void JsonResource::postReply(int iSessionId, int iRequestId, QVariant &iData)
 {
-    QString tDataString = QxtJSON::stringify(iData);
+    QString tDataString = mSerializer->serialize(iData);
     QxtWebPageEvent *tReply = new QxtWebPageEvent(iSessionId, iRequestId, tDataString.toUtf8());
     tReply->contentType = "application/json";
     postEvent(tReply);

@@ -31,12 +31,12 @@ void Resource::doGET(const int iSessionId, int iRequestId)
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-void Resource::doPUT(int iSessionId, int iRequestId, QString&)
+void Resource::doPUT(int iSessionId, int iRequestId, QIODevice*)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-void Resource::doPOST(int iSessionId, int iRequestId, QString&)
+void Resource::doPOST(int iSessionId, int iRequestId, QIODevice*)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
@@ -98,13 +98,11 @@ void Resource::handleCompleteEvent(QxtWebRequestEvent *iEvent)
     }
     else if (iEvent->method == "POST")
     {
-        QString tDataString = readBody(iEvent);
-        doPOST(iEvent->sessionID, iEvent->requestID, tDataString);
+        doPOST(iEvent->sessionID, iEvent->requestID, iEvent->content);
     }
     else if (iEvent->method == "PUT")
     {
-        QString tDataString = readBody(iEvent);
-        doPUT(iEvent->sessionID, iEvent->requestID, tDataString);
+        doPUT(iEvent->sessionID, iEvent->requestID, iEvent->content);
     }
     else
     {
@@ -112,14 +110,3 @@ void Resource::handleCompleteEvent(QxtWebRequestEvent *iEvent)
     }
 }
 
-QString Resource::readBody(QxtWebRequestEvent *iEvent)
-{
-    if (iEvent->content)
-    {
-        return QString::fromUtf8(iEvent->content->readAll());
-    }
-    else
-    {
-        return QString();
-    }
-}

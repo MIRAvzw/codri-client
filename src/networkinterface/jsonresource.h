@@ -12,7 +12,8 @@
 
 // Library includes
 #include <QtCore/QString>
-#include <QxtCore/QxtJSON>
+#include <qjson/parser.h>
+#include <qjson/serializer.h>
 
 namespace MIRA
 {
@@ -52,10 +53,14 @@ namespace MIRA
         void postReply(int iSessionId, int iRequestId, QVariant &iData);
 
     private:
+        // Member data
+        QJson::Parser *mParser;
+        QJson::Serializer *mSerializer;
+
         // Resource implementation
         void doGET(int iSessionId, int iRequestId);
-        void doPUT(int iSessionId, int iRequestId, QString& iDataString);
-        void doPOST(int iSessionId, int iRequestId, QString& iDataString);
+        void doPUT(int iSessionId, int iRequestId, QIODevice *iContent);
+        void doPOST(int iSessionId, int iRequestId, QIODevice *iContent);
         void doDELETE(int iSessionId, int iRequestId);
     };
 }

@@ -25,8 +25,8 @@ namespace MIRA
     protected:
         // Service methods
         virtual void doGET(const int iSessionId, int iRequestId);
-        virtual void doPUT(int iSessionId, int iRequestId, QString& iDataString);
-        virtual void doPOST(int iSessionId, int iRequestId, QString& iDataString);
+        virtual void doPUT(int iSessionId, int iRequestId, QIODevice *iContent);
+        virtual void doPOST(int iSessionId, int iRequestId, QIODevice *iContent);
         virtual void doDELETE(int iSessionId, int iRequestId);
 
         // Helper methods
@@ -39,7 +39,6 @@ namespace MIRA
 
         // Auxiliary
         void handleCompleteEvent(QxtWebRequestEvent *iEvent);
-        QString readBody(QxtWebRequestEvent *iEvent);
     };
 }
 

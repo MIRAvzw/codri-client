@@ -28,6 +28,10 @@ LIBS += -lsvnqt
 INCLUDEPATH += /usr/include/Log4Qt
 LIBS += -lLog4Qt
 
+# QJson
+PKGCONFIG += QJson
+LIBS += -lqjson
+
 
 #
 # Configuration
