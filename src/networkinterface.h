@@ -29,14 +29,22 @@ namespace MIRA
     signals:
         // Signals
         void onServerConnected();
-        void onServerDisconnected();
+        void onServerDisconnected();    // TODO: can happen due to heartbeat not working, or server="" put (server exits); OR ONLY DUE TO TIMEOUT?
+
+    private:
+        // Private signal handlers
+        void _onConnectionTimeout();
+        void _onHeartbeatTimeout();
 
     private:
         // Subsystem objects
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
-        QTimer *mAliveTimer;
         WebserviceDispatcher *mWebserviceDispatcher;
+
+        // Timers
+        QTimer *mConnectionTimer;
+        QTimer *mHeartbeatTimer;
     };
 }
 

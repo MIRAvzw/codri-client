@@ -57,7 +57,8 @@ SOURCES += controller.cpp \
     state/presentation.cpp \
     state/kiosk.cpp \
     state/configuration.cpp \
-    networkinterface/resources/presentationresource.cpp
+    networkinterface/resources/presentationresource.cpp \
+    networkinterface/serverclient.cpp
 HEADERS += controller.h \
     datamanager.h \
     mainapplication.h \
@@ -78,7 +79,8 @@ HEADERS += controller.h \
     state/presentation.h \
     state/kiosk.h \
     state/configuration.h \
-    networkinterface/resources/presentationresource.h
+    networkinterface/resources/presentationresource.h \
+    networkinterface/serverclient.h
 OTHER_FILES += \
     userinterface/webpages/logpage.html \
     userinterface/webpages/statuspage.html \

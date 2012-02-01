@@ -10,6 +10,7 @@
 // Library includes
 #include <QtCore/QObject>
 #include <QtCore/QUuid>
+#include <QtNetwork/QNetworkAddressEntry>
 
 namespace MIRA
 {
@@ -30,6 +31,8 @@ namespace MIRA
         Kiosk::Power getPower() const;
         void setPower(Kiosk::Power iPower);
         QUuid getUuid() const;
+        unsigned short getPort() const;
+        void setPort(unsigned short iPort);
 
         // Signals
     signals:
@@ -39,6 +42,7 @@ namespace MIRA
         // Member data
         Power mPower;
         QUuid mUuid;
+        unsigned short mPort;
     };
 }
 

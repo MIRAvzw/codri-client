@@ -42,6 +42,10 @@ Kiosk::Kiosk(QObject *iParent) : QObject(iParent)
     mUuid.data2 |= (unsigned char) ifr.ifr_hwaddr.sa_data[5];
     mUuid.data4[0] = (mUuid.data4[0] & 0x3F) | 0x80; // UV_MAC
     mUuid.data3 = (mUuid.data3 & 0x0FFF) | 0x1000; // UV_Time (but without the actual timestamp, to persist reboots)
+
+    // Get address
+    QNetworkInterface tRemoteInterface = QNetworkInterface::interfaceFromName("eth0");
+    qDebug() << tRemoteInterface.hardwareAddress();
 }
 
 
@@ -60,6 +64,17 @@ void Kiosk::setPower(Kiosk::Power iPower)
     emit onPowerChanged(iPower);
 }
 
-QUuid Kiosk::getUuid() const {
+QUuid Kiosk::getUuid() const
+{
     return mUuid;
+}
+
+unsigned short Kiosk::getPort() const
+{
+    return mPort;
+}
+
+void Kiosk::setPort(unsigned short iPort)
+{
+    mPort = iPort;
 }
