@@ -23,6 +23,16 @@ namespace MIRA
     private:
         // JsonResource implementation
         Result doJsonGET(QVariant& iReply);
+
+        // Revision resource
+        class Revision : public JsonResource {
+        public:
+            Revision(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0)
+                : JsonResource(iSessionManager, iParent)
+            { }
+            Result doJsonGET(QVariant& iReply);
+        };
+        Revision *mRevision;
     };
 }
 

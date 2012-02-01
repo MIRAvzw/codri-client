@@ -24,6 +24,16 @@ namespace MIRA
         // JsonResource implementation
         Result doJsonGET(QVariant& iReply);
 
+        // Revision resource
+        class Revision : public JsonResource {
+        public:
+            Revision(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0)
+                : JsonResource(iSessionManager, iParent)
+            { }
+            Result doJsonGET(QVariant& iReply);
+        };
+        Revision *mRevision;
+
         // Location resource
         class Location : public JsonResource {
         public:
@@ -34,16 +44,6 @@ namespace MIRA
             Result doJsonPUT(QVariant &iRequest, QVariant &iReply);
         };
         Location *mLocation;
-
-        // Revision resource
-        class Revision : public JsonResource {
-        public:
-            Revision(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0)
-                : JsonResource(iSessionManager, iParent)
-            { }
-            Result doJsonGET(QVariant& iReply);
-        };
-        Revision *mRevision;
     };
 }
 
