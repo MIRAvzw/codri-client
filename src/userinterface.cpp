@@ -88,7 +88,7 @@ void UserInterface::showPresentation(const QDir& iLocation)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    // TODO: is webview specification necessary? Does'tn setpage properly configure the parent?
+    // TODO: is webview specification necessary? Doesn't setpage properly configure the parent?
     QWebPage *tPagetPresentation = new PresentationPage(iLocation, mWebView);
     mWebView->setPage(tPagetPresentation);
 }
@@ -123,11 +123,6 @@ bool UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
         case Qt::Key_2:
             showLog();
             return true;
-            break;
-
-        // Quit the application
-        case Qt::Key_Q:
-            emit quit();
             break;
 
         // Default case

@@ -15,6 +15,7 @@
 #include <svnqt/info_entry.h>
 
 #include <QDebug>
+#include <QtCore/QQueue>
 
 // Namespaces
 using namespace MIRA;
@@ -28,31 +29,18 @@ DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
-    mSettings->beginGroup("Repository");
+    mSettings->beginGroup("DataManager");
 
     // Setup logging
-    mLogger =  Log4Qt::Logger::logger("Repository");
+    mLogger =  Log4Qt::Logger::logger("DataManager");
     mLogger->trace() << Q_FUNC_INFO;
 
     // Configure subversion
     svn::ContextP tSubversionContext;
-    mSubversionClient = svn::Client::getobject(0,0);
+    mSubversionClient = svn::Client::getobject(0, 0);
     tSubversionContext = new svn::Context();
     tSubversionContext->setListener(this);
     mSubversionClient->setContext(tSubversionContext);
-
-    // Check the cache
-    mCache = QDir(mSettings->value("location", "/tmp/cache").toString());
-    if (!mCache.exists() && !QDir().mkpath(mCache.absolutePath()))
-        throw new QException("Could not create main cache directory");
-    QFileInfo tCacheInfo(mCache.path());
-    if (!tCacheInfo.isDir() || !tCacheInfo.isWritable()) {
-        throw new QException("Data cache directory does not exist or is not writable");
-    }
-
-    // Load the individual caches
-    mCacheMedia = QDir(mCache.filePath("media"));
-    mCacheConfiguration = new QSettings(mCache.filePath("configuration"), QSettings::NativeFormat, this);
 }
 
 
@@ -60,95 +48,18 @@ DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
 // Functionality
 //
 
-bool DataManager::containsConfig(const QString& iKey) const
+QString DataManager::getRepositoryLocation(const QDir &iCheckout) throw(QException)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
-    return mCacheConfiguration->contains(iKey);
+    // TODO
+    return "dummy";
 }
 
-QVariant DataManager::config(const QString& iKey, const QVariant &iDefaultValue) const
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    return mCacheConfiguration->value(iKey, iDefaultValue);
-}
-
-void DataManager::setConfig(const QString& iKey, const QVariant &iValue)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    mCacheConfiguration->setValue(iKey, iValue);
-}
-
-void DataManager::saveConfig()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    // TODO: shouldn't be neccesary if the delete would work properly (segfaults now)
-
-    mCacheConfiguration->sync();
-}
-
-DataManager::Presentation DataManager::getRemoteMedia(const QUrl &iUrl) throw(QException)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    Presentation tData;
-    tData.Location = iUrl;
-
-    if (mCacheMedia.exists())
-    {
-        mLogger->debug() << "cache hit, updating media";
-        tData.Revision = updateRepository(mCacheMedia);
-    }
-    else
-    {
-        mLogger->debug() << "cache miss, checking-out media";
-        tData.Revision = checkoutRepository(mCacheMedia, iUrl);
-    }
-
-    return tData;
-}
-
-void DataManager::removeMedia() throw(QException)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    if (removeDirectory(mCacheMedia))
-        throw QException("could not remove media");
-}
-
-DataManager::Presentation DataManager::getCachedMedia() throw(QException)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    Presentation tData;
-    tData.Location = "locally cached data";
-
-    if (! mCacheMedia.exists())
-        throw QException("media cache does not exist");
-
-    tData.Revision = checkRepository(mCacheMedia);;
-    return tData;
-}
-
-QDir DataManager::getMediaLocation() const
-{
-    return mCacheMedia;
-}
-
-
-//
-// Auxiliary
-//
-
-unsigned long DataManager::checkRepository(const QDir &iSource) throw(QException)
+unsigned long DataManager::getRepositoryRevision(const QDir &iCheckout) throw(QException)
 {
     try
     {
         QList<svn::InfoEntry> tInfoEntries =  mSubversionClient->info(
-                    iSource.absolutePath(),
+                    iCheckout.absolutePath(),
                     svn::DepthEmpty,
                     svn::Revision::HEAD);
         if (tInfoEntries.size() != 1)
@@ -165,18 +76,19 @@ unsigned long DataManager::checkRepository(const QDir &iSource) throw(QException
     }
 }
 
-unsigned long DataManager::checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException)
+unsigned long DataManager::checkoutRepository(const QDir &iCheckout, const QUrl &iLocation) throw(QException)
 {
     svn::CheckoutParameter tCheckoutParameters;
     tCheckoutParameters
-            .moduleName(iUrl.toString())
-            .destination(iDestination.absolutePath())
+            .moduleName(iLocation.toString())
+            .destination(iCheckout.absolutePath())
             .revision(svn::Revision::HEAD)
             .peg(svn::Revision::HEAD)
             .depth(svn::DepthInfinity);
 
     try
     {
+        // TODO: do this asynchronously
         return mSubversionClient->checkout(tCheckoutParameters).revnum();
     }
     catch (const svn::ClientException &iException)
@@ -186,11 +98,11 @@ unsigned long DataManager::checkoutRepository(const QDir &iDestination, const QU
 
 }
 
-unsigned long DataManager::updateRepository(const QDir &iDestination) throw(QException)
+unsigned long DataManager::updateRepository(const QDir &iCheckout) throw(QException)
 {
     svn::UpdateParameter tUpdateParameters;
     tUpdateParameters
-            .targets(iDestination.absolutePath())
+            .targets(iCheckout.absolutePath())
             .revision(svn::Revision::HEAD)
             .depth(svn::DepthInfinity);
 
@@ -205,6 +117,11 @@ unsigned long DataManager::updateRepository(const QDir &iDestination) throw(QExc
         throw QException("could not update the repository", QException::fromSVNException(iException));
     }
 }
+
+
+//
+// Auxiliary
+//
 
 bool DataManager::removeDirectory(const QDir &iDirectory)
 {
@@ -230,4 +147,34 @@ bool DataManager::removeDirectory(const QDir &iDirectory)
             tError = true;
     }
     return tError;
+}
+
+void DataManager::copyDirectory(const QDir &tSource, const QDir &tDestination)
+{
+    // Create the destination path
+    if (!tDestination.exists())
+        tDestination.mkpath(tDestination.absolutePath());
+
+    // Enqueue the initial pair
+    QQueue< QPair<QDir, QDir> > tQueue;
+    tQueue.enqueue(qMakePair(tSource, tDestination));
+
+    // Process iteratively
+    while (!tQueue.isEmpty())
+    {
+        QPair<QDir, QDir> tDirectories = tQueue.dequeue();
+        if(!tDirectories.first.exists())
+            continue;
+
+        // Copy all files
+        foreach (QString tFile, tDirectories.first.entryList(QDir::Files))
+            QFile::copy(tDirectories.first.absoluteFilePath(tFile), tDirectories.second.absoluteFilePath(tFile));
+
+        // Enqueue all directories
+        foreach (QString tDirectory, tDirectories.first.entryList(QDir::AllDirs | QDir::NoDotAndDotDot))
+        {
+            tDirectories.second.mkdir(tDirectory);
+            tQueue.enqueue(qMakePair(QDir(tDirectories.first.absoluteFilePath(tDirectory)), QDir(tDirectories.second.absoluteFilePath(tDirectory))));
+        }
+    }
 }

@@ -45,7 +45,6 @@ namespace MIRA
 
         // Signals
     signals:
-        void quit();
         void presentationError(QString iError);
 
     private:

@@ -32,7 +32,7 @@ namespace MIRA
         static void handleInterruptUnix(int unused);
         static void handleTerminateUnix(int unused);
 
-        // Subsystem object getters
+        // Subsystem getters
         Controller *controller() const;
 
     public slots:

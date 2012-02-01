@@ -42,16 +42,10 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
     {
         mLogger->debug() << "Initializing network interface";
         mNetworkInterface = new NetworkInterface(this);
-        connect(mNetworkInterface, SIGNAL(shutdown()), this, SLOT(_shutdown()));
-        connect(mNetworkInterface, SIGNAL(reboot()), this, SLOT(_reboot()));
-        connect(mNetworkInterface, SIGNAL(setVolume(uint)), this, SLOT(_setVolume(uint)));
-        connect(mNetworkInterface, SIGNAL(setConfigurationRevision(unsigned long)), this, SLOT(_setConfigurationRevision(unsigned long)));
-        connect(mNetworkInterface, SIGNAL(setPresentationLocation(const QString&)), this, SLOT(_setPresentationLocation(const QString&)));
 
         mLogger->debug() << "Initializing user interface";
         mUserInterface = new UserInterface();
-        connect(mUserInterface, SIGNAL(quit()), this, SLOT(_quit()));
-        connect(mUserInterface, SIGNAL(presentationError(QString)), this, SLOT(_presentationError(QString)));
+        connect(mUserInterface, SIGNAL(presentationError(QString)), this, SLOT(_onPresentationError(QString)));
         mUserInterface->show();
 
         mLogger->debug() << "Initializing data manager";
@@ -62,6 +56,19 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
         mLogger->fatal() << "Failed to initialize: " << iException.what();
         throw QException(QString("could not load all subsystems"));
     }
+
+    // Initialize the kiosk state
+    mKiosk = new Kiosk(this);
+    connect(mKiosk, SIGNAL(onPowerChanged(Kiosk::Power)), this, SLOT(_onKioskPowerChanged(Kiosk::Power)));
+
+    // Initialize the configuration state
+    mConfiguration = new Configuration(this);
+    connect(mConfiguration, SIGNAL(onVolumeChanged(unsigned char)), this, SLOT(_onConfigurationVolumeChanged(unsigned char)));
+
+    // Initialize the presentation state
+    mPresentation = new Presentation(this);
+    connect(mPresentation, SIGNAL(onLocationChanged(QString&, QDir&, unsigned long)), this, SLOT(_onPresentationLocationChanged(QString&, QDir&, unsigned long)));
+    connect(mPresentation, SIGNAL(onPendingLocationChanged(QString&)), this, SLOT(_onPresentationPendingLocationChanged(QString&)));
 }
 
 Controller::~Controller()
@@ -73,24 +80,9 @@ Controller::~Controller()
 // Basic I/O
 //
 
-QUuid Controller::uuid() const
-{
-    return mNetworkInterface->uuid();
-}
-
 QDateTime Controller::startup() const
 {
     return mTimestampStartup;
-}
-
-DataManager::Presentation Controller::presentation() const
-{
-    return mPresentation;
-}
-
-DataManager::Configuration Controller::configuration() const
-{
-    return mConfiguration;
 }
 
 
@@ -108,18 +100,7 @@ void Controller::start()
 
     mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
 
-    // Load the configuration (this also provides the default configuration)
-    _setVolume(dataManager()->config("device/volume", 255).toInt());
-    _setConfigurationRevision(dataManager()->config("device/revision", 0).toULongLong());
-    if (dataManager()->containsConfig("media/location"))
-    {
-        loadCachedMedia();
-    }
-    else
-    {
-        mPresentation.Location = "none";
-        mPresentation.Revision = 0;
-    }
+    // TODO: load default configuration
 }
 
 void Controller::stop()
@@ -129,7 +110,7 @@ void Controller::stop()
     mLogger->fatal() << "Fatal error occured, halting application";
 
     // Clean up
-    dataManager()->saveConfig();
+    // FIXME dataManager()->saveConfig();
 
     // Delete subsystems
     delete mUserInterface;
@@ -161,97 +142,30 @@ DataManager *Controller::dataManager() const
 
 
 //
+// State getters
+//
+
+Kiosk *Controller::kiosk() const
+{
+    return mKiosk;
+}
+
+Configuration *Controller::configuration() const
+{
+    return mConfiguration;
+}
+
+Presentation *Controller::presentation() const
+{
+    return mPresentation;
+}
+
+
+//
 // Subsystem events
 //
 
-void Controller::_quit()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-    stop();
-}
-
-void Controller::_shutdown()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    // TODO: actually change the volume
-}
-
-void Controller::_reboot()
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    // TODO: actually reboot
-}
-
-void Controller::_setVolume(unsigned int iVolume)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    // Cache the value
-    dataManager()->setConfig("device/volume", iVolume);
-
-    // TODO: actually change the volume
-}
-
-void Controller::_setConfigurationRevision(unsigned long iConfigurationRevision)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    mConfiguration.Revision = iConfigurationRevision;
-    dataManager()->config("device/revision", (unsigned long long) iConfigurationRevision);
-
-}
-
-void Controller::_setPresentationLocation(const QString &iMediaLocation)
-{
-    mLogger->trace() << Q_FUNC_INFO;
-
-    // Disable the user interface
-    userInterface()->showInit();
-
-    // Load the data from a remote source
-    try
-    {
-        // Delete the media if the identifier changed
-        if (! dataManager()->containsConfig("media/location") || dataManager()->config("media/location").toString() != iMediaLocation)
-        {
-            mLogger->debug() << "Clearing";
-            dataManager()->removeMedia();
-            mPresentation = dataManager()->getRemoteMedia(iMediaLocation);
-        }
-        else
-        {
-            try
-            {
-                mPresentation = dataManager()->getRemoteMedia(iMediaLocation);
-            }
-            catch (const QException &tException)
-            {
-                mLogger->warn() << "Incremental download failed, trying with a clean cache now";
-                dataManager()->removeMedia();
-                mPresentation = dataManager()->getRemoteMedia(iMediaLocation);
-            }
-        }
-    }
-    catch (const QException &tException)
-    {
-        mLogger->error() << "Could not download the new media: " << tException.what();
-        foreach (const QString& tCause, tException.causes())
-            mLogger->error() << "Caused by: " << tCause;
-        userInterface()->showError("could not download media");
-        return;
-    }
-
-    // Cache the values
-    dataManager()->setConfig("media/location", mPresentation.Location);
-    dataManager()->setConfig("media/revision", (unsigned long long) mPresentation.Revision);
-
-    // Show the media
-    userInterface()->showPresentation(dataManager()->getMediaLocation());
-}
-
-void Controller::_presentationError(const QString& iError)
+void Controller::_onPresentationError(const QString& iError)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
@@ -261,33 +175,101 @@ void Controller::_presentationError(const QString& iError)
 
 
 //
-// Auxiliary
+// State events
 //
 
-void Controller::loadCachedMedia()
+void Controller::_onKioskPowerChanged(Kiosk::Power iPower)
 {
     mLogger->trace() << Q_FUNC_INFO;
 
-    // Disable the user interface
-    userInterface()->showInit();
+    switch (iPower)
+    {
+    case Kiosk::OFF:
+        stop();
+        break;
+    case Kiosk::ON:
+        break;
+    }
+}
 
-    // Check the media
+void Controller::_onConfigurationVolumeChanged(unsigned char iVolume)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+
+    // TODO: cache the value
+
+    // TODO: actually change the volume
+}
+
+void Controller::_onPresentationPendingLocationChanged(const QString &iLocation)
+{
+    mLogger->trace() << Q_FUNC_INFO;
+    // TODO: check for errors
+
     try
     {
-        mPresentation = dataManager()->getCachedMedia();
+        if (mPresentation->getState() == Presentation::ACTIVE)
+        {
+            // Manage the checkout directory
+            QDir tPendingCheckout = QDir::temp().absoluteFilePath("pendingPresentation");
+            dataManager()->removeDirectory(tPendingCheckout);
+
+            // Check if we need to update or get a new copy
+            unsigned long tRevision;
+            if (dataManager()->getRepositoryLocation(mPresentation->getCheckout()) == iLocation)
+            {
+                // Copy current presentation to temporary directory
+                dataManager()->copyDirectory(mPresentation->getCheckout(), tPendingCheckout);
+
+                // Update the copy
+                tRevision = dataManager()->updateRepository(tPendingCheckout);
+            }
+            else
+            {
+                // Do a full checkout
+                tRevision = dataManager()->checkoutRepository(tPendingCheckout, iLocation);
+            }
+
+            // Disable the current presentation
+            // TODO: updating message
+            userInterface()->showInit();
+            // TODO: check errors
+            dataManager()->removeDirectory(mPresentation->getCheckout());
+
+            // Put the new copy in place
+            // TODO: this can easily fail (if on other partition)
+            tPendingCheckout.rename(tPendingCheckout.absolutePath(), mPresentation->getCheckout().absolutePath());
+
+            mPresentation->setPendingLocation("");
+            mPresentation->setLocation(iLocation, mPresentation->getCheckout(), tRevision);
+        }
+        else
+        {
+            // Manage the checkout directory
+            // TODO: choose appropriate directory here
+            QDir tCheckout = QDir::temp().absoluteFilePath("presentation");
+            dataManager()->removeDirectory(tCheckout);
+
+            // Do a full checkout
+            unsigned long tRevision = dataManager()->checkoutRepository(tCheckout, iLocation);
+
+            mPresentation->setPendingLocation("");
+            mPresentation->setLocation(iLocation, iLocation, tRevision);
+        }
     }
-    catch (const QException& tException)
+    catch (const QException &tException)
     {
-        mLogger->error() << "Could not load the cached media" << tException.what();
+        mLogger->error() << "Could not download the new presentation: " << tException.what();
         foreach (const QString& tCause, tException.causes())
             mLogger->error() << "Caused by: " << tCause;
-        userInterface()->showError("could not load cached media");
-
-        mPresentation.Revision = 0;
-
+        // FIXME: no error, keep previous (cached) presentation
+        userInterface()->showError("could not download presentation");
         return;
     }
+}
 
+void Controller::_onPresentationLocationChanged(const QString &iLocation, const QDir &iCheckout, unsigned long iRevision)
+{
     // Show the media
-    userInterface()->showPresentation(dataManager()->getMediaLocation());
+    userInterface()->showPresentation(iCheckout);
 }

@@ -53,7 +53,10 @@ SOURCES += controller.cpp \
     networkinterface/jsonresource.cpp \
     networkinterface/resource.cpp \
     networkinterface/resources/configurationresource.cpp \
-    networkinterface/resources/kioskresource.cpp
+    networkinterface/resources/kioskresource.cpp \
+    state/presentation.cpp \
+    state/kiosk.cpp \
+    state/configuration.cpp
 HEADERS += controller.h \
     datamanager.h \
     mainapplication.h \
@@ -70,7 +73,10 @@ HEADERS += controller.h \
     networkinterface/webservicedispatcher.h \
     networkinterface/jsonresource.h \
     networkinterface/resources/configurationresource.h \
-    networkinterface/resources/kioskresource.h
+    networkinterface/resources/kioskresource.h \
+    state/presentation.h \
+    state/kiosk.h \
+    state/configuration.h
 OTHER_FILES += \
     userinterface/webpages/logpage.html \
     userinterface/webpages/statuspage.html \

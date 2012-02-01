@@ -90,7 +90,7 @@ MainApplication::~MainApplication()
 
 
 //
-// Subsystem object getters
+// Subsystem getters
 //
 
 Controller *MainApplication::controller() const

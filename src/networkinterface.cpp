@@ -25,8 +25,7 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     mLogger =  Log4Qt::Logger::logger("NetworkInterface");
     mLogger->trace() << Q_FUNC_INFO;
 
-    // TODO: connect signals
-
+    // Start the wbeservice dispatcher
     // TODO: fix memory
     mLogger->debug() << "Starting webservice dispatcher";
     mWebserviceDispatcher = new WebserviceDispatcher(QHostAddress("127.0.0.1"), 8080);
@@ -47,13 +46,3 @@ NetworkInterface::~NetworkInterface()
     mLogger->trace() << Q_FUNC_INFO;
 }
 
-
-//
-// Getters and setters
-//
-
-QString NetworkInterface::uuid() const
-{
-    // TODO
-    return "";
-}

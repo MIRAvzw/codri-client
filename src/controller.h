@@ -9,7 +9,6 @@
 // Library includes
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
-#include <QtCore/QUuid>
 #include <Log4Qt/Logger>
 
 // Local includes
@@ -17,6 +16,9 @@
 #include "userinterface.h"
 #include "networkinterface.h"
 #include "datamanager.h"
+#include "state/kiosk.h"
+#include "state/configuration.h"
+#include "state/presentation.h"
 
 /*
   This class controls the entire application. It uses and coordinates
@@ -42,10 +44,7 @@ namespace MIRA
 
         // Basic I/O
     public:
-        QUuid uuid() const;
         QDateTime startup() const;
-        DataManager::Presentation presentation() const;
-        DataManager::Configuration configuration() const;
 
         // Application control
     public slots:
@@ -58,24 +57,29 @@ namespace MIRA
         UserInterface *userInterface() const;
         DataManager *dataManager() const;
 
-        // Subsystem events
-    private slots:
-        void _quit();
-        void _shutdown();
-        void _reboot();
-        void _setVolume(unsigned int iVolume);
-        void _setConfigurationRevision(unsigned long iConfigurationRevision);
-        void _setPresentationLocation(const QString &iPresentationLocation);
-        void _presentationError(const QString& iError);
+        // State getters
+        Kiosk *kiosk() const;
+        Configuration *configuration() const;
+        Presentation *presentation() const;
 
-        // Auxiliary
-        void loadCachedMedia();
+    private slots:
+        // Subsystem events
+        void _onPresentationError(const QString& iError);
+
+        // State events
+        void _onKioskPowerChanged(Kiosk::Power iPower);
+        void _onConfigurationVolumeChanged(unsigned char iVolume);
+        void _onPresentationLocationChanged(const QString& iLocation, const QDir& iCheckout, unsigned long iRevision);
+        void _onPresentationPendingLocationChanged(const QString& iPendingLocation);
 
     private:
         // Member data
         QDateTime mTimestampStartup;
-        DataManager::Configuration mConfiguration;
-        DataManager::Presentation mPresentation;
+
+        // State objects
+        Kiosk *mKiosk;
+        Configuration *mConfiguration;
+        Presentation *mPresentation;
 
         // Subsystem objects
         QSettings *mSettings;

@@ -26,32 +26,19 @@ namespace MIRA
     class DataManager : public QObject, public svn::repository::RepositoryListener, public svn::ContextListener
     {
     Q_OBJECT
-    public:        
-        // Auxiliary classes
-        struct Presentation
-        {
-            unsigned long Revision;
-            QUrl Location;
-        };
-        struct Configuration
-        {
-            unsigned long Revision;
-        };
-
+    public:
         // Construction and destruction
         DataManager(QObject *iParent = 0) throw(QException);
 
         // Functionality
-        bool containsConfig(const QString& iKey) const;
-        QVariant config(const QString& iKey, const QVariant &iDefaultValue = QVariant()) const;
-        void setConfig(const QString& iKey, const QVariant &iValue);
-        void saveConfig();
-        Presentation getRemoteMedia(const QUrl &iUrl) throw(QException);
-        void removeMedia() throw(QException);
-        Presentation getCachedMedia() throw(QException);
-        QDir getMediaLocation() const;
+        QString getRepositoryLocation(const QDir& iCheckout) throw(QException);
+        unsigned long getRepositoryRevision(const QDir &iCheckout) throw(QException);
+        unsigned long checkoutRepository(const QDir &iCheckout, const QUrl &iUrl) throw(QException);
+        unsigned long updateRepository(const QDir &iDestination) throw(QException);
 
-        // Signals
+        // Auxiliary
+        bool removeDirectory(const QDir &iDirectory);
+        void copyDirectory(const QDir &tSource, const QDir &tDestination);
 
         // Repository listening
         virtual void sendWarning(const QString&msg)
@@ -62,7 +49,7 @@ namespace MIRA
         {
             mLogger->error() << msg.toAscii().data();
         }
-        virtual bool isCanceld(){return false;}
+        virtual bool isCanceld(){ return false; }
 
         // Context listening
         virtual void contextProgress(long long int, long long int) {}
@@ -92,14 +79,6 @@ namespace MIRA
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         svn::Client *mSubversionClient;
-        QDir mCache, mCacheMedia;
-        QSettings* mCacheConfiguration;
-
-        // Auxiliary
-        unsigned long checkRepository(const QDir &iSource) throw(QException);
-        unsigned long checkoutRepository(const QDir &iDestination, const QUrl &iUrl) throw(QException);
-        unsigned long updateRepository(const QDir &iDestination) throw(QException);
-        bool removeDirectory(const QDir &iDirectory);
     };
 }
 

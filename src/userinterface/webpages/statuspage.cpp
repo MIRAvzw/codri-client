@@ -44,7 +44,7 @@ StatusPage::~StatusPage()
 
 QString StatusPage::id() const
 {
-    return MainApplication::instance()->controller()->uuid();
+    return MainApplication::instance()->controller()->kiosk()->getUuid();
 }
 
 QDateTime StatusPage::startup() const

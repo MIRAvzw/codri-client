@@ -26,17 +26,6 @@ namespace MIRA
         NetworkInterface(QObject *iParent = 0) throw(QException);
         ~NetworkInterface();
 
-        // Getters and setters
-        QString uuid() const;
-
-        // Signals
-    signals:
-        void setConfigurationRevision(const unsigned long iRevision);
-        void shutdown();
-        void reboot();
-        void setVolume(unsigned int iVolume);
-        void setPresentationLocation(const QString &iMediaLocation);
-
     private:
         // Subsystem objects
         QSettings *mSettings;
