@@ -29,7 +29,7 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
 
     // Get webservice port
     unsigned int tPort = mSettings->value("port", 8080).toUInt();
-    MainApplication::instance()->controller()->kiosk()->setPort(tPort);
+    MainApplication::instance()->kiosk()->setPort(tPort);
 
     // Start the webservice dispatcher
     // TODO: fix memory
@@ -40,15 +40,26 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     mWebserviceDispatcher->addService("presentation", new PresentationResource(mWebserviceDispatcher));
     mWebserviceDispatcher->start();
 
-    // Schedule server connection request
-    mConnectionTimer = new QTimer(this);
-    connect(mConnectionTimer, SIGNAL(timeout()), this, SLOT(_onConnectionTimeout()));
-    mConnectionTimer->start(0);
+    // Instantiate server client
+    // FIXME: address discovery
+    mServerClient = new ServerClient("http://nemesis:8080/codri", this);
+    connect(mServerClient, SIGNAL(connectionPerformed(bool,uint)), this, SLOT(_onConnectionPerformed(bool,uint)));
+    connect(mServerClient, SIGNAL(heartbeatUpdated(bool,uint)), this, SLOT(_onHeartbeatUpdated(bool,uint)));
 
-    // Schedule heartbeat messages
+    // Create reconnection timer
+    mConnectionTimer = new QTimer(this);
+    mConnectionTimer->setSingleShot(false);
+    mConnectionTimer->setInterval(mSettings->value("reconnect", 60*1000).toInt());
+    connect(mConnectionTimer, SIGNAL(timeout()), this, SLOT(_onConnectionTimeout()));
+
+    // Create heartbeat timer
     mHeartbeatTimer = new QTimer(this);
+    mHeartbeatTimer->setSingleShot(false);
+    mHeartbeatTimer->setInterval(mSettings->value("heartbeat", 30*1000).toInt());
     connect(mHeartbeatTimer, SIGNAL(timeout()), this, SLOT(_onHeartbeatTimeout()));
-    mHeartbeatTimer->start(mSettings->value("heartbeat", 30*1000).toInt());
+
+    // Schedule server connection request
+    QTimer::singleShot(0, this, SLOT(_onConnectionTimeout()));
 }
 
 NetworkInterface::~NetworkInterface()
@@ -61,12 +72,56 @@ NetworkInterface::~NetworkInterface()
 // Private signal handlers
 //
 
+// TODO: fsm?
+
 void NetworkInterface::_onConnectionTimeout()
 {
+    mServerClient->postKiosk();
+}
 
+void NetworkInterface::_onConnectionPerformed(bool iSuccess, unsigned int iErrorCode)
+{
+    if (iSuccess)
+    {
+        mLogger->info() << "Successfully connected to the server";
+        mConnectionTimer->stop();
+        mHeartbeatTimer->start();
+    }
+    else if (iErrorCode == 409)
+    {
+        mLogger->warn() << "Kiosk was already registered";
+        mConnectionTimer->stop();
+        QTimer::singleShot(0, this, SLOT(_onHeartbeatTimeout()));
+    }
+    else
+    {
+        mLogger->warn() << "Error connection to the server";
+        mConnectionTimer->start();
+    }
 }
 
 void NetworkInterface::_onHeartbeatTimeout()
 {
+    mServerClient->putKiosk();
+}
 
+void NetworkInterface::_onHeartbeatUpdated(bool iSuccess, unsigned int iErrorCode)
+{
+    if (iSuccess)
+    {
+        mLogger->debug() << "Successfully sent heartbeat to the server";
+        mHeartbeatTimer->start();
+    }
+    else if (iErrorCode == 404)
+    {
+        mLogger->warn() << "Kiosk isn't registered";
+        mHeartbeatTimer->stop();
+        QTimer::singleShot(0, this, SLOT(_onConnectionTimeout()));
+    }
+    else
+    {
+        mLogger->warn() << "Error connection to the server";
+        mHeartbeatTimer->stop();
+        QTimer::singleShot(0, this, SLOT(_onConnectionTimeout()));
+    }
 }

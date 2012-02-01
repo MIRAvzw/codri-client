@@ -42,22 +42,35 @@ ServerClient::~ServerClient()
 
 void ServerClient::postKiosk() throw(QException)
 {
-    const Kiosk *tKiosk = MainApplication::instance()->controller()->kiosk();
+    const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
+    // TODO: duplicate code...
     QVariantMap tRequest;
-    tRequest["power"] = tKiosk->getPower();
+    tRequest["vendor"] = tKiosk->getVendor();
+    tRequest["model"] = tKiosk->getModel();
+    /*
+    switch (tKiosk->getPower())
+    {
+    case Kiosk::ON:
+        tRequest["power"] = "on";
+        break;
+    case Kiosk::OFF:
+        tRequest["power"] = "off";
+        break;
+    }
+    */
     tRequest["port"] = tKiosk->getPort();
 
     mRequest = PUT_KIOSK;
-    doPOST("/network/kiosks/" + tKiosk->getUuid().toString(), tRequest);
+    doPOST("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""), tRequest);
 }
 
 void ServerClient::putKiosk() throw(QException)
 {
-    const Kiosk *tKiosk = MainApplication::instance()->controller()->kiosk();
+    const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
     mRequest = POST_KIOSK;
-    doPUT("/network/kiosks/" + tKiosk->getUuid().toString());
+    doPUT("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""));
 }
 
 

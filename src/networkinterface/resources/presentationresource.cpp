@@ -45,20 +45,20 @@ JsonResource::Result PresentationResource::doJsonGET(QVariant& iReply)
 
 JsonResource::Result PresentationResource::Revision::doJsonGET(QVariant& iReply)
 {
-    iReply = (unsigned long long) MainApplication::instance()->controller()->presentation()->getRevision();
+    iReply = (unsigned long long) MainApplication::instance()->presentation()->getRevision();
     return VALID;
 }
 
 JsonResource::Result PresentationResource::Location::doJsonGET(QVariant& iReply)
 {
-    iReply = MainApplication::instance()->controller()->presentation()->getLocation();
+    iReply = MainApplication::instance()->presentation()->getLocation();
     return VALID;
 }
 
 JsonResource::Result PresentationResource::Location::doJsonPUT(QVariant &iRequest, QVariant&)
 {
     if (iRequest.canConvert(QVariant::String))
-        MainApplication::instance()->controller()->presentation()->setLocation(iRequest.toString());
+        MainApplication::instance()->presentation()->setLocation(iRequest.toString());
     else
         return INVALID;
 

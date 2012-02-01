@@ -32,6 +32,11 @@ namespace MIRA
         static void handleInterruptUnix(int unused);
         static void handleTerminateUnix(int unused);
 
+        // State getters
+        Kiosk *kiosk() const;
+        Configuration *configuration() const;
+        Presentation *presentation() const;
+
         // Subsystem getters
         Controller *controller() const;
 
@@ -47,6 +52,11 @@ namespace MIRA
     private:
         // Singleton object
         static MainApplication *mInstance;
+
+        // State objects
+        Kiosk *mKiosk;
+        Configuration *mConfiguration;
+        Presentation *mPresentation;
 
         // Subsystem objects
         QSettings *mSettings;

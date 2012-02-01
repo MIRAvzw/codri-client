@@ -43,5 +43,5 @@ LogPage::~LogPage()
 
 QString LogPage::id() const
 {
-    return MainApplication::instance()->controller()->kiosk()->getUuid();
+    return MainApplication::instance()->kiosk()->getUuid();
 }

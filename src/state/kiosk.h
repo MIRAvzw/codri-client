@@ -31,6 +31,8 @@ namespace MIRA
         Kiosk::Power getPower() const;
         void setPower(Kiosk::Power iPower);
         QUuid getUuid() const;
+        QString getVendor() const;
+        QString getModel() const;
         unsigned short getPort() const;
         void setPort(unsigned short iPort);
 

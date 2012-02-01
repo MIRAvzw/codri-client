@@ -74,6 +74,11 @@ MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) th
     qInstallMsgHandler(doMessage);
     mLogger->info() << "Initializing";
 
+    // Initialize state objects
+    mKiosk = new Kiosk(this);
+    mConfiguration = new Configuration(this);
+    mPresentation = new Presentation(this);
+
     // Start the application controller
     mController = new Controller(this);
     connect(this, SIGNAL(aboutToQuit()), mController, SLOT(stop()));
@@ -86,6 +91,26 @@ MainApplication::~MainApplication()
 
     // Remove the singleton configuration
     mInstance = NULL;
+}
+
+
+//
+// State getters
+//
+
+Kiosk *MainApplication::kiosk() const
+{
+    return mKiosk;
+}
+
+Configuration *MainApplication::configuration() const
+{
+    return mConfiguration;
+}
+
+Presentation *MainApplication::presentation() const
+{
+    return mPresentation;
 }
 
 

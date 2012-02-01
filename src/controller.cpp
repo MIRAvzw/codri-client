@@ -57,17 +57,10 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
         throw QException(QString("could not load all subsystems"));
     }
 
-    // Initialize the kiosk state
-    mKiosk = new Kiosk(this);
-    connect(mKiosk, SIGNAL(onPowerChanged(Kiosk::Power)), this, SLOT(_onKioskPowerChanged(Kiosk::Power)));
-
-    // Initialize the configuration state
-    mConfiguration = new Configuration(this);
-    connect(mConfiguration, SIGNAL(onVolumeChanged(unsigned char)), this, SLOT(_onConfigurationVolumeChanged(unsigned char)));
-
-    // Initialize the presentation state
-    mPresentation = new Presentation(this);
-    connect(mPresentation, SIGNAL(onLocationChanged(const QString&)), this, SLOT(_onPresentationLocationChanged(const QString&)));
+    // Initialize state signals
+    connect(MainApplication::instance()->kiosk(), SIGNAL(onPowerChanged(Kiosk::Power)), this, SLOT(_onKioskPowerChanged(Kiosk::Power)));
+    connect(MainApplication::instance()->configuration(), SIGNAL(onVolumeChanged(unsigned char)), this, SLOT(_onConfigurationVolumeChanged(unsigned char)));
+    connect(MainApplication::instance()->presentation(), SIGNAL(onLocationChanged(const QString&)), this, SLOT(_onPresentationLocationChanged(const QString&)));
 }
 
 Controller::~Controller()
@@ -141,26 +134,6 @@ DataManager *Controller::dataManager() const
 
 
 //
-// State getters
-//
-
-Kiosk *Controller::kiosk() const
-{
-    return mKiosk;
-}
-
-Configuration *Controller::configuration() const
-{
-    return mConfiguration;
-}
-
-Presentation *Controller::presentation() const
-{
-    return mPresentation;
-}
-
-
-//
 // Subsystem events
 //
 
@@ -214,7 +187,7 @@ void Controller::_onPresentationLocationChanged(const QString &iLocation)
         QPair<QDir, unsigned long> tCheckout = dataManager()->downloadPresentation(iLocation);
 
         // Show the new presentation
-        mPresentation->setRevision(tCheckout.second);
+        MainApplication::instance()->presentation()->setRevision(tCheckout.second);
         userInterface()->showPresentation(tCheckout.first);
     }
     catch (const QException &tException)

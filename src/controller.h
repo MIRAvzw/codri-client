@@ -57,11 +57,6 @@ namespace MIRA
         UserInterface *userInterface() const;
         DataManager *dataManager() const;
 
-        // State getters
-        Kiosk *kiosk() const;
-        Configuration *configuration() const;
-        Presentation *presentation() const;
-
     private slots:
         // Subsystem events
         void _onPresentationError(const QString& iError);
@@ -74,11 +69,6 @@ namespace MIRA
     private:
         // Member data
         QDateTime mTimestampStartup;
-
-        // State objects
-        Kiosk *mKiosk;
-        Configuration *mConfiguration;
-        Presentation *mPresentation;
 
         // Subsystem objects
         QSettings *mSettings;

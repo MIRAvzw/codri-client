@@ -19,5 +19,4 @@ PresentationPage::PresentationPage(const QDir& iLocation, QObject *iParent) : We
 
 PresentationPage::~PresentationPage()
 {
-    qDebug() << "DESTROY";
 }

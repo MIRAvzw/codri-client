@@ -41,6 +41,6 @@ JsonResource::Result ConfigurationResource::doJsonGET(QVariant& iReply)
 
 JsonResource::Result ConfigurationResource::Revision::doJsonGET(QVariant& iReply)
 {
-    iReply = (unsigned long long) MainApplication::instance()->controller()->presentation()->getRevision();
+    iReply = (unsigned long long) MainApplication::instance()->presentation()->getRevision();
     return VALID;
 }

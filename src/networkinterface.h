@@ -15,6 +15,7 @@
 // Local includes
 #include "qexception.h"
 #include "networkinterface/webservicedispatcher.h"
+#include "networkinterface/serverclient.h"
 
 namespace MIRA
 {
@@ -31,16 +32,19 @@ namespace MIRA
         void onServerConnected();
         void onServerDisconnected();    // TODO: can happen due to heartbeat not working, or server="" put (server exits); OR ONLY DUE TO TIMEOUT?
 
-    private:
+    private slots:
         // Private signal handlers
         void _onConnectionTimeout();
+        void _onConnectionPerformed(bool iSuccess, unsigned int iErrorCode);
         void _onHeartbeatTimeout();
+        void _onHeartbeatUpdated(bool iSuccess, unsigned int iErrorCode);
 
     private:
         // Subsystem objects
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         WebserviceDispatcher *mWebserviceDispatcher;
+        ServerClient *mServerClient;
 
         // Timers
         QTimer *mConnectionTimer;

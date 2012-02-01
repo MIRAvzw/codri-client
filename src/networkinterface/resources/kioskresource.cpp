@@ -45,7 +45,7 @@ JsonResource::Result KioskResource::doJsonGET(QVariant& iReply)
 
 JsonResource::Result KioskResource::Power::doJsonGET(QVariant& iReply)
 {
-    switch (MainApplication::instance()->controller()->kiosk()->getPower())
+    switch (MainApplication::instance()->kiosk()->getPower())
     {
     case Kiosk::ON:
         iReply = "on";
@@ -61,9 +61,9 @@ JsonResource::Result KioskResource::Power::doJsonGET(QVariant& iReply)
 JsonResource::Result KioskResource::Power::doJsonPUT(QVariant &iRequest, QVariant&)
 {
     if (iRequest.toString() == "on")
-        MainApplication::instance()->controller()->kiosk()->setPower(Kiosk::ON);
+        MainApplication::instance()->kiosk()->setPower(Kiosk::ON);
     else if (iRequest.toString() == "off")
-        MainApplication::instance()->controller()->kiosk()->setPower(Kiosk::OFF);
+        MainApplication::instance()->kiosk()->setPower(Kiosk::OFF);
     else
         return INVALID;
 
@@ -72,6 +72,6 @@ JsonResource::Result KioskResource::Power::doJsonPUT(QVariant &iRequest, QVarian
 
 JsonResource::Result KioskResource::Uuid::doJsonGET(QVariant& iReply)
 {
-    iReply = MainApplication::instance()->controller()->kiosk()->getUuid().toString();
+    iReply = MainApplication::instance()->kiosk()->getUuid().toString();
     return VALID;
 }
