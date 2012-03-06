@@ -41,8 +41,7 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     mWebserviceDispatcher->start();
 
     // Instantiate server client
-    // FIXME: address discovery
-    mServerClient = new ServerClient("http://nemesis:8080/codri", this);
+    mServerClient = new ServerClient("http://codri.local:8080/codri", this);
     connect(mServerClient, SIGNAL(connectionPerformed(bool,uint)), this, SLOT(_onConnectionPerformed(bool,uint)));
     connect(mServerClient, SIGNAL(heartbeatUpdated(bool,uint)), this, SLOT(_onHeartbeatUpdated(bool,uint)));
 

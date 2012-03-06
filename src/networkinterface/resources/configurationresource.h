@@ -33,6 +33,16 @@ namespace MIRA
             Result doJsonGET(QVariant& iReply);
         };
         Revision *mRevision;
+
+        // Volume resource
+        class Volume : public JsonResource {
+        public:
+            Volume(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0)
+                : JsonResource(iSessionManager, iParent)
+            { }
+            Result doJsonGET(QVariant& iReply);
+        };
+        Volume *mVolume;
     };
 }
 

@@ -20,6 +20,10 @@ ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager* iSess
     // Revision resource
     mRevision = new Revision(iSessionManager, this);
     addService("revision", mRevision);
+
+    // Volume resource
+    mVolume = new Volume(iSessionManager, this);
+    addService("volume", mVolume);
 }
 
 
@@ -34,6 +38,7 @@ JsonResource::Result ConfigurationResource::doJsonGET(QVariant& iReply)
     Result tResult = VALID;
 
     aggregateResult(tResult, mRevision->doJsonGET(tObject["revision"]));
+    aggregateResult(tResult, mVolume->doJsonGET(tObject["volume"]));
 
     iReply = tObject;
     return tResult;
@@ -41,6 +46,12 @@ JsonResource::Result ConfigurationResource::doJsonGET(QVariant& iReply)
 
 JsonResource::Result ConfigurationResource::Revision::doJsonGET(QVariant& iReply)
 {
-    iReply = (unsigned long long) MainApplication::instance()->presentation()->getRevision();
+    iReply = (unsigned long long) MainApplication::instance()->configuration()->getRevision();
+    return VALID;
+}
+
+JsonResource::Result ConfigurationResource::Volume::doJsonGET(QVariant& iReply)
+{
+    iReply = (unsigned long long) MainApplication::instance()->configuration()->getVolume();
     return VALID;
 }
