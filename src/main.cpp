@@ -3,8 +3,7 @@
 //
 
 // System includes
-#include <signal.h>
-#include <unistd.h>
+#include <csignal>
 
 // Local includes
 #include "mainapplication.h"
@@ -13,32 +12,27 @@
 // Namespaces
 using namespace MIRA;
 
-static int initSignalHandlers()
+struct ExitHandler
 {
-    // Set-up and register the SIGINT handler
-    struct sigaction tSignalInterrupt;
-    tSignalInterrupt.sa_handler = MainApplication::handleInterruptUnix;
-    sigemptyset(&tSignalInterrupt.sa_mask);
-    tSignalInterrupt.sa_flags = 0;
-    tSignalInterrupt.sa_flags |= SA_RESTART;
-    if (sigaction(SIGINT, &tSignalInterrupt, 0) > 0)
-        return 1;
+    ExitHandler()
+    {
+        signal(SIGINT, &ExitHandler::exit);
+        signal(SIGTERM, &ExitHandler::exit);
+    }
 
-    // Set-up and register the SIGTERM handler
-    struct sigaction tSignalTerminate;
-    tSignalTerminate.sa_handler = MainApplication::handleTerminateUnix;
-    sigemptyset(&tSignalTerminate.sa_mask);
-    tSignalTerminate.sa_flags |= SA_RESTART;
-    if (sigaction(SIGTERM, &tSignalTerminate, 0) > 0)
-        return 2;
-
-    return 0;
-}
+    static void exit(int) {
+        // Calling exit in the QApplication will cause the aboutToQuit
+        // signal to be emitted, allowing us to clean up properly from
+        // within a Qt event thread (since this isn't, hence we cannot
+        // call Qt functions from here).
+        MainApplication::exit(0);
+    }
+};
 
 int main(int iArgumentCount, char *iArgumentValues[])
 {
     // Handle Unix signals
-    initSignalHandlers();
+    ExitHandler tExitHandler;
 
     // Initialize the application
     MainApplication *tApplication;
