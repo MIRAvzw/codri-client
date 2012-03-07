@@ -19,6 +19,7 @@
 #include "state/kiosk.h"
 #include "state/configuration.h"
 #include "state/presentation.h"
+#include "controller/initcontroller.h"
 
 /*
   This class controls the entire application. It uses and coordinates
@@ -34,6 +35,8 @@
 
 namespace MIRA
 {
+    class InitController;
+
     class Controller : public QObject
     {
         Q_OBJECT
@@ -58,6 +61,10 @@ namespace MIRA
         DataManager *dataManager() const;
 
     private slots:
+        // Initialization events
+        void _onInitializationSuccess();
+        void _onInitializationFailure();
+
         // Subsystem events
         void _onPresentationError(const QString& iError);
 
@@ -76,6 +83,10 @@ namespace MIRA
         UserInterface *mUserInterface;
         NetworkInterface *mNetworkInterface;
         DataManager *mDataManager;
+
+        // Initialization controller
+        InitController* mInitController;
+        friend class InitController;
     };
 }
 

@@ -37,6 +37,7 @@ UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(i
     setWindowState(windowState() | Qt::WindowFullScreen);
 
     // Configure the webview
+    mLogger->debug() << "Showing initialization page";
     showInit();
     connect(mWebView, SIGNAL(loadFinished(bool)), this, SLOT(_loadFinished(bool)));
     connect(mWebView, SIGNAL(loadProgress(int)), this, SLOT(_loadProgress(int)));
