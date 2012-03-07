@@ -93,8 +93,6 @@ namespace MIRA
                 return false;
 
             QStateMachine::SignalEvent *tSignalEvent = static_cast<QStateMachine::SignalEvent*>(iEvent);
-            qDebug() << tSignalEvent->arguments();
-            qDebug() << tSignalEvent->arguments().size();
             if (tSignalEvent->arguments().size() == 1 && tSignalEvent->arguments().at(0).canConvert(QVariant::Int))
                 mData = tSignalEvent->arguments().at(0).toInt();
 

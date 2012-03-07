@@ -8,7 +8,7 @@
 // Namespaces
 using namespace MIRA;
 
-#include <QDebug>
+
 //
 // Construction and destruction
 //

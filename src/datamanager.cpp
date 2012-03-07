@@ -14,8 +14,6 @@
 #include <svnqt/client_parameter.h>
 #include <svnqt/client_update_parameter.h>
 #include <svnqt/info_entry.h>
-
-#include <QDebug>
 #include <QtCore/QQueue>
 
 // Namespaces
