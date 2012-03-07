@@ -26,12 +26,6 @@ namespace MIRA
         // Construction and destruction
         RegistrationController(ServerClient *iServerClient, QObject *iParent = 0);
 
-    private slots:
-        // Server client handlers
-        void _onRegistrationPerformed(bool iSuccess, unsigned int iErrorCode);
-        void _onRefreshPerformed(bool iSuccess, unsigned int iErrorCode);
-        void _onUnregisterPerformed(bool iSuccess, unsigned int iErrorCode);
-
     signals:
         // State outcome signals
         void registrationSuccess();
@@ -44,7 +38,7 @@ namespace MIRA
 
     private:
         // Member data
-        const ServerClient* mServerClient;
+        ServerClient* mServerClient;
 
         // Subsystem objects
         QSettings *mSettings;
