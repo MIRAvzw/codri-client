@@ -41,10 +41,6 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
     connect(mInitController, SIGNAL(failure()), this, SLOT(_onInitializationFailure()));
 }
 
-Controller::~Controller()
-{
-}
-
 
 //
 // Basic I/O
@@ -71,12 +67,13 @@ void Controller::stop()
     if (mInitController->isFinished())
     {
         mLogger->debug() << "Stopping application";
-        // TODO: cleanup
+        delete mNetworkInterface;
+        delete mDataManager;
+        delete mUserInterface;
     }
     else
     {
         mLogger->warn() << "Error occured during initialization, not attempting clean-up";
-        // TODO: partial cleanup?
     }
 }
 

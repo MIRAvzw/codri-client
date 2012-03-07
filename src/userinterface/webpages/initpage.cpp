@@ -16,7 +16,3 @@ using namespace MIRA;
 InitPage::InitPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/initpage.html"), iParent)
 {
 }
-
-InitPage::~InitPage()
-{
-}

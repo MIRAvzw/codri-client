@@ -70,7 +70,7 @@ void ServerClient::putKiosk() throw(QException)
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
     mRequest = PUT_KIOSK;
-    doPUT("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""));
+    doPUT("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', "") + "/heartbeat");
 }
 
 void ServerClient::deleteKiosk() throw(QException)

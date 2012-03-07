@@ -16,7 +16,3 @@ using namespace MIRA;
 PresentationPage::PresentationPage(const QDir& iLocation, QObject *iParent) : WebPage("file://" + iLocation.absolutePath() + "/index.html", iParent)
 {
 }
-
-PresentationPage::~PresentationPage()
-{
-}

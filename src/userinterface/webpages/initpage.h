@@ -20,7 +20,6 @@ namespace MIRA
     public:
         // Construction and destruction
         InitPage(QObject *iParent = 0);
-        ~InitPage();
     };
 }
 

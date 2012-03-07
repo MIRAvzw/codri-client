@@ -21,7 +21,6 @@ namespace MIRA
     public:
         // Construction and destruction
         PresentationPage(const QDir& iLocation, QObject *iParent = 0);
-        ~PresentationPage();
     };
 }
 

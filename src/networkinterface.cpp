@@ -62,6 +62,7 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
 
 NetworkInterface::~NetworkInterface()
 {
+    mServerClient->deleteKiosk();
 }
 
 
