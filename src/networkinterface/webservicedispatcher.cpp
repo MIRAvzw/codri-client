@@ -20,9 +20,9 @@ WebserviceDispatcher::WebserviceDispatcher(const QHostAddress &iHost, quint16 iP
     mSettings->beginGroup("WebserviceDispatcher");
 
     // Setup logging
-    mLogger =  Log4Qt::Logger::logger("WebserviceDispatcher");
-    mLogger->trace() << Q_FUNC_INFO;
+    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
+    // Start webservice
     QxtHttpSessionManager(this);
     mRootService = new Resource(this, this);
     setPort(iPort);

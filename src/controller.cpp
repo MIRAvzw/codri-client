@@ -30,8 +30,7 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
     mSettings->beginGroup("Controller");
 
     // Setup logging
-    mLogger =  Log4Qt::Logger::logger("Controller");
-    mLogger->trace() << Q_FUNC_INFO;
+    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Mark startup time
     mTimestampStartup = QDateTime::currentDateTime();
@@ -84,8 +83,6 @@ QDateTime Controller::startup() const
 
 void Controller::start()
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     // TODO: make sure this only runs if all subsystems are initialized
     // TODO: make sure the subsystems are only interconnected here (e.g. webpage cannot show
     //       the networkinterface's uuid yet
@@ -97,19 +94,7 @@ void Controller::start()
 
 void Controller::stop()
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
-    mLogger->fatal() << "Fatal error occured, halting application";
-
-    // Clean up
-    // FIXME dataManager()->saveConfig();
-
-    // Delete subsystems
-    delete mUserInterface;
-    delete mNetworkInterface;
-
-    // Actually quit
-    MainApplication::instance()->quit();
+    mLogger->info() << "Stopping application";
 }
 
 
@@ -139,8 +124,6 @@ DataManager *Controller::dataManager() const
 
 void Controller::_onPresentationError(const QString& iError)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     mLogger->error("Error on loaded media: " + iError);
     // TODO: revert media or smth
 }
@@ -152,8 +135,6 @@ void Controller::_onPresentationError(const QString& iError)
 
 void Controller::_onKioskPowerChanged(Kiosk::Power iPower)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     switch (iPower)
     {
     case Kiosk::OFF:
@@ -166,8 +147,6 @@ void Controller::_onKioskPowerChanged(Kiosk::Power iPower)
 
 void Controller::_onConfigurationVolumeChanged(unsigned char iVolume)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     // TODO: cache the value
 
     // TODO: actually change the volume
@@ -175,8 +154,6 @@ void Controller::_onConfigurationVolumeChanged(unsigned char iVolume)
 
 void Controller::_onPresentationLocationChanged(const QString &iLocation)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     try
     {
         // Disable the current presentation

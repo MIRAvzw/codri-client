@@ -22,8 +22,7 @@ WebPage::WebPage(const QUrl &iURL, QObject *iParent) : QWebPage(iParent)
     mainFrame()->addToJavaScriptWindowObject("application", this);
 
     // Setup logging
-    mLogger =  Log4Qt::Logger::logger("WebPage");
-    mLogger->trace() << Q_FUNC_INFO;
+    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Load the contents
     mainFrame()->load(iURL);

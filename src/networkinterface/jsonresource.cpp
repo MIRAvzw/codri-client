@@ -39,17 +39,17 @@ JsonResource::Result JsonResource::doJsonGET(QVariant&)
     return UNSUPPORTED;
 }
 
-JsonResource::Result JsonResource::doJsonPUT(QVariant&, QVariant&)
+JsonResource::Result JsonResource::doJsonPUT(const QVariant&)
 {
     return UNSUPPORTED;
 }
 
-JsonResource::Result JsonResource::doJsonPOST(QVariant&, QVariant&)
+JsonResource::Result JsonResource::doJsonPOST(const QVariant&)
 {
     return UNSUPPORTED;
 }
 
-JsonResource::Result JsonResource::doJsonDELETE(QVariant&)
+JsonResource::Result JsonResource::doJsonDELETE()
 {
     return UNSUPPORTED;
 }
@@ -73,7 +73,7 @@ void JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iContent)
     if (tRequestValid)
     {
         QVariant tReply;
-        Result tResult = doJsonPUT(tRequest, tReply);
+        Result tResult = doJsonPUT(tRequest);
         doJsonReply(iSessionId, iRequestId, tReply, tResult);
         return;
     }
@@ -87,7 +87,7 @@ void JsonResource::doPOST(int iSessionId, int iRequestId, QIODevice *iContent)
     if (tRequestValid)
     {
         QVariant tReply;
-        Result tResult = doJsonPOST(tRequest, tReply);
+        Result tResult = doJsonPOST(tRequest);
         doJsonReply(iSessionId, iRequestId, tReply, tResult);
         return;
     }
@@ -97,7 +97,7 @@ void JsonResource::doPOST(int iSessionId, int iRequestId, QIODevice *iContent)
 void JsonResource::doDELETE(int iSessionId, int iRequestId)
 {
     QVariant tReply;
-    Result tResult = doJsonDELETE(tReply);
+    Result tResult = doJsonDELETE();
     doJsonReply(iSessionId, iRequestId, tReply, tResult);
 }
 

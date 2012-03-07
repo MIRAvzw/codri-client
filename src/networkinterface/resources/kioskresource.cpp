@@ -58,7 +58,7 @@ JsonResource::Result KioskResource::Power::doJsonGET(QVariant& iReply)
     return VALID;
 }
 
-JsonResource::Result KioskResource::Power::doJsonPUT(QVariant &iRequest, QVariant&)
+JsonResource::Result KioskResource::Power::doJsonPUT(const QVariant &iRequest)
 {
     if (iRequest.toString() == "on")
         MainApplication::instance()->kiosk()->setPower(Kiosk::ON);

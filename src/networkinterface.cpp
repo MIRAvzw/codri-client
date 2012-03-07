@@ -24,8 +24,7 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     mSettings->beginGroup("NetworkInterface");
 
     // Setup logging
-    mLogger =  Log4Qt::Logger::logger("NetworkInterface");
-    mLogger->trace() << Q_FUNC_INFO;
+    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Get webservice port
     unsigned int tPort = mSettings->value("port", 8080).toUInt();
@@ -33,8 +32,8 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
 
     // Start the webservice dispatcher
     // TODO: fix memory
-    mLogger->debug() << "Starting webservice dispatcher";
-    mWebserviceDispatcher = new WebserviceDispatcher(QHostAddress("127.0.0.1"), tPort);
+    mLogger->debug() << "Starting webservice";
+    mWebserviceDispatcher = new WebserviceDispatcher(QHostAddress::Any, tPort);
     mWebserviceDispatcher->addService("kiosk", new KioskResource(mWebserviceDispatcher));
     mWebserviceDispatcher->addService("configuration", new ConfigurationResource(mWebserviceDispatcher));
     mWebserviceDispatcher->addService("presentation", new PresentationResource(mWebserviceDispatcher));
@@ -63,7 +62,6 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
 
 NetworkInterface::~NetworkInterface()
 {
-    mLogger->trace() << Q_FUNC_INFO;
 }
 
 
@@ -94,7 +92,7 @@ void NetworkInterface::_onConnectionPerformed(bool iSuccess, unsigned int iError
     }
     else
     {
-        mLogger->warn() << "Error connection to the server";
+        mLogger->warn() << "Error connecting to the server (HTTP error code " << (iErrorCode == 0 ? "unknown" : QString::number(iErrorCode)) << ")";
         mConnectionTimer->start();
     }
 }
@@ -111,7 +109,7 @@ void NetworkInterface::_onHeartbeatUpdated(bool iSuccess, unsigned int iErrorCod
         mLogger->debug() << "Successfully sent heartbeat to the server";
         mHeartbeatTimer->start();
     }
-    else if (iErrorCode == 404)
+    else if (iErrorCode == 410)
     {
         mLogger->warn() << "Kiosk isn't registered";
         mHeartbeatTimer->stop();

@@ -31,6 +31,7 @@ namespace MIRA
         // Functionality
         void postKiosk() throw(QException);
         void putKiosk() throw(QException);
+        void deleteKiosk() throw(QException);
 
     signals:
         // Signals
@@ -52,7 +53,8 @@ namespace MIRA
         // Request enum
         enum Request {
             PUT_KIOSK,
-            POST_KIOSK
+            POST_KIOSK,
+            DELETE_KIOSK
         };
 
     private:

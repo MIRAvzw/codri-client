@@ -61,7 +61,7 @@ void ServerClient::postKiosk() throw(QException)
     */
     tRequest["port"] = tKiosk->getPort();
 
-    mRequest = PUT_KIOSK;
+    mRequest = POST_KIOSK;
     doPOST("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""), tRequest);
 }
 
@@ -69,8 +69,16 @@ void ServerClient::putKiosk() throw(QException)
 {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
-    mRequest = POST_KIOSK;
+    mRequest = PUT_KIOSK;
     doPUT("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""));
+}
+
+void ServerClient::deleteKiosk() throw(QException)
+{
+    const Kiosk *tKiosk = MainApplication::instance()->kiosk();
+
+    mRequest = DELETE_KIOSK;
+    doDELETE("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""));
 }
 
 
@@ -82,6 +90,7 @@ void ServerClient::putKiosk() throw(QException)
 void ServerClient::_onRequestFinished(QNetworkReply *iReply)
 {
     // Get reply data
+    // TODO: do something with the error -- is the request retried if it fails?
     bool tSuccess = iReply->error() == QNetworkReply::NoError;
     unsigned int tErrorCode = iReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isNull()
             ? 0
@@ -90,10 +99,10 @@ void ServerClient::_onRequestFinished(QNetworkReply *iReply)
     // Process different requests
     switch (mRequest)
     {
-    case PUT_KIOSK:
+    case POST_KIOSK:
         emit connectionPerformed(tSuccess, tErrorCode);
         break;
-    case POST_KIOSK:
+    case PUT_KIOSK:
         emit heartbeatUpdated(tSuccess, tErrorCode);
         break;
     }

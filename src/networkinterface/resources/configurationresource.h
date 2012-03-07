@@ -23,6 +23,7 @@ namespace MIRA
     private:
         // JsonResource implementation
         Result doJsonGET(QVariant& iReply);
+        Result doJsonPUT(const QVariant& iRequest);
 
         // Revision resource
         class Revision : public JsonResource {
@@ -31,6 +32,7 @@ namespace MIRA
                 : JsonResource(iSessionManager, iParent)
             { }
             Result doJsonGET(QVariant& iReply);
+            Result doJsonPUT(const QVariant& iRequest);
         };
         Revision *mRevision;
 
@@ -41,6 +43,7 @@ namespace MIRA
                 : JsonResource(iSessionManager, iParent)
             { }
             Result doJsonGET(QVariant& iReply);
+            Result doJsonPUT(const QVariant& iRequest);
         };
         Volume *mVolume;
     };

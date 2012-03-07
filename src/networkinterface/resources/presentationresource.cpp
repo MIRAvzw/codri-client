@@ -55,7 +55,7 @@ JsonResource::Result PresentationResource::Location::doJsonGET(QVariant& iReply)
     return VALID;
 }
 
-JsonResource::Result PresentationResource::Location::doJsonPUT(QVariant &iRequest, QVariant&)
+JsonResource::Result PresentationResource::Location::doJsonPUT(const QVariant &iRequest)
 {
     if (iRequest.canConvert(QVariant::String))
         MainApplication::instance()->presentation()->setLocation(iRequest.toString());

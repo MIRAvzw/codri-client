@@ -31,7 +31,7 @@ namespace MIRA
                 : JsonResource(iSessionManager, iParent)
             { }
             Result doJsonGET(QVariant& iReply);
-            Result doJsonPUT(QVariant &iRequest, QVariant &iReply);
+            Result doJsonPUT(const QVariant &iRequest);
         };
         Power *mPower;
 

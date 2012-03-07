@@ -42,9 +42,9 @@ namespace MIRA
 
         // Service methods
         virtual Result doJsonGET(QVariant& iReply);
-        virtual Result doJsonPUT(QVariant& iRequest, QVariant& iReply);
-        virtual Result doJsonPOST(QVariant& iRequest, QVariant& iReply);
-        virtual Result doJsonDELETE(QVariant& iReply);
+        virtual Result doJsonPUT(const QVariant& iRequest);
+        virtual Result doJsonPOST(const QVariant& iRequest);
+        virtual Result doJsonDELETE();
 
         // Helper methods
         void doJsonReply(int iSessionId, int iRequestId, QVariant& iReply, Result iResult);

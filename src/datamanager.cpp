@@ -33,8 +33,7 @@ DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
     mSettings->beginGroup("DataManager");
 
     // Setup logging
-    mLogger =  Log4Qt::Logger::logger("DataManager");
-    mLogger->trace() << Q_FUNC_INFO;
+    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Configure subversion
     svn::ContextP tSubversionContext;

@@ -56,7 +56,7 @@ MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) th
     mSettings = new QSettings(this);
 
     // Initialize logging subsystem
-    mLogger = Log4Qt::Logger::logger("main");
+    mLogger = Log4Qt::Logger::logger(metaObject()->className());
     if (mLogger->appenders().size() == 0)
     {
         // Create a layout
@@ -87,8 +87,6 @@ MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) th
 
 MainApplication::~MainApplication()
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     // Remove the singleton configuration
     mInstance = NULL;
 }
@@ -159,8 +157,6 @@ void MainApplication::handleTerminateUnix(int)
 
 void MainApplication::handleTerminate()
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     // Read the socket and temporarily disable the signal
     snTerm->setEnabled(false);
     char tmp;
@@ -174,8 +170,6 @@ void MainApplication::handleTerminate()
 
 void MainApplication::handleInterrupt()
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     // Read the socket and temporarily disable the signal
     snInt->setEnabled(false);
     char tmp;

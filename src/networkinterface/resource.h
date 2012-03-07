@@ -11,6 +11,7 @@
 #include <QxtWeb/QxtWebServiceDirectory>
 #include <QxtWeb/QxtWebRequestEvent>
 #include <QxtWeb/QxtWebContent>
+#include <Log4Qt/Logger>
 
 namespace MIRA
 {
@@ -39,6 +40,10 @@ namespace MIRA
 
         // Auxiliary
         void handleCompleteEvent(QxtWebRequestEvent *iEvent);
+
+    protected:
+        // Subsystem objects
+        Log4Qt::Logger *mLogger;
     };
 }
 

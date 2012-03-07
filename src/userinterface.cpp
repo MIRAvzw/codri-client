@@ -28,8 +28,7 @@ UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(i
     mSettings->beginGroup("UserInterface");
 
     // Setup logging
-    mLogger =  Log4Qt::Logger::logger("UserInterface");
-    mLogger->trace() << Q_FUNC_INFO;
+    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Setup UI
     mWebView = new QWebView(this);
@@ -52,32 +51,24 @@ UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(i
 
 void UserInterface::showInit()
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     QWebPage *tPageInit = new InitPage(mWebView);
     mWebView->setPage(tPageInit);
 }
 
 void UserInterface::showLog()
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     QWebPage *tPageLog = new LogPage(mWebView);
     mWebView->setPage(tPageLog);
 }
 
 void UserInterface::showStatus()
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     QWebPage *tPageStatus = new StatusPage(mWebView);
     mWebView->setPage(tPageStatus);
 }
 
 void UserInterface::showError(const QString& iError)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     // TODO: load the error in the page
 
     QWebPage *tPageError = new ErrorPage(mWebView);
@@ -86,8 +77,6 @@ void UserInterface::showError(const QString& iError)
 
 void UserInterface::showPresentation(const QDir& iLocation)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     // TODO: is webview specification necessary? Doesn't setpage properly configure the parent?
     QWebPage *tPagetPresentation = new PresentationPage(iLocation, mWebView);
     mWebView->setPage(tPagetPresentation);
@@ -147,8 +136,6 @@ bool UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 
 void UserInterface::_loadFinished(bool iOk)
 {
-    mLogger->trace() << Q_FUNC_INFO;
-
     if (iOk)
         return;
 

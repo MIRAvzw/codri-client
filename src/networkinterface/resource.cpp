@@ -15,8 +15,11 @@ using namespace MIRA;
 
 Resource::Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
     : QxtWebServiceDirectory(iSessionManager, iParent)
-{
+{    
+    // Setup logging
+    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 }
+
 Resource::~Resource()
 {
 }
