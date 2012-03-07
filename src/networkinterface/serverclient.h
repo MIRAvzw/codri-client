@@ -29,14 +29,16 @@ namespace MIRA
         virtual ~ServerClient();
 
         // Functionality
-        void postKiosk() throw(QException);
-        void putKiosk() throw(QException);
-        void deleteKiosk() throw(QException);
+    public slots:
+        void registerKiosk() throw(QException);
+        void refreshKiosk() throw(QException);
+        void unregisterKiosk() throw(QException);
 
     signals:
         // Signals
-        void connectionPerformed(bool iSuccess, unsigned int iErrorCode);
-        void heartbeatUpdated(bool iSuccess, unsigned int iErrorCode);
+        void registrationPerformed(bool iSuccess, unsigned int iErrorCode);
+        void refreshPerformed(bool iSuccess, unsigned int iErrorCode);
+        void unregisterPerformed(bool iSuccess, unsigned int iErrorCode);
 
     private slots:
         // Private signal handlers

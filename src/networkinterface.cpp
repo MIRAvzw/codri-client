@@ -41,85 +41,13 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
 
     // Instantiate server client
     mServerClient = new ServerClient("http://codri.local:8080/codri", this);
-    connect(mServerClient, SIGNAL(connectionPerformed(bool,uint)), this, SLOT(_onConnectionPerformed(bool,uint)));
-    connect(mServerClient, SIGNAL(heartbeatUpdated(bool,uint)), this, SLOT(_onHeartbeatUpdated(bool,uint)));
 
-    // Create reconnection timer
-    mConnectionTimer = new QTimer(this);
-    mConnectionTimer->setSingleShot(false);
-    mConnectionTimer->setInterval(mSettings->value("reconnect", 60*1000).toInt());
-    connect(mConnectionTimer, SIGNAL(timeout()), this, SLOT(_onConnectionTimeout()));
-
-    // Create heartbeat timer
-    mHeartbeatTimer = new QTimer(this);
-    mHeartbeatTimer->setSingleShot(false);
-    mHeartbeatTimer->setInterval(mSettings->value("heartbeat", 30*1000).toInt());
-    connect(mHeartbeatTimer, SIGNAL(timeout()), this, SLOT(_onHeartbeatTimeout()));
-
-    // Schedule server connection request
-    QTimer::singleShot(0, this, SLOT(_onConnectionTimeout()));
+    // Registration controller
+    mRegistrationController = new RegistrationController(mServerClient, this);
+    mRegistrationController->start();
 }
 
 NetworkInterface::~NetworkInterface()
 {
-    mServerClient->deleteKiosk();
-}
-
-
-//
-// Private signal handlers
-//
-
-// TODO: fsm?
-
-void NetworkInterface::_onConnectionTimeout()
-{
-    mServerClient->postKiosk();
-}
-
-void NetworkInterface::_onConnectionPerformed(bool iSuccess, unsigned int iErrorCode)
-{
-    if (iSuccess)
-    {
-        mLogger->info() << "Successfully connected to the server";
-        mConnectionTimer->stop();
-        mHeartbeatTimer->start();
-    }
-    else if (iErrorCode == 409)
-    {
-        mLogger->warn() << "Kiosk was already registered";
-        mConnectionTimer->stop();
-        QTimer::singleShot(0, this, SLOT(_onHeartbeatTimeout()));
-    }
-    else
-    {
-        mLogger->warn() << "Error connecting to the server (HTTP error code " << (iErrorCode == 0 ? "unknown" : QString::number(iErrorCode)) << ")";
-        mConnectionTimer->start();
-    }
-}
-
-void NetworkInterface::_onHeartbeatTimeout()
-{
-    mServerClient->putKiosk();
-}
-
-void NetworkInterface::_onHeartbeatUpdated(bool iSuccess, unsigned int iErrorCode)
-{
-    if (iSuccess)
-    {
-        mLogger->debug() << "Successfully sent heartbeat to the server";
-        mHeartbeatTimer->start();
-    }
-    else if (iErrorCode == 410)
-    {
-        mLogger->warn() << "Kiosk isn't registered";
-        mHeartbeatTimer->stop();
-        QTimer::singleShot(0, this, SLOT(_onConnectionTimeout()));
-    }
-    else
-    {
-        mLogger->warn() << "Error connection to the server";
-        mHeartbeatTimer->stop();
-        QTimer::singleShot(0, this, SLOT(_onConnectionTimeout()));
-    }
+    mServerClient->unregisterKiosk();
 }

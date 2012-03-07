@@ -40,7 +40,7 @@ ServerClient::~ServerClient()
 //
 
 
-void ServerClient::postKiosk() throw(QException)
+void ServerClient::registerKiosk() throw(QException)
 {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
@@ -65,7 +65,7 @@ void ServerClient::postKiosk() throw(QException)
     doPOST("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""), tRequest);
 }
 
-void ServerClient::putKiosk() throw(QException)
+void ServerClient::refreshKiosk() throw(QException)
 {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
@@ -73,7 +73,7 @@ void ServerClient::putKiosk() throw(QException)
     doPUT("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', "") + "/heartbeat");
 }
 
-void ServerClient::deleteKiosk() throw(QException)
+void ServerClient::unregisterKiosk() throw(QException)
 {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
@@ -100,10 +100,13 @@ void ServerClient::_onRequestFinished(QNetworkReply *iReply)
     switch (mRequest)
     {
     case POST_KIOSK:
-        emit connectionPerformed(tSuccess, tErrorCode);
+        emit registrationPerformed(tSuccess, tErrorCode);
         break;
     case PUT_KIOSK:
-        emit heartbeatUpdated(tSuccess, tErrorCode);
+        emit refreshPerformed(tSuccess, tErrorCode);
+        break;
+    case DELETE_KIOSK:
+        emit unregisterPerformed(tSuccess, tErrorCode);
         break;
     }
 }
