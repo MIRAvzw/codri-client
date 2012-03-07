@@ -34,25 +34,7 @@ int main(int iArgumentCount, char *iArgumentValues[])
     // Handle Unix signals
     ExitHandler tExitHandler;
 
-    // Initialize the application
-    MainApplication *tApplication;
-    try
-    {
-        tApplication = new MainApplication(iArgumentCount, iArgumentValues);
-    }
-    catch (const QException &iException)
-    {
-        QTextStream qerr(stderr);
-
-        qerr << "--------------------------------------\n";
-        qerr << "        INITIALIZATION FAILURE        \n";
-        qerr << "--------------------------------------\n";
-        qerr << "\n";
-        qerr << "Exception details: " << iException.what() << "\n";
-
-        return 0;
-    }
-
-    // Run the application
+    // Run the applications
+    MainApplication *tApplication = new MainApplication(iArgumentCount, iArgumentValues);
     return tApplication->exec();
 }
