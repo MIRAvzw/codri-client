@@ -22,7 +22,7 @@ namespace MIRA
     Q_PROPERTY(QString id READ id CONSTANT)
     public:
         // Construction and destruction
-        LogPage(QObject *iParent = 0);
+        LogPage(QObject *iParent);
         ~LogPage();
 
         // Basic I/O

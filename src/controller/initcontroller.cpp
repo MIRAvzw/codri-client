@@ -61,6 +61,7 @@ void InitController::initializeUserInterface()
 {
     try
     {
+        // FIXME: parent?
         mController->mUserInterface = new UserInterface();
         connect(mController->mUserInterface, SIGNAL(presentationError(QString)), mController, SLOT(_onPresentationError(QString)));
         mController->mUserInterface->show();

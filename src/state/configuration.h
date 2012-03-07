@@ -15,7 +15,7 @@ namespace MIRA
         Q_OBJECT
     public:
         // Construction and destruction
-        Configuration(QObject *iParent = 0);
+        Configuration(QObject *iParent);
 
         // Basic I/O
         unsigned long getRevision() const;

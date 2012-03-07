@@ -25,7 +25,7 @@ namespace MIRA
         Q_OBJECT
     public:
         // Construction and destruction
-        InitController(Controller *iController = 0);
+        InitController(Controller *iController);
 
     signals:
         // Initialization outcome signals

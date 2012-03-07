@@ -25,7 +25,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        NetworkInterface(QObject *iParent = 0) throw(QException);
+        NetworkInterface(QObject *iParent) throw(QException);
         ~NetworkInterface();
 
     private:

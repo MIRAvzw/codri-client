@@ -20,7 +20,7 @@ namespace MIRA
         Q_OBJECT
     public:
         // Construction and destruction
-        Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0);
+        Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent);
         virtual ~Resource();
 
     protected:

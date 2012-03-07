@@ -19,7 +19,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        InitPage(QObject *iParent = 0);
+        InitPage(QObject *iParent);
     };
 }
 

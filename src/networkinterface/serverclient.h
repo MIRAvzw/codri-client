@@ -27,7 +27,7 @@ namespace MIRA
         Q_OBJECT
     public:
         // Construction and destruction
-        ServerClient(const QString& iLocation, QObject *iParent = 0);
+        ServerClient(const QString& iLocation, QObject *iParent);
         virtual ~ServerClient();
 
         // Functionality

@@ -23,7 +23,7 @@ namespace MIRA
 
     public:
         // Construction and destruction
-        JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0);
+        JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent);
         virtual ~JsonResource();
 
     protected:

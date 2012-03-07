@@ -23,7 +23,7 @@ namespace MIRA
     Q_PROPERTY(QDateTime startup READ startup CONSTANT)
     public:
         // Construction and destruction
-        StatusPage(QObject *iParent = 0);
+        StatusPage(QObject *iParent);
         ~StatusPage();
 
         // Basic I/O

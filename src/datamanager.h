@@ -28,7 +28,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        DataManager(QObject *iParent = 0) throw(QException);
+        DataManager(QObject *iParent) throw(QException);
 
         // High-level functionality
         QPair<QDir, unsigned long> downloadPresentation(const QString &iLocation) throw(QException);

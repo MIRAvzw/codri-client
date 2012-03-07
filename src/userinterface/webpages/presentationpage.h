@@ -20,7 +20,7 @@ namespace MIRA
     Q_OBJECT
     public:
         // Construction and destruction
-        PresentationPage(const QDir& iLocation, QObject *iParent = 0);
+        PresentationPage(const QDir& iLocation, QObject *iParent);
     };
 }
 

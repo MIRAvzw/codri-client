@@ -34,9 +34,9 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     // TODO: fix memory
     mLogger->debug() << "Starting webservice";
     mWebserviceDispatcher = new WebserviceDispatcher(QHostAddress::Any, tPort);
-    mWebserviceDispatcher->addService("kiosk", new KioskResource(mWebserviceDispatcher));
-    mWebserviceDispatcher->addService("configuration", new ConfigurationResource(mWebserviceDispatcher));
-    mWebserviceDispatcher->addService("presentation", new PresentationResource(mWebserviceDispatcher));
+    mWebserviceDispatcher->addService("kiosk", new KioskResource(mWebserviceDispatcher, mWebserviceDispatcher));
+    mWebserviceDispatcher->addService("configuration", new ConfigurationResource(mWebserviceDispatcher, mWebserviceDispatcher));
+    mWebserviceDispatcher->addService("presentation", new PresentationResource(mWebserviceDispatcher, mWebserviceDispatcher));
     mWebserviceDispatcher->start();
 
     // Instantiate server client

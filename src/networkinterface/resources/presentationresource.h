@@ -18,7 +18,7 @@ namespace MIRA
     {
     public:
         // Construction and destruction
-        PresentationResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0);
+        PresentationResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent);
 
     private:
         // JsonResource implementation
@@ -27,7 +27,7 @@ namespace MIRA
         // Revision resource
         class Revision : public JsonResource {
         public:
-            Revision(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0)
+            Revision(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
                 : JsonResource(iSessionManager, iParent)
             { }
             Result doJsonGET(QVariant& iReply);
@@ -37,7 +37,7 @@ namespace MIRA
         // Location resource
         class Location : public JsonResource {
         public:
-            Location(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0)
+            Location(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
                 : JsonResource(iSessionManager, iParent)
             { }
             Result doJsonGET(QVariant& iReply);

@@ -24,7 +24,7 @@ namespace MIRA
         Q_OBJECT
     public:
         // Construction and destruction
-        RegistrationController(ServerClient *iServerClient, QObject *iParent = 0);
+        RegistrationController(ServerClient *iServerClient, QObject *iParent);
 
     signals:
         // State outcome signals

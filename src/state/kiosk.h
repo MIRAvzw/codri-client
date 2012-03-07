@@ -19,7 +19,7 @@ namespace MIRA
         Q_OBJECT
     public:
         // Construction and destruction
-        Kiosk(QObject *iParent = 0);
+        Kiosk(QObject *iParent);
 
         // Power enum
         enum Power {

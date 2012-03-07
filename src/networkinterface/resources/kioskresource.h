@@ -18,7 +18,7 @@ namespace MIRA
     {
     public:
         // Construction and destruction
-        KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0);
+        KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent);
 
     private:
         // JsonResource implementation
@@ -27,7 +27,7 @@ namespace MIRA
         // Power resource
         class Power : public JsonResource {
         public:
-            Power(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0)
+            Power(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
                 : JsonResource(iSessionManager, iParent)
             { }
             Result doJsonGET(QVariant& iReply);
@@ -38,7 +38,7 @@ namespace MIRA
         // Uuid resource
         class Uuid : public JsonResource {
         public:
-            Uuid(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent = 0)
+            Uuid(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
                 : JsonResource(iSessionManager, iParent)
             { }
             Result doJsonGET(QVariant& iReply);
