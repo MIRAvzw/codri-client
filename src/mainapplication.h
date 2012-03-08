@@ -40,11 +40,6 @@ namespace MIRA
         // Subsystem getters
         Controller *controller() const;
 
-    public slots:
-        // System signals
-        void handleInterrupt();
-        void handleTerminate();
-
         // Singleton object getters
     public:
         static MainApplication *instance();
@@ -62,12 +57,6 @@ namespace MIRA
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
         Controller *mController;
-
-        static int sigintFd[2];
-        static int sigtermFd[2];
-
-        QSocketNotifier *snInt;
-        QSocketNotifier *snTerm;
 
         // External
         friend void doMessage(QtMsgType iMessageType, const char *iMessage);

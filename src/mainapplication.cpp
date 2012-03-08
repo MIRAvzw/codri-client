@@ -27,8 +27,6 @@ using namespace MIRA;
 
 // Initialize static members
 MainApplication *MainApplication::mInstance = NULL;
-int MainApplication::sigintFd[2];
-int MainApplication::sigtermFd[2];
 
 MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException) : QApplication(iArgumentCount, iArgumentValues)
 {
@@ -41,16 +39,6 @@ MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) th
     setOrganizationDomain("mira.be");
     setApplicationName("Codri");
     setApplicationVersion("0.1");
-
-    // Setup signal handling
-    if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sigintFd))
-        qFatal("Couldn't create HUP socketpair");
-    if (::socketpair(AF_UNIX, SOCK_STREAM, 0, sigtermFd))
-        qFatal("Couldn't create TERM socketpair");
-    snInt = new QSocketNotifier(sigintFd[1], QSocketNotifier::Read, this);
-    connect(snInt, SIGNAL(activated(int)), this, SLOT(handleInterrupt()));
-    snTerm = new QSocketNotifier(sigtermFd[1], QSocketNotifier::Read, this);
-    connect(snTerm, SIGNAL(activated(int)), this, SLOT(handleTerminate()));
 
     // Load the settings
     mSettings = new QSettings(this);
@@ -129,56 +117,6 @@ Controller *MainApplication::controller() const
 MainApplication *MainApplication::instance()
 {
     return mInstance;
-}
-
-
-//
-// System signals (Unix)
-//
-
-void MainApplication::handleInterruptUnix(int)
-{
-    // Write to the SIGINT-socket
-    char a = '1';
-    ::write(sigintFd[0], &a, sizeof(a));
-
-}
-
-void MainApplication::handleTerminateUnix(int)
-{
-    // Write to the SIGTERM-socket
-    char a = '2';
-    ::write(sigtermFd[0], &a, sizeof(a));
-}
-
-//
-// System signals
-//
-
-void MainApplication::handleTerminate()
-{
-    // Read the socket and temporarily disable the signal
-    snTerm->setEnabled(false);
-    char tmp;
-    ::read(sigtermFd[1], &tmp, sizeof(tmp));
-
-    // Quit the application
-    mController->stop();
-
-    snTerm->setEnabled(true);
-}
-
-void MainApplication::handleInterrupt()
-{
-    // Read the socket and temporarily disable the signal
-    snInt->setEnabled(false);
-    char tmp;
-    ::read(sigintFd[1], &tmp, sizeof(tmp));
-
-    // Quit the application
-    mController->stop();
-
-    snInt->setEnabled(true);
 }
 
 
