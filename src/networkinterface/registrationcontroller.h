@@ -26,6 +26,10 @@ namespace MIRA
         // Construction and destruction
         RegistrationController(ServerClient *iServerClient, QObject *iParent);
 
+        // Construction helpers
+    private:
+        void initFSM();
+
     signals:
         // State outcome signals
         void registrationSuccess();

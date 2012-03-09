@@ -30,6 +30,10 @@ namespace MIRA
         ServerClient(const QString& iLocation, QObject *iParent);
         virtual ~ServerClient();
 
+        // Construction helpers
+    private:
+        void initFSM();
+
         // Functionality
     public slots:
         void registerKiosk();

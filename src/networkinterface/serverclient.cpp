@@ -24,57 +24,10 @@ ServerClient::ServerClient(const QString &iLocation, QObject *iParent) : QStateM
     mParser = new QJson::Parser();
     mSerializer = new QJson::Serializer();
 
-    // States
-    QState *tIdle = new QState(this);
-    QState *tRegister = new QState(this);
-    QState *tRefresh = new QState(this);
-    QState *tUnregister = new QState(this);
-
-    // Idle state transitions
-    setInitialState(tIdle);
-    tIdle->addTransition(this, SIGNAL(_registerKiosk()), tRegister);
-    tIdle->addTransition(this, SIGNAL(_refreshKiosk()), tRefresh);
-    tIdle->addTransition(this, SIGNAL(_unregisterKiosk()), tUnregister);
-
-    // Register state transitions
-    QSignalTransition *tRegisterSuccess = new QSignalTransition(this, SIGNAL(_onRequestSuccess()));
-    tRegisterSuccess->setTargetState(tIdle);
-    tRegister->addTransition(tRegisterSuccess);
-    connect(tRegisterSuccess, SIGNAL(triggered()), this, SIGNAL(registrationSuccess()));
-    ComparingSignalTransition *tRegisterConflict = new ComparingSignalTransition(this, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::EQUALITY, 409);
-    tRegisterConflict->setTargetState(tIdle);
-    tRegister->addTransition(tRegisterConflict);
-    connect(tRegisterConflict, SIGNAL(triggered()), this, SIGNAL(registrationConflict()));
-    ComparingSignalTransition *tRegisterFailure = new ComparingSignalTransition(this, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::INEQUALITY, 409);
-    tRegisterFailure->setTargetState(tIdle);
-    tRegister->addTransition(tRegisterFailure);
-    connect(tRegisterFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(registrationFailure(QVariant)));
-
-    // Refresh state transitions
-    QSignalTransition *tRefreshSuccess = new QSignalTransition(this, SIGNAL(_onRequestSuccess()));
-    tRefreshSuccess->setTargetState(tIdle);
-    tRefresh->addTransition(tRefreshSuccess);
-    connect(tRefreshSuccess, SIGNAL(triggered()), this, SIGNAL(refreshSuccess()));
-    ParameterizedSignalTransition *tRefreshFailure = new ParameterizedSignalTransition(this, SIGNAL(_onRequestFailure(uint)));
-    tRefreshFailure->setTargetState(tIdle);
-    tRefresh->addTransition(tRefreshFailure);
-    connect(tRefreshFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(refreshFailure(QVariant)));
-
-    // Unregister state transitions
-    QSignalTransition *tUnregisterSuccess = new QSignalTransition(this, SIGNAL(_onRequestSuccess()));
-    tUnregisterSuccess->setTargetState(tIdle);
-    tUnregister->addTransition(tUnregisterSuccess);
-    connect(tUnregisterSuccess, SIGNAL(triggered()), this, SIGNAL(unregisterSuccess()));
-    ParameterizedSignalTransition *tUnregisterFailure = new ParameterizedSignalTransition(this, SIGNAL(_onRequestFailure(uint)));
-    tUnregisterFailure->setTargetState(tIdle);
-    tUnregister->addTransition(tUnregisterFailure);
-    connect(tUnregisterFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(unregisterFailure(QVariant)));
-
-    // TODO: log state transitions
-
-    // Start!
+    // State machine
+    // TODO: log transitions
+    initFSM();
     start();
-
 }
 
 ServerClient::~ServerClient()
@@ -83,6 +36,79 @@ ServerClient::~ServerClient()
     // FIXME: memory management through Qt semantics
     delete mParser;
     delete mSerializer;
+}
+
+
+//
+// Construction helpers
+//
+
+void ServerClient::initFSM()
+{
+    QState *tIdle = new QState(this);
+    QState *tRegister = new QState(this);
+    QState *tRefresh = new QState(this);
+    QState *tUnregister = new QState(this);
+    setInitialState(tIdle);
+
+
+    // IDLE STATE //
+
+    // Transitions to active states
+    tIdle->addTransition(this, SIGNAL(_registerKiosk()), tRegister);
+    tIdle->addTransition(this, SIGNAL(_refreshKiosk()), tRefresh);
+    tIdle->addTransition(this, SIGNAL(_unregisterKiosk()), tUnregister);
+
+
+    // REGISTER STATE //
+
+    // Transition on request success
+    QSignalTransition *tRegisterSuccess = new QSignalTransition(this, SIGNAL(_onRequestSuccess()));
+    tRegisterSuccess->setTargetState(tIdle);
+    tRegister->addTransition(tRegisterSuccess);
+    connect(tRegisterSuccess, SIGNAL(triggered()), this, SIGNAL(registrationSuccess()));
+
+    // Transition on request error (HTTP error 409)
+    ComparingSignalTransition *tRegisterConflict = new ComparingSignalTransition(this, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::EQUALITY, 409);
+    tRegisterConflict->setTargetState(tIdle);
+    tRegister->addTransition(tRegisterConflict);
+    connect(tRegisterConflict, SIGNAL(triggered()), this, SIGNAL(registrationConflict()));
+
+    // Transition on request error (all other errors)
+    ComparingSignalTransition *tRegisterFailure = new ComparingSignalTransition(this, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::INEQUALITY, 409);
+    tRegisterFailure->setTargetState(tIdle);
+    tRegister->addTransition(tRegisterFailure);
+    connect(tRegisterFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(registrationFailure(QVariant)));
+
+
+    // REFRESH STATE //
+
+    // Transition on request success
+    QSignalTransition *tRefreshSuccess = new QSignalTransition(this, SIGNAL(_onRequestSuccess()));
+    tRefreshSuccess->setTargetState(tIdle);
+    tRefresh->addTransition(tRefreshSuccess);
+    connect(tRefreshSuccess, SIGNAL(triggered()), this, SIGNAL(refreshSuccess()));
+
+    // Transition on request error
+    ParameterizedSignalTransition *tRefreshFailure = new ParameterizedSignalTransition(this, SIGNAL(_onRequestFailure(uint)));
+    tRefreshFailure->setTargetState(tIdle);
+    tRefresh->addTransition(tRefreshFailure);
+    connect(tRefreshFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(refreshFailure(QVariant)));
+
+
+    // UNREGISTER STATE //
+
+    // Transition on request success
+    QSignalTransition *tUnregisterSuccess = new QSignalTransition(this, SIGNAL(_onRequestSuccess()));
+    tUnregisterSuccess->setTargetState(tIdle);
+    tUnregister->addTransition(tUnregisterSuccess);
+    connect(tUnregisterSuccess, SIGNAL(triggered()), this, SIGNAL(unregisterSuccess()));
+
+    // Transition on request error
+    ParameterizedSignalTransition *tUnregisterFailure = new ParameterizedSignalTransition(this, SIGNAL(_onRequestFailure(uint)));
+    tUnregisterFailure->setTargetState(tIdle);
+    tUnregister->addTransition(tUnregisterFailure);
+    connect(tUnregisterFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(unregisterFailure(QVariant)));
 }
 
 
@@ -135,6 +161,7 @@ void ServerClient::_onRequestFinished(QNetworkReply *iReply)
     else {
         unsigned int tErrorCode = iReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isNull()
                 ? 0
+
                 : iReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
         emit _onRequestFailure(tErrorCode);
     }
