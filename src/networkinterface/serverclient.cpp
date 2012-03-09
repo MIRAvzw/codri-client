@@ -95,21 +95,9 @@ void ServerClient::registerKiosk()
 {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
-    // TODO: duplicate code...
     QVariantMap tRequest;
     tRequest["vendor"] = tKiosk->getVendor();
     tRequest["model"] = tKiosk->getModel();
-    /*
-    switch (tKiosk->getPower())
-    {
-    case Kiosk::ON:
-        tRequest["power"] = "on";
-        break;
-    case Kiosk::OFF:
-        tRequest["power"] = "off";
-        break;
-    }
-    */
     tRequest["port"] = tKiosk->getPort();
 
     emit _registerKiosk();
