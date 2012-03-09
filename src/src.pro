@@ -35,6 +35,7 @@ LIBS += -lqjson
 
 TARGET = codri-client
 TEMPLATE = app
+QMAKE_CXXFLAGS += -Wall -Wextra
 
 RESOURCES += userinterface/webpage.qrc
 SOURCES += controller.cpp \
