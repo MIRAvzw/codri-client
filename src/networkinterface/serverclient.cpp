@@ -33,7 +33,6 @@ ServerClient::ServerClient(const QString &iLocation, QObject *iParent) : QStateM
 ServerClient::~ServerClient()
 {
     // QJson objects
-    // FIXME: memory management through Qt semantics
     delete mParser;
     delete mSerializer;
 }

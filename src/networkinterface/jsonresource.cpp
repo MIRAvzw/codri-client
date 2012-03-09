@@ -24,7 +24,6 @@ JsonResource::JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObjec
 JsonResource::~JsonResource()
 {
     // QJson objects
-    // FIXME: memory management through Qt semantics
     delete mParser;
     delete mSerializer;
 }
