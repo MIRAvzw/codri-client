@@ -101,7 +101,11 @@ INSTALLS += target
 target.path =$$BINDIR
 
 # Check target
+CHECK_FILTERS += \
+    -whitespace/todo \
+    -whitespace/braces \
+    -whitespace/line_length
 check.target = check
-check.commands = cd $$PWD && ../tools/cpplint.py $$HEADERS $$SOURCES
+check.commands = cd $$PWD && ../tools/cpplint.py --filter=$$join(CHECK_FILTERS,",","","")$$HEADERS $$SOURCES
 check.depends =
 QMAKE_EXTRA_TARGETS += check
