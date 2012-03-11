@@ -100,18 +100,8 @@ DATADIR =$$PREFIX/share
 INSTALLS += target
 target.path =$$BINDIR
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Check target
+check.target = check
+check.commands = cd $$PWD && ../tools/cpplint.py $$HEADERS $$SOURCES
+check.depends =
+QMAKE_EXTRA_TARGETS += check
