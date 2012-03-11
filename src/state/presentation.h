@@ -40,7 +40,6 @@ namespace Codri
         // Member data
         unsigned long mRevision;
         QString mLocation;
-
     };
 }
 

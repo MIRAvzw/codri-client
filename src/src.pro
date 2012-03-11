@@ -102,10 +102,11 @@ target.path =$$BINDIR
 
 # Check target
 CHECK_FILTERS += \
-    -whitespace/todo \
+    -readability/todo \
     -whitespace/braces \
     -whitespace/line_length
+# TODO: fix braces instead of disabling
 check.target = check
-check.commands = cd $$PWD && ../tools/cpplint.py --filter=$$join(CHECK_FILTERS,",","","")$$HEADERS $$SOURCES
+check.commands = cd $$PWD && ../tools/cpplint.py --filter=$$join(CHECK_FILTERS,",","","") $$HEADERS $$SOURCES
 check.depends =
 QMAKE_EXTRA_TARGETS += check

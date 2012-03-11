@@ -71,7 +71,7 @@ namespace Codri
         virtual bool contextGetLogMessage (QString &, const svn::CommitItemList &) { return false; }
         virtual bool contextCancel() { return false; }
         virtual void contextNotify(const svn_wc_notify_t *) { }
-        virtual void contextNotify(const char *,svn_wc_notify_action_t,
+        virtual void contextNotify(const char *, svn_wc_notify_action_t,
                                     svn_node_kind_t,
                                     const char *,
                                     svn_wc_notify_state_t,

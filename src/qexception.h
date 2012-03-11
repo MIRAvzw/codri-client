@@ -37,17 +37,14 @@ public:
     // Value constructors
     QException(const QString &iMessage, const QException &iCause) throw() : mMessage(iMessage), mCause(new QException(iCause))
     {
-
     }
     QException(const QString &iMessage) throw() : mMessage(iMessage), mCause(0)
     {
-
     }
 
     // Default constructor
     QException() : mCause(0)
     {
-
     }
 
     // Convertors

@@ -47,8 +47,8 @@ Codri::Kiosk::Kiosk(QObject *iParent)
     mUuid.data1 |= (unsigned char) ifr.ifr_hwaddr.sa_data[3];
     mUuid.data2 |= (unsigned char) ifr.ifr_hwaddr.sa_data[4] << 8;
     mUuid.data2 |= (unsigned char) ifr.ifr_hwaddr.sa_data[5];
-    mUuid.data4[0] = (mUuid.data4[0] & 0x3F) | 0x80; // UV_MAC
-    mUuid.data3 = (mUuid.data3 & 0x0FFF) | 0x1000; // UV_Time (but without the actual timestamp, to persist reboots)
+    mUuid.data4[0] = (mUuid.data4[0] & 0x3F) | 0x80;  // UV_MAC
+    mUuid.data3 = (mUuid.data3 & 0x0FFF) | 0x1000;  // UV_Time (but without the actual timestamp, to persist reboots)
 }
 
 

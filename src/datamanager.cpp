@@ -114,7 +114,6 @@ unsigned long Codri::DataManager::checkoutRepository(const QDir &iCheckout, cons
     } catch (const svn::ClientException &iException) {
         throw QException("could not checkout the repository", QException::fromSVNException(iException));
     }
-
 }
 
 unsigned long Codri::DataManager::updateRepository(const QDir &iCheckout) throw(QException)
@@ -173,7 +172,7 @@ void Codri::DataManager::copyDirectory(const QDir &tSource, const QDir &tDestina
     // Process iteratively
     while (!tQueue.isEmpty()) {
         QPair<QDir, QDir> tDirectories = tQueue.dequeue();
-        if(!tDirectories.first.exists())
+        if (!tDirectories.first.exists())
             continue;
 
         // Copy all files

@@ -18,7 +18,7 @@
 
 Codri::InitController::InitController(Controller *iController)
     : QStateMachine(iController), mController(iController)
-{    
+{
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
