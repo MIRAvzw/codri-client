@@ -8,7 +8,7 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "presentationpage.h"
 
 
@@ -16,6 +16,7 @@
 // Construction and destruction
 //
 
-Codri::PresentationPage::PresentationPage(const QDir& iLocation, QObject *iParent) : WebPage("file://" + iLocation.absolutePath() + "/index.html", iParent)
+Codri::PresentationPage::PresentationPage(const QDir& iLocation, QObject *iParent)
+    : WebPage("file://" + iLocation.absolutePath() + "/index.html", iParent)
 {
 }

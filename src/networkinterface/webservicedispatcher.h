@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef WEBSERVICEDISPATCHER_H_
-#define WEBSERVICEDISPATCHER_H_
+#ifndef NETWORKINTERFACE_WEBSERVICEDISPATCHER_H_
+#define NETWORKINTERFACE_WEBSERVICEDISPATCHER_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -43,4 +43,4 @@ namespace Codri
     };
 }
 
-#endif  // WEBSERVICEDISPATCHER_H_
+#endif  // NETWORKINTERFACE_WEBSERVICEDISPATCHER_H_

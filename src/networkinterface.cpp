@@ -9,9 +9,11 @@
 // Configuration
 //
 
+// Header include
+#include "networkinterface.h"
+
 // Local includes
 #include "mainapplication.h"
-#include "networkinterface.h"
 #include "networkinterface/resources/kioskresource.h"
 #include "networkinterface/resources/configurationresource.h"
 #include "networkinterface/resources/presentationresource.h"
@@ -21,7 +23,8 @@
 // Construction and destruction
 //
 
-Codri::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject(iParent)
+Codri::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException)
+    : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);

@@ -8,7 +8,7 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "initcontroller.h"
 
 
@@ -16,7 +16,8 @@
 // Construction and destruction
 //
 
-Codri::InitController::InitController(Controller *iController) : QStateMachine(iController), mController(iController)
+Codri::InitController::InitController(Controller *iController)
+    : QStateMachine(iController), mController(iController)
 {    
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());

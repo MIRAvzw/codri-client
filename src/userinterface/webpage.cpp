@@ -8,7 +8,7 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "webpage.h"
 
 // Library includes
@@ -19,7 +19,8 @@
 // Construction and destruction
 //
 
-Codri::WebPage::WebPage(const QUrl &iURL, QObject *iParent) : QWebPage(iParent)
+Codri::WebPage::WebPage(const QUrl &iURL, QObject *iParent)
+    : QWebPage(iParent)
 {
     // Setup the webpage
     mainFrame()->addToJavaScriptWindowObject("application", this);

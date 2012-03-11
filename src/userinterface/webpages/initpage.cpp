@@ -8,7 +8,7 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "initpage.h"
 
 
@@ -16,6 +16,7 @@
 // Construction and destruction
 //
 
-Codri::InitPage::InitPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/initpage.html"), iParent)
+Codri::InitPage::InitPage(QObject *iParent)
+    : WebPage(QUrl("qrc:/webpages/initpage.html"), iParent)
 {
 }

@@ -8,7 +8,7 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "presentation.h"
 
 
@@ -16,7 +16,8 @@
 // Construction and destruction
 //
 
-Codri::Presentation::Presentation(QObject *iParent) : QObject(iParent)
+Codri::Presentation::Presentation(QObject *iParent)
+    : QObject(iParent)
 {
 }
 

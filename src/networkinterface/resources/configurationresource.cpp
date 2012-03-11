@@ -8,12 +8,14 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "configurationresource.h"
-#include "mainapplication.h"
 
 // Library includes
 #include <QtCore/QMap>
+
+// Local includes
+#include "mainapplication.h"
 
 
 //

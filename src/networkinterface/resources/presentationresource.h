@@ -9,14 +9,14 @@
 //
 
 // Include guard
-#ifndef PRESENTATIONRESOURCE_H_
-#define PRESENTATIONRESOURCE_H_
-
-// Local includes
-#include "networkinterface/jsonresource.h"
+#ifndef NETWORKINTERFACE_RESOURCES_PRESENTATIONRESOURCE_H_
+#define NETWORKINTERFACE_RESOURCES_PRESENTATIONRESOURCE_H_
 
 // Library includes
 #include <QtCore/QVariant>
+
+// Local includes
+#include "networkinterface/jsonresource.h"
 
 namespace Codri
 {
@@ -53,4 +53,4 @@ namespace Codri
     };
 }
 
-#endif  // PRESENTATIONRESOURCE_H_
+#endif  // NETWORKINTERFACE_RESOURCES_PRESENTATIONRESOURCE_H_

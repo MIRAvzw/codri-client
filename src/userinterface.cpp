@@ -8,23 +8,26 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "userinterface.h"
+
+// Library includes
+#include <QtCore/QStringList>
+
+// Local includes
 #include "userinterface/webpages/initpage.h"
 #include "userinterface/webpages/errorpage.h"
 #include "userinterface/webpages/logpage.h"
 #include "userinterface/webpages/presentationpage.h"
 #include "userinterface/webpages/statuspage.h"
 
-// Library includes
-#include <QtCore/QStringList>
-
 
 //
 // Construction and destruction
 //
 
-Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(iParent)
+Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException)
+    : QMainWindow(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);

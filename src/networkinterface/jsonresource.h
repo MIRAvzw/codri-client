@@ -9,17 +9,17 @@
 //
 
 // Include guard
-#ifndef JSONRESOURCE_H_
-#define JSONRESOURCE_H_
-
-// Local includes
-#include "resource.h"
-#include "qexception.h"
+#ifndef NETWORKINTERFACE_JSONRESOURCE_H_
+#define NETWORKINTERFACE_JSONRESOURCE_H_
 
 // Library includes
 #include <QtCore/QString>
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
+
+// Local includes
+#include "resource.h"
+#include "qexception.h"
 
 namespace Codri
 {
@@ -71,4 +71,4 @@ namespace Codri
     };
 }
 
-#endif  // JSONRESOURCE_H_
+#endif  // NETWORKINTERFACE_JSONRESOURCE_H_

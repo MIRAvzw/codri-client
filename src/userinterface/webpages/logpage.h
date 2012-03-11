@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef LOGPAGE_H_
-#define LOGPAGE_H_
+#ifndef USERINTERFACE_WEBPAGES_LOGPAGE_H_
+#define USERINTERFACE_WEBPAGES_LOGPAGE_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -44,4 +44,4 @@ namespace Codri
     };
 }
 
-#endif  // LOGPAGE_H_
+#endif  // USERINTERFACE_WEBPAGES_LOGPAGE_H_

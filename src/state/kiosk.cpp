@@ -8,10 +8,10 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "kiosk.h"
 
-// Platform includes
+// System includes
 #include <sys/ioctl.h>
 #include <net/if.h>
 
@@ -20,7 +20,8 @@
 // Construction and destruction
 //
 
-Codri::Kiosk::Kiosk(QObject *iParent) : QObject(iParent)
+Codri::Kiosk::Kiosk(QObject *iParent)
+    : QObject(iParent)
 {
     // Default power state
     mPower = ON;

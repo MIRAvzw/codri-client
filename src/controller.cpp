@@ -8,10 +8,8 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "controller.h"
-#include "mainapplication.h"
-#include "qexception.h"
 
 // Library includes
 #include <QtGui/QDesktopServices>
@@ -21,12 +19,17 @@
 #include <Log4Qt/TTCCLayout>
 #include <Log4Qt/ConsoleAppender>
 
+// Local includes
+#include "mainapplication.h"
+#include "qexception.h"
+
 
 //
 // Construction and destruction
 //
 
-Codri::Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
+Codri::Controller::Controller(QObject *iParent) throw(QException)
+    : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);

@@ -8,9 +8,8 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "datamanager.h"
-#include "mainapplication.h"
 
 // Library includes
 #include <svnqt/repository.h>
@@ -22,12 +21,16 @@
 #include <svnqt/info_entry.h>
 #include <QtCore/QQueue>
 
+// Local includes
+#include "mainapplication.h"
+
 
 //
 // Construction and destruction
 //
 
-Codri::DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
+Codri::DataManager::DataManager(QObject *iParent) throw(QException)
+    : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);

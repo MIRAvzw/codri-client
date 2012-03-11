@@ -8,7 +8,7 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "errorpage.h"
 
 
@@ -16,6 +16,7 @@
 // Construction and destruction
 //
 
-Codri::ErrorPage::ErrorPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/errorpage.html"), iParent)
+Codri::ErrorPage::ErrorPage(QObject *iParent)
+    : WebPage(QUrl("qrc:/webpages/errorpage.html"), iParent)
 {
 }

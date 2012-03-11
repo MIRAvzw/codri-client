@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef STATUSPAGE_H_
-#define STATUSPAGE_H_
+#ifndef USERINTERFACE_WEBPAGES_STATUSPAGE_H_
+#define USERINTERFACE_WEBPAGES_STATUSPAGE_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -46,4 +46,4 @@ namespace Codri
     };
 }
 
-#endif  // STATUSPAGE_H_
+#endif  // USERINTERFACE_WEBPAGES_STATUSPAGE_H_

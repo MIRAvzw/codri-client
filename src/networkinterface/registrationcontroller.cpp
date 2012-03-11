@@ -8,7 +8,7 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "registrationcontroller.h"
 
 // Library includes
@@ -19,7 +19,8 @@
 // Construction and destruction
 //
 
-Codri::RegistrationController::RegistrationController(ServerClient* iServerClient, QObject *iParent) : QStateMachine(iParent), mServerClient(iServerClient)
+Codri::RegistrationController::RegistrationController(ServerClient* iServerClient, QObject *iParent)
+    : QStateMachine(iParent), mServerClient(iServerClient)
 {
     // Load settings
     mSettings = new QSettings(this);

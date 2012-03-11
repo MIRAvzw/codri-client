@@ -9,12 +9,8 @@
 //
 
 // Include guard
-#ifndef SERVERCLIENT_H_
-#define SERVERCLIENT_H_
-
-// Local includes
-#include "qexception.h"
-#include "state/kiosk.h"
+#ifndef NETWORKINTERFACE_SERVERCLIENT_H_
+#define NETWORKINTERFACE_SERVERCLIENT_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -25,6 +21,10 @@
 #include <QtNetwork/QNetworkReply>
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
+
+// Local includes
+#include "qexception.h"
+#include "state/kiosk.h"
 
 namespace Codri
 {
@@ -163,4 +163,4 @@ namespace Codri
     };
 }
 
-#endif  // SERVERCLIENT_H_
+#endif  // NETWORKINTERFACE_SERVERCLIENT_H_

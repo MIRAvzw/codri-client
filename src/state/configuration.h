@@ -9,9 +9,10 @@
 //
 
 // Include guard
-#ifndef CONFIGURATION_H_
-#define CONFIGURATION_H_
+#ifndef STATE_CONFIGURATION_H_
+#define STATE_CONFIGURATION_H_
 
+// Library includes
 #include <QtCore/QObject>
 
 namespace Codri
@@ -40,4 +41,4 @@ namespace Codri
     };
 }
 
-#endif  // CONFIGURATION_H_
+#endif  // STATE_CONFIGURATION_H_

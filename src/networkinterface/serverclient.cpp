@@ -8,7 +8,7 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "serverclient.h"
 #include "mainapplication.h"
 
@@ -17,7 +17,8 @@
 // Construction and destruction
 //
 
-Codri::ServerClient::ServerClient(const QString &iLocation, QObject *iParent) : QStateMachine(iParent), mLocation(iLocation)
+Codri::ServerClient::ServerClient(const QString &iLocation, QObject *iParent)
+    : QStateMachine(iParent), mLocation(iLocation)
 {
     // Network access manager
     mNetworkAccessManager = new QNetworkAccessManager(this);

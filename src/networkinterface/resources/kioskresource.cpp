@@ -8,8 +8,10 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "kioskresource.h"
+
+// Local includes
 #include "mainapplication.h"
 
 

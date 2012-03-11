@@ -44,4 +44,4 @@ namespace Codri
     };
 }
 
-#endif  // USERINTERFACE_H_
+#endif  // NETWORKINTERFACE_H_

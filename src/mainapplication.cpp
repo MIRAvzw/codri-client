@@ -8,8 +8,12 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "mainapplication.h"
+
+// System includes
+#include <csignal>
+#include <sys/socket.h>
 
 // Library includes
 #include <QtGui/QDesktopServices>
@@ -19,10 +23,6 @@
 #include <Log4Qt/TTCCLayout>
 #include <Log4Qt/ConsoleAppender>
 
-// System includes
-#include <csignal>
-#include <sys/socket.h>
-
 
 //
 // Construction and destruction
@@ -31,7 +31,8 @@
 // Initialize static members
 Codri::MainApplication *Codri::MainApplication::mInstance = NULL;
 
-Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException) : QApplication(iArgumentCount, iArgumentValues)
+Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException)
+    : QApplication(iArgumentCount, iArgumentValues)
 {
     // Singleton assertion (well, some singleton-hybrid, to be fair)
     Q_ASSERT(mInstance == NULL);

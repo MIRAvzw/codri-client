@@ -8,7 +8,7 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "configuration.h"
 
 
@@ -16,7 +16,8 @@
 // Construction and destruction
 //
 
-Codri::Configuration::Configuration(QObject *iParent) : QObject(iParent)
+Codri::Configuration::Configuration(QObject *iParent)
+    : QObject(iParent)
 {
 }
 

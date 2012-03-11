@@ -8,8 +8,10 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "presentationresource.h"
+
+// Local includes
 #include "mainapplication.h"
 
 

@@ -9,14 +9,14 @@
 //
 
 // Include guard
-#ifndef KIOSKRESOURCE_H_
-#define KIOSKRESOURCE_H_
-
-// Local includes
-#include "networkinterface/jsonresource.h"
+#ifndef NETWORKINTERFACE_RESOURCES_KIOSKRESOURCE_H_
+#define NETWORKINTERFACE_RESOURCES_KIOSKRESOURCE_H_
 
 // Library includes
 #include <QtCore/QVariant>
+
+// Local includes
+#include "networkinterface/jsonresource.h"
 
 namespace Codri
 {
@@ -53,4 +53,4 @@ namespace Codri
     };
 }
 
-#endif  // KIOSKRESOURCE_H_
+#endif  // NETWORKINTERFACE_RESOURCES_KIOSKRESOURCE_H_

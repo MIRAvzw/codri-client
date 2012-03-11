@@ -8,19 +8,22 @@
 // Configuration
 //
 
-// Local includes
+// Header include
 #include "statuspage.h"
-#include "mainapplication.h"
 
 // Library includes
 #include <Log4Qt/SimpleLayout>
+
+// Local includes
+#include "mainapplication.h"
 
 
 //
 // Construction and destruction
 //
 
-Codri::StatusPage::StatusPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/statuspage.html"), iParent)
+Codri::StatusPage::StatusPage(QObject *iParent)
+    : WebPage(QUrl("qrc:/webpages/statuspage.html"), iParent)
 {
     // Create log layout
     mLogLayout = new Log4Qt::SimpleLayout(this);

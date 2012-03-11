@@ -10,8 +10,8 @@
 //
 
 // Include guard
-#ifndef KIOSK_H_
-#define KIOSK_H_
+#ifndef STATE_KIOSK_H_
+#define STATE_KIOSK_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -54,4 +54,4 @@ namespace Codri
     };
 }
 
-#endif  // KIOSK_H_
+#endif  // STATE_KIOSK_H_
