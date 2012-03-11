@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef MAINAPPLICATION_H
-#define MAINAPPLICATION_H
+#ifndef MAINAPPLICATION_H_
+#define MAINAPPLICATION_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -71,4 +71,4 @@ namespace Codri
     void doMessage(QtMsgType iMessageType, const char *iMessage);
 }
 
-#endif // MAINAPPLICATION_H
+#endif  // MAINAPPLICATION_H_

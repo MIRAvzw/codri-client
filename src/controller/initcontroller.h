@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef INITCONTROLLER_H
-#define INITCONTROLLER_H
+#ifndef INITCONTROLLER_H_
+#define INITCONTROLLER_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -74,4 +74,4 @@ namespace Codri
     };
 }
 
-#endif // INITCONTROLLER_H
+#endif  // INITCONTROLLER_H_

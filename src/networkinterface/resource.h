@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef RESOURCE_H
-#define RESOURCE_H
+#ifndef RESOURCE_H_
+#define RESOURCE_H_
 
 // Library includes
 #include <QtCore/QString>
@@ -53,4 +53,4 @@ namespace Codri
     };
 }
 
-#endif // RESOURCE_H
+#endif  // RESOURCE_H_

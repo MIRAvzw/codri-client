@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef KIOSKRESOURCE_H
-#define KIOSKRESOURCE_H
+#ifndef KIOSKRESOURCE_H_
+#define KIOSKRESOURCE_H_
 
 // Local includes
 #include "networkinterface/jsonresource.h"
@@ -53,4 +53,4 @@ namespace Codri
     };
 }
 
-#endif // KIOSKRESOURCE_H
+#endif  // KIOSKRESOURCE_H_

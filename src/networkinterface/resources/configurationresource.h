@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef APPLICATIONRESOURCE_H
-#define APPLICATIONRESOURCE_H
+#ifndef APPLICATIONRESOURCE_H_
+#define APPLICATIONRESOURCE_H_
 
 // Local includes
 #include "networkinterface/jsonresource.h"
@@ -55,4 +55,4 @@ namespace Codri
     };
 }
 
-#endif // APPLICATIONRESOURCE_H
+#endif  // APPLICATIONRESOURCE_H_

@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef USERINTERFACE_H
-#define USERINTERFACE_H
+#ifndef USERINTERFACE_H_
+#define USERINTERFACE_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -61,4 +61,4 @@ namespace Codri
     };
 }
 
-#endif // USERINTERFACE_H
+#endif  // USERINTERFACE_H_

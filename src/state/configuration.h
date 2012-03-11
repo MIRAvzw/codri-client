@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef CONFIGURATION_H
-#define CONFIGURATION_H
+#ifndef CONFIGURATION_H_
+#define CONFIGURATION_H_
 
 #include <QtCore/QObject>
 
@@ -40,4 +40,4 @@ namespace Codri
     };
 }
 
-#endif // CONFIGURATION_H
+#endif  // CONFIGURATION_H_

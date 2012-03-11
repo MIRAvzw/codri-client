@@ -10,8 +10,8 @@
 //
 
 // Include guard
-#ifndef KIOSK_H
-#define KIOSK_H
+#ifndef KIOSK_H_
+#define KIOSK_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -54,4 +54,4 @@ namespace Codri
     };
 }
 
-#endif // KIOSK_H
+#endif  // KIOSK_H_

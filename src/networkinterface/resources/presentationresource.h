@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef PRESENTATIONRESOURCE_H
-#define PRESENTATIONRESOURCE_H
+#ifndef PRESENTATIONRESOURCE_H_
+#define PRESENTATIONRESOURCE_H_
 
 // Local includes
 #include "networkinterface/jsonresource.h"
@@ -53,4 +53,4 @@ namespace Codri
     };
 }
 
-#endif // PRESENTATIONRESOURCE_H
+#endif  // PRESENTATIONRESOURCE_H_

@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef SERVERCLIENT_H
-#define SERVERCLIENT_H
+#ifndef SERVERCLIENT_H_
+#define SERVERCLIENT_H_
 
 // Local includes
 #include "qexception.h"
@@ -163,4 +163,4 @@ namespace Codri
     };
 }
 
-#endif // SERVERCLIENT_H
+#endif  // SERVERCLIENT_H_

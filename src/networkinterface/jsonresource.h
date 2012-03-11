@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef JSONRESOURCE_H
-#define JSONRESOURCE_H
+#ifndef JSONRESOURCE_H_
+#define JSONRESOURCE_H_
 
 // Local includes
 #include "resource.h"
@@ -71,4 +71,4 @@ namespace Codri
     };
 }
 
-#endif // JSONRESOURCE_H
+#endif  // JSONRESOURCE_H_

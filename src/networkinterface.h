@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef NETWORKINTERFACE_H
-#define NETWORKINTERFACE_H
+#ifndef NETWORKINTERFACE_H_
+#define NETWORKINTERFACE_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -44,4 +44,4 @@ namespace Codri
     };
 }
 
-#endif // USERINTERFACE_H
+#endif  // USERINTERFACE_H_

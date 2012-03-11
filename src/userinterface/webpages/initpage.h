@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef INITPAGE_H
-#define INITPAGE_H
+#ifndef INITPAGE_H_
+#define INITPAGE_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -29,4 +29,4 @@ namespace Codri
     };
 }
 
-#endif // INITPAGE_H
+#endif  // INITPAGE_H_

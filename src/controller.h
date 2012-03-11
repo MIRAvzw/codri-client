@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
+#ifndef CONTROLLER_H_
+#define CONTROLLER_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -95,4 +95,4 @@ namespace Codri
     };
 }
 
-#endif // CONTROLLER_H
+#endif  // CONTROLLER_H_

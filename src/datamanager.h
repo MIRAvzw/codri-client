@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef DATAMANAGER_H
-#define DATAMANAGER_H
+#ifndef DATAMANAGER_H_
+#define DATAMANAGER_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -92,4 +92,4 @@ namespace Codri
     };
 }
 
-#endif // DATAMANAGER_H
+#endif  // DATAMANAGER_H_

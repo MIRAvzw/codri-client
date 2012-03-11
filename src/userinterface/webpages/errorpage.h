@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef ERRORPAGE_H
-#define ERRORPAGE_H
+#ifndef ERRORPAGE_H_
+#define ERRORPAGE_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -29,4 +29,4 @@ namespace Codri
     };
 }
 
-#endif // ERRORPAGE_H
+#endif  // ERRORPAGE_H_

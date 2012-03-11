@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef REGISTRATIONCONTROLLER_H
-#define REGISTRATIONCONTROLLER_H
+#ifndef REGISTRATIONCONTROLLER_H_
+#define REGISTRATIONCONTROLLER_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -56,4 +56,4 @@ namespace Codri
     };
 }
 
-#endif // REGISTRATIONCONTROLLER_H
+#endif  // REGISTRATIONCONTROLLER_H_

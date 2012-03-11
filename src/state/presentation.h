@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef PRESENTATION_H
-#define PRESENTATION_H
+#ifndef PRESENTATION_H_
+#define PRESENTATION_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -44,4 +44,4 @@ namespace Codri
     };
 }
 
-#endif // PRESENTATION_H
+#endif  // PRESENTATION_H_
