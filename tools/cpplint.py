@@ -717,12 +717,14 @@ class FileInfo:
       # searching up from the current path.
       root_dir = os.path.dirname(fullname)
       while (root_dir != os.path.dirname(root_dir) and
+             not os.path.exists(os.path.join(root_dir, ".toplevel")) and
              not os.path.exists(os.path.join(root_dir, ".git")) and
              not os.path.exists(os.path.join(root_dir, ".hg")) and
              not os.path.exists(os.path.join(root_dir, ".svn"))):
         root_dir = os.path.dirname(root_dir)
 
-      if (os.path.exists(os.path.join(root_dir, ".git")) or
+      if (os.path.exists(os.path.join(root_dir, ".toplevel")) or
+          os.path.exists(os.path.join(root_dir, ".git")) or
           os.path.exists(os.path.join(root_dir, ".hg")) or
           os.path.exists(os.path.join(root_dir, ".svn"))):
         prefix = os.path.commonprefix([root_dir, project_dir])
