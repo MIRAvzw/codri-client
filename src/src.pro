@@ -103,7 +103,6 @@ target.path =$$BINDIR
 # Check target
 CHECK_FILTERS += \
     -whitespace/todo \
-    -whitespace/braces \
     -whitespace/line_length
 check.target = check
 check.commands = cd $$PWD && ../tools/cpplint.py --filter=$$join(CHECK_FILTERS,",","","")$$HEADERS $$SOURCES

@@ -82,7 +82,10 @@ namespace Codri
         virtual bool contextGetLogin(const QString &,
                                      QString &,
                                      QString &,
-                                     bool &maySave) { maySave = false; return false; }
+                                     bool &maySave) {
+            maySave = false;
+            return false;
+        }
 
     private:
         // Member objects

@@ -158,9 +158,9 @@ void Codri::ServerClient::_onRequestFinished(QNetworkReply *iReply)
 {
     // Get reply data
     // TODO: do something with the error -- is the request retried if it fails?
-    if (iReply->error() == QNetworkReply::NoError)
+    if (iReply->error() == QNetworkReply::NoError) {
         emit _onRequestSuccess();
-    else {
+    } else {
         unsigned int tErrorCode = iReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isNull()
                 ? 0
 

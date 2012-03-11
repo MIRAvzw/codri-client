@@ -67,15 +67,12 @@ void Codri::Controller::start()
 
 void Codri::Controller::stop()
 {
-    if (mInitController->isFinished())
-    {
+    if (mInitController->isFinished()) {
         mLogger->debug() << "Stopping application";
         delete mNetworkInterface;
         delete mDataManager;
         delete mUserInterface;
-    }
-    else
-    {
+    } else {
         mLogger->warn() << "Error occured during initialization, not attempting clean-up";
     }
 }
@@ -139,8 +136,7 @@ void Codri::Controller::_onPresentationError(const QString& iError)
 
 void Codri::Controller::_onKioskPowerChanged(Kiosk::Power iPower)
 {
-    switch (iPower)
-    {
+    switch (iPower) {
     case Kiosk::OFF:
         stop();
         break;
@@ -158,8 +154,7 @@ void Codri::Controller::_onConfigurationVolumeChanged(unsigned char iVolume)
 
 void Codri::Controller::_onPresentationLocationChanged(const QString &iLocation)
 {
-    try
-    {
+    try {
         // Disable the current presentation
         // TODO: updating message
         userInterface()->showInit();
@@ -170,9 +165,7 @@ void Codri::Controller::_onPresentationLocationChanged(const QString &iLocation)
         // Show the new presentation
         MainApplication::instance()->presentation()->setRevision(tCheckout.second);
         userInterface()->showPresentation(tCheckout.first);
-    }
-    catch (const QException &tException)
-    {
+    } catch (const QException &tException) {
         mLogger->error() << "Could not download the new presentation: " << tException.what();
         foreach (const QString& tCause, tException.causes())
             mLogger->error() << "Caused by: " << tCause;

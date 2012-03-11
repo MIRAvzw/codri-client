@@ -55,13 +55,10 @@ QPair<QDir, unsigned long> Codri::DataManager::downloadPresentation(const QStrin
 
     // Check if we need to update or get a new copy
     unsigned long tRevision;
-    if (tCheckout.exists() && getRepositoryLocation(tCheckout) == iLocation)
-    {
+    if (tCheckout.exists() && getRepositoryLocation(tCheckout) == iLocation) {
         // Update the copy
         tRevision = updateRepository(tCheckout);
-    }
-    else
-    {
+    } else {
         // Do a full checkout
         removeDirectory(tCheckout);
         tRevision = checkoutRepository(tCheckout, iLocation);
@@ -83,8 +80,7 @@ QString Codri::DataManager::getRepositoryLocation(const QDir &iCheckout) throw(Q
 
 unsigned long Codri::DataManager::getRepositoryRevision(const QDir &iCheckout) throw(QException)
 {
-    try
-    {
+    try {
         QList<svn::InfoEntry> tInfoEntries =  mSubversionClient->info(
                     iCheckout.absolutePath(),
                     svn::DepthEmpty,
@@ -92,13 +88,9 @@ unsigned long Codri::DataManager::getRepositoryRevision(const QDir &iCheckout) t
         if (tInfoEntries.size() != 1)
             throw QException("unexpected amount of info entries");
         return tInfoEntries.first().revision().revnum();
-    }
-    catch (const svn::ClientException &iException)
-    {
+    } catch (const svn::ClientException &iException) {
         throw QException("could not check the repository", QException::fromSVNException(iException));
-    }
-    catch (const QException &iException)
-    {
+    } catch (const QException &iException) {
         throw QException("could not check the repository", iException);
     }
 }
@@ -113,13 +105,10 @@ unsigned long Codri::DataManager::checkoutRepository(const QDir &iCheckout, cons
             .peg(svn::Revision::HEAD)
             .depth(svn::DepthInfinity);
 
-    try
-    {
+    try {
         // TODO: do this asynchronously
         return mSubversionClient->checkout(tCheckoutParameters).revnum();
-    }
-    catch (const svn::ClientException &iException)
-    {
+    } catch (const svn::ClientException &iException) {
         throw QException("could not checkout the repository", QException::fromSVNException(iException));
     }
 
@@ -133,14 +122,11 @@ unsigned long Codri::DataManager::updateRepository(const QDir &iCheckout) throw(
             .revision(svn::Revision::HEAD)
             .depth(svn::DepthInfinity);
 
-    try
-    {
+    try {
         QList<svn::Revision> tRevisions = mSubversionClient->update(tUpdateParameters);
         // TODO: verify that .back() is the latest revision
         return tRevisions.back().revnum();
-    }
-    catch (const svn::ClientException &iException)
-    {
+    } catch (const svn::ClientException &iException) {
         throw QException("could not update the repository", QException::fromSVNException(iException));
     }
 }
@@ -153,18 +139,13 @@ unsigned long Codri::DataManager::updateRepository(const QDir &iCheckout) throw(
 bool Codri::DataManager::removeDirectory(const QDir &iDirectory)
 {
     bool tError = false;
-    if (iDirectory.exists())
-    {
+    if (iDirectory.exists()) {
         const QFileInfoList &tEntries = iDirectory.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files | QDir::Hidden);
-        foreach (const QFileInfo &tEntry, tEntries)
-        {
+        foreach (const QFileInfo &tEntry, tEntries) {
             QString tEntryPath = tEntry.absoluteFilePath();
-            if (tEntry.isDir())
-            {
+            if (tEntry.isDir()) {
                 tError = removeDirectory(QDir(tEntryPath));
-            }
-            else
-            {
+            } else {
                 QFile tFile(tEntryPath);
                 if (!tFile.remove())
                     tError = true;
@@ -187,8 +168,7 @@ void Codri::DataManager::copyDirectory(const QDir &tSource, const QDir &tDestina
     tQueue.enqueue(qMakePair(tSource, tDestination));
 
     // Process iteratively
-    while (!tQueue.isEmpty())
-    {
+    while (!tQueue.isEmpty()) {
         QPair<QDir, QDir> tDirectories = tQueue.dequeue();
         if(!tDirectories.first.exists())
             continue;
@@ -198,8 +178,7 @@ void Codri::DataManager::copyDirectory(const QDir &tSource, const QDir &tDestina
             QFile::copy(tDirectories.first.absoluteFilePath(tFile), tDirectories.second.absoluteFilePath(tFile));
 
         // Enqueue all directories
-        foreach (QString tDirectory, tDirectories.first.entryList(QDir::AllDirs | QDir::NoDotAndDotDot))
-        {
+        foreach (QString tDirectory, tDirectories.first.entryList(QDir::AllDirs | QDir::NoDotAndDotDot)) {
             tDirectories.second.mkdir(tDirectory);
             tQueue.enqueue(qMakePair(QDir(tDirectories.first.absoluteFilePath(tDirectory)), QDir(tDirectories.second.absoluteFilePath(tDirectory))));
         }

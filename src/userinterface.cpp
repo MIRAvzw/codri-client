@@ -93,11 +93,9 @@ void Codri::UserInterface::showPresentation(const QDir& iLocation)
 
 bool Codri::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 {
-    if (iEvent->type() == QEvent::KeyPress)
-    {
+    if (iEvent->type() == QEvent::KeyPress) {
         QKeyEvent *iKeyEvent = static_cast<QKeyEvent*>(iEvent);
-        switch (iKeyEvent->key())
-        {
+        switch (iKeyEvent->key()) {
         // Default passthrough keys
         case Qt::Key_Left:
         case Qt::Key_Right:
@@ -125,9 +123,7 @@ bool Codri::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
         }
 
         return false;
-    }
-    else
-    {
+    } else {
         // standard event processing
         return QObject::eventFilter(iObject, iEvent);
     }
@@ -144,13 +140,10 @@ void Codri::UserInterface::_loadFinished(bool iOk)
         return;
 
     // Media page handling
-    if (mWebView->page() == 0)  // TODO: track
-    {
+    if (mWebView->page() == 0) {  // TODO: track
         showError("unknown error");
         emit presentationError("unknown error");
-    }
-    else
-    {
+    } else {
         // TODO: emit fatal error (we can't trust on loading the error page)
         mLogger->error("WebView error on internal webpage");
     }

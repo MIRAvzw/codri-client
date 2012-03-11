@@ -72,8 +72,7 @@ void Codri::JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iCont
 {
     bool tRequestValid;
     QVariant tRequest = mParser->parse(iContent, &tRequestValid);
-    if (tRequestValid)
-    {
+    if (tRequestValid) {
         QVariant tReply;
         Result tResult = doJsonPUT(tRequest);
         doJsonReply(iSessionId, iRequestId, tReply, tResult);
@@ -86,8 +85,7 @@ void Codri::JsonResource::doPOST(int iSessionId, int iRequestId, QIODevice *iCon
 {
     bool tRequestValid;
     QVariant tRequest = mParser->parse(iContent, &tRequestValid);
-    if (tRequestValid)
-    {
+    if (tRequestValid) {
         QVariant tReply;
         Result tResult = doJsonPOST(tRequest);
         doJsonReply(iSessionId, iRequestId, tReply, tResult);
@@ -111,8 +109,7 @@ void Codri::JsonResource::doDELETE(int iSessionId, int iRequestId)
 
 void Codri::JsonResource::doJsonReply(int iSessionId, int iRequestId, QVariant& iReply, Result iResult)
 {
-    switch (iResult)
-    {
+    switch (iResult) {
     case VALID:
         postReply(iSessionId, iRequestId, iReply);
         break;

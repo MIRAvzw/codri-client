@@ -48,8 +48,7 @@ Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentVal
 
     // Initialize logging subsystem
     mLogger = Log4Qt::Logger::logger(metaObject()->className());
-    if (mLogger->appenders().size() == 0)
-    {
+    if (mLogger->appenders().size() == 0) {
         // Create a layout
         Log4Qt::TTCCLayout *tLayout = new Log4Qt::TTCCLayout();
         tLayout->activateOptions();

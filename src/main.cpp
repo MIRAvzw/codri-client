@@ -23,7 +23,8 @@ struct ExitHandler
         signal(SIGTERM, &ExitHandler::exit);
     }
 
-    static void exit(int) {
+    static void exit(int)
+    {
         // Calling exit in the QApplication will cause the aboutToQuit
         // signal to be emitted, allowing us to clean up properly from
         // within a Qt event thread (since this isn't, hence we cannot

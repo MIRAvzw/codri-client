@@ -80,9 +80,8 @@ void Codri::Resource::indexRequested(QxtWebRequestEvent *iEvent)
     // FIXME: this essentially makes the processing single-threadedly
     // http://libqxt.bitbucket.org/doc/tip/qxtwebcontent.html#waitForAllContent
     // http://dev.libqxt.org/libqxt/src/a79d60a66a86/src/web/qxtwebjsonrpcservice.cpp#cl-495
-    if (iEvent->content) {
+    if (iEvent->content)
         iEvent->content->waitForAllContent();
-    }
     handleCompleteEvent(iEvent);
 }
 
@@ -94,24 +93,15 @@ void Codri::Resource::indexRequested(QxtWebRequestEvent *iEvent)
 void Codri::Resource::handleCompleteEvent(QxtWebRequestEvent *iEvent)
 {
     // Process all requests
-    if (iEvent->method == "GET")
-    {
+    if (iEvent->method == "GET") {
         doGET(iEvent->sessionID, iEvent->requestID);
-    }
-    else if (iEvent->method == "DELETE")
-    {
+    } else if (iEvent->method == "DELETE") {
         doDELETE(iEvent->sessionID, iEvent->requestID);
-    }
-    else if (iEvent->method == "POST")
-    {
+    } else if (iEvent->method == "POST") {
         doPOST(iEvent->sessionID, iEvent->requestID, iEvent->content);
-    }
-    else if (iEvent->method == "PUT")
-    {
+    } else if (iEvent->method == "PUT") {
         doPUT(iEvent->sessionID, iEvent->requestID, iEvent->content);
-    }
-    else
-    {
+    } else {
         postUnsupportedMethod(iEvent->sessionID, iEvent->requestID);
     }
 }

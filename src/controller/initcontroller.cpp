@@ -62,45 +62,36 @@ Codri::InitController::InitController(Controller *iController) : QStateMachine(i
 
 void Codri::InitController::initializeUserInterface()
 {
-    try
-    {
+    try {
         // FIXME: parent?
         mController->mUserInterface = new UserInterface();
         connect(mController->mUserInterface, SIGNAL(presentationError(QString)), mController, SLOT(_onPresentationError(QString)));
         mController->mUserInterface->show();
 
         emit userInterfaceSuccess();
-    }
-    catch (const QException &iException)
-    {
+    } catch (const QException &iException) {
         emit userInterfaceFailure();
     }
 }
 
 void Codri::InitController::initializeDataManager()
 {
-    try
-    {
+    try {
         mController->mDataManager = new DataManager(this);
 
         emit dataManagerSuccess();
-    }
-    catch (const QException &iException)
-    {
+    } catch (const QException &iException) {
         emit dataManagerFailure();
     }
 }
 
 void Codri::InitController::initializeNetworkInterface()
 {
-    try
-    {
+    try {
         mController->mNetworkInterface = new NetworkInterface(this);
 
         emit networkInterfaceSuccess();
-    }
-    catch (const QException &iException)
-    {
+    } catch (const QException &iException) {
         emit networkInterfaceFailure();
     }
 }

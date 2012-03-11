@@ -48,8 +48,7 @@ Codri::JsonResource::Result Codri::KioskResource::doJsonGET(QVariant& iReply)
 
 Codri::JsonResource::Result Codri::KioskResource::Power::doJsonGET(QVariant& iReply)
 {
-    switch (MainApplication::instance()->kiosk()->getPower())
-    {
+    switch (MainApplication::instance()->kiosk()->getPower()) {
     case Kiosk::ON:
         iReply = "on";
         break;
