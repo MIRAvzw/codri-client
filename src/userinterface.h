@@ -32,7 +32,7 @@ namespace Codri
     Q_OBJECT
     public:
         // Construction and destruction
-        UserInterface(QWidget *iParent = 0) throw(QException);
+        explicit UserInterface(QWidget *iParent = 0) throw(QException);
 
         // UI events
         bool eventFilter(QObject *iObject, QEvent *iEvent);

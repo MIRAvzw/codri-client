@@ -25,7 +25,7 @@ namespace Codri
     Q_OBJECT
     public:
         // Construction and destruction
-        ErrorPage(QObject *iParent);
+        explicit ErrorPage(QObject *iParent);
     };
 }
 

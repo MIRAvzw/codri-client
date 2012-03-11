@@ -29,7 +29,7 @@ namespace Codri
     Q_PROPERTY(QDateTime startup READ startup CONSTANT)
     public:
         // Construction and destruction
-        StatusPage(QObject *iParent);
+        explicit StatusPage(QObject *iParent);
         ~StatusPage();
 
         // Basic I/O

@@ -31,7 +31,7 @@ namespace Codri
         Q_OBJECT
     public:
         // Construction and destruction
-        InitController(Controller *iController);
+        explicit InitController(Controller *iController);
 
     signals:
         // Initialization outcome signals

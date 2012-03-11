@@ -23,7 +23,7 @@ namespace Codri
         Q_OBJECT
     public:
         // Construction and destruction
-        Presentation(QObject *iParent);
+        explicit Presentation(QObject *iParent);
 
         // Basic I/O
         unsigned long getRevision() const;

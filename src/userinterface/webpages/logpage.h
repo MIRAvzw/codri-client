@@ -28,7 +28,7 @@ namespace Codri
     Q_PROPERTY(QString id READ id CONSTANT)
     public:
         // Construction and destruction
-        LogPage(QObject *iParent);
+        explicit LogPage(QObject *iParent);
         ~LogPage();
 
         // Basic I/O

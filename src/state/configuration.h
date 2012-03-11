@@ -21,7 +21,7 @@ namespace Codri
         Q_OBJECT
     public:
         // Construction and destruction
-        Configuration(QObject *iParent);
+        explicit Configuration(QObject *iParent);
 
         // Basic I/O
         unsigned long getRevision() const;

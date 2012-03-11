@@ -34,7 +34,7 @@ namespace Codri
     Q_OBJECT
     public:
         // Construction and destruction
-        DataManager(QObject *iParent) throw(QException);
+        explicit DataManager(QObject *iParent) throw(QException);
 
         // High-level functionality
         QPair<QDir, unsigned long> downloadPresentation(const QString &iLocation) throw(QException);

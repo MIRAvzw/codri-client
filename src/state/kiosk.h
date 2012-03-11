@@ -25,7 +25,7 @@ namespace Codri
         Q_OBJECT
     public:
         // Construction and destruction
-        Kiosk(QObject *iParent);
+        explicit Kiosk(QObject *iParent);
 
         // Power enum
         enum Power {

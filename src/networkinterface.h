@@ -31,7 +31,7 @@ namespace Codri
     Q_OBJECT
     public:
         // Construction and destruction
-        NetworkInterface(QObject *iParent) throw(QException);
+        explicit NetworkInterface(QObject *iParent) throw(QException);
         ~NetworkInterface();
 
     private:
