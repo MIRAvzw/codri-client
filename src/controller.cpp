@@ -21,15 +21,12 @@
 #include <Log4Qt/TTCCLayout>
 #include <Log4Qt/ConsoleAppender>
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
+MIRA::Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -52,7 +49,7 @@ Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
 // Basic I/O
 //
 
-QDateTime Controller::startup() const
+QDateTime MIRA::Controller::startup() const
 {
     return mTimestampStartup;
 }
@@ -62,13 +59,13 @@ QDateTime Controller::startup() const
 // Application control
 //
 
-void Controller::start()
+void MIRA::Controller::start()
 {
     mLogger->debug() << "Starting application";
     mInitController->start();
 }
 
-void Controller::stop()
+void MIRA::Controller::stop()
 {
     if (mInitController->isFinished())
     {
@@ -88,17 +85,17 @@ void Controller::stop()
 // Subsystem object getters
 //
 
-NetworkInterface *Controller::networkInterface() const
+MIRA::NetworkInterface *MIRA::Controller::networkInterface() const
 {
     return mNetworkInterface;
 }
 
-UserInterface *Controller::userInterface() const
+MIRA::UserInterface *MIRA::Controller::userInterface() const
 {
     return mUserInterface;
 }
 
-DataManager *Controller::dataManager() const
+MIRA::DataManager *MIRA::Controller::dataManager() const
 {
     return mDataManager;
 }
@@ -108,7 +105,7 @@ DataManager *Controller::dataManager() const
 // Initialization events
 //
 
-void Controller::_onInitializationSuccess()
+void MIRA::Controller::_onInitializationSuccess()
 {
     mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
 
@@ -118,7 +115,7 @@ void Controller::_onInitializationSuccess()
     connect(MainApplication::instance()->presentation(), SIGNAL(onLocationChanged(const QString&)), this, SLOT(_onPresentationLocationChanged(const QString&)));
 }
 
-void Controller::_onInitializationFailure()
+void MIRA::Controller::_onInitializationFailure()
 {
     mLogger->fatal() << "Initialisation failed, aborting";
     MainApplication::instance()->quit();
@@ -129,7 +126,7 @@ void Controller::_onInitializationFailure()
 // Subsystem events
 //
 
-void Controller::_onPresentationError(const QString& iError)
+void MIRA::Controller::_onPresentationError(const QString& iError)
 {
     mLogger->error("Error on loaded media: " + iError);
     // TODO: revert media or smth
@@ -140,7 +137,7 @@ void Controller::_onPresentationError(const QString& iError)
 // State events
 //
 
-void Controller::_onKioskPowerChanged(Kiosk::Power iPower)
+void MIRA::Controller::_onKioskPowerChanged(Kiosk::Power iPower)
 {
     switch (iPower)
     {
@@ -152,14 +149,14 @@ void Controller::_onKioskPowerChanged(Kiosk::Power iPower)
     }
 }
 
-void Controller::_onConfigurationVolumeChanged(unsigned char iVolume)
+void MIRA::Controller::_onConfigurationVolumeChanged(unsigned char iVolume)
 {
     // TODO: cache the value
 
     // TODO: actually change the volume
 }
 
-void Controller::_onPresentationLocationChanged(const QString &iLocation)
+void MIRA::Controller::_onPresentationLocationChanged(const QString &iLocation)
 {
     try
     {

@@ -15,15 +15,12 @@
 #include <sys/ioctl.h>
 #include <net/if.h>
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-Kiosk::Kiosk(QObject *iParent) : QObject(iParent)
+MIRA::Kiosk::Kiosk(QObject *iParent) : QObject(iParent)
 {
     // Default power state
     mPower = ON;
@@ -58,38 +55,38 @@ Kiosk::Kiosk(QObject *iParent) : QObject(iParent)
 // Basic I/O
 //
 
-Kiosk::Power Kiosk::getPower() const
+MIRA::Kiosk::Power MIRA::Kiosk::getPower() const
 {
     return mPower;
 }
 
-void Kiosk::setPower(Kiosk::Power iPower)
+void MIRA::Kiosk::setPower(MIRA::Kiosk::Power iPower)
 {
     mPower = iPower;
     emit onPowerChanged(iPower);
 }
 
-QUuid Kiosk::getUuid() const
+QUuid MIRA::Kiosk::getUuid() const
 {
     return mUuid;
 }
 
-QString Kiosk::getVendor() const
+QString MIRA::Kiosk::getVendor() const
 {
     return "MIRA";
 }
 
-QString Kiosk::getModel() const
+QString MIRA::Kiosk::getModel() const
 {
     return "Genesi kiosk";
 }
 
-unsigned short Kiosk::getPort() const
+unsigned short MIRA::Kiosk::getPort() const
 {
     return mPort;
 }
 
-void Kiosk::setPort(unsigned short iPort)
+void MIRA::Kiosk::setPort(unsigned short iPort)
 {
     mPort = iPort;
 }

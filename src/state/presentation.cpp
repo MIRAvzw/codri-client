@@ -11,15 +11,12 @@
 // Local includes
 #include "presentation.h"
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-Presentation::Presentation(QObject *iParent) : QObject(iParent)
+MIRA::Presentation::Presentation(QObject *iParent) : QObject(iParent)
 {
 }
 
@@ -28,23 +25,23 @@ Presentation::Presentation(QObject *iParent) : QObject(iParent)
 // Basic I/O
 //
 
-unsigned long Presentation::getRevision() const
+unsigned long MIRA::Presentation::getRevision() const
 {
     return mRevision;
 }
 
-void Presentation::setRevision(unsigned long iRevision)
+void MIRA::Presentation::setRevision(unsigned long iRevision)
 {
     mRevision = iRevision;
     emit onRevisionChanged(iRevision);
 }
 
-QString Presentation::getLocation() const
+QString MIRA::Presentation::getLocation() const
 {
     return mLocation;
 }
 
-void Presentation::setLocation(const QString &iLocation)
+void MIRA::Presentation::setLocation(const QString &iLocation)
 {
     mLocation = iLocation;
     emit onLocationChanged(iLocation);

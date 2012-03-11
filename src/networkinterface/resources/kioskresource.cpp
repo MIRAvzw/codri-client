@@ -12,15 +12,12 @@
 #include "kioskresource.h"
 #include "mainapplication.h"
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
+MIRA::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
     : JsonResource(iSessionManager, iParent)
 {
     // Power resource
@@ -37,7 +34,7 @@ KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObj
 // JsonResource implementation
 //
 
-JsonResource::Result KioskResource::doJsonGET(QVariant& iReply)
+MIRA::JsonResource::Result MIRA::KioskResource::doJsonGET(QVariant& iReply)
 {
     QVariantMap tObject;
     Result tResult = VALID;
@@ -49,7 +46,7 @@ JsonResource::Result KioskResource::doJsonGET(QVariant& iReply)
     return tResult;
 }
 
-JsonResource::Result KioskResource::Power::doJsonGET(QVariant& iReply)
+MIRA::JsonResource::Result MIRA::KioskResource::Power::doJsonGET(QVariant& iReply)
 {
     switch (MainApplication::instance()->kiosk()->getPower())
     {
@@ -64,7 +61,7 @@ JsonResource::Result KioskResource::Power::doJsonGET(QVariant& iReply)
     return VALID;
 }
 
-JsonResource::Result KioskResource::Power::doJsonPUT(const QVariant &iRequest)
+MIRA::JsonResource::Result MIRA::KioskResource::Power::doJsonPUT(const QVariant &iRequest)
 {
     if (iRequest.toString() == "on")
         MainApplication::instance()->kiosk()->setPower(Kiosk::ON);
@@ -76,7 +73,7 @@ JsonResource::Result KioskResource::Power::doJsonPUT(const QVariant &iRequest)
     return VALID;
 }
 
-JsonResource::Result KioskResource::Uuid::doJsonGET(QVariant& iReply)
+MIRA::JsonResource::Result MIRA::KioskResource::Uuid::doJsonGET(QVariant& iReply)
 {
     iReply = MainApplication::instance()->kiosk()->getUuid().toString();
     return VALID;

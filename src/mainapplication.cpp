@@ -23,18 +23,15 @@
 #include <csignal>
 #include <sys/socket.h>
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
 // Initialize static members
-MainApplication *MainApplication::mInstance = NULL;
+MIRA::MainApplication *MIRA::MainApplication::mInstance = NULL;
 
-MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException) : QApplication(iArgumentCount, iArgumentValues)
+MIRA::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException) : QApplication(iArgumentCount, iArgumentValues)
 {
     // Singleton assertion (well, some singleton-hybrid, to be fair)
     Q_ASSERT(mInstance == NULL);
@@ -79,7 +76,7 @@ MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) th
     QTimer::singleShot(0, mController, SLOT(start()));
 }
 
-MainApplication::~MainApplication()
+MIRA::MainApplication::~MainApplication()
 {
     // Remove the singleton configuration
     mInstance = NULL;
@@ -90,17 +87,17 @@ MainApplication::~MainApplication()
 // State getters
 //
 
-Kiosk *MainApplication::kiosk() const
+MIRA::Kiosk *MIRA::MainApplication::kiosk() const
 {
     return mKiosk;
 }
 
-Configuration *MainApplication::configuration() const
+MIRA::Configuration *MIRA::MainApplication::configuration() const
 {
     return mConfiguration;
 }
 
-Presentation *MainApplication::presentation() const
+MIRA::Presentation *MIRA::MainApplication::presentation() const
 {
     return mPresentation;
 }
@@ -110,7 +107,7 @@ Presentation *MainApplication::presentation() const
 // Subsystem getters
 //
 
-Controller *MainApplication::controller() const
+MIRA::Controller *MIRA::MainApplication::controller() const
 {
     return mController;
 }
@@ -120,7 +117,7 @@ Controller *MainApplication::controller() const
 // Singleton objects getters
 //
 
-MainApplication *MainApplication::instance()
+MIRA::MainApplication *MIRA::MainApplication::instance()
 {
     return mInstance;
 }

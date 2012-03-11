@@ -15,15 +15,12 @@
 // Library includes
 #include <QtCore/QMap>
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
+MIRA::ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
     : JsonResource(iSessionManager, iParent)
 {
     // Revision resource
@@ -41,7 +38,7 @@ ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager* iSess
 //
 
 
-JsonResource::Result ConfigurationResource::doJsonGET(QVariant& iReply)
+MIRA::JsonResource::Result MIRA::ConfigurationResource::doJsonGET(QVariant& iReply)
 {
     QVariantMap tObject;
     Result tResult = VALID;
@@ -53,7 +50,7 @@ JsonResource::Result ConfigurationResource::doJsonGET(QVariant& iReply)
     return tResult;
 }
 
-JsonResource::Result ConfigurationResource::doJsonPUT(const QVariant& iRequest)
+MIRA::JsonResource::Result MIRA::ConfigurationResource::doJsonPUT(const QVariant& iRequest)
 {
     Result tResult = INVALID;
 
@@ -70,13 +67,13 @@ JsonResource::Result ConfigurationResource::doJsonPUT(const QVariant& iRequest)
     return tResult;
 }
 
-JsonResource::Result ConfigurationResource::Revision::doJsonGET(QVariant& iReply)
+MIRA::JsonResource::Result MIRA::ConfigurationResource::Revision::doJsonGET(QVariant& iReply)
 {
     iReply = (unsigned long long) MainApplication::instance()->configuration()->getRevision();
     return VALID;
 }
 
-JsonResource::Result ConfigurationResource::Revision::doJsonPUT(const QVariant& iRequest)
+MIRA::JsonResource::Result MIRA::ConfigurationResource::Revision::doJsonPUT(const QVariant& iRequest)
 {
     if (iRequest.canConvert(QVariant::LongLong)) {
         MainApplication::instance()->configuration()->setRevision(iRequest.toLongLong());
@@ -87,13 +84,13 @@ JsonResource::Result ConfigurationResource::Revision::doJsonPUT(const QVariant& 
     }
 }
 
-JsonResource::Result ConfigurationResource::Volume::doJsonGET(QVariant& iReply)
+MIRA::JsonResource::Result MIRA::ConfigurationResource::Volume::doJsonGET(QVariant& iReply)
 {
     iReply = (unsigned long long) MainApplication::instance()->configuration()->getVolume();
     return VALID;
 }
 
-JsonResource::Result ConfigurationResource::Volume::doJsonPUT(const QVariant& iRequest)
+MIRA::JsonResource::Result MIRA::ConfigurationResource::Volume::doJsonPUT(const QVariant& iRequest)
 {
     if (iRequest.canConvert(QVariant::Int)) {
         MainApplication::instance()->configuration()->setVolume(iRequest.toInt());

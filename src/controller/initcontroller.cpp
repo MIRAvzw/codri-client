@@ -11,15 +11,12 @@
 // Local includes
 #include "initcontroller.h"
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-InitController::InitController(Controller *iController) : QStateMachine(iController), mController(iController)
+MIRA::InitController::InitController(Controller *iController) : QStateMachine(iController), mController(iController)
 {    
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
@@ -63,7 +60,7 @@ InitController::InitController(Controller *iController) : QStateMachine(iControl
 // Initialization slots
 //
 
-void InitController::initializeUserInterface()
+void MIRA::InitController::initializeUserInterface()
 {
     try
     {
@@ -80,7 +77,7 @@ void InitController::initializeUserInterface()
     }
 }
 
-void InitController::initializeDataManager()
+void MIRA::InitController::initializeDataManager()
 {
     try
     {
@@ -94,7 +91,7 @@ void InitController::initializeDataManager()
     }
 }
 
-void InitController::initializeNetworkInterface()
+void MIRA::InitController::initializeNetworkInterface()
 {
     try
     {
@@ -113,13 +110,13 @@ void InitController::initializeNetworkInterface()
 // State machine status
 //
 
-void InitController::_onFinished()
+void MIRA::InitController::_onFinished()
 {
     // TODO: why isn't this provided?
     mFinished = true;
 }
 
-bool InitController::isFinished() const
+bool MIRA::InitController::isFinished() const
 {
     return mFinished;
 }

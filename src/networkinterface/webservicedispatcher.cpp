@@ -11,15 +11,12 @@
 // Local includes
 #include "webservicedispatcher.h"
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-WebserviceDispatcher::WebserviceDispatcher(const QHostAddress &iHost, quint16 iPort)
+MIRA::WebserviceDispatcher::WebserviceDispatcher(const QHostAddress &iHost, quint16 iPort)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -37,7 +34,7 @@ WebserviceDispatcher::WebserviceDispatcher(const QHostAddress &iHost, quint16 iP
     setStaticContentService(mRootService);
 }
 
-WebserviceDispatcher::~WebserviceDispatcher()
+MIRA::WebserviceDispatcher::~WebserviceDispatcher()
 {
     delete mRootService;
 }
@@ -48,7 +45,7 @@ WebserviceDispatcher::~WebserviceDispatcher()
 //
 
 
-void WebserviceDispatcher::addService(QString iUri, Resource* iSubService)
+void MIRA::WebserviceDispatcher::addService(QString iUri, Resource* iSubService)
 {
     mRootService->addService(iUri, iSubService);
 }

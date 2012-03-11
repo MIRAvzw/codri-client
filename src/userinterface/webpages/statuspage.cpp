@@ -15,15 +15,12 @@
 // Library includes
 #include <Log4Qt/SimpleLayout>
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-StatusPage::StatusPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/statuspage.html"), iParent)
+MIRA::StatusPage::StatusPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/statuspage.html"), iParent)
 {
     // Create log layout
     mLogLayout = new Log4Qt::SimpleLayout(this);
@@ -38,7 +35,7 @@ StatusPage::StatusPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/statuspag
     Log4Qt::Logger::rootLogger()->addAppender(mLogAppender);
 }
 
-StatusPage::~StatusPage()
+MIRA::StatusPage::~StatusPage()
 {
     Log4Qt::Logger::rootLogger()->removeAppender(mLogAppender);
 }
@@ -48,12 +45,12 @@ StatusPage::~StatusPage()
 // Basic I/O
 //
 
-QString StatusPage::id() const
+QString MIRA::StatusPage::id() const
 {
     return MainApplication::instance()->kiosk()->getUuid();
 }
 
-QDateTime StatusPage::startup() const
+QDateTime MIRA::StatusPage::startup() const
 {
     return MainApplication::instance()->controller()->startup();
 }

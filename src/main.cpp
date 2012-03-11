@@ -15,9 +15,6 @@
 #include "mainapplication.h"
 #include "qexception.h"
 
-// Namespaces
-using namespace MIRA;
-
 struct ExitHandler
 {
     ExitHandler()
@@ -31,7 +28,7 @@ struct ExitHandler
         // signal to be emitted, allowing us to clean up properly from
         // within a Qt event thread (since this isn't, hence we cannot
         // call Qt functions from here).
-        MainApplication::exit(0);
+        MIRA::MainApplication::exit(0);
     }
 };
 
@@ -41,6 +38,6 @@ int main(int iArgumentCount, char *iArgumentValues[])
     ExitHandler tExitHandler;
 
     // Run the applications
-    MainApplication *tApplication = new MainApplication(iArgumentCount, iArgumentValues);
+    MIRA::MainApplication *tApplication = new MIRA::MainApplication(iArgumentCount, iArgumentValues);
     return tApplication->exec();
 }

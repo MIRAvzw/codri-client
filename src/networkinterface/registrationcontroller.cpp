@@ -14,15 +14,12 @@
 // Library includes
 #include <QtCore/QTimer>
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-RegistrationController::RegistrationController(ServerClient* iServerClient, QObject *iParent) : QStateMachine(iParent), mServerClient(iServerClient)
+MIRA::RegistrationController::RegistrationController(ServerClient* iServerClient, QObject *iParent) : QStateMachine(iParent), mServerClient(iServerClient)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -41,7 +38,7 @@ RegistrationController::RegistrationController(ServerClient* iServerClient, QObj
 // Construction helpers
 //
 
-void RegistrationController::initFSM()
+void MIRA::RegistrationController::initFSM()
 {
     QState *tRegister = new QState(this);
     QState *tConflict = new QState(this);

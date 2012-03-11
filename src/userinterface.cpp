@@ -19,15 +19,12 @@
 // Library includes
 #include <QtCore/QStringList>
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(iParent)
+MIRA::UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -56,25 +53,25 @@ UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(i
 
 // TODO: track current page, do or do not reload (yes on media, no on log)?
 
-void UserInterface::showInit()
+void MIRA::UserInterface::showInit()
 {
     QWebPage *tPageInit = new InitPage(mWebView);
     mWebView->setPage(tPageInit);
 }
 
-void UserInterface::showLog()
+void MIRA::UserInterface::showLog()
 {
     QWebPage *tPageLog = new LogPage(mWebView);
     mWebView->setPage(tPageLog);
 }
 
-void UserInterface::showStatus()
+void MIRA::UserInterface::showStatus()
 {
     QWebPage *tPageStatus = new StatusPage(mWebView);
     mWebView->setPage(tPageStatus);
 }
 
-void UserInterface::showError(const QString& iError)
+void MIRA::UserInterface::showError(const QString& iError)
 {
     // TODO: load the error in the page
 
@@ -82,7 +79,7 @@ void UserInterface::showError(const QString& iError)
     mWebView->setPage(tPageError);
 }
 
-void UserInterface::showPresentation(const QDir& iLocation)
+void MIRA::UserInterface::showPresentation(const QDir& iLocation)
 {
     // TODO: is webview specification necessary? Doesn't setpage properly configure the parent?
     QWebPage *tPagetPresentation = new PresentationPage(iLocation, mWebView);
@@ -94,7 +91,7 @@ void UserInterface::showPresentation(const QDir& iLocation)
 // UI events
 //
 
-bool UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
+bool MIRA::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 {
     if (iEvent->type() == QEvent::KeyPress)
     {
@@ -141,7 +138,7 @@ bool UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 // Slots
 //
 
-void UserInterface::_loadFinished(bool iOk)
+void MIRA::UserInterface::_loadFinished(bool iOk)
 {
     if (iOk)
         return;
@@ -159,7 +156,7 @@ void UserInterface::_loadFinished(bool iOk)
     }
 }
 
-void UserInterface::_loadProgress(int iProgress)
+void MIRA::UserInterface::_loadProgress(int iProgress)
 {
     // TODO: relay to initpage
 }

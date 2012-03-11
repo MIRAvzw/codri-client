@@ -14,15 +14,12 @@
 // Library includes
 #include <QtWebKit/QWebFrame>
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-WebPage::WebPage(const QUrl &iURL, QObject *iParent) : QWebPage(iParent)
+MIRA::WebPage::WebPage(const QUrl &iURL, QObject *iParent) : QWebPage(iParent)
 {
     // Setup the webpage
     mainFrame()->addToJavaScriptWindowObject("application", this);
@@ -34,7 +31,7 @@ WebPage::WebPage(const QUrl &iURL, QObject *iParent) : QWebPage(iParent)
     mainFrame()->load(iURL);
 }
 
-WebPage::~WebPage()
+MIRA::WebPage::~WebPage()
 {
 }
 
@@ -43,7 +40,7 @@ WebPage::~WebPage()
 // QWebPage interface
 //
 
-void WebPage::javaScriptConsoleMessage(const QString &iMessage, int iLineNumber, const QString &iSourceId)
+void MIRA::WebPage::javaScriptConsoleMessage(const QString &iMessage, int iLineNumber, const QString &iSourceId)
 {
     mLogger->debug() << "Javascript console message at line " << iLineNumber << " of " << iSourceId << ": " << iMessage;
 }

@@ -12,15 +12,12 @@
 #include "serverclient.h"
 #include "mainapplication.h"
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-ServerClient::ServerClient(const QString &iLocation, QObject *iParent) : QStateMachine(iParent), mLocation(iLocation)
+MIRA::ServerClient::ServerClient(const QString &iLocation, QObject *iParent) : QStateMachine(iParent), mLocation(iLocation)
 {
     // Network access manager
     mNetworkAccessManager = new QNetworkAccessManager(this);
@@ -36,7 +33,7 @@ ServerClient::ServerClient(const QString &iLocation, QObject *iParent) : QStateM
     start();
 }
 
-ServerClient::~ServerClient()
+MIRA::ServerClient::~ServerClient()
 {
     // QJson objects
     delete mParser;
@@ -48,7 +45,7 @@ ServerClient::~ServerClient()
 // Construction helpers
 //
 
-void ServerClient::initFSM()
+void MIRA::ServerClient::initFSM()
 {
     QState *tIdle = new QState(this);
     QState *tRegister = new QState(this);
@@ -122,7 +119,7 @@ void ServerClient::initFSM()
 //
 
 
-void ServerClient::registerKiosk()
+void MIRA::ServerClient::registerKiosk()
 {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
@@ -135,7 +132,7 @@ void ServerClient::registerKiosk()
     doPOST("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""), tRequest);
 }
 
-void ServerClient::refreshKiosk()
+void MIRA::ServerClient::refreshKiosk()
 {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
@@ -143,7 +140,7 @@ void ServerClient::refreshKiosk()
     doPUT("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', "") + "/heartbeat");
 }
 
-void ServerClient::unregisterKiosk()
+void MIRA::ServerClient::unregisterKiosk()
 {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
@@ -157,7 +154,7 @@ void ServerClient::unregisterKiosk()
 //
 
 
-void ServerClient::_onRequestFinished(QNetworkReply *iReply)
+void MIRA::ServerClient::_onRequestFinished(QNetworkReply *iReply)
 {
     // Get reply data
     // TODO: do something with the error -- is the request retried if it fails?
@@ -177,27 +174,27 @@ void ServerClient::_onRequestFinished(QNetworkReply *iReply)
 // Auxiliary
 //
 
-void ServerClient::doGET(const QString& iPath)
+void MIRA::ServerClient::doGET(const QString& iPath)
 {
     mNetworkAccessManager->get(createRequest(iPath));
 }
 
-void ServerClient::doPUT(const QString& iPath, const QVariant& iPayload)
+void MIRA::ServerClient::doPUT(const QString& iPath, const QVariant& iPayload)
 {
     mNetworkAccessManager->put(createRequest(iPath), mSerializer->serialize(iPayload));
 }
 
-void ServerClient::doPOST(const QString& iPath, const QVariant& iPayload)
+void MIRA::ServerClient::doPOST(const QString& iPath, const QVariant& iPayload)
 {
     mNetworkAccessManager->post(createRequest(iPath), mSerializer->serialize(iPayload));
 }
 
-void ServerClient::doDELETE(const QString& iPath)
+void MIRA::ServerClient::doDELETE(const QString& iPath)
 {
     mNetworkAccessManager->deleteResource(createRequest(iPath));
 }
 
-QNetworkRequest ServerClient::createRequest(const QString& iPath)
+QNetworkRequest MIRA::ServerClient::createRequest(const QString& iPath)
 {
     QNetworkRequest tRequest;
     tRequest.setUrl(QUrl(mLocation + "/" + iPath));

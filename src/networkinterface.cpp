@@ -16,15 +16,12 @@
 #include "networkinterface/resources/configurationresource.h"
 #include "networkinterface/resources/presentationresource.h"
 
-// Namespaces
-using namespace MIRA;
-
 
 //
 // Construction and destruction
 //
 
-NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject(iParent)
+MIRA::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -54,7 +51,7 @@ NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject
     mRegistrationController->start();
 }
 
-NetworkInterface::~NetworkInterface()
+MIRA::NetworkInterface::~NetworkInterface()
 {
     mServerClient->unregisterKiosk();
 }
