@@ -28,7 +28,7 @@ struct ExitHandler
         // signal to be emitted, allowing us to clean up properly from
         // within a Qt event thread (since this isn't, hence we cannot
         // call Qt functions from here).
-        MIRA::MainApplication::exit(0);
+        Codri::MainApplication::exit(0);
     }
 };
 
@@ -38,6 +38,6 @@ int main(int iArgumentCount, char *iArgumentValues[])
     ExitHandler tExitHandler;
 
     // Run the applications
-    MIRA::MainApplication *tApplication = new MIRA::MainApplication(iArgumentCount, iArgumentValues);
+    Codri::MainApplication *tApplication = new Codri::MainApplication(iArgumentCount, iArgumentValues);
     return tApplication->exec();
 }

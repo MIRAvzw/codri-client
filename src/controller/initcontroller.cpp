@@ -16,7 +16,7 @@
 // Construction and destruction
 //
 
-MIRA::InitController::InitController(Controller *iController) : QStateMachine(iController), mController(iController)
+Codri::InitController::InitController(Controller *iController) : QStateMachine(iController), mController(iController)
 {    
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
@@ -60,7 +60,7 @@ MIRA::InitController::InitController(Controller *iController) : QStateMachine(iC
 // Initialization slots
 //
 
-void MIRA::InitController::initializeUserInterface()
+void Codri::InitController::initializeUserInterface()
 {
     try
     {
@@ -77,7 +77,7 @@ void MIRA::InitController::initializeUserInterface()
     }
 }
 
-void MIRA::InitController::initializeDataManager()
+void Codri::InitController::initializeDataManager()
 {
     try
     {
@@ -91,7 +91,7 @@ void MIRA::InitController::initializeDataManager()
     }
 }
 
-void MIRA::InitController::initializeNetworkInterface()
+void Codri::InitController::initializeNetworkInterface()
 {
     try
     {
@@ -110,13 +110,13 @@ void MIRA::InitController::initializeNetworkInterface()
 // State machine status
 //
 
-void MIRA::InitController::_onFinished()
+void Codri::InitController::_onFinished()
 {
     // TODO: why isn't this provided?
     mFinished = true;
 }
 
-bool MIRA::InitController::isFinished() const
+bool Codri::InitController::isFinished() const
 {
     return mFinished;
 }

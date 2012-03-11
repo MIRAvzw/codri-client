@@ -24,7 +24,7 @@
 // Construction and destruction
 //
 
-MIRA::UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(iParent)
+Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWindow(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -53,25 +53,25 @@ MIRA::UserInterface::UserInterface(QWidget *iParent) throw(QException) : QMainWi
 
 // TODO: track current page, do or do not reload (yes on media, no on log)?
 
-void MIRA::UserInterface::showInit()
+void Codri::UserInterface::showInit()
 {
     QWebPage *tPageInit = new InitPage(mWebView);
     mWebView->setPage(tPageInit);
 }
 
-void MIRA::UserInterface::showLog()
+void Codri::UserInterface::showLog()
 {
     QWebPage *tPageLog = new LogPage(mWebView);
     mWebView->setPage(tPageLog);
 }
 
-void MIRA::UserInterface::showStatus()
+void Codri::UserInterface::showStatus()
 {
     QWebPage *tPageStatus = new StatusPage(mWebView);
     mWebView->setPage(tPageStatus);
 }
 
-void MIRA::UserInterface::showError(const QString& iError)
+void Codri::UserInterface::showError(const QString& iError)
 {
     // TODO: load the error in the page
 
@@ -79,7 +79,7 @@ void MIRA::UserInterface::showError(const QString& iError)
     mWebView->setPage(tPageError);
 }
 
-void MIRA::UserInterface::showPresentation(const QDir& iLocation)
+void Codri::UserInterface::showPresentation(const QDir& iLocation)
 {
     // TODO: is webview specification necessary? Doesn't setpage properly configure the parent?
     QWebPage *tPagetPresentation = new PresentationPage(iLocation, mWebView);
@@ -91,7 +91,7 @@ void MIRA::UserInterface::showPresentation(const QDir& iLocation)
 // UI events
 //
 
-bool MIRA::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
+bool Codri::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 {
     if (iEvent->type() == QEvent::KeyPress)
     {
@@ -138,7 +138,7 @@ bool MIRA::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 // Slots
 //
 
-void MIRA::UserInterface::_loadFinished(bool iOk)
+void Codri::UserInterface::_loadFinished(bool iOk)
 {
     if (iOk)
         return;
@@ -156,7 +156,7 @@ void MIRA::UserInterface::_loadFinished(bool iOk)
     }
 }
 
-void MIRA::UserInterface::_loadProgress(int iProgress)
+void Codri::UserInterface::_loadProgress(int iProgress)
 {
     // TODO: relay to initpage
 }

@@ -18,7 +18,7 @@
 // Library includes
 #include <QtCore/QVariant>
 
-namespace MIRA
+namespace Codri
 {
     class ConfigurationResource : public JsonResource
     {

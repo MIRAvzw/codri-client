@@ -16,6 +16,6 @@
 // Construction and destruction
 //
 
-MIRA::InitPage::InitPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/initpage.html"), iParent)
+Codri::InitPage::InitPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/initpage.html"), iParent)
 {
 }

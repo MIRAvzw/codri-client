@@ -24,7 +24,7 @@
 #include "networkinterface/serverclient.h"
 #include "networkinterface/registrationcontroller.h"
 
-namespace MIRA
+namespace Codri
 {
     class NetworkInterface : public QObject
     {

@@ -20,7 +20,7 @@
 // Local incudes
 #include "userinterface/webpage.h"
 
-namespace MIRA
+namespace Codri
 {
     class LogPage : public WebPage
     {

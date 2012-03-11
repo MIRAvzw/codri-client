@@ -16,7 +16,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QDir>
 
-namespace MIRA
+namespace Codri
 {
     class Presentation : public QObject
     {

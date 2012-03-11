@@ -18,7 +18,7 @@
 #include <QtCore/QUuid>
 #include <QtNetwork/QNetworkAddressEntry>
 
-namespace MIRA
+namespace Codri
 {
     class Kiosk : public QObject
     {

@@ -20,7 +20,7 @@
 // Construction and destruction
 //
 
-MIRA::ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
+Codri::ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
     : JsonResource(iSessionManager, iParent)
 {
     // Revision resource
@@ -38,7 +38,7 @@ MIRA::ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager*
 //
 
 
-MIRA::JsonResource::Result MIRA::ConfigurationResource::doJsonGET(QVariant& iReply)
+Codri::JsonResource::Result Codri::ConfigurationResource::doJsonGET(QVariant& iReply)
 {
     QVariantMap tObject;
     Result tResult = VALID;
@@ -50,7 +50,7 @@ MIRA::JsonResource::Result MIRA::ConfigurationResource::doJsonGET(QVariant& iRep
     return tResult;
 }
 
-MIRA::JsonResource::Result MIRA::ConfigurationResource::doJsonPUT(const QVariant& iRequest)
+Codri::JsonResource::Result Codri::ConfigurationResource::doJsonPUT(const QVariant& iRequest)
 {
     Result tResult = INVALID;
 
@@ -67,13 +67,13 @@ MIRA::JsonResource::Result MIRA::ConfigurationResource::doJsonPUT(const QVariant
     return tResult;
 }
 
-MIRA::JsonResource::Result MIRA::ConfigurationResource::Revision::doJsonGET(QVariant& iReply)
+Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonGET(QVariant& iReply)
 {
     iReply = (unsigned long long) MainApplication::instance()->configuration()->getRevision();
     return VALID;
 }
 
-MIRA::JsonResource::Result MIRA::ConfigurationResource::Revision::doJsonPUT(const QVariant& iRequest)
+Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonPUT(const QVariant& iRequest)
 {
     if (iRequest.canConvert(QVariant::LongLong)) {
         MainApplication::instance()->configuration()->setRevision(iRequest.toLongLong());
@@ -84,13 +84,13 @@ MIRA::JsonResource::Result MIRA::ConfigurationResource::Revision::doJsonPUT(cons
     }
 }
 
-MIRA::JsonResource::Result MIRA::ConfigurationResource::Volume::doJsonGET(QVariant& iReply)
+Codri::JsonResource::Result Codri::ConfigurationResource::Volume::doJsonGET(QVariant& iReply)
 {
     iReply = (unsigned long long) MainApplication::instance()->configuration()->getVolume();
     return VALID;
 }
 
-MIRA::JsonResource::Result MIRA::ConfigurationResource::Volume::doJsonPUT(const QVariant& iRequest)
+Codri::JsonResource::Result Codri::ConfigurationResource::Volume::doJsonPUT(const QVariant& iRequest)
 {
     if (iRequest.canConvert(QVariant::Int)) {
         MainApplication::instance()->configuration()->setVolume(iRequest.toInt());

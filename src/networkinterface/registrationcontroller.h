@@ -23,7 +23,7 @@
 // Local includes
 #include "serverclient.h"
 
-namespace MIRA
+namespace Codri
 {
     class RegistrationController : public QStateMachine
     {

@@ -27,7 +27,7 @@
 // Local includes
 #include "qexception.h"
 
-namespace MIRA
+namespace Codri
 {
     class DataManager : public QObject, public svn::repository::RepositoryListener, public svn::ContextListener
     {

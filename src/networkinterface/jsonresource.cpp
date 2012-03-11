@@ -16,7 +16,7 @@
 // Construction and destruction
 //
 
-MIRA::JsonResource::JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
+Codri::JsonResource::JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
     : Resource(iSessionManager, iParent)
 {
     // QJson objects
@@ -24,7 +24,7 @@ MIRA::JsonResource::JsonResource(QxtAbstractWebSessionManager* iSessionManager, 
     mSerializer = new QJson::Serializer();
 }
 
-MIRA::JsonResource::~JsonResource()
+Codri::JsonResource::~JsonResource()
 {
     // QJson objects
     delete mParser;
@@ -36,22 +36,22 @@ MIRA::JsonResource::~JsonResource()
 // Service methods
 //
 
-MIRA::JsonResource::Result MIRA::JsonResource::doJsonGET(QVariant&)
+Codri::JsonResource::Result Codri::JsonResource::doJsonGET(QVariant&)
 {
     return UNSUPPORTED;
 }
 
-MIRA::JsonResource::Result MIRA::JsonResource::doJsonPUT(const QVariant&)
+Codri::JsonResource::Result Codri::JsonResource::doJsonPUT(const QVariant&)
 {
     return UNSUPPORTED;
 }
 
-MIRA::JsonResource::Result MIRA::JsonResource::doJsonPOST(const QVariant&)
+Codri::JsonResource::Result Codri::JsonResource::doJsonPOST(const QVariant&)
 {
     return UNSUPPORTED;
 }
 
-MIRA::JsonResource::Result MIRA::JsonResource::doJsonDELETE()
+Codri::JsonResource::Result Codri::JsonResource::doJsonDELETE()
 {
     return UNSUPPORTED;
 }
@@ -61,14 +61,14 @@ MIRA::JsonResource::Result MIRA::JsonResource::doJsonDELETE()
 // Resource implementation
 //
 
-void MIRA::JsonResource::doGET(int iSessionId, int iRequestId)
+void Codri::JsonResource::doGET(int iSessionId, int iRequestId)
 {
     QVariant tReply;
     Result tResult = doJsonGET(tReply);
     doJsonReply(iSessionId, iRequestId, tReply, tResult);
 }
 
-void MIRA::JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iContent)
+void Codri::JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iContent)
 {
     bool tRequestValid;
     QVariant tRequest = mParser->parse(iContent, &tRequestValid);
@@ -82,7 +82,7 @@ void MIRA::JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iConte
     postInvalidPayload(iSessionId, iRequestId, "Unparseable Payload");
 }
 
-void MIRA::JsonResource::doPOST(int iSessionId, int iRequestId, QIODevice *iContent)
+void Codri::JsonResource::doPOST(int iSessionId, int iRequestId, QIODevice *iContent)
 {
     bool tRequestValid;
     QVariant tRequest = mParser->parse(iContent, &tRequestValid);
@@ -96,7 +96,7 @@ void MIRA::JsonResource::doPOST(int iSessionId, int iRequestId, QIODevice *iCont
     postInvalidPayload(iSessionId, iRequestId, "Unparseable Payload");
 }
 
-void MIRA::JsonResource::doDELETE(int iSessionId, int iRequestId)
+void Codri::JsonResource::doDELETE(int iSessionId, int iRequestId)
 {
     QVariant tReply;
     Result tResult = doJsonDELETE();
@@ -109,7 +109,7 @@ void MIRA::JsonResource::doDELETE(int iSessionId, int iRequestId)
 // Helper methods
 //
 
-void MIRA::JsonResource::doJsonReply(int iSessionId, int iRequestId, QVariant& iReply, Result iResult)
+void Codri::JsonResource::doJsonReply(int iSessionId, int iRequestId, QVariant& iReply, Result iResult)
 {
     switch (iResult)
     {
@@ -128,17 +128,17 @@ void MIRA::JsonResource::doJsonReply(int iSessionId, int iRequestId, QVariant& i
     }
 }
 
-void MIRA::JsonResource::postInvalidPayload(int iSessionId, int iRequestId, QString iErrorMessage)
+void Codri::JsonResource::postInvalidPayload(int iSessionId, int iRequestId, QString iErrorMessage)
 {
     postError(iSessionId, iRequestId, 400, iErrorMessage);
 }
 
-void MIRA::JsonResource::postConflictingPayload(int iSessionId, int iRequestId)
+void Codri::JsonResource::postConflictingPayload(int iSessionId, int iRequestId)
 {
     postError(iSessionId, iRequestId, 409, "Conflicting Payload");
 }
 
-void MIRA::JsonResource::postReply(int iSessionId, int iRequestId, QVariant &iData)
+void Codri::JsonResource::postReply(int iSessionId, int iRequestId, QVariant &iData)
 {
     QString tDataString = mSerializer->serialize(iData);
     QxtWebPageEvent *tReply = new QxtWebPageEvent(iSessionId, iRequestId, tDataString.toUtf8());

@@ -21,7 +21,7 @@
 // Local includes
 #include "resource.h"
 
-namespace MIRA
+namespace Codri
 {
     class WebserviceDispatcher : public QxtHttpSessionManager
     {

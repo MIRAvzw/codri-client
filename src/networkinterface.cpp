@@ -21,7 +21,7 @@
 // Construction and destruction
 //
 
-MIRA::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject(iParent)
+Codri::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -51,7 +51,7 @@ MIRA::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException) : Q
     mRegistrationController->start();
 }
 
-MIRA::NetworkInterface::~NetworkInterface()
+Codri::NetworkInterface::~NetworkInterface()
 {
     mServerClient->unregisterKiosk();
 }

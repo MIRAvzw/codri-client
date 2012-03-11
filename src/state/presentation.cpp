@@ -16,7 +16,7 @@
 // Construction and destruction
 //
 
-MIRA::Presentation::Presentation(QObject *iParent) : QObject(iParent)
+Codri::Presentation::Presentation(QObject *iParent) : QObject(iParent)
 {
 }
 
@@ -25,23 +25,23 @@ MIRA::Presentation::Presentation(QObject *iParent) : QObject(iParent)
 // Basic I/O
 //
 
-unsigned long MIRA::Presentation::getRevision() const
+unsigned long Codri::Presentation::getRevision() const
 {
     return mRevision;
 }
 
-void MIRA::Presentation::setRevision(unsigned long iRevision)
+void Codri::Presentation::setRevision(unsigned long iRevision)
 {
     mRevision = iRevision;
     emit onRevisionChanged(iRevision);
 }
 
-QString MIRA::Presentation::getLocation() const
+QString Codri::Presentation::getLocation() const
 {
     return mLocation;
 }
 
-void MIRA::Presentation::setLocation(const QString &iLocation)
+void Codri::Presentation::setLocation(const QString &iLocation)
 {
     mLocation = iLocation;
     emit onLocationChanged(iLocation);

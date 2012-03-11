@@ -22,7 +22,7 @@
 // Local includes
 #include "controller.h"
 
-namespace MIRA
+namespace Codri
 {
     class Controller;
 

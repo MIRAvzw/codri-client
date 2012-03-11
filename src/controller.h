@@ -39,7 +39,7 @@
   error conditions.
   */
 
-namespace MIRA
+namespace Codri
 {
     class InitController;
 

@@ -17,7 +17,7 @@
 // Construction and destruction
 //
 
-MIRA::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
+Codri::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
     : JsonResource(iSessionManager, iParent)
 {
     // Power resource
@@ -34,7 +34,7 @@ MIRA::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManager
 // JsonResource implementation
 //
 
-MIRA::JsonResource::Result MIRA::KioskResource::doJsonGET(QVariant& iReply)
+Codri::JsonResource::Result Codri::KioskResource::doJsonGET(QVariant& iReply)
 {
     QVariantMap tObject;
     Result tResult = VALID;
@@ -46,7 +46,7 @@ MIRA::JsonResource::Result MIRA::KioskResource::doJsonGET(QVariant& iReply)
     return tResult;
 }
 
-MIRA::JsonResource::Result MIRA::KioskResource::Power::doJsonGET(QVariant& iReply)
+Codri::JsonResource::Result Codri::KioskResource::Power::doJsonGET(QVariant& iReply)
 {
     switch (MainApplication::instance()->kiosk()->getPower())
     {
@@ -61,7 +61,7 @@ MIRA::JsonResource::Result MIRA::KioskResource::Power::doJsonGET(QVariant& iRepl
     return VALID;
 }
 
-MIRA::JsonResource::Result MIRA::KioskResource::Power::doJsonPUT(const QVariant &iRequest)
+Codri::JsonResource::Result Codri::KioskResource::Power::doJsonPUT(const QVariant &iRequest)
 {
     if (iRequest.toString() == "on")
         MainApplication::instance()->kiosk()->setPower(Kiosk::ON);
@@ -73,7 +73,7 @@ MIRA::JsonResource::Result MIRA::KioskResource::Power::doJsonPUT(const QVariant 
     return VALID;
 }
 
-MIRA::JsonResource::Result MIRA::KioskResource::Uuid::doJsonGET(QVariant& iReply)
+Codri::JsonResource::Result Codri::KioskResource::Uuid::doJsonGET(QVariant& iReply)
 {
     iReply = MainApplication::instance()->kiosk()->getUuid().toString();
     return VALID;

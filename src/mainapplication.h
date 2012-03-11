@@ -24,7 +24,7 @@
 #include "qexception.h"
 #include "controller.h"
 
-namespace MIRA
+namespace Codri
 {
     class MainApplication : public QApplication
     {

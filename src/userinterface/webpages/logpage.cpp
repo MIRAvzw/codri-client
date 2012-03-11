@@ -19,7 +19,7 @@
 // Construction and destruction
 //
 
-MIRA::LogPage::LogPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/logpage.html"), iParent)
+Codri::LogPage::LogPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/logpage.html"), iParent)
 {
     // Create log layout
     mLogLayout = new Log4Qt::SimpleLayout(this);
@@ -34,7 +34,7 @@ MIRA::LogPage::LogPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/logpage.h
     Log4Qt::Logger::rootLogger()->addAppender(mLogAppender);
 }
 
-MIRA::LogPage::~LogPage()
+Codri::LogPage::~LogPage()
 {
     Log4Qt::Logger::rootLogger()->removeAppender(mLogAppender);
 }
@@ -44,7 +44,7 @@ MIRA::LogPage::~LogPage()
 // Basic I/O
 //
 
-QString MIRA::LogPage::id() const
+QString Codri::LogPage::id() const
 {
     return MainApplication::instance()->kiosk()->getUuid();
 }

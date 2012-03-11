@@ -19,7 +19,7 @@
 // Construction and destruction
 //
 
-MIRA::RegistrationController::RegistrationController(ServerClient* iServerClient, QObject *iParent) : QStateMachine(iParent), mServerClient(iServerClient)
+Codri::RegistrationController::RegistrationController(ServerClient* iServerClient, QObject *iParent) : QStateMachine(iParent), mServerClient(iServerClient)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -38,7 +38,7 @@ MIRA::RegistrationController::RegistrationController(ServerClient* iServerClient
 // Construction helpers
 //
 
-void MIRA::RegistrationController::initFSM()
+void Codri::RegistrationController::initFSM()
 {
     QState *tRegister = new QState(this);
     QState *tConflict = new QState(this);

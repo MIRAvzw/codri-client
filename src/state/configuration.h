@@ -14,7 +14,7 @@
 
 #include <QtCore/QObject>
 
-namespace MIRA
+namespace Codri
 {
     class Configuration : public QObject
     {

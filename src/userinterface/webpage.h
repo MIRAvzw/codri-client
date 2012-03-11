@@ -18,7 +18,7 @@
 #include <QtWebKit/QWebPage>
 #include <Log4Qt/Logger>
 
-namespace MIRA
+namespace Codri
 {
     class WebPage : public QWebPage
     {

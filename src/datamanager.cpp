@@ -27,7 +27,7 @@
 // Construction and destruction
 //
 
-MIRA::DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
+Codri::DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -49,7 +49,7 @@ MIRA::DataManager::DataManager(QObject *iParent) throw(QException) : QObject(iPa
 // High-level functionality
 //
 
-QPair<QDir, unsigned long> MIRA::DataManager::downloadPresentation(const QString &iLocation) throw(QException) {
+QPair<QDir, unsigned long> Codri::DataManager::downloadPresentation(const QString &iLocation) throw(QException) {
     // Manage the checkout directory
     QDir tCheckout(mSettings->value("presentations/checkout", "/tmp/data/presentation").toString());
 
@@ -75,13 +75,13 @@ QPair<QDir, unsigned long> MIRA::DataManager::downloadPresentation(const QString
 // Low-level functionality
 //
 
-QString MIRA::DataManager::getRepositoryLocation(const QDir &iCheckout) throw(QException)
+QString Codri::DataManager::getRepositoryLocation(const QDir &iCheckout) throw(QException)
 {
     // TODO
     return "dummy";
 }
 
-unsigned long MIRA::DataManager::getRepositoryRevision(const QDir &iCheckout) throw(QException)
+unsigned long Codri::DataManager::getRepositoryRevision(const QDir &iCheckout) throw(QException)
 {
     try
     {
@@ -103,7 +103,7 @@ unsigned long MIRA::DataManager::getRepositoryRevision(const QDir &iCheckout) th
     }
 }
 
-unsigned long MIRA::DataManager::checkoutRepository(const QDir &iCheckout, const QUrl &iLocation) throw(QException)
+unsigned long Codri::DataManager::checkoutRepository(const QDir &iCheckout, const QUrl &iLocation) throw(QException)
 {
     svn::CheckoutParameter tCheckoutParameters;
     tCheckoutParameters
@@ -125,7 +125,7 @@ unsigned long MIRA::DataManager::checkoutRepository(const QDir &iCheckout, const
 
 }
 
-unsigned long MIRA::DataManager::updateRepository(const QDir &iCheckout) throw(QException)
+unsigned long Codri::DataManager::updateRepository(const QDir &iCheckout) throw(QException)
 {
     svn::UpdateParameter tUpdateParameters;
     tUpdateParameters
@@ -150,7 +150,7 @@ unsigned long MIRA::DataManager::updateRepository(const QDir &iCheckout) throw(Q
 // Auxiliary
 //
 
-bool MIRA::DataManager::removeDirectory(const QDir &iDirectory)
+bool Codri::DataManager::removeDirectory(const QDir &iDirectory)
 {
     bool tError = false;
     if (iDirectory.exists())
@@ -176,7 +176,7 @@ bool MIRA::DataManager::removeDirectory(const QDir &iDirectory)
     return tError;
 }
 
-void MIRA::DataManager::copyDirectory(const QDir &tSource, const QDir &tDestination)
+void Codri::DataManager::copyDirectory(const QDir &tSource, const QDir &tDestination)
 {
     // Create the destination path
     if (!tDestination.exists())

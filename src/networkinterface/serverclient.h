@@ -26,7 +26,7 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-namespace MIRA
+namespace Codri
 {
     class ServerClient : public QStateMachine
     {

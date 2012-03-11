@@ -16,6 +16,6 @@
 // Construction and destruction
 //
 
-MIRA::ErrorPage::ErrorPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/errorpage.html"), iParent)
+Codri::ErrorPage::ErrorPage(QObject *iParent) : WebPage(QUrl("qrc:/webpages/errorpage.html"), iParent)
 {
 }

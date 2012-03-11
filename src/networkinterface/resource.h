@@ -19,7 +19,7 @@
 #include <QxtWeb/QxtWebContent>
 #include <Log4Qt/Logger>
 
-namespace MIRA
+namespace Codri
 {
     class Resource : public QxtWebServiceDirectory
     {

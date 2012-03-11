@@ -26,7 +26,7 @@
 // Construction and destruction
 //
 
-MIRA::Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
+Codri::Controller::Controller(QObject *iParent) throw(QException) : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
@@ -49,7 +49,7 @@ MIRA::Controller::Controller(QObject *iParent) throw(QException) : QObject(iPare
 // Basic I/O
 //
 
-QDateTime MIRA::Controller::startup() const
+QDateTime Codri::Controller::startup() const
 {
     return mTimestampStartup;
 }
@@ -59,13 +59,13 @@ QDateTime MIRA::Controller::startup() const
 // Application control
 //
 
-void MIRA::Controller::start()
+void Codri::Controller::start()
 {
     mLogger->debug() << "Starting application";
     mInitController->start();
 }
 
-void MIRA::Controller::stop()
+void Codri::Controller::stop()
 {
     if (mInitController->isFinished())
     {
@@ -85,17 +85,17 @@ void MIRA::Controller::stop()
 // Subsystem object getters
 //
 
-MIRA::NetworkInterface *MIRA::Controller::networkInterface() const
+Codri::NetworkInterface *Codri::Controller::networkInterface() const
 {
     return mNetworkInterface;
 }
 
-MIRA::UserInterface *MIRA::Controller::userInterface() const
+Codri::UserInterface *Codri::Controller::userInterface() const
 {
     return mUserInterface;
 }
 
-MIRA::DataManager *MIRA::Controller::dataManager() const
+Codri::DataManager *Codri::Controller::dataManager() const
 {
     return mDataManager;
 }
@@ -105,7 +105,7 @@ MIRA::DataManager *MIRA::Controller::dataManager() const
 // Initialization events
 //
 
-void MIRA::Controller::_onInitializationSuccess()
+void Codri::Controller::_onInitializationSuccess()
 {
     mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
 
@@ -115,7 +115,7 @@ void MIRA::Controller::_onInitializationSuccess()
     connect(MainApplication::instance()->presentation(), SIGNAL(onLocationChanged(const QString&)), this, SLOT(_onPresentationLocationChanged(const QString&)));
 }
 
-void MIRA::Controller::_onInitializationFailure()
+void Codri::Controller::_onInitializationFailure()
 {
     mLogger->fatal() << "Initialisation failed, aborting";
     MainApplication::instance()->quit();
@@ -126,7 +126,7 @@ void MIRA::Controller::_onInitializationFailure()
 // Subsystem events
 //
 
-void MIRA::Controller::_onPresentationError(const QString& iError)
+void Codri::Controller::_onPresentationError(const QString& iError)
 {
     mLogger->error("Error on loaded media: " + iError);
     // TODO: revert media or smth
@@ -137,7 +137,7 @@ void MIRA::Controller::_onPresentationError(const QString& iError)
 // State events
 //
 
-void MIRA::Controller::_onKioskPowerChanged(Kiosk::Power iPower)
+void Codri::Controller::_onKioskPowerChanged(Kiosk::Power iPower)
 {
     switch (iPower)
     {
@@ -149,14 +149,14 @@ void MIRA::Controller::_onKioskPowerChanged(Kiosk::Power iPower)
     }
 }
 
-void MIRA::Controller::_onConfigurationVolumeChanged(unsigned char iVolume)
+void Codri::Controller::_onConfigurationVolumeChanged(unsigned char iVolume)
 {
     // TODO: cache the value
 
     // TODO: actually change the volume
 }
 
-void MIRA::Controller::_onPresentationLocationChanged(const QString &iLocation)
+void Codri::Controller::_onPresentationLocationChanged(const QString &iLocation)
 {
     try
     {

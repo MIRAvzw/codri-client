@@ -29,17 +29,17 @@
 //
 
 // Initialize static members
-MIRA::MainApplication *MIRA::MainApplication::mInstance = NULL;
+Codri::MainApplication *Codri::MainApplication::mInstance = NULL;
 
-MIRA::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException) : QApplication(iArgumentCount, iArgumentValues)
+Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException) : QApplication(iArgumentCount, iArgumentValues)
 {
     // Singleton assertion (well, some singleton-hybrid, to be fair)
     Q_ASSERT(mInstance == NULL);
     mInstance = this;
 
     // Configure the application
-    setOrganizationName("MIRA");
-    setOrganizationDomain("mira.be");
+    setOrganizationName("Codri");
+    setOrganizationDomain("codri.be");
     setApplicationName("Codri");
     setApplicationVersion("0.1");
 
@@ -76,7 +76,7 @@ MIRA::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValu
     QTimer::singleShot(0, mController, SLOT(start()));
 }
 
-MIRA::MainApplication::~MainApplication()
+Codri::MainApplication::~MainApplication()
 {
     // Remove the singleton configuration
     mInstance = NULL;
@@ -87,17 +87,17 @@ MIRA::MainApplication::~MainApplication()
 // State getters
 //
 
-MIRA::Kiosk *MIRA::MainApplication::kiosk() const
+Codri::Kiosk *Codri::MainApplication::kiosk() const
 {
     return mKiosk;
 }
 
-MIRA::Configuration *MIRA::MainApplication::configuration() const
+Codri::Configuration *Codri::MainApplication::configuration() const
 {
     return mConfiguration;
 }
 
-MIRA::Presentation *MIRA::MainApplication::presentation() const
+Codri::Presentation *Codri::MainApplication::presentation() const
 {
     return mPresentation;
 }
@@ -107,7 +107,7 @@ MIRA::Presentation *MIRA::MainApplication::presentation() const
 // Subsystem getters
 //
 
-MIRA::Controller *MIRA::MainApplication::controller() const
+Codri::Controller *Codri::MainApplication::controller() const
 {
     return mController;
 }
@@ -117,7 +117,7 @@ MIRA::Controller *MIRA::MainApplication::controller() const
 // Singleton objects getters
 //
 
-MIRA::MainApplication *MIRA::MainApplication::instance()
+Codri::MainApplication *Codri::MainApplication::instance()
 {
     return mInstance;
 }
@@ -127,7 +127,7 @@ MIRA::MainApplication *MIRA::MainApplication::instance()
 // External
 //
 
-void MIRA::doMessage(QtMsgType iMessageType, const char *iMessage)
+void Codri::doMessage(QtMsgType iMessageType, const char *iMessage)
 {
     MainApplication *mApplication = MainApplication::instance();
     switch (iMessageType) {

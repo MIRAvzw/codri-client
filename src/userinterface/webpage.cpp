@@ -19,7 +19,7 @@
 // Construction and destruction
 //
 
-MIRA::WebPage::WebPage(const QUrl &iURL, QObject *iParent) : QWebPage(iParent)
+Codri::WebPage::WebPage(const QUrl &iURL, QObject *iParent) : QWebPage(iParent)
 {
     // Setup the webpage
     mainFrame()->addToJavaScriptWindowObject("application", this);
@@ -31,7 +31,7 @@ MIRA::WebPage::WebPage(const QUrl &iURL, QObject *iParent) : QWebPage(iParent)
     mainFrame()->load(iURL);
 }
 
-MIRA::WebPage::~WebPage()
+Codri::WebPage::~WebPage()
 {
 }
 
@@ -40,7 +40,7 @@ MIRA::WebPage::~WebPage()
 // QWebPage interface
 //
 
-void MIRA::WebPage::javaScriptConsoleMessage(const QString &iMessage, int iLineNumber, const QString &iSourceId)
+void Codri::WebPage::javaScriptConsoleMessage(const QString &iMessage, int iLineNumber, const QString &iSourceId)
 {
     mLogger->debug() << "Javascript console message at line " << iLineNumber << " of " << iSourceId << ": " << iMessage;
 }

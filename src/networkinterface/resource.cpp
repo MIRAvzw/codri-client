@@ -16,14 +16,14 @@
 // Construction and destruction
 //
 
-MIRA::Resource::Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
+Codri::Resource::Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
     : QxtWebServiceDirectory(iSessionManager, iParent)
 {    
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 }
 
-MIRA::Resource::~Resource()
+Codri::Resource::~Resource()
 {
 }
 
@@ -32,22 +32,22 @@ MIRA::Resource::~Resource()
 // Service methods
 //
 
-void MIRA::Resource::doGET(const int iSessionId, int iRequestId)
+void Codri::Resource::doGET(const int iSessionId, int iRequestId)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-void MIRA::Resource::doPUT(int iSessionId, int iRequestId, QIODevice*)
+void Codri::Resource::doPUT(int iSessionId, int iRequestId, QIODevice*)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-void MIRA::Resource::doPOST(int iSessionId, int iRequestId, QIODevice*)
+void Codri::Resource::doPOST(int iSessionId, int iRequestId, QIODevice*)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-void MIRA::Resource::doDELETE(int iSessionId, int iRequestId)
+void Codri::Resource::doDELETE(int iSessionId, int iRequestId)
 {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
@@ -58,12 +58,12 @@ void MIRA::Resource::doDELETE(int iSessionId, int iRequestId)
 //
 
 
-void MIRA::Resource::postError(int iSessionId, int iRequestId, int iErrorCode, QString iErrorMessage)
+void Codri::Resource::postError(int iSessionId, int iRequestId, int iErrorCode, QString iErrorMessage)
 {
     postEvent(new QxtWebErrorEvent(iSessionId, iRequestId, iErrorCode, iErrorMessage.toUtf8()));
 }
 
-void MIRA::Resource::postUnsupportedMethod(int iSessionId, int iRequestId)
+void Codri::Resource::postUnsupportedMethod(int iSessionId, int iRequestId)
 {
     // TODO: check if this error code conforms the Java
     postError(iSessionId, iRequestId, 405, "Method Not Allowed");
@@ -74,7 +74,7 @@ void MIRA::Resource::postUnsupportedMethod(int iSessionId, int iRequestId)
 // QxtWebServiceDirectory implementation
 //
 
-void MIRA::Resource::indexRequested(QxtWebRequestEvent *iEvent)
+void Codri::Resource::indexRequested(QxtWebRequestEvent *iEvent)
 {
     // Prepare the data
     // FIXME: this essentially makes the processing single-threadedly
@@ -91,7 +91,7 @@ void MIRA::Resource::indexRequested(QxtWebRequestEvent *iEvent)
 // Auxiliary
 //
 
-void MIRA::Resource::handleCompleteEvent(QxtWebRequestEvent *iEvent)
+void Codri::Resource::handleCompleteEvent(QxtWebRequestEvent *iEvent)
 {
     // Process all requests
     if (iEvent->method == "GET")

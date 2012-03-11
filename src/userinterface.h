@@ -25,7 +25,7 @@
 #include "qexception.h"
 #include "userinterface/webpage.h"
 
-namespace MIRA
+namespace Codri
 {
     class UserInterface : public QMainWindow
     {

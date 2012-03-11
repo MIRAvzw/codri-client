@@ -20,7 +20,7 @@
 // Construction and destruction
 //
 
-MIRA::Kiosk::Kiosk(QObject *iParent) : QObject(iParent)
+Codri::Kiosk::Kiosk(QObject *iParent) : QObject(iParent)
 {
     // Default power state
     mPower = ON;
@@ -55,38 +55,38 @@ MIRA::Kiosk::Kiosk(QObject *iParent) : QObject(iParent)
 // Basic I/O
 //
 
-MIRA::Kiosk::Power MIRA::Kiosk::getPower() const
+Codri::Kiosk::Power Codri::Kiosk::getPower() const
 {
     return mPower;
 }
 
-void MIRA::Kiosk::setPower(MIRA::Kiosk::Power iPower)
+void Codri::Kiosk::setPower(Codri::Kiosk::Power iPower)
 {
     mPower = iPower;
     emit onPowerChanged(iPower);
 }
 
-QUuid MIRA::Kiosk::getUuid() const
+QUuid Codri::Kiosk::getUuid() const
 {
     return mUuid;
 }
 
-QString MIRA::Kiosk::getVendor() const
+QString Codri::Kiosk::getVendor() const
 {
-    return "MIRA";
+    return "Codri";
 }
 
-QString MIRA::Kiosk::getModel() const
+QString Codri::Kiosk::getModel() const
 {
     return "Genesi kiosk";
 }
 
-unsigned short MIRA::Kiosk::getPort() const
+unsigned short Codri::Kiosk::getPort() const
 {
     return mPort;
 }
 
-void MIRA::Kiosk::setPort(unsigned short iPort)
+void Codri::Kiosk::setPort(unsigned short iPort)
 {
     mPort = iPort;
 }

@@ -16,7 +16,7 @@
 // Construction and destruction
 //
 
-MIRA::Configuration::Configuration(QObject *iParent) : QObject(iParent)
+Codri::Configuration::Configuration(QObject *iParent) : QObject(iParent)
 {
 }
 
@@ -25,22 +25,22 @@ MIRA::Configuration::Configuration(QObject *iParent) : QObject(iParent)
 // Basic I/O
 //
 
-unsigned long MIRA::Configuration::getRevision() const
+unsigned long Codri::Configuration::getRevision() const
 {
     return mRevision;
 }
 
-void MIRA::Configuration::setRevision(unsigned long iRevision)
+void Codri::Configuration::setRevision(unsigned long iRevision)
 {
     mRevision = iRevision;
 }
 
-unsigned short MIRA::Configuration::getVolume() const
+unsigned short Codri::Configuration::getVolume() const
 {
     return mVolume;
 }
 
-void MIRA::Configuration::setVolume(unsigned char iVolume)
+void Codri::Configuration::setVolume(unsigned char iVolume)
 {
     mVolume = iVolume;
     emit onVolumeChanged(iVolume);

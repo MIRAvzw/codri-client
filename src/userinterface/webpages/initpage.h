@@ -18,7 +18,7 @@
 // Local incudes
 #include "userinterface/webpage.h"
 
-namespace MIRA
+namespace Codri
 {
     class InitPage : public WebPage
     {

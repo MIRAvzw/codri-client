@@ -21,7 +21,7 @@
 #include <qjson/parser.h>
 #include <qjson/serializer.h>
 
-namespace MIRA
+namespace Codri
 {
     class JsonResource : public Resource
     {

@@ -17,7 +17,7 @@
 // Construction and destruction
 //
 
-MIRA::PresentationResource::PresentationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
+Codri::PresentationResource::PresentationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
     : JsonResource(iSessionManager, iParent)
 {    
     // Revision resource
@@ -34,7 +34,7 @@ MIRA::PresentationResource::PresentationResource(QxtAbstractWebSessionManager* i
 // JsonResource implementation
 //
 
-MIRA::JsonResource::Result MIRA::PresentationResource::doJsonGET(QVariant& iReply)
+Codri::JsonResource::Result Codri::PresentationResource::doJsonGET(QVariant& iReply)
 {
     QVariantMap tObject;
     Result tResult = VALID;
@@ -46,19 +46,19 @@ MIRA::JsonResource::Result MIRA::PresentationResource::doJsonGET(QVariant& iRepl
     return tResult;
 }
 
-MIRA::JsonResource::Result MIRA::PresentationResource::Revision::doJsonGET(QVariant& iReply)
+Codri::JsonResource::Result Codri::PresentationResource::Revision::doJsonGET(QVariant& iReply)
 {
     iReply = (unsigned long long) MainApplication::instance()->presentation()->getRevision();
     return VALID;
 }
 
-MIRA::JsonResource::Result MIRA::PresentationResource::Location::doJsonGET(QVariant& iReply)
+Codri::JsonResource::Result Codri::PresentationResource::Location::doJsonGET(QVariant& iReply)
 {
     iReply = MainApplication::instance()->presentation()->getLocation();
     return VALID;
 }
 
-MIRA::JsonResource::Result MIRA::PresentationResource::Location::doJsonPUT(const QVariant &iRequest)
+Codri::JsonResource::Result Codri::PresentationResource::Location::doJsonPUT(const QVariant &iRequest)
 {
     if (iRequest.canConvert(QVariant::String))
         MainApplication::instance()->presentation()->setLocation(iRequest.toString());
