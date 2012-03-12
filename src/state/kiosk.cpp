@@ -23,6 +23,9 @@
 Codri::Kiosk::Kiosk(QObject *iParent)
     : QObject(iParent)
 {
+    // Setup logging
+    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
+
     // Default power state
     mPower = ON;
 
@@ -64,6 +67,7 @@ Codri::Kiosk::Power Codri::Kiosk::getPower() const
 void Codri::Kiosk::setPower(Codri::Kiosk::Power iPower)
 {
     mPower = iPower;
+    mLogger->debug() << "Power changing to " << iPower;
     emit onPowerChanged(iPower);
 }
 
@@ -90,4 +94,5 @@ unsigned short Codri::Kiosk::getPort() const
 void Codri::Kiosk::setPort(unsigned short iPort)
 {
     mPort = iPort;
+    mLogger->debug() << "Port changing to " << iPort;
 }

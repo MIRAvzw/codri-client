@@ -19,6 +19,8 @@
 Codri::Presentation::Presentation(QObject *iParent)
     : QObject(iParent)
 {
+    // Setup logging
+    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 }
 
 
@@ -34,6 +36,7 @@ unsigned long Codri::Presentation::getRevision() const
 void Codri::Presentation::setRevision(unsigned long iRevision)
 {
     mRevision = iRevision;
+    mLogger->debug() << "Revision changing to " << iRevision;
     emit onRevisionChanged(iRevision);
 }
 
@@ -45,5 +48,6 @@ QString Codri::Presentation::getLocation() const
 void Codri::Presentation::setLocation(const QString &iLocation)
 {
     mLocation = iLocation;
+    mLogger->debug() << "Location changing to " << iLocation;
     emit onLocationChanged(iLocation);
 }

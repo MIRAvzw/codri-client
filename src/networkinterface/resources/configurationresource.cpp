@@ -63,7 +63,7 @@ Codri::JsonResource::Result Codri::ConfigurationResource::doJsonPUT(const QVaria
         aggregateResult(tResult, mRevision->doJsonPUT(iRequestMap["revision"]));
         aggregateResult(tResult, mVolume->doJsonPUT(iRequestMap["volume"]));
     } else {
-        mLogger->warn("Couldn't convert payload of collection PUT request to a map");
+        mLogger->warn() << "Couldn't convert payload of collection PUT request to a map";
     }
 
     return tResult;

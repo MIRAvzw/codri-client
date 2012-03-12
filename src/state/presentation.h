@@ -15,6 +15,7 @@
 // Library includes
 #include <QtCore/QObject>
 #include <QtCore/QDir>
+#include <Log4Qt/Logger>
 
 namespace Codri
 {
@@ -40,6 +41,9 @@ namespace Codri
         // Member data
         unsigned long mRevision;
         QString mLocation;
+
+        // Subsystem objects
+        Log4Qt::Logger *mLogger;
     };
 }
 

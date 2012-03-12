@@ -17,6 +17,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QUuid>
 #include <QtNetwork/QNetworkAddressEntry>
+#include <Log4Qt/Logger>
 
 namespace Codri
 {
@@ -51,6 +52,9 @@ namespace Codri
         Power mPower;
         QUuid mUuid;
         unsigned short mPort;
+
+        // Subsystem objects
+        Log4Qt::Logger *mLogger;
     };
 }
 

@@ -71,7 +71,8 @@ void Codri::JsonResource::doGET(int iSessionId, int iRequestId)
 void Codri::JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iContent)
 {
     bool tRequestValid;
-    QVariant tRequest = mParser->parse(iContent, &tRequestValid);
+    // FIXME: why doesn't QJson work on the QIODevice? tRequest is null if we try
+    QVariant tRequest = mParser->parse(iContent->readAll(), &tRequestValid);
     if (tRequestValid) {
         QVariant tReply;
         Result tResult = doJsonPUT(tRequest);
