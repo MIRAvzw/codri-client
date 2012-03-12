@@ -64,12 +64,19 @@ Codri::JsonResource::Result Codri::KioskResource::Power::doJsonGET(QVariant& iRe
 
 Codri::JsonResource::Result Codri::KioskResource::Power::doJsonPUT(const QVariant &iRequest)
 {
-    if (iRequest.toString() == "on")
-        MainApplication::instance()->kiosk()->setPower(Kiosk::ON);
-    else if (iRequest.toString() == "off")
-        MainApplication::instance()->kiosk()->setPower(Kiosk::OFF);
-    else
+    if (iRequest.canConvert(QVariant::String)) {
+        if (iRequest.toString() == "on")
+            MainApplication::instance()->kiosk()->setPower(Kiosk::ON);
+        else if (iRequest.toString() == "off")
+            MainApplication::instance()->kiosk()->setPower(Kiosk::OFF);
+        else {
+            mLogger->warn() << "Invalid power state in PUT request";
+            return INVALID;
+        }
+    } else {
+        mLogger->warn() << "Missing (or invalid) power state in PUT request";
         return INVALID;
+    }
 
     return VALID;
 }

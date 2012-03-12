@@ -30,6 +30,7 @@ namespace Codri
     private:
         // JsonResource implementation
         Result doJsonGET(QVariant& iReply);
+        Result doJsonPUT(const QVariant& iRequest);
 
         // Revision resource
         class Revision : public JsonResource {
@@ -38,6 +39,7 @@ namespace Codri
                 : JsonResource(iSessionManager, iParent)
             { }
             Result doJsonGET(QVariant& iReply);
+            Result doJsonPUT(const QVariant& iRequest);
         };
         Revision *mRevision;
 
