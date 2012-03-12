@@ -70,6 +70,10 @@ Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentVal
     mConfiguration = new Configuration(this);
     mPresentation = new Presentation(this);
 
+    // Kiosk details
+    mKiosk->setVendor("Codri");
+    mKiosk->setModel("Genesi prototype");
+
     // Start the application controller
     mController = new Controller(this);
     connect(this, SIGNAL(aboutToQuit()), mController, SLOT(stop()));

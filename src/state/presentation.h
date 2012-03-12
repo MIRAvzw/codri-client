@@ -34,8 +34,8 @@ namespace Codri
 
     signals:
         // Signals
-        void onLocationChanged(const QString& iLocation);
         void onRevisionChanged(unsigned long iRevision);
+        void onLocationChanged(const QString& iLocation);
 
     private:
         // Member data

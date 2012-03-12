@@ -50,7 +50,7 @@ Codri::JsonResource::Result Codri::KioskResource::doJsonGET(QVariant& iReply)
 
 Codri::JsonResource::Result Codri::KioskResource::Power::doJsonGET(QVariant& iReply)
 {
-    switch (MainApplication::instance()->kiosk()->getPower()) {
+    switch (MainApplication::instance()->kiosk()->getStatus()) {
     case Kiosk::ON:
         iReply = "on";
         break;
@@ -66,9 +66,9 @@ Codri::JsonResource::Result Codri::KioskResource::Power::doJsonPUT(const QVarian
 {
     if (iRequest.canConvert(QVariant::String)) {
         if (iRequest.toString() == "on")
-            MainApplication::instance()->kiosk()->setPower(Kiosk::ON);
+            MainApplication::instance()->kiosk()->setStatus(Kiosk::ON);
         else if (iRequest.toString() == "off")
-            MainApplication::instance()->kiosk()->setPower(Kiosk::OFF);
+            MainApplication::instance()->kiosk()->setStatus(Kiosk::OFF);
         else {
             mLogger->warn() << "Invalid power state in PUT request";
             return INVALID;

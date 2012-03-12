@@ -4,7 +4,6 @@
  * All rights reserved.
  */
 
-
 //
 // Configuration
 //
@@ -14,9 +13,9 @@
 
 // Local includes
 #include "mainapplication.h"
-#include "networkinterface/resources/kioskresource.h"
-#include "networkinterface/resources/configurationresource.h"
-#include "networkinterface/resources/presentationresource.h"
+#include "network/resources/kioskresource.h"
+#include "network/resources/configurationresource.h"
+#include "network/resources/presentationresource.h"
 
 
 //
@@ -28,7 +27,7 @@ Codri::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException)
 {
     // Load settings
     mSettings = new QSettings(this);
-    mSettings->beginGroup("NetworkInterface");
+    mSettings->beginGroup(metaObject()->className());
 
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());

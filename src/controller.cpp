@@ -73,7 +73,7 @@ void Codri::Controller::stop()
     if (mInitController->isFinished()) {
         mLogger->debug() << "Stopping application";
         delete mNetworkInterface;
-        delete mDataManager;
+        delete mRepositoryInterface;
         delete mUserInterface;
     } else {
         mLogger->warn() << "Error occured during initialization, not attempting clean-up";
@@ -95,9 +95,9 @@ Codri::UserInterface *Codri::Controller::userInterface() const
     return mUserInterface;
 }
 
-Codri::DataManager *Codri::Controller::dataManager() const
+Codri::RepositoryInterface *Codri::Controller::repositoryInterface() const
 {
-    return mDataManager;
+    return mRepositoryInterface;
 }
 
 
@@ -109,10 +109,28 @@ void Codri::Controller::_onInitializationSuccess()
 {
     mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
 
-    // Initialize state signals
-    connect(MainApplication::instance()->kiosk(), SIGNAL(onPowerChanged(Kiosk::Power)), this, SLOT(_onKioskPowerChanged(Kiosk::Power)));
-    connect(MainApplication::instance()->configuration(), SIGNAL(onVolumeChanged(unsigned char)), this, SLOT(_onConfigurationVolumeChanged(unsigned char)));
-    connect(MainApplication::instance()->presentation(), SIGNAL(onLocationChanged(const QString&)), this, SLOT(_onPresentationLocationChanged(const QString&)));
+    // STATE EVENTS //
+
+    // Kiosk
+    connect(MainApplication::instance()->kiosk(), SIGNAL(onStatusChanged(Kiosk::Status)), mPlatformInterface, SLOT(onKioskStatusChanged(Kiosk::Status)));
+
+    // Configuration
+    connect(MainApplication::instance()->configuration(), SIGNAL(onVolumeChanged(unsigned char)), mPlatformInterface, SLOT(onConfigurationVolumeChanged(unsigned char)));
+
+    // Presentation
+    connect(MainApplication::instance()->presentation(), SIGNAL(onLocationChanged(const QString&)), mRepositoryInterface, SLOT(onPresentationLocationChanged(const QString&)));
+
+
+    // SUBSYSTEM EVENTS //
+
+    // Repository interface
+    connect(mRepositoryInterface, SIGNAL(downloadStarted()), mUserInterface, SLOT(onRepositoryDownloadStarted()));
+    connect(mRepositoryInterface, SIGNAL(downloadFinished(QDir)), mUserInterface, SLOT(onRepositoryDownloadFinished(QDir)));
+    connect(mRepositoryInterface, SIGNAL(downloadFailed(QString)), mUserInterface, SLOT(onRepositoryDownloadFailed(QString)));
+
+    // User interface
+    // TODO: presentationError
+
 }
 
 void Codri::Controller::_onInitializationFailure()
@@ -121,58 +139,3 @@ void Codri::Controller::_onInitializationFailure()
     MainApplication::instance()->quit();
 }
 
-
-//
-// Subsystem events
-//
-
-void Codri::Controller::_onPresentationError(const QString& iError)
-{
-    mLogger->error("Error on loaded media: " + iError);
-    // TODO: revert media or smth
-}
-
-
-//
-// State events
-//
-
-void Codri::Controller::_onKioskPowerChanged(Kiosk::Power iPower)
-{
-    switch (iPower) {
-    case Kiosk::OFF:
-        stop();
-        break;
-    case Kiosk::ON:
-        break;
-    }
-}
-
-void Codri::Controller::_onConfigurationVolumeChanged(unsigned char iVolume)
-{
-    // TODO: cache the value
-
-    // TODO: actually change the volume
-}
-
-void Codri::Controller::_onPresentationLocationChanged(const QString &iLocation)
-{
-    try {
-        // Disable the current presentation
-        // TODO: updating message
-        userInterface()->showInit();
-
-        // Download the new presentation
-        QPair<QDir, unsigned long> tCheckout = dataManager()->downloadPresentation(iLocation);
-
-        // Show the new presentation
-        MainApplication::instance()->presentation()->setRevision(tCheckout.second);
-        userInterface()->showPresentation(tCheckout.first);
-    } catch (const QException &tException) {
-        mLogger->error() << "Could not download the new presentation: " << tException.what();
-        foreach (const QString& tCause, tException.causes())
-            mLogger->error() << "Caused by: " << tCause;
-        userInterface()->showError("could not download presentation");
-        return;
-    }
-}

@@ -9,7 +9,7 @@
 //
 
 // Header include
-#include "datamanager.h"
+#include "repositoryinterface.h"
 
 // Library includes
 #include <svnqt/repository.h>
@@ -29,12 +29,12 @@
 // Construction and destruction
 //
 
-Codri::DataManager::DataManager(QObject *iParent) throw(QException)
+Codri::RepositoryInterface::RepositoryInterface(QObject *iParent) throw(QException)
     : QObject(iParent)
 {
     // Load settings
     mSettings = new QSettings(this);
-    mSettings->beginGroup("DataManager");
+    mSettings->beginGroup(metaObject()->className());
 
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
@@ -49,10 +49,34 @@ Codri::DataManager::DataManager(QObject *iParent) throw(QException)
 
 
 //
-// High-level functionality
+// State event listeners
 //
 
-QPair<QDir, unsigned long> Codri::DataManager::downloadPresentation(const QString &iLocation) throw(QException) {
+void Codri::RepositoryInterface::onPresentationLocationChanged(const QString &iLocation)
+{
+    emit downloadStarted();
+    try {
+        // Download the new presentation
+        QPair<QDir, unsigned long> tCheckout = downloadPresentation(iLocation);
+
+        // Show the new presentation
+        MainApplication::instance()->presentation()->setRevision(tCheckout.second);
+        emit downloadFinished(tCheckout.first);
+    } catch (const QException &tException) {
+        mLogger->error() << "Could not download the new presentation: " << tException.what();
+        foreach (const QString& tCause, tException.causes())
+            mLogger->error() << "Caused by: " << tCause;
+        emit downloadFailed("could not download presentation");
+        return;
+    }
+}
+
+
+//
+// High-level repository helpers
+//
+
+QPair<QDir, unsigned long> Codri::RepositoryInterface::downloadPresentation(const QString &iLocation) throw(QException) {
     // Manage the checkout directory
     QDir tCheckout(mSettings->value("presentations/checkout", "/tmp/data/presentation").toString());
 
@@ -72,16 +96,16 @@ QPair<QDir, unsigned long> Codri::DataManager::downloadPresentation(const QStrin
 
 
 //
-// Low-level functionality
+// Low-level repository helpers
 //
 
-QString Codri::DataManager::getRepositoryLocation(const QDir &iCheckout) throw(QException)
+QString Codri::RepositoryInterface::getRepositoryLocation(const QDir &iCheckout) throw(QException)
 {
     // TODO
     return "dummy";
 }
 
-unsigned long Codri::DataManager::getRepositoryRevision(const QDir &iCheckout) throw(QException)
+unsigned long Codri::RepositoryInterface::getRepositoryRevision(const QDir &iCheckout) throw(QException)
 {
     try {
         QList<svn::InfoEntry> tInfoEntries =  mSubversionClient->info(
@@ -98,7 +122,7 @@ unsigned long Codri::DataManager::getRepositoryRevision(const QDir &iCheckout) t
     }
 }
 
-unsigned long Codri::DataManager::checkoutRepository(const QDir &iCheckout, const QUrl &iLocation) throw(QException)
+unsigned long Codri::RepositoryInterface::checkoutRepository(const QDir &iCheckout, const QUrl &iLocation) throw(QException)
 {
     svn::CheckoutParameter tCheckoutParameters;
     tCheckoutParameters
@@ -116,7 +140,7 @@ unsigned long Codri::DataManager::checkoutRepository(const QDir &iCheckout, cons
     }
 }
 
-unsigned long Codri::DataManager::updateRepository(const QDir &iCheckout) throw(QException)
+unsigned long Codri::RepositoryInterface::updateRepository(const QDir &iCheckout) throw(QException)
 {
     svn::UpdateParameter tUpdateParameters;
     tUpdateParameters
@@ -135,10 +159,10 @@ unsigned long Codri::DataManager::updateRepository(const QDir &iCheckout) throw(
 
 
 //
-// Auxiliary
+// Filesystem helpers
 //
 
-bool Codri::DataManager::removeDirectory(const QDir &iDirectory)
+bool Codri::RepositoryInterface::removeDirectory(const QDir &iDirectory)
 {
     bool tError = false;
     if (iDirectory.exists()) {
@@ -159,7 +183,7 @@ bool Codri::DataManager::removeDirectory(const QDir &iDirectory)
     return tError;
 }
 
-void Codri::DataManager::copyDirectory(const QDir &tSource, const QDir &tDestination)
+void Codri::RepositoryInterface::copyDirectory(const QDir &tSource, const QDir &tDestination)
 {
     // Create the destination path
     if (!tDestination.exists())

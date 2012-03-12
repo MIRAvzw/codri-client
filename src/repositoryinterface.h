@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef DATAMANAGER_H_
-#define DATAMANAGER_H_
+#ifndef REPOSITORYINTERFACE_H_
+#define REPOSITORYINTERFACE_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -29,35 +29,45 @@
 
 namespace Codri
 {
-    class DataManager : public QObject, public svn::repository::RepositoryListener, public svn::ContextListener
+    class RepositoryInterface : public QObject, public svn::repository::RepositoryListener, public svn::ContextListener
     {
     Q_OBJECT
     public:
         // Construction and destruction
-        explicit DataManager(QObject *iParent) throw(QException);
+        explicit RepositoryInterface(QObject *iParent) throw(QException);
 
-        // High-level functionality
+        // State event listeners
+    public slots:
+        void onPresentationLocationChanged(const QString& iLocation);
+
+        // Subsystem events
+    signals:
+        void downloadStarted();
+        void downloadFinished(const QDir& iLocation);
+        void downloadFailed(const QString& iError);
+
+    private:
+        // High-level repository helpers
         QPair<QDir, unsigned long> downloadPresentation(const QString &iLocation) throw(QException);
 
-        // Low-level functionality
+        // Low-level repository helpers
         QString getRepositoryLocation(const QDir& iCheckout) throw(QException);
         unsigned long getRepositoryRevision(const QDir &iCheckout) throw(QException);
         unsigned long checkoutRepository(const QDir &iCheckout, const QUrl &iUrl) throw(QException);
         unsigned long updateRepository(const QDir &iDestination) throw(QException);
 
-    private:
-        // Auxiliary
+        // Filesystem helpers
         bool removeDirectory(const QDir &iDirectory);
         void copyDirectory(const QDir &tSource, const QDir &tDestination);
 
         // Repository listening
-        virtual void sendWarning(const QString&msg)
+        virtual void sendWarning(const QString& iMessage)
         {
-            mLogger->warn() << msg.toAscii().data();
+            mLogger->warn() << iMessage.toAscii().data();
         }
-        virtual void sendError(const QString&msg)
+        virtual void sendError(const QString& iMessage)
         {
-            mLogger->error() << msg.toAscii().data();
+            mLogger->error() << iMessage.toAscii().data();
         }
         virtual bool isCanceld(){ return false; }
 
@@ -95,4 +105,4 @@ namespace Codri
     };
 }
 
-#endif  // DATAMANAGER_H_
+#endif  // REPOSITORYINTERFACE_H_

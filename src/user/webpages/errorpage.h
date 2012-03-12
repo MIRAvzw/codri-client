@@ -9,24 +9,24 @@
 //
 
 // Include guard
-#ifndef USERINTERFACE_WEBPAGES_INITPAGE_H_
-#define USERINTERFACE_WEBPAGES_INITPAGE_H_
+#ifndef USERINTERFACE_WEBPAGES_ERRORPAGE_H_
+#define USERINTERFACE_WEBPAGES_ERRORPAGE_H_
 
 // Library includes
 #include <QtCore/QObject>
 
 // Local incudes
-#include "userinterface/webpage.h"
+#include "user/webpage.h"
 
 namespace Codri
 {
-    class InitPage : public WebPage
+    class ErrorPage : public WebPage
     {
     Q_OBJECT
     public:
         // Construction and destruction
-        explicit InitPage(QObject *iParent);
+        explicit ErrorPage(QObject *iParent);
     };
 }
 
-#endif  // USERINTERFACE_WEBPAGES_INITPAGE_H_
+#endif  // USERINTERFACE_WEBPAGES_ERRORPAGE_H_

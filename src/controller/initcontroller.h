@@ -40,18 +40,21 @@ namespace Codri
 
     private slots:
         // Initialization slots
-        void initializeUserInterface();
-        void initializeDataManager();
-        void initializeNetworkInterface();
+        void initializeUser();
+        void initializeRepository();
+        void initializeNetwork();
+        void initializePlatform();
 
     signals:
         // Subsystem initialization outcome signals
-        void networkInterfaceFailure();
-        void networkInterfaceSuccess();
-        void userInterfaceFailure();
-        void userInterfaceSuccess();
-        void dataManagerFailure();
-        void dataManagerSuccess();
+        void networkFailure();
+        void networkSuccess();
+        void userFailure();
+        void userSuccess();
+        void repositoryFailure();
+        void repositorySuccess();
+        void platformFailure();
+        void platformSuccess();
 
     private slots:
         // State machine status
@@ -67,7 +70,7 @@ namespace Codri
         bool mFinished;
         QState *mStateInitializing, *mStateFailed;
         QFinalState *mStateSuccess;
-        QState *mInitNetworkInterface, *mInitUserInterface, *mInitDataManager;
+        QState *mInitNetwork, *mInitUser, *mInitRepository, *mInitPlatform;
 
         // Subsystem objects
         Log4Qt::Logger *mLogger;

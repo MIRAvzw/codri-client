@@ -37,6 +37,7 @@ void Codri::Configuration::setRevision(unsigned long iRevision)
 {
     mRevision = iRevision;
     mLogger->debug() << "Revision changing to " << iRevision;
+    emit onRevisionChanged(iRevision);
 }
 
 unsigned short Codri::Configuration::getVolume() const

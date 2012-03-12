@@ -17,7 +17,7 @@
 #include <QtCore/QDir>
 
 // Local incudes
-#include "userinterface/webpage.h"
+#include "user/webpage.h"
 
 namespace Codri
 {

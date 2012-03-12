@@ -21,23 +21,12 @@
 #include "qexception.h"
 #include "userinterface.h"
 #include "networkinterface.h"
-#include "datamanager.h"
+#include "repositoryinterface.h"
+#include "platforminterface.h"
 #include "state/kiosk.h"
 #include "state/configuration.h"
 #include "state/presentation.h"
 #include "controller/initcontroller.h"
-
-/*
-  This class controls the entire application. It uses and coordinates
-  the actual subsystems in order to properly respond and react to
-  external events.
-
-  A note about the exceptions: they are only thrown within subsystems,
-  and should not be used anywhere else in the application. Only the
-  controller uses try/catch statements to catch errors within the
-  subsystems, but doesn't rethrow them, and rather reacts properly to
-  error conditions.
-  */
 
 namespace Codri
 {
@@ -63,31 +52,27 @@ namespace Codri
     public:
         NetworkInterface *networkInterface() const;
         UserInterface *userInterface() const;
-        DataManager *dataManager() const;
+        RepositoryInterface *repositoryInterface() const;
+        PlatformInterface *platformInterface() const;
 
     private slots:
         // Initialization events
         void _onInitializationSuccess();
         void _onInitializationFailure();
 
-        // Subsystem events
-        void _onPresentationError(const QString& iError);
-
-        // State events
-        void _onKioskPowerChanged(Kiosk::Power iPower);
-        void _onConfigurationVolumeChanged(unsigned char iVolume);
-        void _onPresentationLocationChanged(const QString& iLocation);
-
     private:
         // Member data
         QDateTime mTimestampStartup;
 
-        // Subsystem objects
+        // Infrastructure
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
+
+        // Subsystem objects
         UserInterface *mUserInterface;
         NetworkInterface *mNetworkInterface;
-        DataManager *mDataManager;
+        RepositoryInterface *mRepositoryInterface;
+        PlatformInterface *mPlatformInterface;
 
         // Initialization controller
         InitController* mInitController;

@@ -20,15 +20,15 @@
 
 // Local includes
 #include "qexception.h"
-#include "networkinterface/webservicedispatcher.h"
-#include "networkinterface/serverclient.h"
-#include "networkinterface/registrationcontroller.h"
+#include "network/webservicedispatcher.h"
+#include "network/serverclient.h"
+#include "network/registrationcontroller.h"
 
 namespace Codri
 {
     class NetworkInterface : public QObject
     {
-    Q_OBJECT
+        Q_OBJECT
     public:
         // Construction and destruction
         explicit NetworkInterface(QObject *iParent) throw(QException);

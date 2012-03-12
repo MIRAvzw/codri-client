@@ -16,7 +16,7 @@
 #include <QtCore/QVariant>
 
 // Local includes
-#include "networkinterface/jsonresource.h"
+#include "network/jsonresource.h"
 
 namespace Codri
 {

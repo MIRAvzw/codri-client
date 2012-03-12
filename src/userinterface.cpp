@@ -15,11 +15,11 @@
 #include <QtCore/QStringList>
 
 // Local includes
-#include "userinterface/webpages/initpage.h"
-#include "userinterface/webpages/errorpage.h"
-#include "userinterface/webpages/logpage.h"
-#include "userinterface/webpages/presentationpage.h"
-#include "userinterface/webpages/statuspage.h"
+#include "user/webpages/initpage.h"
+#include "user/webpages/errorpage.h"
+#include "user/webpages/logpage.h"
+#include "user/webpages/presentationpage.h"
+#include "user/webpages/statuspage.h"
 
 
 //
@@ -31,7 +31,7 @@ Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException)
 {
     // Load settings
     mSettings = new QSettings(this);
-    mSettings->beginGroup("UserInterface");
+    mSettings->beginGroup(metaObject()->className());
 
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
@@ -51,42 +51,22 @@ Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException)
 
 
 //
-// Functionality
+// Subsystem event listeners
 //
 
-// TODO: track current page, do or do not reload (yes on media, no on log)?
-
-void Codri::UserInterface::showInit()
+void Codri::UserInterface::onRepositoryDownloadStarted()
 {
-    QWebPage *tPageInit = new InitPage(mWebView);
-    mWebView->setPage(tPageInit);
+    showInit();
 }
 
-void Codri::UserInterface::showLog()
+void Codri::UserInterface::onRepositoryDownloadFinished(const QDir& iLocation)
 {
-    QWebPage *tPageLog = new LogPage(mWebView);
-    mWebView->setPage(tPageLog);
+    showPresentation(iLocation);
 }
 
-void Codri::UserInterface::showStatus()
+void Codri::UserInterface::onRepositoryDownloadFailed(const QString& iError)
 {
-    QWebPage *tPageStatus = new StatusPage(mWebView);
-    mWebView->setPage(tPageStatus);
-}
-
-void Codri::UserInterface::showError(const QString& iError)
-{
-    // TODO: load the error in the page
-
-    QWebPage *tPageError = new ErrorPage(mWebView);
-    mWebView->setPage(tPageError);
-}
-
-void Codri::UserInterface::showPresentation(const QDir& iLocation)
-{
-    // TODO: is webview specification necessary? Doesn't setpage properly configure the parent?
-    QWebPage *tPagetPresentation = new PresentationPage(iLocation, mWebView);
-    mWebView->setPage(tPagetPresentation);
+    showError(iError);
 }
 
 
@@ -134,7 +114,47 @@ bool Codri::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 
 
 //
-// Slots
+// Auxiliary
+//
+
+// TODO: track current page, do or do not reload (yes on media, no on log)?
+
+void Codri::UserInterface::showInit()
+{
+    QWebPage *tPageInit = new InitPage(mWebView);
+    mWebView->setPage(tPageInit);
+}
+
+void Codri::UserInterface::showLog()
+{
+    QWebPage *tPageLog = new LogPage(mWebView);
+    mWebView->setPage(tPageLog);
+}
+
+void Codri::UserInterface::showStatus()
+{
+    QWebPage *tPageStatus = new StatusPage(mWebView);
+    mWebView->setPage(tPageStatus);
+}
+
+void Codri::UserInterface::showError(const QString& iError)
+{
+    // TODO: load the error in the page
+
+    QWebPage *tPageError = new ErrorPage(mWebView);
+    mWebView->setPage(tPageError);
+}
+
+void Codri::UserInterface::showPresentation(const QDir& iLocation)
+{
+    // TODO: is webview specification necessary? Doesn't setpage properly configure the parent?
+    QWebPage *tPagetPresentation = new PresentationPage(iLocation, mWebView);
+    mWebView->setPage(tPagetPresentation);
+}
+
+
+//
+// Internal slots
 //
 
 void Codri::UserInterface::_loadFinished(bool iOk)

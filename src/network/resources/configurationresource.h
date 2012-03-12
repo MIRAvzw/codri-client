@@ -9,23 +9,23 @@
 //
 
 // Include guard
-#ifndef NETWORKINTERFACE_RESOURCES_PRESENTATIONRESOURCE_H_
-#define NETWORKINTERFACE_RESOURCES_PRESENTATIONRESOURCE_H_
+#ifndef NETWORKINTERFACE_RESOURCES_CONFIGURATIONRESOURCE_H_
+#define NETWORKINTERFACE_RESOURCES_CONFIGURATIONRESOURCE_H_
 
 // Library includes
 #include <QtCore/QVariant>
 
 // Local includes
-#include "networkinterface/jsonresource.h"
+#include "network/jsonresource.h"
 
 namespace Codri
 {
-    class PresentationResource : public JsonResource
+    class ConfigurationResource : public JsonResource
     {
         Q_OBJECT
     public:
         // Construction and destruction
-        PresentationResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent);
+        ConfigurationResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent);
 
     private:
         // JsonResource implementation
@@ -43,17 +43,17 @@ namespace Codri
         };
         Revision *mRevision;
 
-        // Location resource
-        class Location : public JsonResource {
+        // Volume resource
+        class Volume : public JsonResource {
         public:
-            Location(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
+            Volume(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
                 : JsonResource(iSessionManager, iParent)
             { }
             Result doJsonGET(QVariant& iReply);
-            Result doJsonPUT(const QVariant &iRequest);
+            Result doJsonPUT(const QVariant& iRequest);
         };
-        Location *mLocation;
+        Volume *mVolume;
     };
 }
 
-#endif  // NETWORKINTERFACE_RESOURCES_PRESENTATIONRESOURCE_H_
+#endif  // NETWORKINTERFACE_RESOURCES_CONFIGURATIONRESOURCE_H_

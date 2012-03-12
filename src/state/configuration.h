@@ -33,6 +33,7 @@ namespace Codri
 
     signals:
         // Signals
+        void onRevisionChanged(unsigned long iRevision);
         void onVolumeChanged(unsigned char iVolume);
 
     private:
