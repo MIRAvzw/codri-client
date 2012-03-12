@@ -38,7 +38,7 @@ namespace Codri
 
         // Auxiliary
     private:
-        QUuid getUuid() const;
+        QUuid getUuid() const throw(QException);
 
     private:
         // Infrastructure
