@@ -16,11 +16,14 @@
 // Construction and destruction
 //
 
-Codri::Resource::Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
+Codri::Resource::Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent, const QVariant& iClassName)
     : QxtWebServiceDirectory(iSessionManager, iParent)
 {
     // Setup logging
-    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
+    // FIXME: get a hold of the derived classname without it having to be passed
+    //        (metaObject() results in Resource's metaobject).
+    //        http://stackoverflow.com/questions/5105667/behaviour-of-qmetaobject-within-a-base-class-constructor
+    mLogger =  Log4Qt::Logger::logger(iClassName.isNull()?metaObject()->className():iClassName.toString());
 }
 
 Codri::Resource::~Resource()

@@ -20,7 +20,7 @@
 //
 
 Codri::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
-    : JsonResource(iSessionManager, iParent)
+    : JsonResource(iSessionManager, iParent, "Codri::KioskResource")
 {
     // Power resource
     mPower = new Power(iSessionManager, this);

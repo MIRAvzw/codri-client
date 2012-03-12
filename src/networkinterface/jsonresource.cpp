@@ -16,8 +16,8 @@
 // Construction and destruction
 //
 
-Codri::JsonResource::JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
-    : Resource(iSessionManager, iParent)
+Codri::JsonResource::JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent, const QVariant& iClassName)
+    : Resource(iSessionManager, iParent, (iClassName.isNull()?"Codri::JsonResource":iClassName))
 {
     // QJson objects
     mParser = new QJson::Parser();

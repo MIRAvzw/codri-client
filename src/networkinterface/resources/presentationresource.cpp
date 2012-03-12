@@ -20,7 +20,7 @@
 //
 
 Codri::PresentationResource::PresentationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
-    : JsonResource(iSessionManager, iParent)
+    : JsonResource(iSessionManager, iParent, "Codri::PresentationResource")
 {
     // Revision resource
     mRevision = new Revision(iSessionManager, this);

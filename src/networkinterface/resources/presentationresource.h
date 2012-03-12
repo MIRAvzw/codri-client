@@ -22,6 +22,7 @@ namespace Codri
 {
     class PresentationResource : public JsonResource
     {
+        Q_OBJECT
     public:
         // Construction and destruction
         PresentationResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent);

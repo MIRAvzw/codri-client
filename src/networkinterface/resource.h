@@ -26,7 +26,7 @@ namespace Codri
         Q_OBJECT
     public:
         // Construction and destruction
-        Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent);
+        Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent, const QVariant& iClassName = QVariant());
         virtual ~Resource();
 
     protected:

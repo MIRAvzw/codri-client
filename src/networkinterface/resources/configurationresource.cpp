@@ -23,7 +23,7 @@
 //
 
 Codri::ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
-    : JsonResource(iSessionManager, iParent)
+    : JsonResource(iSessionManager, iParent, "Codri::ConfigurationResource")
 {
     // Revision resource
     mRevision = new Revision(iSessionManager, this);
