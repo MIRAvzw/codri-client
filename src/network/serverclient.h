@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef NETWORKINTERFACE_SERVERCLIENT_H_
-#define NETWORKINTERFACE_SERVERCLIENT_H_
+#ifndef NETWORK_SERVERCLIENT_H_
+#define NETWORK_SERVERCLIENT_H_
 
 // Library includes
 #include <QtCore/QObject>
@@ -173,4 +173,4 @@ namespace Codri {
     };
 }
 
-#endif  // NETWORKINTERFACE_SERVERCLIENT_H_
+#endif  // NETWORK_SERVERCLIENT_H_

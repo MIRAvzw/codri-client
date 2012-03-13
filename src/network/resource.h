@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef NETWORKINTERFACE_RESOURCE_H_
-#define NETWORKINTERFACE_RESOURCE_H_
+#ifndef NETWORK_RESOURCE_H_
+#define NETWORK_RESOURCE_H_
 
 // Library includes
 #include <QtCore/QString>
@@ -51,4 +51,4 @@ namespace Codri {
     };
 }
 
-#endif  // NETWORKINTERFACE_RESOURCE_H_
+#endif  // NETWORK_RESOURCE_H_

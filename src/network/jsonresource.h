@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef NETWORKINTERFACE_JSONRESOURCE_H_
-#define NETWORKINTERFACE_JSONRESOURCE_H_
+#ifndef NETWORK_JSONRESOURCE_H_
+#define NETWORK_JSONRESOURCE_H_
 
 // Library includes
 #include <QtCore/QString>
@@ -68,4 +68,4 @@ namespace Codri {
     };
 }
 
-#endif  // NETWORKINTERFACE_JSONRESOURCE_H_
+#endif  // NETWORK_JSONRESOURCE_H_

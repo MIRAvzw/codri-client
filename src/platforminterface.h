@@ -45,4 +45,4 @@ namespace Codri {
     };
 }
 
-#endif // PLATFORMINTERFACE_H_
+#endif  // PLATFORMINTERFACE_H_
