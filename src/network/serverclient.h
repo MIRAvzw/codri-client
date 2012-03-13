@@ -28,26 +28,26 @@
 
 namespace Codri
 {
+    class ServerClientPrivate;
     class ServerClient : public QStateMachine
     {
         Q_OBJECT
     public:
         // Construction and destruction
         ServerClient(const QString& iLocation, QObject *iParent);
-        virtual ~ServerClient();
 
         // Construction helpers
     private:
         void initFSM();
 
-        // Functionality
+        // Public interface
     public slots:
         void registerKiosk();
         void refreshKiosk();
         void unregisterKiosk();
 
         // Transition signals
-        // TODO: these are nasty, but needed since we can't relay the external slots to a FSM transition directly
+        // TODO: these are nasty, but needed since we can't relay the public slots to a FSM transition directly
     signals:
         void _registerKiosk();
         void _refreshKiosk();
@@ -62,6 +62,24 @@ namespace Codri
         void refreshFailure(QVariant iError);
         void unregisterSuccess();
         void unregisterFailure(QVariant iError);
+
+    private:
+        // Member data
+        ServerClientPrivate *mImplementation;
+    };
+
+    class ServerClientPrivate : public QObject
+    {
+        Q_OBJECT
+    public:
+        ServerClientPrivate(const QString& iLocation, QObject *iParent);
+        virtual ~ServerClientPrivate();
+
+        // Functionality
+    public slots:
+        void registerKiosk();
+        void refreshKiosk();
+        void unregisterKiosk();
 
     private slots:
         // Private signal handlers
@@ -85,6 +103,7 @@ namespace Codri
         QJson::Serializer *mSerializer;
         const QString mLocation;
         QNetworkAccessManager *mNetworkAccessManager;
+
     };
 
     class ParameterizedSignalTransition : public QSignalTransition
@@ -121,7 +140,6 @@ namespace Codri
         QVariant mData;
     };
 
-    // TODO: increased flexibility using templates
     class ComparingSignalTransition : public ParameterizedSignalTransition
     {
         Q_OBJECT
