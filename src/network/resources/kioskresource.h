@@ -18,10 +18,8 @@
 // Local includes
 #include "network/jsonresource.h"
 
-namespace Codri
-{
-    class KioskResource : public JsonResource
-    {
+namespace Codri {
+    class KioskResource : public JsonResource {
         Q_OBJECT
     public:
         // Construction and destruction
@@ -46,8 +44,7 @@ namespace Codri
         class Uuid : public JsonResource {
         public:
             Uuid(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
-                : JsonResource(iSessionManager, iParent)
-            { }
+                : JsonResource(iSessionManager, iParent) { }
             Result doJsonGET(QVariant& iReply);
         };
         Uuid *mUuid;

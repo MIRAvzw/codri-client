@@ -32,8 +32,7 @@
 Codri::MainApplication *Codri::MainApplication::mInstance = NULL;
 
 Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException)
-    : QApplication(iArgumentCount, iArgumentValues)
-{
+    : QApplication(iArgumentCount, iArgumentValues) {
     // Singleton assertion (well, some singleton-hybrid, to be fair)
     Q_ASSERT(mInstance == NULL);
     mInstance = this;
@@ -80,8 +79,7 @@ Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentVal
     QTimer::singleShot(0, mController, SLOT(start()));
 }
 
-Codri::MainApplication::~MainApplication()
-{
+Codri::MainApplication::~MainApplication() {
     // Remove the singleton configuration
     mInstance = NULL;
 }
@@ -91,18 +89,15 @@ Codri::MainApplication::~MainApplication()
 // State getters
 //
 
-Codri::Kiosk *Codri::MainApplication::kiosk() const
-{
+Codri::Kiosk *Codri::MainApplication::kiosk() const {
     return mKiosk;
 }
 
-Codri::Configuration *Codri::MainApplication::configuration() const
-{
+Codri::Configuration *Codri::MainApplication::configuration() const {
     return mConfiguration;
 }
 
-Codri::Presentation *Codri::MainApplication::presentation() const
-{
+Codri::Presentation *Codri::MainApplication::presentation() const {
     return mPresentation;
 }
 
@@ -111,8 +106,7 @@ Codri::Presentation *Codri::MainApplication::presentation() const
 // Subsystem getters
 //
 
-Codri::Controller *Codri::MainApplication::controller() const
-{
+Codri::Controller *Codri::MainApplication::controller() const {
     return mController;
 }
 
@@ -121,8 +115,7 @@ Codri::Controller *Codri::MainApplication::controller() const
 // Singleton objects getters
 //
 
-Codri::MainApplication *Codri::MainApplication::instance()
-{
+Codri::MainApplication *Codri::MainApplication::instance() {
     return mInstance;
 }
 
@@ -131,8 +124,7 @@ Codri::MainApplication *Codri::MainApplication::instance()
 // External
 //
 
-void Codri::doMessage(QtMsgType iMessageType, const char *iMessage)
-{
+void Codri::doMessage(QtMsgType iMessageType, const char *iMessage) {
     MainApplication *mApplication = MainApplication::instance();
     switch (iMessageType) {
         case QtDebugMsg:

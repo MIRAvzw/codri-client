@@ -20,8 +20,7 @@
 //
 
 Codri::ServerClient::ServerClient(const QString &iLocation, QObject *iParent)
-    : QStateMachine(iParent)
-{
+    : QStateMachine(iParent) {
     // Actual implementation
     mImplementation = new ServerClientPrivate(iLocation, this);
 
@@ -32,8 +31,7 @@ Codri::ServerClient::ServerClient(const QString &iLocation, QObject *iParent)
 }
 
 Codri::ServerClientPrivate::ServerClientPrivate(const QString &iLocation, QObject *iParent)
-    : QObject(iParent), mLocation(iLocation)
-{
+    : QObject(iParent), mLocation(iLocation) {
     // Network access manager
     mNetworkAccessManager = new QNetworkAccessManager(this);
     connect(mNetworkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(_onRequestFinished(QNetworkReply*)));
@@ -43,8 +41,7 @@ Codri::ServerClientPrivate::ServerClientPrivate(const QString &iLocation, QObjec
     mSerializer = new QJson::Serializer();
 }
 
-Codri::ServerClientPrivate::~ServerClientPrivate()
-{
+Codri::ServerClientPrivate::~ServerClientPrivate() {
     // QJson objects
     delete mParser;
     delete mSerializer;
@@ -55,8 +52,7 @@ Codri::ServerClientPrivate::~ServerClientPrivate()
 // Construction helpers
 //
 
-void Codri::ServerClient::initFSM()
-{
+void Codri::ServerClient::initFSM() {
     QState *tIdle = new QState(this);
     QState *tRegistering = new QState(this);
     QState *tRefreshing = new QState(this);
@@ -136,18 +132,15 @@ void Codri::ServerClient::initFSM()
 //
 // Public interface
 //
-void Codri::ServerClient::registerKiosk()
-{
+void Codri::ServerClient::registerKiosk() {
     emit _registerKiosk();
 }
 
-void Codri::ServerClient::refreshKiosk()
-{
+void Codri::ServerClient::refreshKiosk() {
     emit _refreshKiosk();
 }
 
-void Codri::ServerClient::unregisterKiosk()
-{
+void Codri::ServerClient::unregisterKiosk() {
     emit _unregisterKiosk();
 }
 
@@ -156,8 +149,7 @@ void Codri::ServerClient::unregisterKiosk()
 // Functionality
 //
 
-void Codri::ServerClientPrivate::registerKiosk()
-{
+void Codri::ServerClientPrivate::registerKiosk() {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
     QVariantMap tRequest;
@@ -168,15 +160,13 @@ void Codri::ServerClientPrivate::registerKiosk()
     doPOST("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""), tRequest);
 }
 
-void Codri::ServerClientPrivate::refreshKiosk()
-{
+void Codri::ServerClientPrivate::refreshKiosk() {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
     doPUT("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', "") + "/heartbeat");
 }
 
-void Codri::ServerClientPrivate::unregisterKiosk()
-{
+void Codri::ServerClientPrivate::unregisterKiosk() {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
     doDELETE("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""));
@@ -188,8 +178,7 @@ void Codri::ServerClientPrivate::unregisterKiosk()
 //
 
 
-void Codri::ServerClientPrivate::_onRequestFinished(QNetworkReply *iReply)
-{
+void Codri::ServerClientPrivate::_onRequestFinished(QNetworkReply *iReply) {
     // Get reply data
     // TODO: do something with the error -- is the request retried if it fails?
     if (iReply->error() == QNetworkReply::NoError) {
@@ -208,28 +197,23 @@ void Codri::ServerClientPrivate::_onRequestFinished(QNetworkReply *iReply)
 // Auxiliary
 //
 
-void Codri::ServerClientPrivate::doGET(const QString& iPath)
-{
+void Codri::ServerClientPrivate::doGET(const QString& iPath) {
     mNetworkAccessManager->get(createRequest(iPath));
 }
 
-void Codri::ServerClientPrivate::doPUT(const QString& iPath, const QVariant& iPayload)
-{
+void Codri::ServerClientPrivate::doPUT(const QString& iPath, const QVariant& iPayload) {
     mNetworkAccessManager->put(createRequest(iPath), mSerializer->serialize(iPayload));
 }
 
-void Codri::ServerClientPrivate::doPOST(const QString& iPath, const QVariant& iPayload)
-{
+void Codri::ServerClientPrivate::doPOST(const QString& iPath, const QVariant& iPayload) {
     mNetworkAccessManager->post(createRequest(iPath), mSerializer->serialize(iPayload));
 }
 
-void Codri::ServerClientPrivate::doDELETE(const QString& iPath)
-{
+void Codri::ServerClientPrivate::doDELETE(const QString& iPath) {
     mNetworkAccessManager->deleteResource(createRequest(iPath));
 }
 
-QNetworkRequest Codri::ServerClientPrivate::createRequest(const QString& iPath)
-{
+QNetworkRequest Codri::ServerClientPrivate::createRequest(const QString& iPath) {
     QNetworkRequest tRequest;
     tRequest.setUrl(QUrl(mLocation + "/" + iPath));
     tRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");

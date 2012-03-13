@@ -17,63 +17,52 @@
 #include <svnqt/exception.h>
 #include <QtCore/QStringList>
 
-class QException
-{
+class QException {
 public:
     // Destructor
-    ~QException()
-    {
-        if (hasCause())
-        {
+    ~QException() {
+        if (hasCause()) {
             delete mCause;
         }
     }
 
     // Copy constructor
-    QException(const QException& iException) : mMessage(iException.what()), mCause(iException.hasCause() ? new QException(iException.cause()) : 0)
-    {
+    QException(const QException& iException)
+        : mMessage(iException.what()), mCause(iException.hasCause() ? new QException(iException.cause()) : 0) {
     }
 
     // Value constructors
-    QException(const QString &iMessage, const QException &iCause) throw() : mMessage(iMessage), mCause(new QException(iCause))
-    {
+    QException(const QString &iMessage, const QException &iCause) throw()
+        : mMessage(iMessage), mCause(new QException(iCause)) {
     }
-    QException(const QString &iMessage) throw() : mMessage(iMessage), mCause(0)
-    {
+    QException(const QString &iMessage) throw() : mMessage(iMessage), mCause(0) {
     }
 
     // Default constructor
-    QException() : mCause(0)
-    {
+    QException() : mCause(0) {
     }
 
     // Convertors
-    static QException fromSVNException(const svn::Exception &iException)
-    {
+    static QException fromSVNException(const svn::Exception &iException) {
         return QException("SVN exception -- " + iException.msg());
     }
 
     // Getters
-    const QString &what() const
-    {
+    const QString &what() const {
         return mMessage;
     }
-    const QException &cause() const
-    {
+    const QException &cause() const {
         return *mCause;
     }
 
     // Flags
-    bool hasCause() const
-    {
+    bool hasCause() const {
         return mCause != 0;
     }
 
-    QStringList causes() const
-    {
+    QStringList causes() const {
         QStringList tCauses;
-        if (hasCause())
-        {
+        if (hasCause()) {
             tCauses << cause().what();
             tCauses << cause().causes();
         }

@@ -20,8 +20,7 @@
 //
 
 Codri::WebPage::WebPage(const QUrl &iURL, QObject *iParent)
-    : QWebPage(iParent)
-{
+    : QWebPage(iParent) {
     // Setup the webpage
     mainFrame()->addToJavaScriptWindowObject("application", this);
 
@@ -32,8 +31,7 @@ Codri::WebPage::WebPage(const QUrl &iURL, QObject *iParent)
     mainFrame()->load(iURL);
 }
 
-Codri::WebPage::~WebPage()
-{
+Codri::WebPage::~WebPage() {
 }
 
 
@@ -41,7 +39,6 @@ Codri::WebPage::~WebPage()
 // QWebPage interface
 //
 
-void Codri::WebPage::javaScriptConsoleMessage(const QString &iMessage, int iLineNumber, const QString &iSourceId)
-{
+void Codri::WebPage::javaScriptConsoleMessage(const QString &iMessage, int iLineNumber, const QString &iSourceId) {
     mLogger->debug() << "Javascript console message at line " << iLineNumber << " of " << iSourceId << ": " << iMessage;
 }

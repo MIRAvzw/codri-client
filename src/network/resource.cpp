@@ -17,8 +17,7 @@
 //
 
 Codri::Resource::Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent, const QVariant& iClassName)
-    : QxtWebServiceDirectory(iSessionManager, iParent)
-{
+    : QxtWebServiceDirectory(iSessionManager, iParent) {
     // Setup logging
     // FIXME: get a hold of the derived classname without it having to be passed
     //        (metaObject() results in Resource's metaobject).
@@ -26,8 +25,7 @@ Codri::Resource::Resource(QxtAbstractWebSessionManager* iSessionManager, QObject
     mLogger =  Log4Qt::Logger::logger(iClassName.isNull()?metaObject()->className():iClassName.toString());
 }
 
-Codri::Resource::~Resource()
-{
+Codri::Resource::~Resource() {
 }
 
 
@@ -35,23 +33,19 @@ Codri::Resource::~Resource()
 // Service methods
 //
 
-void Codri::Resource::doGET(const int iSessionId, int iRequestId)
-{
+void Codri::Resource::doGET(const int iSessionId, int iRequestId) {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-void Codri::Resource::doPUT(int iSessionId, int iRequestId, QIODevice*)
-{
+void Codri::Resource::doPUT(int iSessionId, int iRequestId, QIODevice*) {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-void Codri::Resource::doPOST(int iSessionId, int iRequestId, QIODevice*)
-{
+void Codri::Resource::doPOST(int iSessionId, int iRequestId, QIODevice*) {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
-void Codri::Resource::doDELETE(int iSessionId, int iRequestId)
-{
+void Codri::Resource::doDELETE(int iSessionId, int iRequestId) {
     postUnsupportedMethod(iSessionId, iRequestId);
 }
 
@@ -61,13 +55,11 @@ void Codri::Resource::doDELETE(int iSessionId, int iRequestId)
 //
 
 
-void Codri::Resource::postError(int iSessionId, int iRequestId, int iErrorCode, QString iErrorMessage)
-{
+void Codri::Resource::postError(int iSessionId, int iRequestId, int iErrorCode, QString iErrorMessage) {
     postEvent(new QxtWebErrorEvent(iSessionId, iRequestId, iErrorCode, iErrorMessage.toUtf8()));
 }
 
-void Codri::Resource::postUnsupportedMethod(int iSessionId, int iRequestId)
-{
+void Codri::Resource::postUnsupportedMethod(int iSessionId, int iRequestId) {
     // TODO: check if this error code conforms the Java
     postError(iSessionId, iRequestId, 405, "Method Not Allowed");
 }
@@ -77,8 +69,7 @@ void Codri::Resource::postUnsupportedMethod(int iSessionId, int iRequestId)
 // QxtWebServiceDirectory implementation
 //
 
-void Codri::Resource::indexRequested(QxtWebRequestEvent *iEvent)
-{
+void Codri::Resource::indexRequested(QxtWebRequestEvent *iEvent) {
     // Prepare the data
     // FIXME: this essentially makes the processing single-threadedly
     // http://libqxt.bitbucket.org/doc/tip/qxtwebcontent.html#waitForAllContent
@@ -93,8 +84,7 @@ void Codri::Resource::indexRequested(QxtWebRequestEvent *iEvent)
 // Auxiliary
 //
 
-void Codri::Resource::handleCompleteEvent(QxtWebRequestEvent *iEvent)
-{
+void Codri::Resource::handleCompleteEvent(QxtWebRequestEvent *iEvent) {
     // Process all requests
     if (iEvent->method == "GET") {
         doGET(iEvent->sessionID, iEvent->requestID);

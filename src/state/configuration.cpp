@@ -17,8 +17,7 @@
 //
 
 Codri::Configuration::Configuration(QObject *iParent)
-    : QObject(iParent)
-{
+    : QObject(iParent) {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 }
@@ -28,25 +27,21 @@ Codri::Configuration::Configuration(QObject *iParent)
 // Basic I/O
 //
 
-unsigned long Codri::Configuration::getRevision() const
-{
+unsigned long Codri::Configuration::getRevision() const {
     return mRevision;
 }
 
-void Codri::Configuration::setRevision(unsigned long iRevision)
-{
+void Codri::Configuration::setRevision(unsigned long iRevision) {
     mRevision = iRevision;
     mLogger->debug() << "Revision changing to " << iRevision;
     emit onRevisionChanged(iRevision);
 }
 
-unsigned short Codri::Configuration::getVolume() const
-{
+unsigned short Codri::Configuration::getVolume() const {
     return mVolume;
 }
 
-void Codri::Configuration::setVolume(unsigned char iVolume)
-{
+void Codri::Configuration::setVolume(unsigned char iVolume) {
     mVolume = iVolume;
     mLogger->debug() << "Volume changing to " << iVolume;
     emit onVolumeChanged(iVolume);

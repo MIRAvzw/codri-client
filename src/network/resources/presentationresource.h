@@ -18,10 +18,8 @@
 // Local includes
 #include "network/jsonresource.h"
 
-namespace Codri
-{
-    class PresentationResource : public JsonResource
-    {
+namespace Codri {
+    class PresentationResource : public JsonResource {
         Q_OBJECT
     public:
         // Construction and destruction
@@ -36,8 +34,7 @@ namespace Codri
         class Revision : public JsonResource {
         public:
             Revision(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
-                : JsonResource(iSessionManager, iParent)
-            { }
+                : JsonResource(iSessionManager, iParent) { }
             Result doJsonGET(QVariant& iReply);
             Result doJsonPUT(const QVariant& iRequest);
         };
@@ -47,8 +44,7 @@ namespace Codri
         class Location : public JsonResource {
         public:
             Location(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
-                : JsonResource(iSessionManager, iParent)
-            { }
+                : JsonResource(iSessionManager, iParent) { }
             Result doJsonGET(QVariant& iReply);
             Result doJsonPUT(const QVariant &iRequest);
         };

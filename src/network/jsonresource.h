@@ -21,10 +21,8 @@
 #include "resource.h"
 #include "qexception.h"
 
-namespace Codri
-{
-    class JsonResource : public Resource
-    {
+namespace Codri {
+    class JsonResource : public Resource {
         Q_OBJECT
     public:
         // Construction and destruction

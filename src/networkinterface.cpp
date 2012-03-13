@@ -23,8 +23,7 @@
 //
 
 Codri::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException)
-    : QObject(iParent)
-{
+    : QObject(iParent) {
     // Load settings
     mSettings = new QSettings(this);
     mSettings->beginGroup(metaObject()->className());
@@ -53,7 +52,6 @@ Codri::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException)
     mRegistrationController->start();
 }
 
-Codri::NetworkInterface::~NetworkInterface()
-{
+Codri::NetworkInterface::~NetworkInterface() {
     mServerClient->unregisterKiosk();
 }

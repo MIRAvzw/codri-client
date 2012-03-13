@@ -16,10 +16,8 @@
 #include <QtCore/QObject>
 #include <Log4Qt/Logger>
 
-namespace Codri
-{
-    class Configuration : public QObject
-    {
+namespace Codri {
+    class Configuration : public QObject {
         Q_OBJECT
     public:
         // Construction and destruction

@@ -19,10 +19,8 @@
 #include <QxtWeb/QxtWebContent>
 #include <Log4Qt/Logger>
 
-namespace Codri
-{
-    class Resource : public QxtWebServiceDirectory
-    {
+namespace Codri {
+    class Resource : public QxtWebServiceDirectory {
         Q_OBJECT
     public:
         // Construction and destruction

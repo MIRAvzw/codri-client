@@ -23,8 +23,7 @@
 //
 
 Codri::ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
-    : JsonResource(iSessionManager, iParent, "Codri::ConfigurationResource")
-{
+    : JsonResource(iSessionManager, iParent, "Codri::ConfigurationResource") {
     // Revision resource
     mRevision = new Revision(iSessionManager, this);
     addService("revision", mRevision);
@@ -40,8 +39,7 @@ Codri::ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager
 //
 
 
-Codri::JsonResource::Result Codri::ConfigurationResource::doJsonGET(QVariant& iReply)
-{
+Codri::JsonResource::Result Codri::ConfigurationResource::doJsonGET(QVariant& iReply) {
     QVariantMap tObject;
     Result tResult = VALID;
 
@@ -52,8 +50,7 @@ Codri::JsonResource::Result Codri::ConfigurationResource::doJsonGET(QVariant& iR
     return tResult;
 }
 
-Codri::JsonResource::Result Codri::ConfigurationResource::doJsonPUT(const QVariant& iRequest)
-{
+Codri::JsonResource::Result Codri::ConfigurationResource::doJsonPUT(const QVariant& iRequest) {
     Result tResult = INVALID;
 
     if (iRequest.canConvert(QVariant::Map)) {
@@ -69,14 +66,12 @@ Codri::JsonResource::Result Codri::ConfigurationResource::doJsonPUT(const QVaria
     return tResult;
 }
 
-Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonGET(QVariant& iReply)
-{
+Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonGET(QVariant& iReply) {
     iReply = (unsigned long long) MainApplication::instance()->configuration()->getRevision();
     return VALID;
 }
 
-Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonPUT(const QVariant& iRequest)
-{
+Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonPUT(const QVariant& iRequest) {
     if (iRequest.canConvert(QVariant::LongLong)) {
         MainApplication::instance()->configuration()->setRevision(iRequest.toLongLong());
         return VALID;
@@ -86,14 +81,12 @@ Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonPUT(co
     }
 }
 
-Codri::JsonResource::Result Codri::ConfigurationResource::Volume::doJsonGET(QVariant& iReply)
-{
+Codri::JsonResource::Result Codri::ConfigurationResource::Volume::doJsonGET(QVariant& iReply) {
     iReply = (unsigned long long) MainApplication::instance()->configuration()->getVolume();
     return VALID;
 }
 
-Codri::JsonResource::Result Codri::ConfigurationResource::Volume::doJsonPUT(const QVariant& iRequest)
-{
+Codri::JsonResource::Result Codri::ConfigurationResource::Volume::doJsonPUT(const QVariant& iRequest) {
     if (iRequest.canConvert(QVariant::Int)) {
         MainApplication::instance()->configuration()->setVolume(iRequest.toInt());
         return VALID;

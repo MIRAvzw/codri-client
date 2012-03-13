@@ -16,8 +16,7 @@
 // Construction and destruction
 //
 
-Codri::WebserviceDispatcher::WebserviceDispatcher(const QHostAddress &iHost, quint16 iPort)
-{
+Codri::WebserviceDispatcher::WebserviceDispatcher(const QHostAddress &iHost, quint16 iPort) {
     // Load settings
     mSettings = new QSettings(this);
     mSettings->beginGroup("WebserviceDispatcher");
@@ -34,8 +33,7 @@ Codri::WebserviceDispatcher::WebserviceDispatcher(const QHostAddress &iHost, qui
     setStaticContentService(mRootService);
 }
 
-Codri::WebserviceDispatcher::~WebserviceDispatcher()
-{
+Codri::WebserviceDispatcher::~WebserviceDispatcher() {
     delete mRootService;
 }
 
@@ -45,8 +43,7 @@ Codri::WebserviceDispatcher::~WebserviceDispatcher()
 //
 
 
-void Codri::WebserviceDispatcher::addService(QString iUri, Resource* iSubService)
-{
+void Codri::WebserviceDispatcher::addService(QString iUri, Resource* iSubService) {
     mRootService->addService(iUri, iSubService);
 }
 

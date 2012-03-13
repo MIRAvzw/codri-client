@@ -22,8 +22,7 @@
 //
 
 Codri::LogPage::LogPage(QObject *iParent)
-    : WebPage(QUrl("qrc:/webpages/logpage.html"), iParent)
-{
+    : WebPage(QUrl("qrc:/webpages/logpage.html"), iParent) {
     // Create log layout
     mLogLayout = new Log4Qt::SimpleLayout(this);
     mLogLayout->activateOptions();
@@ -37,8 +36,7 @@ Codri::LogPage::LogPage(QObject *iParent)
     Log4Qt::Logger::rootLogger()->addAppender(mLogAppender);
 }
 
-Codri::LogPage::~LogPage()
-{
+Codri::LogPage::~LogPage() {
     Log4Qt::Logger::rootLogger()->removeAppender(mLogAppender);
 }
 
@@ -47,7 +45,6 @@ Codri::LogPage::~LogPage()
 // Basic I/O
 //
 
-QString Codri::LogPage::id() const
-{
+QString Codri::LogPage::id() const {
     return MainApplication::instance()->kiosk()->getUuid();
 }

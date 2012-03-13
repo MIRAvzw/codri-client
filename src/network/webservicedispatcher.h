@@ -21,10 +21,8 @@
 // Local includes
 #include "resource.h"
 
-namespace Codri
-{
-    class WebserviceDispatcher : public QxtHttpSessionManager
-    {
+namespace Codri {
+    class WebserviceDispatcher : public QxtHttpSessionManager {
         Q_OBJECT
     public:
         WebserviceDispatcher(const QHostAddress &iHost, quint16 iPort);

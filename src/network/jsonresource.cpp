@@ -17,15 +17,13 @@
 //
 
 Codri::JsonResource::JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent, const QVariant& iClassName)
-    : Resource(iSessionManager, iParent, (iClassName.isNull()?"Codri::JsonResource":iClassName))
-{
+    : Resource(iSessionManager, iParent, (iClassName.isNull()?"Codri::JsonResource":iClassName)) {
     // QJson objects
     mParser = new QJson::Parser();
     mSerializer = new QJson::Serializer();
 }
 
-Codri::JsonResource::~JsonResource()
-{
+Codri::JsonResource::~JsonResource() {
     // QJson objects
     delete mParser;
     delete mSerializer;
@@ -36,23 +34,19 @@ Codri::JsonResource::~JsonResource()
 // Service methods
 //
 
-Codri::JsonResource::Result Codri::JsonResource::doJsonGET(QVariant&)
-{
+Codri::JsonResource::Result Codri::JsonResource::doJsonGET(QVariant&) {
     return UNSUPPORTED;
 }
 
-Codri::JsonResource::Result Codri::JsonResource::doJsonPUT(const QVariant&)
-{
+Codri::JsonResource::Result Codri::JsonResource::doJsonPUT(const QVariant&) {
     return UNSUPPORTED;
 }
 
-Codri::JsonResource::Result Codri::JsonResource::doJsonPOST(const QVariant&)
-{
+Codri::JsonResource::Result Codri::JsonResource::doJsonPOST(const QVariant&) {
     return UNSUPPORTED;
 }
 
-Codri::JsonResource::Result Codri::JsonResource::doJsonDELETE()
-{
+Codri::JsonResource::Result Codri::JsonResource::doJsonDELETE() {
     return UNSUPPORTED;
 }
 
@@ -61,15 +55,13 @@ Codri::JsonResource::Result Codri::JsonResource::doJsonDELETE()
 // Resource implementation
 //
 
-void Codri::JsonResource::doGET(int iSessionId, int iRequestId)
-{
+void Codri::JsonResource::doGET(int iSessionId, int iRequestId) {
     QVariant tReply;
     Result tResult = doJsonGET(tReply);
     doJsonReply(iSessionId, iRequestId, tReply, tResult);
 }
 
-void Codri::JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iContent)
-{
+void Codri::JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iContent) {
     bool tRequestValid;
     // FIXME: why doesn't QJson work on the QIODevice? tRequest is null if we try
     QVariant tRequest = mParser->parse(iContent->readAll(), &tRequestValid);
@@ -82,8 +74,7 @@ void Codri::JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iCont
     postInvalidPayload(iSessionId, iRequestId, "Unparseable Payload");
 }
 
-void Codri::JsonResource::doPOST(int iSessionId, int iRequestId, QIODevice *iContent)
-{
+void Codri::JsonResource::doPOST(int iSessionId, int iRequestId, QIODevice *iContent) {
     bool tRequestValid;
     QVariant tRequest = mParser->parse(iContent, &tRequestValid);
     if (tRequestValid) {
@@ -95,8 +86,7 @@ void Codri::JsonResource::doPOST(int iSessionId, int iRequestId, QIODevice *iCon
     postInvalidPayload(iSessionId, iRequestId, "Unparseable Payload");
 }
 
-void Codri::JsonResource::doDELETE(int iSessionId, int iRequestId)
-{
+void Codri::JsonResource::doDELETE(int iSessionId, int iRequestId) {
     QVariant tReply;
     Result tResult = doJsonDELETE();
     doJsonReply(iSessionId, iRequestId, tReply, tResult);
@@ -108,8 +98,7 @@ void Codri::JsonResource::doDELETE(int iSessionId, int iRequestId)
 // Helper methods
 //
 
-void Codri::JsonResource::doJsonReply(int iSessionId, int iRequestId, QVariant& iReply, Result iResult)
-{
+void Codri::JsonResource::doJsonReply(int iSessionId, int iRequestId, QVariant& iReply, Result iResult) {
     switch (iResult) {
     case VALID:
         postReply(iSessionId, iRequestId, iReply);
@@ -126,18 +115,15 @@ void Codri::JsonResource::doJsonReply(int iSessionId, int iRequestId, QVariant& 
     }
 }
 
-void Codri::JsonResource::postInvalidPayload(int iSessionId, int iRequestId, QString iErrorMessage)
-{
+void Codri::JsonResource::postInvalidPayload(int iSessionId, int iRequestId, QString iErrorMessage) {
     postError(iSessionId, iRequestId, 400, iErrorMessage);
 }
 
-void Codri::JsonResource::postConflictingPayload(int iSessionId, int iRequestId)
-{
+void Codri::JsonResource::postConflictingPayload(int iSessionId, int iRequestId) {
     postError(iSessionId, iRequestId, 409, "Conflicting Payload");
 }
 
-void Codri::JsonResource::postReply(int iSessionId, int iRequestId, QVariant &iData)
-{
+void Codri::JsonResource::postReply(int iSessionId, int iRequestId, QVariant &iData) {
     QString tDataString = mSerializer->serialize(iData);
     QxtWebPageEvent *tReply = new QxtWebPageEvent(iSessionId, iRequestId, tDataString.toUtf8());
     tReply->contentType = "application/json";

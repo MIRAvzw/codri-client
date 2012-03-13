@@ -24,10 +24,8 @@
 #include "qexception.h"
 #include "controller.h"
 
-namespace Codri
-{
-    class MainApplication : public QApplication
-    {
+namespace Codri {
+    class MainApplication : public QApplication {
         Q_OBJECT
     public:
         // Construction and destruction

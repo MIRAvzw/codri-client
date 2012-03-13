@@ -20,8 +20,7 @@
 //
 
 Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
-    : QObject(iParent)
-{
+    : QObject(iParent) {
     // Load settings
     mSettings = new QSettings(this);
     mSettings->beginGroup(metaObject()->className());
@@ -39,13 +38,11 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
 // State event listeners
 //
 
-void Codri::PlatformInterface::onConfigurationVolumeChanged(unsigned char iVolume)
-{
+void Codri::PlatformInterface::onConfigurationVolumeChanged(unsigned char iVolume) {
     // TODO: change the volume
 }
 
-void Codri::PlatformInterface::onKioskStatusChanged(Codri::Kiosk::Status iStatus)
-{
+void Codri::PlatformInterface::onKioskStatusChanged(Codri::Kiosk::Status iStatus) {
     // TODO: change the power state
 }
 
@@ -54,8 +51,7 @@ void Codri::PlatformInterface::onKioskStatusChanged(Codri::Kiosk::Status iStatus
 // Auxiliary
 //
 
-QUuid Codri::PlatformInterface::getUuid() const throw(QException)
-{
+QUuid Codri::PlatformInterface::getUuid() const throw(QException) {
     // Get the network interface
     QNetworkInterface tRemoteInterface = QNetworkInterface::interfaceFromName("eth0");
     if (!tRemoteInterface.isValid())

@@ -23,8 +23,7 @@
 //
 
 Codri::StatusPage::StatusPage(QObject *iParent)
-    : WebPage(QUrl("qrc:/webpages/statuspage.html"), iParent)
-{
+    : WebPage(QUrl("qrc:/webpages/statuspage.html"), iParent) {
     // Create log layout
     mLogLayout = new Log4Qt::SimpleLayout(this);
     mLogLayout->activateOptions();
@@ -38,8 +37,7 @@ Codri::StatusPage::StatusPage(QObject *iParent)
     Log4Qt::Logger::rootLogger()->addAppender(mLogAppender);
 }
 
-Codri::StatusPage::~StatusPage()
-{
+Codri::StatusPage::~StatusPage() {
     Log4Qt::Logger::rootLogger()->removeAppender(mLogAppender);
 }
 
@@ -48,12 +46,10 @@ Codri::StatusPage::~StatusPage()
 // Basic I/O
 //
 
-QString Codri::StatusPage::id() const
-{
+QString Codri::StatusPage::id() const {
     return MainApplication::instance()->kiosk()->getUuid();
 }
 
-QDateTime Codri::StatusPage::startup() const
-{
+QDateTime Codri::StatusPage::startup() const {
     return MainApplication::instance()->controller()->startup();
 }

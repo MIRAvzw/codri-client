@@ -18,10 +18,8 @@
 #include <QtWebKit/QWebPage>
 #include <Log4Qt/Logger>
 
-namespace Codri
-{
-    class WebPage : public QWebPage
-    {
+namespace Codri {
+    class WebPage : public QWebPage {
     Q_OBJECT
     public:
         // Construction and destruction

@@ -28,12 +28,10 @@
 #include "state/presentation.h"
 #include "controller/initcontroller.h"
 
-namespace Codri
-{
+namespace Codri {
     class InitController;
 
-    class Controller : public QObject
-    {
+    class Controller : public QObject {
         Q_OBJECT
     public:
         // Construction and destruction

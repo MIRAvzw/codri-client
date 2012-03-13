@@ -27,10 +27,9 @@
 // Local includes
 #include "qexception.h"
 
-namespace Codri
-{
-    class RepositoryInterface : public QObject, public svn::repository::RepositoryListener, public svn::ContextListener
-    {
+namespace Codri {
+    class RepositoryInterface
+            : public QObject, public svn::repository::RepositoryListener, public svn::ContextListener {
     Q_OBJECT
     public:
         // Construction and destruction
@@ -61,15 +60,13 @@ namespace Codri
         void copyDirectory(const QDir &tSource, const QDir &tDestination);
 
         // Repository listening
-        virtual void sendWarning(const QString& iMessage)
-        {
+        virtual void sendWarning(const QString& iMessage) {
             mLogger->warn() << iMessage.toAscii().data();
         }
-        virtual void sendError(const QString& iMessage)
-        {
+        virtual void sendError(const QString& iMessage) {
             mLogger->error() << iMessage.toAscii().data();
         }
-        virtual bool isCanceld(){ return false; }
+        virtual bool isCanceld() { return false; }
 
         // Context listening
         virtual void contextProgress(long long int, long long int) {}

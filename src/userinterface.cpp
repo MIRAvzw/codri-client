@@ -27,8 +27,7 @@
 //
 
 Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException)
-    : QMainWindow(iParent)
-{
+    : QMainWindow(iParent) {
     // Load settings
     mSettings = new QSettings(this);
     mSettings->beginGroup(metaObject()->className());
@@ -54,18 +53,15 @@ Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException)
 // Subsystem event listeners
 //
 
-void Codri::UserInterface::onRepositoryDownloadStarted()
-{
+void Codri::UserInterface::onRepositoryDownloadStarted() {
     showInit();
 }
 
-void Codri::UserInterface::onRepositoryDownloadFinished(const QDir& iLocation)
-{
+void Codri::UserInterface::onRepositoryDownloadFinished(const QDir& iLocation) {
     showPresentation(iLocation);
 }
 
-void Codri::UserInterface::onRepositoryDownloadFailed(const QString& iError)
-{
+void Codri::UserInterface::onRepositoryDownloadFailed(const QString& iError) {
     showError(iError);
 }
 
@@ -74,8 +70,7 @@ void Codri::UserInterface::onRepositoryDownloadFailed(const QString& iError)
 // UI events
 //
 
-bool Codri::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
-{
+bool Codri::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent) {
     if (iEvent->type() == QEvent::KeyPress) {
         QKeyEvent *iKeyEvent = static_cast<QKeyEvent*>(iEvent);
         switch (iKeyEvent->key()) {
@@ -119,34 +114,29 @@ bool Codri::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent)
 
 // TODO: track current page, do or do not reload (yes on media, no on log)?
 
-void Codri::UserInterface::showInit()
-{
+void Codri::UserInterface::showInit() {
     QWebPage *tPageInit = new InitPage(mWebView);
     mWebView->setPage(tPageInit);
 }
 
-void Codri::UserInterface::showLog()
-{
+void Codri::UserInterface::showLog() {
     QWebPage *tPageLog = new LogPage(mWebView);
     mWebView->setPage(tPageLog);
 }
 
-void Codri::UserInterface::showStatus()
-{
+void Codri::UserInterface::showStatus() {
     QWebPage *tPageStatus = new StatusPage(mWebView);
     mWebView->setPage(tPageStatus);
 }
 
-void Codri::UserInterface::showError(const QString& iError)
-{
+void Codri::UserInterface::showError(const QString& iError) {
     // TODO: load the error in the page
 
     QWebPage *tPageError = new ErrorPage(mWebView);
     mWebView->setPage(tPageError);
 }
 
-void Codri::UserInterface::showPresentation(const QDir& iLocation)
-{
+void Codri::UserInterface::showPresentation(const QDir& iLocation) {
     // TODO: is webview specification necessary? Doesn't setpage properly configure the parent?
     QWebPage *tPagetPresentation = new PresentationPage(iLocation, mWebView);
     mWebView->setPage(tPagetPresentation);
@@ -157,8 +147,7 @@ void Codri::UserInterface::showPresentation(const QDir& iLocation)
 // Internal slots
 //
 
-void Codri::UserInterface::_loadFinished(bool iOk)
-{
+void Codri::UserInterface::_loadFinished(bool iOk) {
     if (iOk)
         return;
 
@@ -172,7 +161,6 @@ void Codri::UserInterface::_loadFinished(bool iOk)
     }
 }
 
-void Codri::UserInterface::_loadProgress(int iProgress)
-{
+void Codri::UserInterface::_loadProgress(int iProgress) {
     // TODO: relay to initpage
 }

@@ -17,8 +17,7 @@
 //
 
 Codri::Kiosk::Kiosk(QObject *iParent)
-    : QObject(iParent)
-{
+    : QObject(iParent) {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 }
@@ -28,55 +27,45 @@ Codri::Kiosk::Kiosk(QObject *iParent)
 // Basic I/O
 //
 
-Codri::Kiosk::Status Codri::Kiosk::getStatus() const
-{
+Codri::Kiosk::Status Codri::Kiosk::getStatus() const {
     return mStatus;
 }
 
-void Codri::Kiosk::setStatus(Codri::Kiosk::Status iStatus)
-{
+void Codri::Kiosk::setStatus(Codri::Kiosk::Status iStatus) {
     mStatus = iStatus;
     mLogger->debug() << "Power changing to " << iStatus;
     emit onStatusChanged(iStatus);
 }
 
-QUuid Codri::Kiosk::getUuid() const
-{
+QUuid Codri::Kiosk::getUuid() const {
     return mUuid;
 }
 
-void Codri::Kiosk::setUuid(const QUuid &iUuid)
-{
+void Codri::Kiosk::setUuid(const QUuid &iUuid) {
     mUuid = iUuid;
 }
 
-QString Codri::Kiosk::getVendor() const
-{
+QString Codri::Kiosk::getVendor() const {
     return mVendor;
 }
 
-void Codri::Kiosk::setVendor(const QString &iVendor)
-{
+void Codri::Kiosk::setVendor(const QString &iVendor) {
     mVendor = iVendor;
 }
 
-QString Codri::Kiosk::getModel() const
-{
+QString Codri::Kiosk::getModel() const {
     return mModel;
 }
 
-void Codri::Kiosk::setModel(const QString &iModel)
-{
+void Codri::Kiosk::setModel(const QString &iModel) {
     mModel = iModel;
 }
 
-unsigned short Codri::Kiosk::getPort() const
-{
+unsigned short Codri::Kiosk::getPort() const {
     return mPort;
 }
 
-void Codri::Kiosk::setPort(unsigned short iPort)
-{
+void Codri::Kiosk::setPort(unsigned short iPort) {
     mPort = iPort;
     mLogger->debug() << "Port changing to " << iPort;
 }

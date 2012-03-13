@@ -20,10 +20,8 @@
 // Local incudes
 #include "user/webpage.h"
 
-namespace Codri
-{
-    class StatusPage : public WebPage
-    {
+namespace Codri {
+    class StatusPage : public WebPage {
     Q_OBJECT
     Q_PROPERTY(QString id READ id CONSTANT)
     Q_PROPERTY(QDateTime startup READ startup CONSTANT)

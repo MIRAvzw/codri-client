@@ -24,10 +24,8 @@
 #include "network/serverclient.h"
 #include "network/registrationcontroller.h"
 
-namespace Codri
-{
-    class NetworkInterface : public QObject
-    {
+namespace Codri {
+    class NetworkInterface : public QObject {
         Q_OBJECT
     public:
         // Construction and destruction

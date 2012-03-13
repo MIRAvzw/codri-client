@@ -20,8 +20,7 @@
 //
 
 Codri::PresentationResource::PresentationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
-    : JsonResource(iSessionManager, iParent, "Codri::PresentationResource")
-{
+    : JsonResource(iSessionManager, iParent, "Codri::PresentationResource") {
     // Revision resource
     mRevision = new Revision(iSessionManager, this);
     addService("revision", mRevision);
@@ -36,8 +35,7 @@ Codri::PresentationResource::PresentationResource(QxtAbstractWebSessionManager* 
 // JsonResource implementation
 //
 
-Codri::JsonResource::Result Codri::PresentationResource::doJsonGET(QVariant& iReply)
-{
+Codri::JsonResource::Result Codri::PresentationResource::doJsonGET(QVariant& iReply) {
     QVariantMap tObject;
     Result tResult = VALID;
 
@@ -48,8 +46,7 @@ Codri::JsonResource::Result Codri::PresentationResource::doJsonGET(QVariant& iRe
     return tResult;
 }
 
-Codri::JsonResource::Result Codri::PresentationResource::doJsonPUT(const QVariant& iRequest)
-{
+Codri::JsonResource::Result Codri::PresentationResource::doJsonPUT(const QVariant& iRequest) {
     Result tResult = INVALID;
 
     if (iRequest.canConvert(QVariant::Map)) {
@@ -65,14 +62,12 @@ Codri::JsonResource::Result Codri::PresentationResource::doJsonPUT(const QVarian
     return tResult;
 }
 
-Codri::JsonResource::Result Codri::PresentationResource::Revision::doJsonGET(QVariant& iReply)
-{
+Codri::JsonResource::Result Codri::PresentationResource::Revision::doJsonGET(QVariant& iReply) {
     iReply = (unsigned long long) MainApplication::instance()->presentation()->getRevision();
     return VALID;
 }
 
-Codri::JsonResource::Result Codri::PresentationResource::Revision::doJsonPUT(const QVariant& iRequest)
-{
+Codri::JsonResource::Result Codri::PresentationResource::Revision::doJsonPUT(const QVariant& iRequest) {
     if (iRequest.canConvert(QVariant::LongLong)) {
         MainApplication::instance()->presentation()->setRevision(iRequest.toLongLong());
         return VALID;
@@ -82,17 +77,15 @@ Codri::JsonResource::Result Codri::PresentationResource::Revision::doJsonPUT(con
     }
 }
 
-Codri::JsonResource::Result Codri::PresentationResource::Location::doJsonGET(QVariant& iReply)
-{
+Codri::JsonResource::Result Codri::PresentationResource::Location::doJsonGET(QVariant& iReply) {
     iReply = MainApplication::instance()->presentation()->getLocation();
     return VALID;
 }
 
-Codri::JsonResource::Result Codri::PresentationResource::Location::doJsonPUT(const QVariant &iRequest)
-{
-    if (iRequest.canConvert(QVariant::String))
+Codri::JsonResource::Result Codri::PresentationResource::Location::doJsonPUT(const QVariant &iRequest) {
+    if (iRequest.canConvert(QVariant::String)) {
         MainApplication::instance()->presentation()->setLocation(iRequest.toString());
-    else {
+    } else {
         mLogger->warn() << "Missing (or invalid) location in PUT request";
         return INVALID;
     }

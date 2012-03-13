@@ -105,7 +105,6 @@ target.path =$$BINDIR
 # Check target
 CHECK_FILTERS += \
     -readability/todo \
-    -whitespace/braces \
     -whitespace/line_length
 # TODO: fix braces instead of disabling
 check.target = check

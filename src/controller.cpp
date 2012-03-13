@@ -29,8 +29,7 @@
 //
 
 Codri::Controller::Controller(QObject *iParent) throw(QException)
-    : QObject(iParent)
-{
+    : QObject(iParent) {
     // Load settings
     mSettings = new QSettings(this);
     mSettings->beginGroup("Controller");
@@ -52,8 +51,7 @@ Codri::Controller::Controller(QObject *iParent) throw(QException)
 // Basic I/O
 //
 
-QDateTime Codri::Controller::startup() const
-{
+QDateTime Codri::Controller::startup() const {
     return mTimestampStartup;
 }
 
@@ -62,14 +60,12 @@ QDateTime Codri::Controller::startup() const
 // Application control
 //
 
-void Codri::Controller::start()
-{
+void Codri::Controller::start() {
     mLogger->debug() << "Starting application";
     mInitController->start();
 }
 
-void Codri::Controller::stop()
-{
+void Codri::Controller::stop() {
     if (mInitController->isFinished()) {
         mLogger->debug() << "Stopping application";
         delete mNetworkInterface;
@@ -85,18 +81,15 @@ void Codri::Controller::stop()
 // Subsystem object getters
 //
 
-Codri::NetworkInterface *Codri::Controller::networkInterface() const
-{
+Codri::NetworkInterface *Codri::Controller::networkInterface() const {
     return mNetworkInterface;
 }
 
-Codri::UserInterface *Codri::Controller::userInterface() const
-{
+Codri::UserInterface *Codri::Controller::userInterface() const {
     return mUserInterface;
 }
 
-Codri::RepositoryInterface *Codri::Controller::repositoryInterface() const
-{
+Codri::RepositoryInterface *Codri::Controller::repositoryInterface() const {
     return mRepositoryInterface;
 }
 
@@ -105,8 +98,7 @@ Codri::RepositoryInterface *Codri::Controller::repositoryInterface() const
 // Initialization events
 //
 
-void Codri::Controller::_onInitializationSuccess()
-{
+void Codri::Controller::_onInitializationSuccess() {
     mLogger->info() << "Initialisation completed successfully, all functionality should be operational";
 
     // STATE EVENTS //
@@ -133,8 +125,7 @@ void Codri::Controller::_onInitializationSuccess()
 
 }
 
-void Codri::Controller::_onInitializationFailure()
-{
+void Codri::Controller::_onInitializationFailure() {
     mLogger->fatal() << "Initialisation failed, aborting";
     MainApplication::instance()->quit();
 }

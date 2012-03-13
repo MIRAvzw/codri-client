@@ -20,8 +20,7 @@
 //
 
 Codri::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
-    : JsonResource(iSessionManager, iParent, "Codri::KioskResource")
-{
+    : JsonResource(iSessionManager, iParent, "Codri::KioskResource") {
     // Power resource
     mPower = new Power(iSessionManager, this);
     addService("power", mPower);
@@ -36,8 +35,7 @@ Codri::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManage
 // JsonResource implementation
 //
 
-Codri::JsonResource::Result Codri::KioskResource::doJsonGET(QVariant& iReply)
-{
+Codri::JsonResource::Result Codri::KioskResource::doJsonGET(QVariant& iReply) {
     QVariantMap tObject;
     Result tResult = VALID;
 
@@ -48,8 +46,7 @@ Codri::JsonResource::Result Codri::KioskResource::doJsonGET(QVariant& iReply)
     return tResult;
 }
 
-Codri::JsonResource::Result Codri::KioskResource::Power::doJsonGET(QVariant& iReply)
-{
+Codri::JsonResource::Result Codri::KioskResource::Power::doJsonGET(QVariant& iReply) {
     switch (MainApplication::instance()->kiosk()->getStatus()) {
     case Kiosk::ON:
         iReply = "on";
@@ -62,14 +59,13 @@ Codri::JsonResource::Result Codri::KioskResource::Power::doJsonGET(QVariant& iRe
     return VALID;
 }
 
-Codri::JsonResource::Result Codri::KioskResource::Power::doJsonPUT(const QVariant &iRequest)
-{
+Codri::JsonResource::Result Codri::KioskResource::Power::doJsonPUT(const QVariant &iRequest) {
     if (iRequest.canConvert(QVariant::String)) {
-        if (iRequest.toString() == "on")
+        if (iRequest.toString() == "on") {
             MainApplication::instance()->kiosk()->setStatus(Kiosk::ON);
-        else if (iRequest.toString() == "off")
+        } else if (iRequest.toString() == "off") {
             MainApplication::instance()->kiosk()->setStatus(Kiosk::OFF);
-        else {
+        } else {
             mLogger->warn() << "Invalid power state in PUT request";
             return INVALID;
         }
@@ -81,8 +77,7 @@ Codri::JsonResource::Result Codri::KioskResource::Power::doJsonPUT(const QVarian
     return VALID;
 }
 
-Codri::JsonResource::Result Codri::KioskResource::Uuid::doJsonGET(QVariant& iReply)
-{
+Codri::JsonResource::Result Codri::KioskResource::Uuid::doJsonGET(QVariant& iReply) {
     iReply = MainApplication::instance()->kiosk()->getUuid().toString();
     return VALID;
 }

@@ -17,8 +17,7 @@
 //
 
 Codri::InitController::InitController(Controller *iController)
-    : QStateMachine(iController), mController(iController)
-{
+    : QStateMachine(iController), mController(iController) {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
@@ -67,8 +66,7 @@ Codri::InitController::InitController(Controller *iController)
 // Initialization slots
 //
 
-void Codri::InitController::initializeUser()
-{
+void Codri::InitController::initializeUser() {
     try {
         // FIXME: parent?
         mController->mUserInterface = new UserInterface();
@@ -80,8 +78,7 @@ void Codri::InitController::initializeUser()
     }
 }
 
-void Codri::InitController::initializePlatform()
-{
+void Codri::InitController::initializePlatform() {
     try {
         // TODO: platform abstraction
         mController->mPlatformInterface = new PlatformInterface(this);
@@ -92,8 +89,7 @@ void Codri::InitController::initializePlatform()
     }
 }
 
-void Codri::InitController::initializeRepository()
-{
+void Codri::InitController::initializeRepository() {
     try {
         mController->mRepositoryInterface = new RepositoryInterface(this);
 
@@ -103,8 +99,7 @@ void Codri::InitController::initializeRepository()
     }
 }
 
-void Codri::InitController::initializeNetwork()
-{
+void Codri::InitController::initializeNetwork() {
     try {
         mController->mNetworkInterface = new NetworkInterface(this);
 
@@ -119,13 +114,11 @@ void Codri::InitController::initializeNetwork()
 // State machine status
 //
 
-void Codri::InitController::_onFinished()
-{
+void Codri::InitController::_onFinished() {
     // TODO: why isn't this provided?
     mFinished = true;
 }
 
-bool Codri::InitController::isFinished() const
-{
+bool Codri::InitController::isFinished() const {
     return mFinished;
 }

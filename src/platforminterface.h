@@ -22,10 +22,8 @@
 #include "qexception.h"
 #include "state/kiosk.h"
 
-namespace Codri
-{
-    class PlatformInterface : public QObject
-    {
+namespace Codri {
+    class PlatformInterface : public QObject {
         Q_OBJECT
     public:
         // Construction and destruction

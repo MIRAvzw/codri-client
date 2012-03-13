@@ -20,8 +20,7 @@
 //
 
 Codri::RegistrationController::RegistrationController(ServerClient* iServerClient, QObject *iParent)
-    : QStateMachine(iParent), mServerClient(iServerClient)
-{
+    : QStateMachine(iParent), mServerClient(iServerClient) {
     // Load settings
     mSettings = new QSettings(this);
     mSettings->beginGroup("NetworkInterface");
@@ -39,8 +38,7 @@ Codri::RegistrationController::RegistrationController(ServerClient* iServerClien
 // Construction helpers
 //
 
-void Codri::RegistrationController::initFSM()
-{
+void Codri::RegistrationController::initFSM() {
     QState *tRegister = new QState(this);
     QState *tConflict = new QState(this);
     QState *tRefresh = new QState(this);

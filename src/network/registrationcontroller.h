@@ -23,10 +23,8 @@
 // Local includes
 #include "serverclient.h"
 
-namespace Codri
-{
-    class RegistrationController : public QStateMachine
-    {
+namespace Codri {
+    class RegistrationController : public QStateMachine {
         Q_OBJECT
     public:
         // Construction and destruction

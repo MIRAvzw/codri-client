@@ -17,6 +17,5 @@
 //
 
 Codri::PresentationPage::PresentationPage(const QDir& iLocation, QObject *iParent)
-    : WebPage("file://" + iLocation.absolutePath() + "/index.html", iParent)
-{
+    : WebPage("file://" + iLocation.absolutePath() + "/index.html", iParent) {
 }

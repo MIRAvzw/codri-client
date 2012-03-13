@@ -18,10 +18,8 @@
 // Local incudes
 #include "user/webpage.h"
 
-namespace Codri
-{
-    class InitPage : public WebPage
-    {
+namespace Codri {
+    class InitPage : public WebPage {
     Q_OBJECT
     public:
         // Construction and destruction

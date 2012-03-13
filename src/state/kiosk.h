@@ -19,10 +19,8 @@
 #include <QtNetwork/QNetworkAddressEntry>
 #include <Log4Qt/Logger>
 
-namespace Codri
-{
-    class Kiosk : public QObject
-    {
+namespace Codri {
+    class Kiosk : public QObject {
         Q_OBJECT
     public:
         // Construction and destruction

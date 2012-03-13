@@ -30,8 +30,7 @@
 //
 
 Codri::RepositoryInterface::RepositoryInterface(QObject *iParent) throw(QException)
-    : QObject(iParent)
-{
+    : QObject(iParent) {
     // Load settings
     mSettings = new QSettings(this);
     mSettings->beginGroup(metaObject()->className());
@@ -52,8 +51,7 @@ Codri::RepositoryInterface::RepositoryInterface(QObject *iParent) throw(QExcepti
 // State event listeners
 //
 
-void Codri::RepositoryInterface::onPresentationLocationChanged(const QString &iLocation)
-{
+void Codri::RepositoryInterface::onPresentationLocationChanged(const QString &iLocation) {
     emit downloadStarted();
     try {
         // Download the new presentation
@@ -99,14 +97,12 @@ QPair<QDir, unsigned long> Codri::RepositoryInterface::downloadPresentation(cons
 // Low-level repository helpers
 //
 
-QString Codri::RepositoryInterface::getRepositoryLocation(const QDir &iCheckout) throw(QException)
-{
+QString Codri::RepositoryInterface::getRepositoryLocation(const QDir &iCheckout) throw(QException) {
     // TODO
     return "dummy";
 }
 
-unsigned long Codri::RepositoryInterface::getRepositoryRevision(const QDir &iCheckout) throw(QException)
-{
+unsigned long Codri::RepositoryInterface::getRepositoryRevision(const QDir &iCheckout) throw(QException) {
     try {
         QList<svn::InfoEntry> tInfoEntries =  mSubversionClient->info(
                     iCheckout.absolutePath(),
@@ -122,8 +118,7 @@ unsigned long Codri::RepositoryInterface::getRepositoryRevision(const QDir &iChe
     }
 }
 
-unsigned long Codri::RepositoryInterface::checkoutRepository(const QDir &iCheckout, const QUrl &iLocation) throw(QException)
-{
+unsigned long Codri::RepositoryInterface::checkoutRepository(const QDir &iCheckout, const QUrl &iLocation) throw(QException) {
     svn::CheckoutParameter tCheckoutParameters;
     tCheckoutParameters
             .moduleName(iLocation.toString())
@@ -140,8 +135,7 @@ unsigned long Codri::RepositoryInterface::checkoutRepository(const QDir &iChecko
     }
 }
 
-unsigned long Codri::RepositoryInterface::updateRepository(const QDir &iCheckout) throw(QException)
-{
+unsigned long Codri::RepositoryInterface::updateRepository(const QDir &iCheckout) throw(QException) {
     svn::UpdateParameter tUpdateParameters;
     tUpdateParameters
             .targets(iCheckout.absolutePath())
@@ -162,8 +156,7 @@ unsigned long Codri::RepositoryInterface::updateRepository(const QDir &iCheckout
 // Filesystem helpers
 //
 
-bool Codri::RepositoryInterface::removeDirectory(const QDir &iDirectory)
-{
+bool Codri::RepositoryInterface::removeDirectory(const QDir &iDirectory) {
     bool tError = false;
     if (iDirectory.exists()) {
         const QFileInfoList &tEntries = iDirectory.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files | QDir::Hidden);
@@ -183,8 +176,7 @@ bool Codri::RepositoryInterface::removeDirectory(const QDir &iDirectory)
     return tError;
 }
 
-void Codri::RepositoryInterface::copyDirectory(const QDir &tSource, const QDir &tDestination)
-{
+void Codri::RepositoryInterface::copyDirectory(const QDir &tSource, const QDir &tDestination) {
     // Create the destination path
     if (!tDestination.exists())
         tDestination.mkpath(tDestination.absolutePath());

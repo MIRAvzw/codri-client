@@ -26,11 +26,9 @@
 #include "qexception.h"
 #include "state/kiosk.h"
 
-namespace Codri
-{
+namespace Codri {
     class ServerClientPrivate;
-    class ServerClient : public QStateMachine
-    {
+    class ServerClient : public QStateMachine {
         Q_OBJECT
     public:
         // Construction and destruction
@@ -47,7 +45,7 @@ namespace Codri
         void unregisterKiosk();
 
         // Transition signals
-        // TODO: these are nasty, but needed since we can't relay the public slots to a FSM transition directly
+        // TODO: these are nasty, but necessary since we can't relay the public slots to a FSM transition directly
     signals:
         void _registerKiosk();
         void _refreshKiosk();
@@ -68,8 +66,7 @@ namespace Codri
         ServerClientPrivate *mImplementation;
     };
 
-    class ServerClientPrivate : public QObject
-    {
+    class ServerClientPrivate : public QObject {
         Q_OBJECT
     public:
         ServerClientPrivate(const QString& iLocation, QObject *iParent);
@@ -106,13 +103,11 @@ namespace Codri
 
     };
 
-    class ParameterizedSignalTransition : public QSignalTransition
-    {
+    class ParameterizedSignalTransition : public QSignalTransition {
         Q_OBJECT
     public:
         ParameterizedSignalTransition(QObject *iSender, const char *iSignal)
-            : QSignalTransition(iSender, iSignal)
-        {
+            : QSignalTransition(iSender, iSignal) {
             connect(this, SIGNAL(triggered()), this, SLOT(_onTriggered()));
         }
 
@@ -140,8 +135,7 @@ namespace Codri
         QVariant mData;
     };
 
-    class ComparingSignalTransition : public ParameterizedSignalTransition
-    {
+    class ComparingSignalTransition : public ParameterizedSignalTransition {
         Q_OBJECT
     public:
         enum Check {
@@ -150,8 +144,7 @@ namespace Codri
         };
 
         ComparingSignalTransition(QObject *iSender, const char *iSignal, Check iCheck, int iData)
-            : ParameterizedSignalTransition(iSender, iSignal), mCheck(iCheck), mData(iData)
-        {
+            : ParameterizedSignalTransition(iSender, iSignal), mCheck(iCheck), mData(iData) {
         }
 
     protected:
@@ -160,8 +153,7 @@ namespace Codri
             if (!QSignalTransition::eventTest(iEvent))
                 return false;
             QStateMachine::SignalEvent *tSignalEvent = static_cast<QStateMachine::SignalEvent*>(iEvent);
-            if (tSignalEvent->arguments().size() == 1 && tSignalEvent->arguments().at(0).canConvert(QVariant::Int))
-            {
+            if (tSignalEvent->arguments().size() == 1 && tSignalEvent->arguments().at(0).canConvert(QVariant::Int)) {
                 int iData = tSignalEvent->arguments().at(0).toInt();
                 switch (mCheck) {
                 case EQUALITY:

@@ -17,6 +17,5 @@
 //
 
 Codri::InitPage::InitPage(QObject *iParent)
-    : WebPage(QUrl("qrc:/webpages/initpage.html"), iParent)
-{
+    : WebPage(QUrl("qrc:/webpages/initpage.html"), iParent) {
 }

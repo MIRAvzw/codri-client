@@ -17,6 +17,5 @@
 //
 
 Codri::ErrorPage::ErrorPage(QObject *iParent)
-    : WebPage(QUrl("qrc:/webpages/errorpage.html"), iParent)
-{
+    : WebPage(QUrl("qrc:/webpages/errorpage.html"), iParent) {
 }

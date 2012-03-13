@@ -22,12 +22,10 @@
 // Local includes
 #include "controller.h"
 
-namespace Codri
-{
+namespace Codri {
     class Controller;
 
-    class InitController : public QStateMachine
-    {
+    class InitController : public QStateMachine {
         Q_OBJECT
     public:
         // Construction and destruction

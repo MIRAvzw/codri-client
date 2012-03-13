@@ -25,10 +25,8 @@
 #include "qexception.h"
 #include "user/webpage.h"
 
-namespace Codri
-{
-    class UserInterface : public QMainWindow
-    {
+namespace Codri {
+    class UserInterface : public QMainWindow {
     Q_OBJECT
     public:
         // Construction and destruction
