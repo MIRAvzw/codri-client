@@ -23,7 +23,7 @@
 #include <qjson/serializer.h>
 
 // Local includes
-#include "qexception.h"
+#include "auxiliary/qexception.h"
 #include "state/kiosk.h"
 
 namespace Codri {
@@ -55,11 +55,11 @@ namespace Codri {
         // Signals
         void registrationSuccess();
         void registrationConflict();
-        void registrationFailure(QVariant iError);
+        void registrationFailure(uint iError);
         void refreshSuccess();
-        void refreshFailure(QVariant iError);
+        void refreshFailure(uint iError);
         void unregisterSuccess();
-        void unregisterFailure(QVariant iError);
+        void unregisterFailure(uint iError);
 
     private:
         // Member data

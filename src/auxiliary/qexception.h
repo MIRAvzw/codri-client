@@ -9,8 +9,8 @@
 //
 
 // Include guard
-#ifndef QEXCEPTION_H_
-#define QEXCEPTION_H_
+#ifndef AUXILIARY_QEXCEPTION_H_
+#define AUXILIARY_QEXCEPTION_H_
 
 // Library includes
 #include <QtCore/QString>
@@ -74,4 +74,4 @@ private:
     QException const* const mCause;
 };
 
-#endif  // QEXCEPTION_H_
+#endif  // AUXILIARY_QEXCEPTION_H_

@@ -66,7 +66,7 @@ SOURCES += controller.cpp \
 HEADERS += controller.h \
     mainapplication.h \
     networkinterface.h \
-    qexception.h \
+    auxiliary/qexception.h \
     user/webpage.h \
     user/webpages/logpage.h \
     user/webpages/statuspage.h \

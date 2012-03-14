@@ -20,8 +20,8 @@
 #include <Log4Qt/ConsoleAppender>
 
 // Local includes
+#include "auxiliary/qexception.h"
 #include "mainapplication.h"
-#include "qexception.h"
 
 
 //
@@ -110,15 +110,15 @@ void Codri::Controller::_onInitializationSuccess() {
     connect(MainApplication::instance()->configuration(), SIGNAL(onVolumeChanged(unsigned char)), mPlatformInterface, SLOT(setVolume(unsigned char)));
 
     // Presentation
-    connect(MainApplication::instance()->presentation(), SIGNAL(onLocationChanged(const QString&)), mRepositoryInterface, SLOT(downloadPresentation(const QString&)));
+    connect(MainApplication::instance()->presentation(), SIGNAL(onLocationChanged(const QString&)), mRepositoryInterface, SLOT(check(const QString&)));
 
 
     // SUBSYSTEM EVENTS //
 
     // Repository interface
-    connect(mRepositoryInterface, SIGNAL(downloadStarted()), mUserInterface, SLOT(showInit()));
-    connect(mRepositoryInterface, SIGNAL(downloadFinished(QDir)), mUserInterface, SLOT(showPresentation(QDir)));
-    connect(mRepositoryInterface, SIGNAL(downloadFailed(QString)), mUserInterface, SLOT(showError(QString)));
+    connect(mRepositoryInterface, SIGNAL(changing()), mUserInterface, SLOT(showInit()));
+    connect(mRepositoryInterface, SIGNAL(ready(QDir)), mUserInterface, SLOT(showPresentation(QDir)));
+    connect(mRepositoryInterface, SIGNAL(failure(QException)), mUserInterface, SLOT(showError(QException)));
 
     // User interface
     // TODO: presentationError

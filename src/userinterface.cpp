@@ -70,7 +70,7 @@ void Codri::UserInterface::showStatus() {
     mWebView->setPage(tPageStatus);
 }
 
-void Codri::UserInterface::showError(const QString& iError) {
+void Codri::UserInterface::showError(const QException& iException) {
     // TODO: load the error in the page
 
     QWebPage *tPageError = new ErrorPage(mWebView);
@@ -136,7 +136,7 @@ void Codri::UserInterface::_loadFinished(bool iOk) {
 
     // Media page handling
     if (mWebView->page() == 0) {  // TODO: track
-        showError("unknown error");
+        showError(QException("unknown error"));
         emit presentationError("unknown error");
     } else {
         // TODO: emit fatal error (we can't trust on loading the error page)

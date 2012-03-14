@@ -60,7 +60,7 @@ void Codri::RegistrationController::initFSM() {
     QTimer *tRegisterRetry = new QTimer(this);
     tRegisterRetry->setSingleShot(true);
     tRegisterRetry->setInterval(mSettings->value("reconnect", 60*1000).toInt());
-    connect(mServerClient, SIGNAL(registrationFailure(QVariant)), tRegisterRetry, SLOT(start()));
+    connect(mServerClient, SIGNAL(registrationFailure(uint)), tRegisterRetry, SLOT(start()));
     tRegister->addTransition(tRegisterRetry, SIGNAL(timeout()), tRegister);
 
 
@@ -76,7 +76,7 @@ void Codri::RegistrationController::initFSM() {
     QTimer *tConflictRetry = new QTimer(this);
     tConflictRetry->setSingleShot(true);
     tConflictRetry->setInterval(mSettings->value("reconnect", 60*1000).toInt());
-    connect(mServerClient, SIGNAL(unregisterFailure(QVariant)), tConflictRetry, SLOT(start()));
+    connect(mServerClient, SIGNAL(unregisterFailure(uint)), tConflictRetry, SLOT(start()));
     tConflict->addTransition(tConflictRetry, SIGNAL(timeout()), tRegister);
 
 
@@ -93,5 +93,5 @@ void Codri::RegistrationController::initFSM() {
     tRefresh->addTransition(tRefreshDelay, SIGNAL(timeout()), tRefresh);
 
     // Transition on failure (restart _entire_ registration procedure)
-    tRefresh->addTransition(mServerClient, SIGNAL(refreshFailure(QVariant)), tRegister);
+    tRefresh->addTransition(mServerClient, SIGNAL(refreshFailure(uint)), tRegister);
 }

@@ -19,7 +19,7 @@
 #include <Log4Qt/Logger>
 
 // Local includes
-#include "qexception.h"
+#include "auxiliary/qexception.h"
 #include "network/webservicedispatcher.h"
 #include "network/serverclient.h"
 #include "network/registrationcontroller.h"

@@ -18,7 +18,7 @@
 #include <Log4Qt/Logger>
 
 // Local includes
-#include "qexception.h"
+#include "auxiliary/qexception.h"
 #include "userinterface.h"
 #include "networkinterface.h"
 #include "repositoryinterface.h"

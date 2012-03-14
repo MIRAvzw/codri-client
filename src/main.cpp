@@ -13,7 +13,6 @@
 
 // Local includes
 #include "mainapplication.h"
-#include "qexception.h"
 
 struct ExitHandler {
     ExitHandler() {

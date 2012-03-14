@@ -14,10 +14,12 @@
 
 // Library includes
 #include <QtCore/QObject>
+#include <QtCore/QStateMachine>
 #include <QtCore/QSettings>
 #include <QtCore/QList>
 #include <QtCore/QDir>
 #include <QtCore/QUrl>
+#include <QtCore/QDebug>
 #include <Log4Qt/Logger>
 #include <svnqt/repositorylistener.h>
 #include <svnqt/context_listener.h>
@@ -25,28 +27,87 @@
 #include <svnqt/revision.h>
 
 // Local includes
-#include "qexception.h"
+#include "auxiliary/qexception.h"
 
 namespace Codri {
-    class RepositoryInterface
-            : public QObject, public svn::repository::RepositoryListener, public svn::ContextListener {
-    Q_OBJECT
+    class RepositoryInterfacePrivate;
+    class RepositoryInterface : public QStateMachine {
+        Q_OBJECT
     public:
         // Construction and destruction
-        explicit RepositoryInterface(QObject *iParent) throw(QException);
+        RepositoryInterface(QObject *iParent) throw(QException);
+
+        // Construction helpers
+    private:
+        void initFSM();
 
         // Public interface
     public slots:
-        void downloadPresentation(const QString& iLocation);
+        void check(const QString& iLocation);
+        void recheck();
+
+        // Transition signals
+        // TODO: these are nasty, but necessary since we can't relay the public slots to a FSM transition directly
+    signals:
+        void _check();
+
+        // Proxy slots
+        // TODO: these are nasty, but neccesary since we can't pass parameters directly into the implementation
+    private slots:
+        void _onCheck();
+        void _onUpdate();
+        void _onUpdateSuccess(long iRevision);
+        void _onUpdateFailure(const QException& iException);
+        void _onCheckout();
+        void _onCheckoutSuccess(long iRevision);
+        void _onCheckoutFailure(const QException& iException);
 
         // Events
     signals:
-        void downloadStarted();
-        void downloadFinished(const QDir& iLocation);
-        void downloadFailed(const QString& iError);
+        void changing();
+        void ready(const QDir& iLocation);
+        void failure(const QException& iException);
 
     private:
-        // Low-level repository helpers
+        // Member data
+        RepositoryInterfacePrivate *mImplementation;
+        QDir mCheckout;
+
+        // Proxy data
+        QString mLocation;
+
+        // Subsystem objects
+        QSettings *mSettings;
+        Log4Qt::Logger *mLogger;
+
+        // States
+        QState *mIdle;
+    };
+
+    class RepositoryInterfacePrivate
+            : public QObject, public svn::repository::RepositoryListener, public svn::ContextListener {
+        Q_OBJECT
+    public:
+        // Construction and destruction
+        explicit RepositoryInterfacePrivate(QObject *iParent);
+
+        // Functionality
+    public slots:
+        void check(const QDir& iCheckout, const QString& iLocation);
+        void update(const QDir& iCheckout);
+        void checkout(const QDir& iCheckout, const QString& iLocation);
+
+        // Events
+    signals:
+        void needsUpdate();
+        void needsCheckout();
+        void updateSuccess(long iRevision);
+        void updateFailure(const QException& iException);
+        void checkoutSuccess(long iRevision);
+        void checkoutFailure(const QException iException);
+
+    private:
+        // Repository helpers
         QString getRepositoryLocation(const QDir& iCheckout) throw(QException);
         unsigned long getRepositoryRevision(const QDir &iCheckout) throw(QException);
         unsigned long checkoutRepository(const QDir &iCheckout, const QUrl &iUrl) throw(QException);
@@ -58,10 +119,12 @@ namespace Codri {
 
         // Repository listening
         virtual void sendWarning(const QString& iMessage) {
-            mLogger->warn() << iMessage.toAscii().data();
+            // TODO
+            qWarning() << iMessage.toAscii().data();
         }
         virtual void sendError(const QString& iMessage) {
-            mLogger->error() << iMessage.toAscii().data();
+            // TODO
+            qWarning() << iMessage.toAscii().data();
         }
         virtual bool isCanceld() { return false; }
 
@@ -93,8 +156,6 @@ namespace Codri {
 
     private:
         // Member objects
-        QSettings *mSettings;
-        Log4Qt::Logger *mLogger;
         svn::Client *mSubversionClient;
     };
 }

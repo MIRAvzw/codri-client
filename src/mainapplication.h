@@ -21,7 +21,7 @@
 #include <Log4Qt/Logger>
 
 // Local includes
-#include "qexception.h"
+#include "auxiliary/qexception.h"
 #include "controller.h"
 
 namespace Codri {

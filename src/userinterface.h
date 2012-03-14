@@ -22,7 +22,7 @@
 #include <Log4Qt/Logger>
 
 // Local includes
-#include "qexception.h"
+#include "auxiliary/qexception.h"
 #include "user/webpage.h"
 
 namespace Codri {
@@ -37,7 +37,7 @@ namespace Codri {
         void showInit();
         void showLog();
         void showStatus();
-        void showError(const QString& iError);
+        void showError(const QException& iException);
         void showPresentation(const QDir &iLocation);
 
         // Events

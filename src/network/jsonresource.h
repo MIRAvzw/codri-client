@@ -18,8 +18,8 @@
 #include <qjson/serializer.h>
 
 // Local includes
+#include "auxiliary/qexception.h"
 #include "resource.h"
-#include "qexception.h"
 
 namespace Codri {
     class JsonResource : public Resource {

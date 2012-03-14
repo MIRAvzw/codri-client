@@ -74,6 +74,9 @@ void Codri::InitController::initializeUser() {
 
         emit userSuccess();
     } catch (const QException &iException) {
+        mLogger->error() << "User interface initialization failed: " << iException.what();
+        foreach (const QString& tCause, iException.causes())
+            mLogger->error() << "Caused by: " << tCause;
         emit userFailure();
     }
 }
@@ -85,6 +88,9 @@ void Codri::InitController::initializePlatform() {
 
         emit platformSuccess();
     } catch (const QException &iException) {
+        mLogger->error() << "Platform interface initialization failed: " << iException.what();
+        foreach (const QString& tCause, iException.causes())
+            mLogger->error() << "Caused by: " << tCause;
         emit platformFailure();
     }
 }
@@ -95,6 +101,9 @@ void Codri::InitController::initializeRepository() {
 
         emit repositorySuccess();
     } catch (const QException &iException) {
+        mLogger->error() << "Repository interface initialization failed: " << iException.what();
+        foreach (const QString& tCause, iException.causes())
+            mLogger->error() << "Caused by: " << tCause;
         emit repositoryFailure();
     }
 }
@@ -105,6 +114,9 @@ void Codri::InitController::initializeNetwork() {
 
         emit networkSuccess();
     } catch (const QException &iException) {
+        mLogger->error() << "Network interface initialization failed: " << iException.what();
+        foreach (const QString& tCause, iException.causes())
+            mLogger->error() << "Caused by: " << tCause;
         emit networkFailure();
     }
 }

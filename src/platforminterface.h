@@ -19,7 +19,7 @@
 #include <QtCore/QUuid>
 
 // Local includes
-#include "qexception.h"
+#include "auxiliary/qexception.h"
 #include "state/kiosk.h"
 
 namespace Codri {

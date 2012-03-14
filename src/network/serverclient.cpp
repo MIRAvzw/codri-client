@@ -85,16 +85,16 @@ void Codri::ServerClient::initFSM() {
     connect(tRegisterSuccess, SIGNAL(triggered()), this, SIGNAL(registrationSuccess()));
 
     // Transition on request error (HTTP error 409)
-    ComparingSignalTransition *tRegisterConflict = new ComparingSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::EQUALITY, 409);
+    ComparingSignalTransition *tRegisterConflict = new ComparingSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::EQUALITY, (uint) 409);
     tRegisterConflict->setTargetState(mIdle);
     tRegistering->addTransition(tRegisterConflict);
     connect(tRegisterConflict, SIGNAL(triggered()), this, SIGNAL(registrationConflict()));
 
     // Transition on request error (all other errors)
-    ComparingSignalTransition *tRegisterFailure = new ComparingSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::INEQUALITY, 409);
+    ComparingSignalTransition *tRegisterFailure = new ComparingSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::INEQUALITY, (uint) 409);
     tRegisterFailure->setTargetState(mIdle);
     tRegistering->addTransition(tRegisterFailure);
-    connect(tRegisterFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(registrationFailure(QVariant)));
+    connect(tRegisterFailure, SIGNAL(triggeredUInt(uint)), this, SIGNAL(registrationFailure(uint)));
 
 
     // REFRESHING STATE //
@@ -112,7 +112,7 @@ void Codri::ServerClient::initFSM() {
     ParameterizedSignalTransition *tRefreshFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)));
     tRefreshFailure->setTargetState(mIdle);
     tRefreshing->addTransition(tRefreshFailure);
-    connect(tRefreshFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(refreshFailure(QVariant)));
+    connect(tRefreshFailure, SIGNAL(triggeredUInt(uint)), this, SIGNAL(refreshFailure(uint)));
 
 
     // UNREGISTERING STATE //
@@ -130,7 +130,7 @@ void Codri::ServerClient::initFSM() {
     ParameterizedSignalTransition *tUnregisterFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)));
     tUnregisterFailure->setTargetState(mIdle);
     tUnregistering->addTransition(tUnregisterFailure);
-    connect(tUnregisterFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(unregisterFailure(QVariant)));
+    connect(tUnregisterFailure, SIGNAL(triggeredUInt(uint)), this, SIGNAL(unregisterFailure(uint)));
 }
 
 
