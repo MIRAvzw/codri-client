@@ -52,16 +52,6 @@ namespace Codri {
         void _refreshKiosk();
         void _unregisterKiosk();
 
-        // State slots
-        // TODO: these are nasty, but the QStateMachine doesn't allow us to check whether we are in the idle state
-    private slots:
-        void onIdle() {
-            mIdle = true;
-        }
-        void onBusy() {
-            mIdle = false;
-        }
-
     signals:
         // Signals
         void registrationSuccess();
@@ -79,8 +69,8 @@ namespace Codri {
         // Subsystem objects
         Log4Qt::Logger *mLogger;
 
-        // Machine state
-        bool mIdle;
+        // States
+        QState *mIdle;
     };
 
     class ServerClientPrivate : public QObject {

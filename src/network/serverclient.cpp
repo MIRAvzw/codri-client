@@ -56,45 +56,41 @@ Codri::ServerClientPrivate::~ServerClientPrivate() {
 //
 
 void Codri::ServerClient::initFSM() {
-    QState *tIdle = new QState(this);
+    mIdle = new QState(this);
     QState *tRegistering = new QState(this);
     QState *tRefreshing = new QState(this);
     QState *tUnregistering = new QState(this);
-    setInitialState(tIdle);
+    setInitialState(mIdle);
 
 
     // IDLE STATE //
 
-    // Action on activation
-    connect(tIdle, SIGNAL(entered()), this, SLOT(onIdle()));
-
     // Transitions to active states
-    tIdle->addTransition(this, SIGNAL(_registerKiosk()), tRegistering);
-    tIdle->addTransition(this, SIGNAL(_refreshKiosk()), tRefreshing);
-    tIdle->addTransition(this, SIGNAL(_unregisterKiosk()), tUnregistering);
+    mIdle->addTransition(this, SIGNAL(_registerKiosk()), tRegistering);
+    mIdle->addTransition(this, SIGNAL(_refreshKiosk()), tRefreshing);
+    mIdle->addTransition(this, SIGNAL(_unregisterKiosk()), tUnregistering);
 
 
     // REGISTERING STATE //
 
     // Action on activation
-    connect(tRegistering, SIGNAL(entered()), this, SLOT(onBusy()));
     connect(tRegistering, SIGNAL(entered()), mImplementation, SLOT(registerKiosk()));
 
     // Transition on request success
     QSignalTransition *tRegisterSuccess = new QSignalTransition(mImplementation, SIGNAL(_onRequestSuccess()));
-    tRegisterSuccess->setTargetState(tIdle);
+    tRegisterSuccess->setTargetState(mIdle);
     tRegistering->addTransition(tRegisterSuccess);
     connect(tRegisterSuccess, SIGNAL(triggered()), this, SIGNAL(registrationSuccess()));
 
     // Transition on request error (HTTP error 409)
     ComparingSignalTransition *tRegisterConflict = new ComparingSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::EQUALITY, 409);
-    tRegisterConflict->setTargetState(tIdle);
+    tRegisterConflict->setTargetState(mIdle);
     tRegistering->addTransition(tRegisterConflict);
     connect(tRegisterConflict, SIGNAL(triggered()), this, SIGNAL(registrationConflict()));
 
     // Transition on request error (all other errors)
     ComparingSignalTransition *tRegisterFailure = new ComparingSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::INEQUALITY, 409);
-    tRegisterFailure->setTargetState(tIdle);
+    tRegisterFailure->setTargetState(mIdle);
     tRegistering->addTransition(tRegisterFailure);
     connect(tRegisterFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(registrationFailure(QVariant)));
 
@@ -102,18 +98,17 @@ void Codri::ServerClient::initFSM() {
     // REFRESHING STATE //
 
     // Action on activation
-    connect(tRefreshing, SIGNAL(entered()), this, SLOT(onBusy()));
     connect(tRefreshing, SIGNAL(entered()), mImplementation, SLOT(refreshKiosk()));
 
     // Transition on request success
     QSignalTransition *tRefreshSuccess = new QSignalTransition(mImplementation, SIGNAL(_onRequestSuccess()));
-    tRefreshSuccess->setTargetState(tIdle);
+    tRefreshSuccess->setTargetState(mIdle);
     tRefreshing->addTransition(tRefreshSuccess);
     connect(tRefreshSuccess, SIGNAL(triggered()), this, SIGNAL(refreshSuccess()));
 
     // Transition on request error
     ParameterizedSignalTransition *tRefreshFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)));
-    tRefreshFailure->setTargetState(tIdle);
+    tRefreshFailure->setTargetState(mIdle);
     tRefreshing->addTransition(tRefreshFailure);
     connect(tRefreshFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(refreshFailure(QVariant)));
 
@@ -121,18 +116,17 @@ void Codri::ServerClient::initFSM() {
     // UNREGISTERING STATE //
 
     // Action on activation
-    connect(tUnregistering, SIGNAL(entered()), this, SLOT(onBusy()));
     connect(tUnregistering, SIGNAL(entered()), mImplementation, SLOT(unregisterKiosk()));
 
     // Transition on request success
     QSignalTransition *tUnregisterSuccess = new QSignalTransition(mImplementation, SIGNAL(_onRequestSuccess()));
-    tUnregisterSuccess->setTargetState(tIdle);
+    tUnregisterSuccess->setTargetState(mIdle);
     tUnregistering->addTransition(tUnregisterSuccess);
     connect(tUnregisterSuccess, SIGNAL(triggered()), this, SIGNAL(unregisterSuccess()));
 
     // Transition on request error
     ParameterizedSignalTransition *tUnregisterFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)));
-    tUnregisterFailure->setTargetState(tIdle);
+    tUnregisterFailure->setTargetState(mIdle);
     tUnregistering->addTransition(tUnregisterFailure);
     connect(tUnregisterFailure, SIGNAL(dataTriggered(QVariant)), this, SIGNAL(unregisterFailure(QVariant)));
 }
@@ -143,7 +137,7 @@ void Codri::ServerClient::initFSM() {
 //
 
 void Codri::ServerClient::registerKiosk() {
-    if (mIdle) {
+    if (configuration().contains(mIdle)) {
         emit _registerKiosk();
     } else {
         mLogger->warn() << "Request to register while busy";
@@ -152,7 +146,7 @@ void Codri::ServerClient::registerKiosk() {
 }
 
 void Codri::ServerClient::refreshKiosk() {
-    if (mIdle) {
+    if (configuration().contains(mIdle)) {
         emit _refreshKiosk();
     } else {
         mLogger->warn() << "Request to refresh while busy";
@@ -161,7 +155,7 @@ void Codri::ServerClient::refreshKiosk() {
 }
 
 void Codri::ServerClient::unregisterKiosk() {
-    if (mIdle) {
+    if (configuration().contains(mIdle)) {
         emit _unregisterKiosk();
     } else {
         mLogger->warn() << "Request to unregister while busy";
