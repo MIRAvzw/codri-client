@@ -29,10 +29,10 @@ namespace Codri {
         // Construction and destruction
         explicit PlatformInterface(QObject *iParent) throw(QException);
 
-        // State event listeners
+        // Public interface
     public slots:
-        void onConfigurationVolumeChanged(unsigned char iVolume);
-        void onKioskStatusChanged(Kiosk::Status iStatus);
+        void setVolume(unsigned char iVolume);
+        void setStatus(Kiosk::Status iStatus);
 
         // Auxiliary
     private:

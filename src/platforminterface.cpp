@@ -35,14 +35,14 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
 
 
 //
-// State event listeners
+// Public interface
 //
 
-void Codri::PlatformInterface::onConfigurationVolumeChanged(unsigned char iVolume) {
+void Codri::PlatformInterface::setVolume(unsigned char iVolume) {
     // TODO: change the volume
 }
 
-void Codri::PlatformInterface::onKioskStatusChanged(Codri::Kiosk::Status iStatus) {
+void Codri::PlatformInterface::setStatus(Codri::Kiosk::Status iStatus) {
     // TODO: change the power state
 }
 

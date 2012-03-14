@@ -32,27 +32,21 @@ namespace Codri {
         // Construction and destruction
         explicit UserInterface(QWidget *iParent = 0) throw(QException);
 
-        // Subsystem event listeners
+        // Public interface
     public slots:
-        void onRepositoryDownloadStarted();
-        void onRepositoryDownloadFinished(const QDir& iLocation);
-        void onRepositoryDownloadFailed(const QString& iError);
+        void showInit();
+        void showLog();
+        void showStatus();
+        void showError(const QString& iError);
+        void showPresentation(const QDir &iLocation);
 
-        // Subsystem events
+        // Events
     signals:
         void presentationError(QString iError);
 
         // UI events
     public:
         bool eventFilter(QObject *iObject, QEvent *iEvent);
-
-        // Auxiliary
-    private:
-        void showInit();
-        void showLog();
-        void showStatus();
-        void showError(const QString& iError);
-        void showPresentation(const QDir &iLocation);
 
         // Internal slots
     private slots:

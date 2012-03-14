@@ -104,21 +104,21 @@ void Codri::Controller::_onInitializationSuccess() {
     // STATE EVENTS //
 
     // Kiosk
-    connect(MainApplication::instance()->kiosk(), SIGNAL(onStatusChanged(Kiosk::Status)), mPlatformInterface, SLOT(onKioskStatusChanged(Kiosk::Status)));
+    connect(MainApplication::instance()->kiosk(), SIGNAL(onStatusChanged(Kiosk::Status)), mPlatformInterface, SLOT(setStatus(Kiosk::Status)));
 
     // Configuration
-    connect(MainApplication::instance()->configuration(), SIGNAL(onVolumeChanged(unsigned char)), mPlatformInterface, SLOT(onConfigurationVolumeChanged(unsigned char)));
+    connect(MainApplication::instance()->configuration(), SIGNAL(onVolumeChanged(unsigned char)), mPlatformInterface, SLOT(setVolume(unsigned char)));
 
     // Presentation
-    connect(MainApplication::instance()->presentation(), SIGNAL(onLocationChanged(const QString&)), mRepositoryInterface, SLOT(onPresentationLocationChanged(const QString&)));
+    connect(MainApplication::instance()->presentation(), SIGNAL(onLocationChanged(const QString&)), mRepositoryInterface, SLOT(downloadPresentation(const QString&)));
 
 
     // SUBSYSTEM EVENTS //
 
     // Repository interface
-    connect(mRepositoryInterface, SIGNAL(downloadStarted()), mUserInterface, SLOT(onRepositoryDownloadStarted()));
-    connect(mRepositoryInterface, SIGNAL(downloadFinished(QDir)), mUserInterface, SLOT(onRepositoryDownloadFinished(QDir)));
-    connect(mRepositoryInterface, SIGNAL(downloadFailed(QString)), mUserInterface, SLOT(onRepositoryDownloadFailed(QString)));
+    connect(mRepositoryInterface, SIGNAL(downloadStarted()), mUserInterface, SLOT(showInit()));
+    connect(mRepositoryInterface, SIGNAL(downloadFinished(QDir)), mUserInterface, SLOT(showPresentation(QDir)));
+    connect(mRepositoryInterface, SIGNAL(downloadFailed(QString)), mUserInterface, SLOT(showError(QString)));
 
     // User interface
     // TODO: presentationError

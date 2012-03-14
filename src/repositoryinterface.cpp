@@ -48,18 +48,30 @@ Codri::RepositoryInterface::RepositoryInterface(QObject *iParent) throw(QExcepti
 
 
 //
-// State event listeners
+// Public interface
 //
 
-void Codri::RepositoryInterface::onPresentationLocationChanged(const QString &iLocation) {
+void Codri::RepositoryInterface::downloadPresentation(const QString &iLocation) {
     emit downloadStarted();
+
+    // Manage the checkout directory
+    QDir tCheckout(mSettings->value("presentations/checkout", "/tmp/data/presentation").toString());
+
     try {
-        // Download the new presentation
-        QPair<QDir, unsigned long> tCheckout = downloadPresentation(iLocation);
+        // Check if we need to update or get a new copy
+        unsigned long tRevision;
+        if (tCheckout.exists() && getRepositoryLocation(tCheckout) == iLocation) {
+            // Update the copy
+            tRevision = updateRepository(tCheckout);
+        } else {
+            // Do a full checkout
+            removeDirectory(tCheckout);
+            tRevision = checkoutRepository(tCheckout, iLocation);
+        }
 
         // Show the new presentation
-        MainApplication::instance()->presentation()->setRevision(tCheckout.second);
-        emit downloadFinished(tCheckout.first);
+        MainApplication::instance()->presentation()->setRevision(tRevision);
+        emit downloadFinished(tCheckout);
     } catch (const QException &tException) {
         mLogger->error() << "Could not download the new presentation: " << tException.what();
         foreach (const QString& tCause, tException.causes())
@@ -67,29 +79,6 @@ void Codri::RepositoryInterface::onPresentationLocationChanged(const QString &iL
         emit downloadFailed("could not download presentation");
         return;
     }
-}
-
-
-//
-// High-level repository helpers
-//
-
-QPair<QDir, unsigned long> Codri::RepositoryInterface::downloadPresentation(const QString &iLocation) throw(QException) {
-    // Manage the checkout directory
-    QDir tCheckout(mSettings->value("presentations/checkout", "/tmp/data/presentation").toString());
-
-    // Check if we need to update or get a new copy
-    unsigned long tRevision;
-    if (tCheckout.exists() && getRepositoryLocation(tCheckout) == iLocation) {
-        // Update the copy
-        tRevision = updateRepository(tCheckout);
-    } else {
-        // Do a full checkout
-        removeDirectory(tCheckout);
-        tRevision = checkoutRepository(tCheckout, iLocation);
-    }
-
-    return QPair<QDir, unsigned long>(tCheckout, tRevision);
 }
 
 

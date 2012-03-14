@@ -35,20 +35,17 @@ namespace Codri {
         // Construction and destruction
         explicit RepositoryInterface(QObject *iParent) throw(QException);
 
-        // State event listeners
+        // Public interface
     public slots:
-        void onPresentationLocationChanged(const QString& iLocation);
+        void downloadPresentation(const QString& iLocation);
 
-        // Subsystem events
+        // Events
     signals:
         void downloadStarted();
         void downloadFinished(const QDir& iLocation);
         void downloadFailed(const QString& iError);
 
     private:
-        // High-level repository helpers
-        QPair<QDir, unsigned long> downloadPresentation(const QString &iLocation) throw(QException);
-
         // Low-level repository helpers
         QString getRepositoryLocation(const QDir& iCheckout) throw(QException);
         unsigned long getRepositoryRevision(const QDir &iCheckout) throw(QException);
