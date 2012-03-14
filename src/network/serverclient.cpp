@@ -20,7 +20,10 @@
 //
 
 Codri::ServerClient::ServerClient(const QString &iLocation, QObject *iParent)
-    : QStateMachine(iParent) {
+    : QStateMachine(iParent) {    
+    // Setup logging
+    mLogger =  Log4Qt::Logger::logger(metaObject()->className());
+
     // Actual implementation
     mImplementation = new ServerClientPrivate(iLocation, this);
 
@@ -62,6 +65,9 @@ void Codri::ServerClient::initFSM() {
 
     // IDLE STATE //
 
+    // Action on activation
+    connect(tIdle, SIGNAL(entered()), this, SLOT(onIdle()));
+
     // Transitions to active states
     tIdle->addTransition(this, SIGNAL(_registerKiosk()), tRegistering);
     tIdle->addTransition(this, SIGNAL(_refreshKiosk()), tRefreshing);
@@ -71,6 +77,7 @@ void Codri::ServerClient::initFSM() {
     // REGISTERING STATE //
 
     // Action on activation
+    connect(tRegistering, SIGNAL(entered()), this, SLOT(onBusy()));
     connect(tRegistering, SIGNAL(entered()), mImplementation, SLOT(registerKiosk()));
 
     // Transition on request success
@@ -95,6 +102,7 @@ void Codri::ServerClient::initFSM() {
     // REFRESHING STATE //
 
     // Action on activation
+    connect(tRefreshing, SIGNAL(entered()), this, SLOT(onBusy()));
     connect(tRefreshing, SIGNAL(entered()), mImplementation, SLOT(refreshKiosk()));
 
     // Transition on request success
@@ -113,6 +121,7 @@ void Codri::ServerClient::initFSM() {
     // UNREGISTERING STATE //
 
     // Action on activation
+    connect(tUnregistering, SIGNAL(entered()), this, SLOT(onBusy()));
     connect(tUnregistering, SIGNAL(entered()), mImplementation, SLOT(unregisterKiosk()));
 
     // Transition on request success
@@ -132,16 +141,32 @@ void Codri::ServerClient::initFSM() {
 //
 // Public interface
 //
+
 void Codri::ServerClient::registerKiosk() {
-    emit _registerKiosk();
+    if (mIdle) {
+        emit _registerKiosk();
+    } else {
+        mLogger->warn() << "Request to register while busy";
+        QTimer::singleShot(100, this, SLOT(registerKiosk()));
+    }
 }
 
 void Codri::ServerClient::refreshKiosk() {
-    emit _refreshKiosk();
+    if (mIdle) {
+        emit _refreshKiosk();
+    } else {
+        mLogger->warn() << "Request to refresh while busy";
+        QTimer::singleShot(100, this, SLOT(refreshKiosk()));
+    }
 }
 
 void Codri::ServerClient::unregisterKiosk() {
-    emit _unregisterKiosk();
+    if (mIdle) {
+        emit _unregisterKiosk();
+    } else {
+        mLogger->warn() << "Request to unregister while busy";
+        QTimer::singleShot(100, this, SLOT(unregisterKiosk()));
+    }
 }
 
 

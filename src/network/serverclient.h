@@ -14,6 +14,7 @@
 
 // Library includes
 #include <QtCore/QObject>
+#include <Log4Qt/Logger>
 #include <QtCore/QStateMachine>
 #include <QtCore/QSignalTransition>
 #include <QtNetwork/QNetworkAccessManager>
@@ -51,6 +52,16 @@ namespace Codri {
         void _refreshKiosk();
         void _unregisterKiosk();
 
+        // State slots
+        // TODO: these are nasty, but the QStateMachine doesn't allow us to check whether we are in the idle state
+    private slots:
+        void onIdle() {
+            mIdle = true;
+        }
+        void onBusy() {
+            mIdle = false;
+        }
+
     signals:
         // Signals
         void registrationSuccess();
@@ -64,6 +75,12 @@ namespace Codri {
     private:
         // Member data
         ServerClientPrivate *mImplementation;
+
+        // Subsystem objects
+        Log4Qt::Logger *mLogger;
+
+        // Machine state
+        bool mIdle;
     };
 
     class ServerClientPrivate : public QObject {
