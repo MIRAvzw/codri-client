@@ -16,7 +16,6 @@
 #include <QtCore/QObject>
 #include <Log4Qt/Logger>
 #include <QtCore/QStateMachine>
-#include <QtCore/QSignalTransition>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
@@ -107,76 +106,6 @@ namespace Codri {
         QJson::Serializer *mSerializer;
         const QString mLocation;
         QNetworkAccessManager *mNetworkAccessManager;
-
-    };
-
-    class ParameterizedSignalTransition : public QSignalTransition {
-        Q_OBJECT
-    public:
-        ParameterizedSignalTransition(QObject *iSender, const char *iSignal)
-            : QSignalTransition(iSender, iSignal) {
-            connect(this, SIGNAL(triggered()), this, SLOT(_onTriggered()));
-        }
-
-    protected:
-        bool eventTest(QEvent *iEvent) {
-            if (!QSignalTransition::eventTest(iEvent))
-                return false;
-
-            QStateMachine::SignalEvent *tSignalEvent = static_cast<QStateMachine::SignalEvent*>(iEvent);
-            if (tSignalEvent->arguments().size() == 1 && tSignalEvent->arguments().at(0).canConvert(QVariant::Int))
-                mData = tSignalEvent->arguments().at(0).toInt();
-
-            return QSignalTransition::eventTest(iEvent);
-        }
-
-    private slots:
-        void _onTriggered() {
-            emit dataTriggered(mData);
-        }
-
-    signals:
-        void dataTriggered(QVariant);
-
-    private:
-        QVariant mData;
-    };
-
-    class ComparingSignalTransition : public ParameterizedSignalTransition {
-        Q_OBJECT
-    public:
-        enum Check {
-            EQUALITY,
-            INEQUALITY
-        };
-
-        ComparingSignalTransition(QObject *iSender, const char *iSignal, Check iCheck, int iData)
-            : ParameterizedSignalTransition(iSender, iSignal), mCheck(iCheck), mData(iData) {
-        }
-
-    protected:
-        // TODO: compare to array
-        bool eventTest(QEvent *iEvent) {
-            if (!QSignalTransition::eventTest(iEvent))
-                return false;
-            QStateMachine::SignalEvent *tSignalEvent = static_cast<QStateMachine::SignalEvent*>(iEvent);
-            if (tSignalEvent->arguments().size() == 1 && tSignalEvent->arguments().at(0).canConvert(QVariant::Int)) {
-                int iData = tSignalEvent->arguments().at(0).toInt();
-                switch (mCheck) {
-                case EQUALITY:
-                    return (mData == iData);
-                case INEQUALITY:
-                    return (mData != iData);
-                default:
-                    return false;
-                }
-            }
-            return false;
-        }
-
-    private:
-        const Check mCheck;
-        const int mData;
     };
 }
 

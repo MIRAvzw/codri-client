@@ -87,7 +87,9 @@ HEADERS += controller.h \
     controller/initcontroller.h \
     network/registrationcontroller.h \
     platforminterface.h \
-    repositoryinterface.h
+    repositoryinterface.h \
+    auxiliary/parameterizedsignaltransition.h \
+    auxiliary/comparingsignaltransition.h
 OTHER_FILES += \
     user/webpages/logpage.html \
     user/webpages/statuspage.html \

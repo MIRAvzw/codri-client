@@ -13,6 +13,8 @@
 
 // Local includes
 #include "mainapplication.h"
+#include "auxiliary/parameterizedsignaltransition.h"
+#include "auxiliary/comparingsignaltransition.h"
 
 
 //
