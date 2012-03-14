@@ -21,7 +21,7 @@
 #include <Log4Qt/Logger>
 
 // Local includes
-#include "serverclient.h"
+#include "network/serverclient.h"
 
 namespace Codri {
     class RegistrationController : public QStateMachine {

@@ -19,7 +19,7 @@
 #include <QxtWeb/QxtHttpSessionManager>
 
 // Local includes
-#include "resource.h"
+#include "network/resource.h"
 
 namespace Codri {
     class WebserviceDispatcher : public QxtHttpSessionManager {

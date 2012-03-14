@@ -9,7 +9,7 @@
 //
 
 // Header include
-#include "serverclient.h"
+#include "network/serverclient.h"
 
 // Local includes
 #include "mainapplication.h"

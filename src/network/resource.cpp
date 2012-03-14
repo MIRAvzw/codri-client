@@ -9,7 +9,7 @@
 //
 
 // Header include
-#include "resource.h"
+#include "network/resource.h"
 
 
 //

@@ -9,7 +9,7 @@
 //
 
 // Header include
-#include "presentationresource.h"
+#include "network/resources/presentationresource.h"
 
 // Local includes
 #include "mainapplication.h"

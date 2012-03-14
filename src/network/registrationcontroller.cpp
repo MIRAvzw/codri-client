@@ -9,7 +9,7 @@
 //
 
 // Header include
-#include "registrationcontroller.h"
+#include "network/registrationcontroller.h"
 
 // Library includes
 #include <QtCore/QTimer>

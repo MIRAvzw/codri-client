@@ -2262,7 +2262,7 @@ def CheckStyle(filename, clean_lines, linenum, file_extension, class_state,
                         class_state.classinfo_stack[-1], linenum, error)
 
 
-_RE_PATTERN_INCLUDE_NEW_STYLE = re.compile(r'#include +"[^/]+\.h"')
+_RE_PATTERN_INCLUDE_NEW_STYLE = re.compile(r'#include +"([^/]+\.h)"')
 _RE_PATTERN_INCLUDE = re.compile(r'^\s*#\s*include\s*([<"])([^>"]*)[>"].*$')
 # Matches the first component of a filename delimited by -s and _s. That is:
 #  _RE_FIRST_COMPONENT.match('foo').group(0) == 'foo'
@@ -2395,10 +2395,12 @@ def CheckIncludeLine(filename, clean_lines, linenum, include_state, error):
 
   line = clean_lines.lines[linenum]
 
-  # "include" should use the new style "foo/bar.h" instead of just "bar.h"
-  if _RE_PATTERN_INCLUDE_NEW_STYLE.search(line):
+  # local includes should be accessible, implying they should provide
+  # all directory specifications necessary for us to access the file
+  # from the root on
+  if _RE_PATTERN_INCLUDE.match(line).group(1) == '"' and not os.path.exists(_RE_PATTERN_INCLUDE.match(line).group(2)):
     error(filename, linenum, 'build/include', 4,
-          'Include the directory when naming .h files')
+          'Include all directories when naming .h files')
 
   # we shouldn't include a file more than once. actually, there are a
   # handful of instances where doing so is okay, but in general it's

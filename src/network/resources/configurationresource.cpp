@@ -9,7 +9,7 @@
 //
 
 // Header include
-#include "configurationresource.h"
+#include "network/resources/configurationresource.h"
 
 // Library includes
 #include <QtCore/QMap>

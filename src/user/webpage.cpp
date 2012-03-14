@@ -9,7 +9,7 @@
 //
 
 // Header include
-#include "webpage.h"
+#include "user/webpage.h"
 
 // Library includes
 #include <QtWebKit/QWebFrame>

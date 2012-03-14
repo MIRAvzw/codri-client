@@ -19,7 +19,7 @@
 
 // Local includes
 #include "auxiliary/qexception.h"
-#include "resource.h"
+#include "network/resource.h"
 
 namespace Codri {
     class JsonResource : public Resource {

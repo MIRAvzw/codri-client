@@ -9,7 +9,7 @@
 //
 
 // Header include
-#include "statuspage.h"
+#include "user/webpages/statuspage.h"
 
 // Library includes
 #include <Log4Qt/SimpleLayout>

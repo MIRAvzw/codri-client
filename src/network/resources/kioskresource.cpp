@@ -9,7 +9,7 @@
 //
 
 // Header include
-#include "kioskresource.h"
+#include "network/resources/kioskresource.h"
 
 // Local includes
 #include "mainapplication.h"
