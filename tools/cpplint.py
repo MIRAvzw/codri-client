@@ -2831,6 +2831,12 @@ def CheckCStyleCast(filename, linenum, line, raw_line, cast_type, pattern,
 
   remainder = line[match.end(0):]
 
+  # avoid warnings on Qt's connect(...), which use unnamed types within the signal
+  # specification
+  connect_match = Match(r'\s*connect', line[0:match.start(1) - 1])
+  if connect_match:
+    return False
+
   # The close paren is for function pointers as arguments to a function.
   # eg, void foo(void (*bar)(int));
   # The semicolon check is a more basic function check; also possibly a
@@ -2844,8 +2850,7 @@ def CheckCStyleCast(filename, linenum, line, raw_line, cast_type, pattern,
   # it's unnamed.  It should probably be expanded to check for multiple
   # arguments with some unnamed.
   function_match = Match(r'\s*(\)|=|(const)?\s*(;|\{|throw\(\)|>))', remainder)
-  connect_match = Match(r'\s*connect', line[0:match.start(1) - 1])  # avoid warnings on Qt's connect(...)
-  if function_match and not connect_match:
+  if function_match:
     if (not function_match.group(3) or
         function_match.group(3) == ';' or
         ('MockCallback<' not in raw_line and
