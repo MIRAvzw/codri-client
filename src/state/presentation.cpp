@@ -27,11 +27,11 @@ Codri::Presentation::Presentation(QObject *iParent)
 // Basic I/O
 //
 
-unsigned long Codri::Presentation::getRevision() const {
+uint32_t Codri::Presentation::getRevision() const {
     return mRevision;
 }
 
-void Codri::Presentation::setRevision(unsigned long iRevision) {
+void Codri::Presentation::setRevision(uint32_t iRevision) {
     mRevision = iRevision;
     mLogger->debug() << "Revision changing to " << iRevision;
     emit onRevisionChanged(iRevision);

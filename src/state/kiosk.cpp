@@ -61,11 +61,11 @@ void Codri::Kiosk::setModel(const QString &iModel) {
     mModel = iModel;
 }
 
-unsigned short Codri::Kiosk::getPort() const {
+uint16_t Codri::Kiosk::getPort() const {
     return mPort;
 }
 
-void Codri::Kiosk::setPort(unsigned short iPort) {
+void Codri::Kiosk::setPort(uint16_t iPort) {
     mPort = iPort;
     mLogger->debug() << "Port changing to " << iPort;
 }

@@ -12,6 +12,9 @@
 #ifndef STATE_CONFIGURATION_H_
 #define STATE_CONFIGURATION_H_
 
+// System includes
+#include <stdint.h>
+
 // Library includes
 #include <QtCore/QObject>
 #include <Log4Qt/Logger>
@@ -24,20 +27,20 @@ namespace Codri {
         explicit Configuration(QObject *iParent);
 
         // Basic I/O
-        unsigned long getRevision() const;
-        void setRevision(unsigned long iRevision);
-        unsigned short getVolume() const;
-        void setVolume(unsigned char iVolume);
+        uint32_t getRevision() const;
+        void setRevision(uint32_t iRevision);
+        uint8_t getVolume() const;
+        void setVolume(uint8_t iVolume);
 
     signals:
         // Signals
-        void onRevisionChanged(unsigned long iRevision);
-        void onVolumeChanged(unsigned char iVolume);
+        void onRevisionChanged(uint32_t iRevision);
+        void onVolumeChanged(uint8_t iVolume);
 
     private:
         // Member data
-        unsigned long mRevision;
-        unsigned char mVolume;
+        uint32_t mRevision;
+        uint8_t mVolume;
 
         // Subsystem objects
         Log4Qt::Logger *mLogger;

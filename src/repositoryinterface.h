@@ -35,7 +35,7 @@ namespace Codri {
     Q_OBJECT
     public:
         // Construction and destruction
-        RepositoryInterface(QObject *iParent) throw(QException);
+        explicit RepositoryInterface(QObject *iParent) throw(QException);
 
         // Construction helpers
     private:
@@ -56,10 +56,10 @@ namespace Codri {
     private slots:
         void _onCheck();
         void _onUpdate();
-        void _onUpdateSuccess(long iRevision);
+        void _onUpdateSuccess(uint32_t iRevision);
         void _onUpdateFailure(const QException& iException);
         void _onCheckout();
-        void _onCheckoutSuccess(long iRevision);
+        void _onCheckoutSuccess(uint32_t iRevision);
         void _onCheckoutFailure(const QException& iException);
 
         // Events
@@ -101,17 +101,17 @@ namespace Codri {
     signals:
         void needsUpdate();
         void needsCheckout();
-        void updateSuccess(long iRevision);
+        void updateSuccess(uint32_t iRevision);
         void updateFailure(const QException& iException);
-        void checkoutSuccess(long iRevision);
+        void checkoutSuccess(uint32_t iRevision);
         void checkoutFailure(const QException iException);
 
     private:
         // Repository helpers
         QString getRepositoryLocation(const QDir& iCheckout) throw(QException);
-        unsigned long getRepositoryRevision(const QDir &iCheckout) throw(QException);
-        unsigned long checkoutRepository(const QDir &iCheckout, const QUrl &iUrl) throw(QException);
-        unsigned long updateRepository(const QDir &iDestination) throw(QException);
+        uint32_t getRepositoryRevision(const QDir &iCheckout) throw(QException);
+        uint32_t checkoutRepository(const QDir &iCheckout, const QUrl &iUrl) throw(QException);
+        uint32_t updateRepository(const QDir &iDestination) throw(QException);
 
         // Filesystem helpers
         bool removeDirectory(const QDir &iDirectory);

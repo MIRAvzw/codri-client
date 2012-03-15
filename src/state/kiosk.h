@@ -13,6 +13,9 @@
 #ifndef STATE_KIOSK_H_
 #define STATE_KIOSK_H_
 
+// System includes
+#include <stdint.h>
+
 // Library includes
 #include <QtCore/QObject>
 #include <QtCore/QUuid>
@@ -41,8 +44,8 @@ namespace Codri {
         void setVendor(const QString& iVendor);
         QString getModel() const;
         void setModel(const QString& iModel);
-        unsigned short getPort() const;
-        void setPort(unsigned short iPort);
+        uint16_t getPort() const;
+        void setPort(uint16_t iPort);
 
         // Signals
     signals:
@@ -53,7 +56,7 @@ namespace Codri {
         Status mStatus;
         QUuid mUuid;
         QString mVendor, mModel;
-        unsigned short mPort;
+        uint16_t mPort;
 
         // Subsystem objects
         Log4Qt::Logger *mLogger;

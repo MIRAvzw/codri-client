@@ -27,21 +27,21 @@ Codri::Configuration::Configuration(QObject *iParent)
 // Basic I/O
 //
 
-unsigned long Codri::Configuration::getRevision() const {
+uint32_t Codri::Configuration::getRevision() const {
     return mRevision;
 }
 
-void Codri::Configuration::setRevision(unsigned long iRevision) {
+void Codri::Configuration::setRevision(uint32_t iRevision) {
     mRevision = iRevision;
     mLogger->debug() << "Revision changing to " << iRevision;
     emit onRevisionChanged(iRevision);
 }
 
-unsigned short Codri::Configuration::getVolume() const {
+uint8_t Codri::Configuration::getVolume() const {
     return mVolume;
 }
 
-void Codri::Configuration::setVolume(unsigned char iVolume) {
+void Codri::Configuration::setVolume(uint8_t iVolume) {
     mVolume = iVolume;
     mLogger->debug() << "Volume changing to " << iVolume;
     emit onVolumeChanged(iVolume);

@@ -100,8 +100,8 @@ void Codri::RepositoryInterface::initFSM() {
     connect(tUpdating, SIGNAL(entered()), this, SLOT(_onUpdate()));
 
     // Transition on update success
-    tUpdating->addTransition(mImplementation, SIGNAL(updateSuccess(long)), mIdle);
-    connect(mImplementation, SIGNAL(updateSuccess(long)), this, SLOT(_onUpdateSuccess(long)));
+    tUpdating->addTransition(mImplementation, SIGNAL(updateSuccess(uint32_t)), mIdle);
+    connect(mImplementation, SIGNAL(updateSuccess(uint32_t)), this, SLOT(_onUpdateSuccess(uint32_t)));
 
     // Transition on update failure
     tUpdating->addTransition(mImplementation, SIGNAL(updateFailure(QException)), tCheckingOut);
@@ -114,8 +114,8 @@ void Codri::RepositoryInterface::initFSM() {
     connect(tCheckingOut, SIGNAL(entered()), this, SLOT(_onCheckout()));
 
     // Transition on checkout success
-    tCheckingOut->addTransition(mImplementation, SIGNAL(checkoutSuccess(long)), mIdle);
-    connect(mImplementation, SIGNAL(checkoutSuccess(long)), this, SLOT(_onCheckoutSuccess(long)));
+    tCheckingOut->addTransition(mImplementation, SIGNAL(checkoutSuccess(uint32_t)), mIdle);
+    connect(mImplementation, SIGNAL(checkoutSuccess(uint32_t)), this, SLOT(_onCheckoutSuccess(uint32_t)));
 
     // Transition on checkout failure (delayed restart of checkout)
     QTimer *tCheckoutRetry = new QTimer(this);
@@ -167,7 +167,7 @@ void Codri::RepositoryInterface::_onUpdate() {
     mImplementation->update(mCheckout);
 }
 
-void Codri::RepositoryInterface::_onUpdateSuccess(long iRevision) {
+void Codri::RepositoryInterface::_onUpdateSuccess(uint32_t iRevision) {
     // TODO: do something with revision?
     emit ready(mCheckout);
 }
@@ -183,7 +183,7 @@ void Codri::RepositoryInterface::_onCheckout() {
     mImplementation->checkout(mCheckout, mLocation);
 }
 
-void Codri::RepositoryInterface::_onCheckoutSuccess(long iRevision) {
+void Codri::RepositoryInterface::_onCheckoutSuccess(uint32_t iRevision) {
     // TODO: do something with revision?
     emit ready(mCheckout);
 }
@@ -253,7 +253,7 @@ QString Codri::RepositoryInterfacePrivate::getRepositoryLocation(const QDir &iCh
     return "dummy";
 }
 
-unsigned long Codri::RepositoryInterfacePrivate::getRepositoryRevision(const QDir &iCheckout) throw(QException) {
+uint32_t Codri::RepositoryInterfacePrivate::getRepositoryRevision(const QDir &iCheckout) throw(QException) {
     try {
         QList<svn::InfoEntry> tInfoEntries =  mSubversionClient->info(
                     iCheckout.absolutePath(),

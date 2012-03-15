@@ -67,7 +67,7 @@ Codri::JsonResource::Result Codri::ConfigurationResource::doJsonPUT(const QVaria
 }
 
 Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonGET(QVariant& iReply) {
-    iReply = (unsigned long long) MainApplication::instance()->configuration()->getRevision();
+    iReply = MainApplication::instance()->configuration()->getRevision();
     return VALID;
 }
 
@@ -82,7 +82,7 @@ Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonPUT(co
 }
 
 Codri::JsonResource::Result Codri::ConfigurationResource::Volume::doJsonGET(QVariant& iReply) {
-    iReply = (unsigned long long) MainApplication::instance()->configuration()->getVolume();
+    iReply = MainApplication::instance()->configuration()->getVolume();
     return VALID;
 }
 

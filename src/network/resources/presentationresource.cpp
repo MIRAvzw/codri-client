@@ -63,7 +63,7 @@ Codri::JsonResource::Result Codri::PresentationResource::doJsonPUT(const QVarian
 }
 
 Codri::JsonResource::Result Codri::PresentationResource::Revision::doJsonGET(QVariant& iReply) {
-    iReply = (unsigned long long) MainApplication::instance()->presentation()->getRevision();
+    iReply = MainApplication::instance()->presentation()->getRevision();
     return VALID;
 }
 

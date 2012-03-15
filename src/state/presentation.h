@@ -12,6 +12,9 @@
 #ifndef STATE_PRESENTATION_H_
 #define STATE_PRESENTATION_H_
 
+// System includes
+#include <stdint.h>
+
 // Library includes
 #include <QtCore/QObject>
 #include <QtCore/QDir>
@@ -25,19 +28,19 @@ namespace Codri {
         explicit Presentation(QObject *iParent);
 
         // Basic I/O
-        unsigned long getRevision() const;
+        uint32_t getRevision() const;
         QString getLocation() const;
         void setLocation(const QString& iLocation);
-        void setRevision(unsigned long iRevision);
+        void setRevision(uint32_t iRevision);
 
     signals:
         // Signals
-        void onRevisionChanged(unsigned long iRevision);
+        void onRevisionChanged(uint32_t iRevision);
         void onLocationChanged(const QString& iLocation);
 
     private:
         // Member data
-        unsigned long mRevision;
+        uint32_t mRevision;
         QString mLocation;
 
         // Subsystem objects
