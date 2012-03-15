@@ -20,7 +20,7 @@
 
 namespace Codri {
     class ConfigurationResource : public JsonResource {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         ConfigurationResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent);

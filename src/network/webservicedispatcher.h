@@ -23,7 +23,7 @@
 
 namespace Codri {
     class WebserviceDispatcher : public QxtHttpSessionManager {
-        Q_OBJECT
+    Q_OBJECT
     public:
         WebserviceDispatcher(const QHostAddress &iHost, quint16 iPort);
         virtual ~WebserviceDispatcher();

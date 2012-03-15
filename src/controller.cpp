@@ -122,11 +122,9 @@ void Codri::Controller::_onInitializationSuccess() {
 
     // User interface
     // TODO: presentationError
-
 }
 
 void Codri::Controller::_onInitializationFailure() {
     mLogger->fatal() << "Initialisation failed, aborting";
     MainApplication::instance()->quit();
 }
-

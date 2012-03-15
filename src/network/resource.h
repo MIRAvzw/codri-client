@@ -21,7 +21,7 @@
 
 namespace Codri {
     class Resource : public QxtWebServiceDirectory {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         Resource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent, const QVariant& iClassName = QVariant());

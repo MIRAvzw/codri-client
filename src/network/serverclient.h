@@ -29,7 +29,7 @@
 namespace Codri {
     class ServerClientPrivate;
     class ServerClient : public QStateMachine {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         ServerClient(const QString& iLocation, QObject *iParent);

@@ -23,7 +23,7 @@
 
 namespace Codri {
     class JsonResource : public Resource {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         JsonResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent, const QVariant& iClassName = QVariant());

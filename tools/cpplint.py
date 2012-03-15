@@ -1954,7 +1954,8 @@ def CheckSectionSpacing(filename, clean_lines, class_info, linenum, error):
     #    private, but needed to be public for implementation reasons.
     prev_line = clean_lines.lines[linenum - 1]
     if (not IsBlankLine(prev_line) and
-        not Search(r'\b(class|struct)\b', prev_line)):
+        not Search(r'\b(class|struct)\b', prev_line) and
+        not Search(r'\b(Q_OBJECT|Q_PROPERTY)', prev_line)):
       # Try a bit harder to find the beginning of the class.  This is to
       # account for multi-line base-specifier lists, e.g.:
       #   class Derived

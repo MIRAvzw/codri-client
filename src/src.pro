@@ -107,7 +107,8 @@ target.path =$$BINDIR
 # Check target
 CHECK_FILTERS += \
     -readability/todo \
-    -whitespace/line_length
+    -whitespace/line_length \
+    -whitespace/labels
 # TODO: fix braces instead of disabling
 check.target = check
 check.commands = cd $$PWD && ../tools/cpplint.py --filter=$$join(CHECK_FILTERS,",","","") $$HEADERS $$SOURCES

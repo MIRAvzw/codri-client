@@ -24,7 +24,7 @@
 
 namespace Codri {
     class PlatformInterface : public QObject {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         explicit PlatformInterface(QObject *iParent) throw(QException);

@@ -20,7 +20,7 @@
 #include <QtCore/QDebug>
 
 class ParameterizedSignalTransition : public QSignalTransition {
-    Q_OBJECT
+Q_OBJECT
 public:
     ParameterizedSignalTransition(QObject *iSender, const char *iSignal)
         : QSignalTransition(iSender, iSignal) {

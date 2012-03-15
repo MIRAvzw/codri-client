@@ -18,7 +18,7 @@
 
 namespace Codri {
     class Configuration : public QObject {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         explicit Configuration(QObject *iParent);

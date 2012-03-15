@@ -32,7 +32,7 @@
 namespace Codri {
     class RepositoryInterfacePrivate;
     class RepositoryInterface : public QStateMachine {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         RepositoryInterface(QObject *iParent) throw(QException);

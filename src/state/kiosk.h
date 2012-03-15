@@ -21,7 +21,7 @@
 
 namespace Codri {
     class Kiosk : public QObject {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         explicit Kiosk(QObject *iParent);

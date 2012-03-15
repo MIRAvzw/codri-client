@@ -26,7 +26,7 @@ namespace Codri {
     class Controller;
 
     class InitController : public QStateMachine {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         explicit InitController(Controller *iController);
@@ -57,6 +57,7 @@ namespace Codri {
     private slots:
         // State machine status
         void _onFinished();
+
     public:
         bool isFinished() const;
 

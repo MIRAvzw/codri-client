@@ -26,7 +26,7 @@
 
 namespace Codri {
     class NetworkInterface : public QObject {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         explicit NetworkInterface(QObject *iParent) throw(QException);

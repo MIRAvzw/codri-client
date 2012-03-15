@@ -19,7 +19,7 @@
 
 namespace Codri {
     class Presentation : public QObject {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         explicit Presentation(QObject *iParent);

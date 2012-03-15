@@ -32,7 +32,7 @@ namespace Codri {
     class InitController;
 
     class Controller : public QObject {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         Controller(QObject *iParent) throw(QException);

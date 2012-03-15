@@ -26,7 +26,7 @@
 
 namespace Codri {
     class MainApplication : public QApplication {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         explicit MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException);

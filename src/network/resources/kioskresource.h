@@ -20,7 +20,7 @@
 
 namespace Codri {
     class KioskResource : public JsonResource {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent);

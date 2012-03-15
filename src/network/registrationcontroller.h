@@ -25,7 +25,7 @@
 
 namespace Codri {
     class RegistrationController : public QStateMachine {
-        Q_OBJECT
+    Q_OBJECT
     public:
         // Construction and destruction
         RegistrationController(ServerClient *iServerClient, QObject *iParent);

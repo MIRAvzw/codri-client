@@ -20,7 +20,7 @@
 #include "auxiliary/parameterizedsignaltransition.h"
 
 class ComparingSignalTransition : public ParameterizedSignalTransition {
-    Q_OBJECT
+Q_OBJECT
 public:
     enum Check {
         EQUALITY,

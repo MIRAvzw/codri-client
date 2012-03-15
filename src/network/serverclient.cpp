@@ -22,7 +22,7 @@
 //
 
 Codri::ServerClient::ServerClient(const QString &iLocation, QObject *iParent)
-    : QStateMachine(iParent) {    
+    : QStateMachine(iParent) {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
