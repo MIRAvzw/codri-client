@@ -64,10 +64,10 @@ private slots:
     }
 
 signals:
-    void triggeredVariant(QVariant);
-    void triggeredInt(int);
-    void triggeredUInt(uint);
-    void triggeredString(QString);
+    void triggeredVariant(QVariant iData);
+    void triggeredInt(int iData);
+    void triggeredUInt(uint iData);
+    void triggeredString(QString iData);
 
 private:
     QVariant mData;

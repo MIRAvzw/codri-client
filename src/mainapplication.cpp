@@ -12,8 +12,8 @@
 #include "mainapplication.h"
 
 // System includes
-#include <csignal>
 #include <sys/socket.h>
+#include <csignal>
 
 // Library includes
 #include <QtGui/QDesktopServices>
