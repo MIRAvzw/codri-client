@@ -68,7 +68,7 @@ namespace Codri {
     signals:
         void changing();
         void ready(const QDir& iLocation);
-        void failure(const QException& iException);
+        void runtimeFailure();
 
     private:
         // Member data

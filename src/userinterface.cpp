@@ -45,7 +45,6 @@ Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException)
     mLogger->debug() << "Showing initialization page";
     showInit();
     connect(mWebView, SIGNAL(loadFinished(bool)), this, SLOT(_loadFinished(bool)));
-    connect(mWebView, SIGNAL(loadProgress(int)), this, SLOT(_loadProgress(int)));
 }
 
 
@@ -70,9 +69,7 @@ void Codri::UserInterface::showStatus() {
     mWebView->setPage(tPageStatus);
 }
 
-void Codri::UserInterface::showError(const QException& iException) {
-    // TODO: load the error in the page
-
+void Codri::UserInterface::showError() {
     QWebPage *tPageError = new ErrorPage(mWebView);
     mWebView->setPage(tPageError);
 }
@@ -135,15 +132,12 @@ void Codri::UserInterface::_loadFinished(bool iOk) {
         return;
 
     // Media page handling
-    if (mWebView->page() == 0) {  // TODO: track
-        showError(QException("unknown error"));
-        emit presentationError("unknown error");
+    if (mWebView->page() == 0) {
+        mLogger->error() << "Unable to load the webpage";
+        showError();
+        emit runtimeFailure();
     } else {
-        // TODO: emit fatal error (we can't trust on loading the error page)
-        mLogger->error("WebView error on internal webpage");
+        mLogger->warn() << "Errors detected while loading the webpage";
     }
 }
 
-void Codri::UserInterface::_loadProgress(int iProgress) {
-    // TODO: relay to initpage
-}

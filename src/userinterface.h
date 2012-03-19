@@ -37,12 +37,12 @@ namespace Codri {
         void showInit();
         void showLog();
         void showStatus();
-        void showError(const QException& iException);
+        void showError();
         void showPresentation(const QDir &iLocation);
 
         // Events
     signals:
-        void presentationError(QString iError);
+        void runtimeFailure();
 
         // UI events
     public:
@@ -51,7 +51,6 @@ namespace Codri {
         // Internal slots
     private slots:
         void _loadFinished(bool iOk);
-        void _loadProgress(int iProgress);
 
     private:
         // Infrastructure

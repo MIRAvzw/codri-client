@@ -108,7 +108,7 @@ void Codri::RepositoryInterface::initFSM() {
     connect(tUpdateSuccess, SIGNAL(triggeredLongLong(long long)), this, SLOT(_onUpdateSuccess(long long)));
 
     // Transition on update failure
-    ParameterizedSignalTransition *tUpdateFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(failure(QException)));
+    ParameterizedSignalTransition *tUpdateFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(runtimeFailure(QException)));
     tUpdateFailure->setTargetState(tCheckingOut);
     tUpdating->addTransition(tUpdateFailure);
     connect(tUpdateFailure, SIGNAL(triggeredQException(QException)), this, SLOT(_onUpdateFailure(QException)));
@@ -126,7 +126,7 @@ void Codri::RepositoryInterface::initFSM() {
     connect(tCheckoutSuccess, SIGNAL(triggeredLongLong(long long)), this, SLOT(_onCheckoutSuccess(long long)));
 
     // Transition on checkout failure
-    ParameterizedSignalTransition *tCheckoutFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(failure(QException)));
+    ParameterizedSignalTransition *tCheckoutFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(runtimeFailure(QException)));
     tCheckoutFailure->setTargetState(mIdle);
     tCheckingOut->addTransition(tCheckoutFailure);
     connect(tCheckoutFailure, SIGNAL(triggeredQException(QException)), this, SLOT(_onCheckoutFailure(QException)));
@@ -184,6 +184,9 @@ void Codri::RepositoryInterface::_onUpdateFailure(const QException &iException) 
     mLogger->error() << "Repository update failed: " << iException.what();
     foreach (const QString& tCause, iException.causes())
         mLogger->error() << "Caused by: " << tCause;
+
+    // NOTE: we don't emit a runtime failure just yet,
+    //       but try a regular checkout first
 }
 
 void Codri::RepositoryInterface::_onCheckout() {
@@ -202,6 +205,7 @@ void Codri::RepositoryInterface::_onCheckoutFailure(const QException &iException
     mLogger->error() << "Repository checkout failed: " << iException.what();
     foreach (const QString& tCause, iException.causes())
         mLogger->error() << "Caused by: " << tCause;
+    emit runtimeFailure();
 }
 
 

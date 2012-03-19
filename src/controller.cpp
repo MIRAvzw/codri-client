@@ -118,10 +118,10 @@ void Codri::Controller::_onInitializationSuccess() {
     // Repository interface
     connect(mRepositoryInterface, SIGNAL(changing()), mUserInterface, SLOT(showInit()));
     connect(mRepositoryInterface, SIGNAL(ready(QDir)), mUserInterface, SLOT(showPresentation(QDir)));
-    connect(mRepositoryInterface, SIGNAL(failure(QException)), mUserInterface, SLOT(showError(QException)));
+    connect(mRepositoryInterface, SIGNAL(runtimeFailure()), mUserInterface, SLOT(showError()));
 
     // User interface
-    // TODO: presentationError
+    // connect(mRepositoryInterface, SIGNAL(runtimeFailure()), ..., SLOT(...));
 }
 
 void Codri::Controller::_onInitializationFailure() {
