@@ -108,7 +108,7 @@ void Codri::RepositoryInterface::initFSM() {
     connect(tUpdateSuccess, SIGNAL(triggeredLongLong(long long)), this, SLOT(_onUpdateSuccess(long long)));
 
     // Transition on update failure
-    ParameterizedSignalTransition *tUpdateFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(runtimeFailure(QException)));
+    ParameterizedSignalTransition *tUpdateFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(failure(QException)));
     tUpdateFailure->setTargetState(tCheckingOut);
     tUpdating->addTransition(tUpdateFailure);
     connect(tUpdateFailure, SIGNAL(triggeredQException(QException)), this, SLOT(_onUpdateFailure(QException)));
@@ -126,7 +126,7 @@ void Codri::RepositoryInterface::initFSM() {
     connect(tCheckoutSuccess, SIGNAL(triggeredLongLong(long long)), this, SLOT(_onCheckoutSuccess(long long)));
 
     // Transition on checkout failure
-    ParameterizedSignalTransition *tCheckoutFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(runtimeFailure(QException)));
+    ParameterizedSignalTransition *tCheckoutFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(failure(QException)));
     tCheckoutFailure->setTargetState(mIdle);
     tCheckingOut->addTransition(tCheckoutFailure);
     connect(tCheckoutFailure, SIGNAL(triggeredQException(QException)), this, SLOT(_onCheckoutFailure(QException)));
