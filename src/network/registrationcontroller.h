@@ -34,16 +34,6 @@ namespace Codri {
     private:
         void initFSM();
 
-    signals:
-        // State outcome signals
-        void registrationSuccess();
-        void registrationFailure();
-        void registrationConflict();
-        void conflictResolved();
-        void conflictRemaining();
-        void refreshSuccess();
-        void refreshFailure();
-
     private:
         // Member data
         ServerClient* mServerClient;

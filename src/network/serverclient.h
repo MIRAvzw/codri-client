@@ -52,7 +52,7 @@ namespace Codri {
         void _unregisterKiosk();
 
     signals:
-        // Signals
+        // Events
         void registrationSuccess();
         void registrationConflict();
         void registrationFailure(uint iError);
@@ -89,8 +89,8 @@ namespace Codri {
         void _onRequestFinished(QNetworkReply *iReply);
 
     signals:
-        void _onRequestSuccess();
-        void _onRequestFailure(unsigned int iErrorCode);
+        void requestSuccess();
+        void requestFailure(unsigned int iErrorCode);
 
     private:
         // Auxiliary

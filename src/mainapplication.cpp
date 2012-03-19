@@ -16,6 +16,7 @@
 #include <csignal>
 
 // Library includes
+#include <QtCore/QMetaType>
 #include <QtGui/QDesktopServices>
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
@@ -36,6 +37,9 @@ Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentVal
     // Singleton assertion (well, some singleton-hybrid, to be fair)
     Q_ASSERT(mInstance == NULL);
     mInstance = this;
+
+    // Register custom types
+    qRegisterMetaType<QException>("QException");
 
     // Configure the application
     setOrganizationName("Codri");

@@ -51,16 +51,18 @@ namespace Codri {
     signals:
         void _check();
 
-        // Proxy slots
-        // TODO: these are nasty, but neccesary since we can't pass parameters directly into the implementation
+        // Internal state and transition slots
+        // TODO: these are nasty, but neccesary because:
+        // - event/signal parameters are tedious and sometimes can't be connected directly
+        // - the state machines don't log state transitions
     private slots:
         void _onCheck();
         void _onUpdate();
-        void _onUpdateSuccess(uint32_t iRevision);
+        void _onUpdateSuccess(long long iRevision);
         void _onUpdateFailure(const QException& iException);
         void _onCheckout();
-        void _onCheckoutSuccess(uint32_t iRevision);
-        void _onCheckoutFailure(const QException& iException);
+        void _onCheckoutSuccess(long long iRevision);
+        void _onCheckoutFailure(const QException& iError);
 
         // Events
     signals:
@@ -101,10 +103,8 @@ namespace Codri {
     signals:
         void needsUpdate();
         void needsCheckout();
-        void updateSuccess(uint32_t iRevision);
-        void updateFailure(const QException& iException);
-        void checkoutSuccess(uint32_t iRevision);
-        void checkoutFailure(const QException iException);
+        void success(long long iRevision);  // svn_revnum_t is a long int, closest QVariant type is long long
+        void failure(const QException& iException);
 
     private:
         // Repository helpers

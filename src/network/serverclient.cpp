@@ -79,19 +79,19 @@ void Codri::ServerClient::initFSM() {
     connect(tRegistering, SIGNAL(entered()), mImplementation, SLOT(registerKiosk()));
 
     // Transition on request success
-    QSignalTransition *tRegisterSuccess = new QSignalTransition(mImplementation, SIGNAL(_onRequestSuccess()));
+    QSignalTransition *tRegisterSuccess = new QSignalTransition(mImplementation, SIGNAL(requestSuccess()));
     tRegisterSuccess->setTargetState(mIdle);
     tRegistering->addTransition(tRegisterSuccess);
     connect(tRegisterSuccess, SIGNAL(triggered()), this, SIGNAL(registrationSuccess()));
 
     // Transition on request error (HTTP error 409)
-    ComparingSignalTransition *tRegisterConflict = new ComparingSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::EQUALITY, (uint) 409);
+    ComparingSignalTransition *tRegisterConflict = new ComparingSignalTransition(mImplementation, SIGNAL(requestFailure(uint)), ComparingSignalTransition::EQUALITY, (uint) 409);
     tRegisterConflict->setTargetState(mIdle);
     tRegistering->addTransition(tRegisterConflict);
     connect(tRegisterConflict, SIGNAL(triggered()), this, SIGNAL(registrationConflict()));
 
     // Transition on request error (all other errors)
-    ComparingSignalTransition *tRegisterFailure = new ComparingSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)), ComparingSignalTransition::INEQUALITY, (uint) 409);
+    ComparingSignalTransition *tRegisterFailure = new ComparingSignalTransition(mImplementation, SIGNAL(requestFailure(uint)), ComparingSignalTransition::INEQUALITY, (uint) 409);
     tRegisterFailure->setTargetState(mIdle);
     tRegistering->addTransition(tRegisterFailure);
     connect(tRegisterFailure, SIGNAL(triggeredUInt(uint)), this, SIGNAL(registrationFailure(uint)));
@@ -103,13 +103,13 @@ void Codri::ServerClient::initFSM() {
     connect(tRefreshing, SIGNAL(entered()), mImplementation, SLOT(refreshKiosk()));
 
     // Transition on request success
-    QSignalTransition *tRefreshSuccess = new QSignalTransition(mImplementation, SIGNAL(_onRequestSuccess()));
+    QSignalTransition *tRefreshSuccess = new QSignalTransition(mImplementation, SIGNAL(requestSuccess()));
     tRefreshSuccess->setTargetState(mIdle);
     tRefreshing->addTransition(tRefreshSuccess);
     connect(tRefreshSuccess, SIGNAL(triggered()), this, SIGNAL(refreshSuccess()));
 
     // Transition on request error
-    ParameterizedSignalTransition *tRefreshFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)));
+    ParameterizedSignalTransition *tRefreshFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(requestFailure(uint)));
     tRefreshFailure->setTargetState(mIdle);
     tRefreshing->addTransition(tRefreshFailure);
     connect(tRefreshFailure, SIGNAL(triggeredUInt(uint)), this, SIGNAL(refreshFailure(uint)));
@@ -121,13 +121,13 @@ void Codri::ServerClient::initFSM() {
     connect(tUnregistering, SIGNAL(entered()), mImplementation, SLOT(unregisterKiosk()));
 
     // Transition on request success
-    QSignalTransition *tUnregisterSuccess = new QSignalTransition(mImplementation, SIGNAL(_onRequestSuccess()));
+    QSignalTransition *tUnregisterSuccess = new QSignalTransition(mImplementation, SIGNAL(requestSuccess()));
     tUnregisterSuccess->setTargetState(mIdle);
     tUnregistering->addTransition(tUnregisterSuccess);
     connect(tUnregisterSuccess, SIGNAL(triggered()), this, SIGNAL(unregisterSuccess()));
 
     // Transition on request error
-    ParameterizedSignalTransition *tUnregisterFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(_onRequestFailure(uint)));
+    ParameterizedSignalTransition *tUnregisterFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(requestFailure(uint)));
     tUnregisterFailure->setTargetState(mIdle);
     tUnregistering->addTransition(tUnregisterFailure);
     connect(tUnregisterFailure, SIGNAL(triggeredUInt(uint)), this, SIGNAL(unregisterFailure(uint)));
@@ -203,13 +203,13 @@ void Codri::ServerClientPrivate::_onRequestFinished(QNetworkReply *iReply) {
     // Get reply data
     // TODO: do something with the error -- is the request retried if it fails?
     if (iReply->error() == QNetworkReply::NoError) {
-        emit _onRequestSuccess();
+        emit requestSuccess();
     } else {
         unsigned int tErrorCode = iReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).isNull()
                 ? 0
 
                 : iReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toUInt();
-        emit _onRequestFailure(tErrorCode);
+        emit requestFailure(tErrorCode);
     }
 }
 

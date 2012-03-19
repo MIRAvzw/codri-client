@@ -19,6 +19,9 @@
 #include <QtCore/QSignalTransition>
 #include <QtCore/QDebug>
 
+// Local includes
+#include "auxiliary/qexception.h"
+
 class ParameterizedSignalTransition : public QSignalTransition {
 Q_OBJECT
 public:
@@ -52,9 +55,17 @@ private slots:
             case QVariant::UInt:
                 emit triggeredUInt(mData.toUInt());
                 break;
+            case QVariant::LongLong:
+                emit triggeredLongLong(mData.toLongLong());
+                break;
             case QVariant::String:
                 emit triggeredString(mData.toString());
                 break;
+            case QVariant::UserType:
+                if (mData.canConvert<QException>()) {
+                    emit triggeredQException(mData.value<QException>());
+                    break;
+                }
             default:
                 qWarning() << "Unhandled variant type" << mData.typeName();
                 emit triggeredVariant(mData);
@@ -67,7 +78,9 @@ signals:
     void triggeredVariant(QVariant iData);
     void triggeredInt(int iData);
     void triggeredUInt(uint iData);
+    void triggeredLongLong(long long iData);
     void triggeredString(QString iData);
+    void triggeredQException(const QException& iData);
 
 private:
     QVariant mData;

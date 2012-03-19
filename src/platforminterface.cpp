@@ -38,7 +38,7 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
 // Public interface
 //
 
-void Codri::PlatformInterface::setVolume(unsigned char iVolume) {
+void Codri::PlatformInterface::setVolume(uint8_t iVolume) {
     // TODO: change the volume
 }
 

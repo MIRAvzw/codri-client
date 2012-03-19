@@ -13,6 +13,7 @@
 #define AUXILIARY_QEXCEPTION_H_
 
 // Library includes
+#include <QtCore/QMetaType>
 #include <QtCore/QString>
 #include <svnqt/exception.h>
 #include <QtCore/QStringList>
@@ -73,5 +74,7 @@ private:
     QString mMessage;
     QException const* const mCause;
 };
+
+Q_DECLARE_METATYPE(QException)
 
 #endif  // AUXILIARY_QEXCEPTION_H_

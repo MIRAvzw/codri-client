@@ -31,7 +31,7 @@ namespace Codri {
 
         // Public interface
     public slots:
-        void setVolume(unsigned char iVolume);
+        void setVolume(uint8_t iVolume);
         void setStatus(Kiosk::Status iStatus);
 
         // Auxiliary

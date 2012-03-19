@@ -85,7 +85,7 @@ void Codri::RepositoryInterface::initFSM() {
     // CHECKING STATE //
 
     // Action on activation
-    connect(tChecking, SIGNAL(entered()), this, SLOT(_onCheckout()));
+    connect(tChecking, SIGNAL(entered()), this, SLOT(_onCheck()));
 
     // Transition on need for update
     tChecking->addTransition(mImplementation, SIGNAL(needsUpdate()), tUpdating);
@@ -100,12 +100,16 @@ void Codri::RepositoryInterface::initFSM() {
     connect(tUpdating, SIGNAL(entered()), this, SLOT(_onUpdate()));
 
     // Transition on update success
-    tUpdating->addTransition(mImplementation, SIGNAL(updateSuccess(uint32_t)), mIdle);
-    connect(mImplementation, SIGNAL(updateSuccess(uint32_t)), this, SLOT(_onUpdateSuccess(uint32_t)));
+    ParameterizedSignalTransition *tUpdateSuccess = new ParameterizedSignalTransition(mImplementation, SIGNAL(success(long long)));
+    tUpdateSuccess->setTargetState(mIdle);
+    tUpdating->addTransition(tUpdateSuccess);
+    connect(tUpdateSuccess, SIGNAL(triggeredLongLong(long long)), this, SLOT(_onUpdateSuccess(long long)));
 
     // Transition on update failure
-    tUpdating->addTransition(mImplementation, SIGNAL(updateFailure(QException)), tCheckingOut);
-    connect(mImplementation, SIGNAL(updateFailure(QException)), this, SLOT(_onUpdateFailure(QException)));
+    ParameterizedSignalTransition *tUpdateFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(failure(QException)));
+    tUpdateFailure->setTargetState(tCheckingOut);
+    tUpdating->addTransition(tUpdateFailure);
+    connect(tUpdateFailure, SIGNAL(triggeredQException(QException)), this, SLOT(_onUpdateFailure(QException)));
 
 
     // CHECKING OUT STATE //
@@ -114,17 +118,16 @@ void Codri::RepositoryInterface::initFSM() {
     connect(tCheckingOut, SIGNAL(entered()), this, SLOT(_onCheckout()));
 
     // Transition on checkout success
-    tCheckingOut->addTransition(mImplementation, SIGNAL(checkoutSuccess(uint32_t)), mIdle);
-    connect(mImplementation, SIGNAL(checkoutSuccess(uint32_t)), this, SLOT(_onCheckoutSuccess(uint32_t)));
+    ParameterizedSignalTransition *tCheckoutSuccess = new ParameterizedSignalTransition(mImplementation, SIGNAL(success(long long)));
+    tCheckoutSuccess->setTargetState(mIdle);
+    tCheckingOut->addTransition(tCheckoutSuccess);
+    connect(tCheckoutSuccess, SIGNAL(triggeredLongLong(long long)), this, SLOT(_onCheckoutSuccess(long long)));
 
-    // Transition on checkout failure (delayed restart of checkout)
-    QTimer *tCheckoutRetry = new QTimer(this);
-    tCheckoutRetry->setSingleShot(true);
-    tCheckoutRetry->setInterval(mSettings->value("retry", 60*1000).toInt());
-    connect(mImplementation, SIGNAL(checkoutFailure(QException)), tCheckoutRetry, SLOT(start()));
-    tCheckingOut->addTransition(tCheckoutRetry, SIGNAL(timeout()), tCheckingOut);
-    connect(mImplementation, SIGNAL(checkoutFailure(QException)), this, SLOT(_onCheckoutFailure(QException)));
-    // TODO: is entered() triggered when going to the same state again?
+    // Transition on checkout failure
+    ParameterizedSignalTransition *tCheckoutFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(failure(QException)));
+    tCheckoutFailure->setTargetState(mIdle);
+    tCheckingOut->addTransition(tCheckoutFailure);
+    connect(tCheckoutFailure, SIGNAL(triggeredQException(QException)), this, SLOT(_onCheckoutFailure(QException)));
 }
 
 
@@ -155,20 +158,23 @@ void Codri::RepositoryInterface::recheck() {
 
 
 //
-// Proxy slots
+// Internal state and transition slots
 //
 
 void Codri::RepositoryInterface::_onCheck() {
+    mLogger->debug() << "Checking the repository at " << mCheckout.absolutePath() << " against " << mLocation;
     mImplementation->check(mCheckout, mLocation);
 }
 
 void Codri::RepositoryInterface::_onUpdate() {
+    mLogger->debug() << "Updating the repository at " << mCheckout.absolutePath();
     emit changing();
     mImplementation->update(mCheckout);
 }
 
-void Codri::RepositoryInterface::_onUpdateSuccess(uint32_t iRevision) {
+void Codri::RepositoryInterface::_onUpdateSuccess(long long iRevision) {
     // TODO: do something with revision?
+    mLogger->debug() << "Successfulle updated to revision " << iRevision;
     emit ready(mCheckout);
 }
 
@@ -179,12 +185,14 @@ void Codri::RepositoryInterface::_onUpdateFailure(const QException &iException) 
 }
 
 void Codri::RepositoryInterface::_onCheckout() {
+    mLogger->debug() << "Checking out " << mLocation << " to " << mCheckout.absolutePath();
     emit changing();
     mImplementation->checkout(mCheckout, mLocation);
 }
 
-void Codri::RepositoryInterface::_onCheckoutSuccess(uint32_t iRevision) {
+void Codri::RepositoryInterface::_onCheckoutSuccess(long long iRevision) {
     // TODO: do something with revision?
+    mLogger->debug() << "Successfulle checked-out at revision " << iRevision;
     emit ready(mCheckout);
 }
 
@@ -218,9 +226,9 @@ void Codri::RepositoryInterfacePrivate::update(const QDir& iCheckout) {
     try {
         QList<svn::Revision> tRevisions = mSubversionClient->update(tUpdateParameters);
         // TODO: verify that .back() is the latest revision
-        emit updateSuccess(tRevisions.back().revnum());
+        emit success(tRevisions.back().revnum());
     } catch (const svn::ClientException &iException) {
-        emit updateFailure(QException::fromSVNException(iException));
+        emit failure(QException::fromSVNException(iException));
     }
 }
 
@@ -237,9 +245,9 @@ void Codri::RepositoryInterfacePrivate::checkout(const QDir& iCheckout, const QS
     try {
         // TODO: do this asynchronously
         svn::Revision tRevision = mSubversionClient->checkout(tCheckoutParameters).revnum();
-        emit checkoutSuccess(tRevision);
+        emit success(tRevision);
     } catch (const svn::ClientException &iException) {
-        emit checkoutFailure(QException::fromSVNException(iException));
+        emit failure(QException::fromSVNException(iException));
     }
 }
 
