@@ -110,8 +110,6 @@ namespace Codri {
         // Repository helpers
         QString getRepositoryLocation(const QDir& iCheckout) throw(QException);
         uint32_t getRepositoryRevision(const QDir &iCheckout) throw(QException);
-        uint32_t checkoutRepository(const QDir &iCheckout, const QUrl &iUrl) throw(QException);
-        uint32_t updateRepository(const QDir &iDestination) throw(QException);
 
         // Filesystem helpers
         bool removeDirectory(const QDir &iDirectory);

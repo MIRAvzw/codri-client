@@ -40,7 +40,9 @@ Codri::RepositoryInterface::RepositoryInterface(QObject *iParent) throw(QExcepti
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Checkout directory
-    mCheckout = QDir(mSettings->value("checkout", "/tmp/repository").toString());
+    mCheckout = QDir(mSettings->value("datadir", "/tmp/data").toString()).absoluteFilePath("checkout");
+    if (!mCheckout.exists())
+        mCheckout.mkpath(mCheckout.absolutePath());
 
     // Actual implementation
     mImplementation = new RepositoryInterfacePrivate(this);
@@ -167,14 +169,14 @@ void Codri::RepositoryInterface::_onCheck() {
 }
 
 void Codri::RepositoryInterface::_onUpdate() {
-    mLogger->debug() << "Updating the repository at " << mCheckout.absolutePath();
+    mLogger->debug() << "Updating the checkout at " << mCheckout.absolutePath();
     emit changing();
     mImplementation->update(mCheckout);
 }
 
 void Codri::RepositoryInterface::_onUpdateSuccess(long long iRevision) {
     // TODO: do something with revision?
-    mLogger->debug() << "Successfulle updated to revision " << iRevision;
+    mLogger->debug() << "Successfully updated to revision " << iRevision;
     emit ready(mCheckout);
 }
 
@@ -192,7 +194,7 @@ void Codri::RepositoryInterface::_onCheckout() {
 
 void Codri::RepositoryInterface::_onCheckoutSuccess(long long iRevision) {
     // TODO: do something with revision?
-    mLogger->debug() << "Successfulle checked-out at revision " << iRevision;
+    mLogger->debug() << "Successfully checked-out at revision " << iRevision;
     emit ready(mCheckout);
 }
 
@@ -208,10 +210,14 @@ void Codri::RepositoryInterface::_onCheckoutFailure(const QException &iException
 //
 
 void Codri::RepositoryInterfacePrivate::check(const QDir& iCheckout, const QString& iLocation) {
-    if (iCheckout.exists() && getRepositoryLocation(iCheckout) == iLocation) {
-        // TODO: compare revision, don't update if not needed
-        emit needsUpdate();
-    } else {
+    try {
+        if (iCheckout.exists() && getRepositoryLocation(iCheckout) == iLocation) {
+            emit needsUpdate();
+        } else {
+            emit needsCheckout();
+        }
+    } catch (const QException& iException) {
+        // Something went seriously wrong, the checkout is most likely corrupt
         emit needsCheckout();
     }
 }
@@ -233,22 +239,33 @@ void Codri::RepositoryInterfacePrivate::update(const QDir& iCheckout) {
 }
 
 void Codri::RepositoryInterfacePrivate::checkout(const QDir& iCheckout, const QString& iLocation) {
-    // Create, remove, ... directory
-    svn::CheckoutParameter tCheckoutParameters;
-    tCheckoutParameters
-            .moduleName(iLocation)
-            .destination(iCheckout.absolutePath())
-            .revision(svn::Revision::HEAD)
-            .peg(svn::Revision::HEAD)
-            .depth(svn::DepthInfinity);
+    // Manage the checkout location
+    if (removeDirectory(iCheckout))
+        emit failure(QException("could not remove existing checkout directory"));
 
+    // Create temporary directory
+    QDir tTemporaryCheckout(iCheckout.absolutePath() + "_" + QTime::currentTime().toString("hhmmss"));
+
+    // Do the actual checkout
+    svn::Revision tRevision;
     try {
-        // TODO: do this asynchronously
-        svn::Revision tRevision = mSubversionClient->checkout(tCheckoutParameters).revnum();
-        emit success(tRevision);
+        svn::CheckoutParameter tCheckoutParameters;
+        tCheckoutParameters
+                .moduleName(iLocation)
+                .destination(tTemporaryCheckout.absolutePath())
+                .revision(svn::Revision::HEAD)
+                .peg(svn::Revision::HEAD)
+                .depth(svn::DepthInfinity);
+
+        tRevision = mSubversionClient->checkout(tCheckoutParameters).revnum();
     } catch (const svn::ClientException &iException) {
         emit failure(QException::fromSVNException(iException));
+        return;
     }
+
+    // Move the checkout in place
+    tTemporaryCheckout.rename(tTemporaryCheckout.absolutePath(), iCheckout.path());
+    emit success(tRevision);
 }
 
 
@@ -257,8 +274,19 @@ void Codri::RepositoryInterfacePrivate::checkout(const QDir& iCheckout, const QS
 //
 
 QString Codri::RepositoryInterfacePrivate::getRepositoryLocation(const QDir &iCheckout) throw(QException) {
-    // TODO
-    return "dummy";
+    try {
+        QList<svn::InfoEntry> tInfoEntries =  mSubversionClient->info(
+                    iCheckout.absolutePath(),
+                    svn::DepthEmpty,
+                    svn::Revision::HEAD);
+        if (tInfoEntries.size() != 1)
+            throw QException("unexpected amount of info entries");
+        return tInfoEntries.first().url();
+    } catch (const svn::ClientException &iException) {
+        throw QException("could not check the repository", QException::fromSVNException(iException));
+    } catch (const QException &iException) {
+        throw QException("could not check the repository", iException);
+    }
 }
 
 uint32_t Codri::RepositoryInterfacePrivate::getRepositoryRevision(const QDir &iCheckout) throw(QException) {
