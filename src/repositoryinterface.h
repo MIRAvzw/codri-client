@@ -111,10 +111,6 @@ namespace Codri {
         void failure(const QException& iException);
 
     private:
-        // Repository helpers
-        QString getCheckoutLocation(const QDir& iCheckout) throw(QException);
-        uint32_t getCheckoutRevision(const QDir &iCheckout) throw(QException);
-
         // Filesystem helpers
         bool removeDirectory(const QDir &iDirectory);
         void copyDirectory(const QDir &tSource, const QDir &tDestination);

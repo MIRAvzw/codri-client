@@ -19,6 +19,7 @@
 #include <svnqt/client_parameter.h>
 #include <svnqt/client_update_parameter.h>
 #include <svnqt/info_entry.h>
+#include <svnqt/status.h>
 #include <QtCore/QQueue>
 
 // Local includes
@@ -253,11 +254,13 @@ void Codri::RepositoryInterface::_onCheckoutFailure(const QException &iException
 void Codri::RepositoryInterfacePrivate::exists(const QDir& iCheckout) {
     try {
         if (iCheckout.exists()) {
-            QString tLocation = getRepositoryLocation(iCheckout);
+            qDebug() << "location";
+            QString tLocation = mSubversionClient->singleStatus(iCheckout.absolutePath())->entry().url();
             // FIXME: this is a hack, we should emit the location as well as the revision
             //        using the success signal
             Q_UNUSED(tLocation)
-            uint32_t tRevision = getRepositoryRevision(iCheckout);
+            qDebug() << "revision";
+            uint32_t tRevision = mSubversionClient->singleStatus(iCheckout.absolutePath())->entry().revision();
             emit success(tRevision);
         } else {
             emit failure(QException("checkout directory does not exist"));
@@ -269,7 +272,7 @@ void Codri::RepositoryInterfacePrivate::exists(const QDir& iCheckout) {
 
 void Codri::RepositoryInterfacePrivate::check(const QDir& iCheckout, const QString& iLocation) {
     try {
-        if (iCheckout.exists() && getRepositoryLocation(iCheckout) == iLocation) {
+        if (iCheckout.exists() && mSubversionClient->singleStatus(iCheckout.absolutePath())->entry().url() == iLocation) {
             emit needsUpdate();
         } else {
             emit needsCheckout();
@@ -325,44 +328,6 @@ void Codri::RepositoryInterfacePrivate::checkout(const QDir& iCheckout, const QS
     tTemporaryCheckout.rename(tTemporaryCheckout.absolutePath(), iCheckout.path());
     emit success(tRevision);
 }
-
-
-//
-// Repository helpers
-//
-
-QString Codri::RepositoryInterfacePrivate::getRepositoryLocation(const QDir &iCheckout) throw(QException) {
-    try {
-        QList<svn::InfoEntry> tInfoEntries =  mSubversionClient->info(
-                    iCheckout.absolutePath(),
-                    svn::DepthEmpty,
-                    svn::Revision::HEAD);
-        if (tInfoEntries.size() != 1)
-            throw QException("unexpected amount of info entries");
-        return tInfoEntries.first().url();
-    } catch (const svn::ClientException &iException) {
-        throw QException("could not check the repository", QException::fromSVNException(iException));
-    } catch (const QException &iException) {
-        throw QException("could not check the repository", iException);
-    }
-}
-
-uint32_t Codri::RepositoryInterfacePrivate::getRepositoryRevision(const QDir &iCheckout) throw(QException) {
-    try {
-        QList<svn::InfoEntry> tInfoEntries =  mSubversionClient->info(
-                    iCheckout.absolutePath(),
-                    svn::DepthEmpty,
-                    svn::Revision::HEAD);
-        if (tInfoEntries.size() != 1)
-            throw QException("unexpected amount of info entries");
-        return tInfoEntries.first().revision().revnum();
-    } catch (const svn::ClientException &iException) {
-        throw QException("could not check the repository", QException::fromSVNException(iException));
-    } catch (const QException &iException) {
-        throw QException("could not check the repository", iException);
-    }
-}
-
 
 
 //
