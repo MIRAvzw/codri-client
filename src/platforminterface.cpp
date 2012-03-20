@@ -37,12 +37,9 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
-    // Kiosk details
-    MainApplication::instance()->kiosk()->setStatus(Codri::Kiosk::ON);
+    // Default values
     MainApplication::instance()->kiosk()->setUuid(getUuid());
-
-    // Configuration details
-    MainApplication::instance()->configuration()->setVolume(getVolume());
+    setVolume(MainApplication::instance()->configuration()->getVolume());
 }
 
 void Codri::PlatformInterface::start() {

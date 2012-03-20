@@ -17,6 +17,7 @@
 
 // Library includes
 #include <QtCore/QObject>
+#include <QtCore/QSettings>
 #include <Log4Qt/Logger>
 
 namespace Codri {
@@ -43,6 +44,7 @@ namespace Codri {
         uint8_t mVolume;
 
         // Subsystem objects
+        QSettings *mSettings;
         Log4Qt::Logger *mLogger;
     };
 }

@@ -18,12 +18,16 @@
 
 Codri::Configuration::Configuration(QObject *iParent)
     : QObject(iParent) {
+    // Load settings
+    mSettings = new QSettings(this);
+    mSettings->beginGroup(metaObject()->className());
+
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Default values
     setRevision(0);
-    setVolume(255);
+    setVolume(mSettings->value("volume", 255).toInt());
 }
 
 
@@ -47,6 +51,7 @@ uint8_t Codri::Configuration::getVolume() const {
 
 void Codri::Configuration::setVolume(uint8_t iVolume) {
     mVolume = iVolume;
+    mSettings->setValue("volume", iVolume);
     mLogger->debug() << "Volume changing to " << iVolume;
     emit onVolumeChanged(iVolume);
 }
