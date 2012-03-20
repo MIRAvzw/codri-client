@@ -42,7 +42,7 @@ Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException)
     setWindowState(windowState() | Qt::WindowFullScreen);
 
     // Configure the webview
-    mLogger->debug() << "Showing initialization page";
+    mLogger->info() << "Displaying initialization page";
     showInit();
     connect(mWebView, SIGNAL(loadFinished(bool)), this, SLOT(_loadFinished(bool)));
 }
@@ -78,6 +78,8 @@ void Codri::UserInterface::showError() {
 }
 
 void Codri::UserInterface::showPresentation(const QDir& iLocation) {
+    mLogger->info() << "Loading presentation from " << iLocation.absolutePath();
+
     // TODO: is webview specification necessary? Doesn't setpage properly configure the parent?
     QWebPage *tPagetPresentation = new PresentationPage(iLocation, mWebView);
     mWebView->setPage(tPagetPresentation);

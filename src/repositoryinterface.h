@@ -112,8 +112,8 @@ namespace Codri {
 
     private:
         // Repository helpers
-        QString getRepositoryLocation(const QDir& iCheckout) throw(QException);
-        uint32_t getRepositoryRevision(const QDir &iCheckout) throw(QException);
+        QString getCheckoutLocation(const QDir& iCheckout) throw(QException);
+        uint32_t getCheckoutRevision(const QDir &iCheckout) throw(QException);
 
         // Filesystem helpers
         bool removeDirectory(const QDir &iDirectory);
@@ -121,11 +121,9 @@ namespace Codri {
 
         // Repository listening
         virtual void sendWarning(const QString& iMessage) {
-            // TODO
             qWarning() << iMessage.toAscii().data();
         }
         virtual void sendError(const QString& iMessage) {
-            // TODO
             qWarning() << iMessage.toAscii().data();
         }
         virtual bool isCanceld() { return false; }
