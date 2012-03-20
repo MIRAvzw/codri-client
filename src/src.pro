@@ -13,11 +13,14 @@ QT += core \
 CONFIG += qxt
 QXT += core web
 
-# SvnQt
+# Subversion
 CONFIG += link_pkgconfig
 PKGCONFIG += apr-1
 INCLUDEPATH += /usr/include/svnqt
 INCLUDEPATH += /usr/include/subversion-1
+
+# SvnQt
+INCLUDEPATH += /usr/include/svnqt
 LIBS += -lsvnqt
 
 # Log4Qt
@@ -26,7 +29,9 @@ LIBS += -lLog4Qt
 
 # QJson
 PKGCONFIG += QJson
-LIBS += -lqjson
+
+# Alsa
+PKGCONFIG += alsa
 
 
 #

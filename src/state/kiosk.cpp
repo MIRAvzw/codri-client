@@ -11,6 +11,9 @@
 // Header include
 #include "state/kiosk.h"
 
+// Library includes
+#include <QtCore/QMetaEnum>
+
 
 //
 // Construction and destruction
@@ -33,7 +36,13 @@ Codri::Kiosk::Status Codri::Kiosk::getStatus() const {
 
 void Codri::Kiosk::setStatus(Codri::Kiosk::Status iStatus) {
     mStatus = iStatus;
-    mLogger->debug() << "Power changing to " << iStatus;
+
+    // Get the enum's meta object
+    const QMetaObject &tMetaObject = Kiosk::staticMetaObject;
+    int tIndex = tMetaObject.indexOfEnumerator("Status");
+    QMetaEnum tMetaEnum = tMetaObject.enumerator(tIndex);
+
+    mLogger->debug() << "Power changing to " << tMetaEnum.valueToKey(iStatus);
     emit onStatusChanged(iStatus);
 }
 

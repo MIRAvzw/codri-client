@@ -31,6 +31,7 @@ namespace Codri {
 
         // Public interface
     public slots:
+        uint8_t getVolume();
         void setVolume(uint8_t iVolume);
         void setStatus(Kiosk::Status iStatus);
 

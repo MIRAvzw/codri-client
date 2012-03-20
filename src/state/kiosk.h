@@ -34,6 +34,7 @@ namespace Codri {
             ON,
             OFF
         };
+        Q_ENUMS(Status)
 
         // Basic I/O
         Kiosk::Status getStatus() const;
