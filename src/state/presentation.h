@@ -29,9 +29,9 @@ namespace Codri {
 
         // Basic I/O
         uint32_t getRevision() const;
+        void setRevision(uint32_t iRevision);
         QString getLocation() const;
         void setLocation(const QString& iLocation);
-        void setRevision(uint32_t iRevision);
 
     signals:
         // Signals

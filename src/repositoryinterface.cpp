@@ -189,8 +189,8 @@ void Codri::RepositoryInterface::_onExisting() {
 }
 
 void Codri::RepositoryInterface::_onExistingSuccess(long long iRevision) {
-    // TODO: do something with revision?
     mLogger->debug() << "Existing data seems valid, currently at revision " << iRevision;
+    MainApplication::instance()->presentation()->setRevision(iRevision);
     emit ready(mCheckout);
 }
 
@@ -212,8 +212,8 @@ void Codri::RepositoryInterface::_onUpdate() {
 }
 
 void Codri::RepositoryInterface::_onUpdateSuccess(long long iRevision) {
-    // TODO: do something with revision?
     mLogger->debug() << "Successfully updated to revision " << iRevision;
+    MainApplication::instance()->presentation()->setRevision(iRevision);
     emit ready(mCheckout);
 }
 
@@ -233,8 +233,8 @@ void Codri::RepositoryInterface::_onCheckout() {
 }
 
 void Codri::RepositoryInterface::_onCheckoutSuccess(long long iRevision) {
-    // TODO: do something with revision?
     mLogger->debug() << "Successfully checked-out at revision " << iRevision;
+    MainApplication::instance()->presentation()->setRevision(iRevision);
     emit ready(mCheckout);
 }
 
@@ -254,6 +254,9 @@ void Codri::RepositoryInterfacePrivate::exists(const QDir& iCheckout) {
     try {
         if (iCheckout.exists()) {
             QString tLocation = getRepositoryLocation(iCheckout);
+            // FIXME: this is a hack, we should emit the location as well as the revision
+            //        using the success signal
+            Q_UNUSED(tLocation)
             uint32_t tRevision = getRepositoryRevision(iCheckout);
             emit success(tRevision);
         } else {
