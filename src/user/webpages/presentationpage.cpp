@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012 Tim Besard <tim.besard@gmail.com>
+ * Copyright (C) 2011-2012 Tim Besard <tim.besard@gmail.com>
  *
  * All rights reserved.
  */
