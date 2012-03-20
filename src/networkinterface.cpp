@@ -49,6 +49,9 @@ Codri::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException)
 
     // Registration controller
     mRegistrationController = new RegistrationController(mServerClient, this);
+}
+
+void Codri::NetworkInterface::start() {
     mRegistrationController->start();
 }
 

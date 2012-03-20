@@ -23,6 +23,12 @@ Codri::Kiosk::Kiosk(QObject *iParent)
     : QObject(iParent) {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
+
+    // Default values
+    setUuid(QUuid());
+    setVendor("uninitialized");
+    setModel("uninitialized");
+    setPort(0);
 }
 
 

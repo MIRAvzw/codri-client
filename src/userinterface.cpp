@@ -47,6 +47,9 @@ Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException)
     connect(mWebView, SIGNAL(loadFinished(bool)), this, SLOT(_loadFinished(bool)));
 }
 
+void Codri::UserInterface::start() {
+}
+
 
 //
 // Public interface

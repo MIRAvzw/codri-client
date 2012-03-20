@@ -31,6 +31,7 @@ namespace Codri {
     public:
         // Construction and destruction
         explicit UserInterface(QWidget *iParent = 0) throw(QException);
+        void start();
 
         // Public interface
     public slots:

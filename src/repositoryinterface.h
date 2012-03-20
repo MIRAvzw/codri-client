@@ -56,6 +56,9 @@ namespace Codri {
         // - event/signal parameters are tedious and sometimes can't be connected directly
         // - the state machines don't log state transitions
     private slots:
+        void _onExisting();
+        void _onExistingSuccess(long long iRevision);
+        void _onExistingFailure(const QException& iException);
         void _onCheck();
         void _onUpdate();
         void _onUpdateSuccess(long long iRevision);
@@ -95,6 +98,7 @@ namespace Codri {
 
         // Functionality
     public slots:
+        void exists(const QDir& iCheckout);
         void check(const QDir& iCheckout, const QString& iLocation);
         void update(const QDir& iCheckout);
         void checkout(const QDir& iCheckout, const QString& iLocation);

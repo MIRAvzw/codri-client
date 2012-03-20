@@ -48,9 +48,7 @@ Codri::RepositoryInterface::RepositoryInterface(QObject *iParent) throw(QExcepti
     mImplementation = new RepositoryInterfacePrivate(this);
 
     // State machine
-    // TODO: log transitions
     initFSM();
-    start();
 }
 
 Codri::RepositoryInterfacePrivate::RepositoryInterfacePrivate(QObject *iParent)
@@ -69,11 +67,33 @@ Codri::RepositoryInterfacePrivate::RepositoryInterfacePrivate(QObject *iParent)
 //
 
 void Codri::RepositoryInterface::initFSM() {
+    QState *tExisting = new QState(this);
     mIdle = new QState(this);
     QState *tChecking = new QState(this);
     QState *tUpdating = new QState(this);
     QState *tCheckingOut = new QState(this);
-    setInitialState(mIdle);
+    setInitialState(tExisting);
+
+
+    // EXISTING STATE //
+
+    // Action on activation
+    connect(tExisting, SIGNAL(entered()), this, SLOT(_onExisting()));
+
+    // TODO: this is essentially a unconditional transition, but but because the signal arguments are
+    //       incompatible we need to do it all manually
+
+    // Transition on update success
+    ParameterizedSignalTransition *tExistingSuccess = new ParameterizedSignalTransition(mImplementation, SIGNAL(success(long long)));
+    tExistingSuccess->setTargetState(mIdle);
+    tExisting->addTransition(tExistingSuccess);
+    connect(tExistingSuccess, SIGNAL(triggeredLongLong(long long)), this, SLOT(_onExistingSuccess(long long)));
+
+    // Transition on update failure
+    ParameterizedSignalTransition *tExistingFailure = new ParameterizedSignalTransition(mImplementation, SIGNAL(failure(QException)));
+    tExistingFailure->setTargetState(mIdle);
+    tExisting->addTransition(tExistingFailure);
+    connect(tExistingFailure, SIGNAL(triggeredQException(QException)), this, SLOT(_onExistingFailure(QException)));
 
 
     // IDLE STATE //
@@ -163,6 +183,23 @@ void Codri::RepositoryInterface::recheck() {
 // Internal state and transition slots
 //
 
+void Codri::RepositoryInterface::_onExisting() {
+    mLogger->debug() << "Checking the repository at " << mCheckout.absolutePath() << " for existing data";
+    mImplementation->exists(mCheckout);
+}
+
+void Codri::RepositoryInterface::_onExistingSuccess(long long iRevision) {
+    // TODO: do something with revision?
+    mLogger->debug() << "Existing data seems valid, currently at revision " << iRevision;
+    emit ready(mCheckout);
+}
+
+void Codri::RepositoryInterface::_onExistingFailure(const QException &iException) {
+    mLogger->error() << "Existing data seems invalid";
+    foreach (const QString& tCause, iException.causes())
+        mLogger->error() << "Caused by: " << tCause;
+}
+
 void Codri::RepositoryInterface::_onCheck() {
     mLogger->debug() << "Checking the repository at " << mCheckout.absolutePath() << " against " << mLocation;
     mImplementation->check(mCheckout, mLocation);
@@ -212,6 +249,20 @@ void Codri::RepositoryInterface::_onCheckoutFailure(const QException &iException
 //
 // Functionality
 //
+
+void Codri::RepositoryInterfacePrivate::exists(const QDir& iCheckout) {
+    try {
+        if (iCheckout.exists()) {
+            QString tLocation = getRepositoryLocation(iCheckout);
+            uint32_t tRevision = getRepositoryRevision(iCheckout);
+            emit success(tRevision);
+        } else {
+            emit failure(QException("checkout directory does not exist"));
+        }
+    } catch (const QException& iException) {
+        emit failure(QException("existing checkout is corrupt", iException));
+    }
+}
 
 void Codri::RepositoryInterfacePrivate::check(const QDir& iCheckout, const QString& iLocation) {
     try {

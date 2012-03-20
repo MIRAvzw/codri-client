@@ -20,6 +20,10 @@ Codri::Presentation::Presentation(QObject *iParent)
     : QObject(iParent) {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
+
+    // Default values
+    setRevision(0);
+    setLocation("uninitialized");
 }
 
 

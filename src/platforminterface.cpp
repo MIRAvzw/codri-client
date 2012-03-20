@@ -45,6 +45,9 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
     MainApplication::instance()->configuration()->setVolume(getVolume());
 }
 
+void Codri::PlatformInterface::start() {
+}
+
 
 //
 // Public interface

@@ -30,6 +30,7 @@ namespace Codri {
     public:
         // Construction and destruction
         explicit NetworkInterface(QObject *iParent) throw(QException);
+        void start();
         ~NetworkInterface();
 
     private:

@@ -28,6 +28,7 @@ namespace Codri {
     public:
         // Construction and destruction
         explicit PlatformInterface(QObject *iParent) throw(QException);
+        void start();
 
         // Public interface
     public slots:

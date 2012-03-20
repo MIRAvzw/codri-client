@@ -122,6 +122,14 @@ void Codri::Controller::_onInitializationSuccess() {
 
     // User interface
     // connect(mRepositoryInterface, SIGNAL(runtimeFailure()), ..., SLOT(...));
+
+
+    // SUBSYSTEM START //
+
+    mUserInterface->start();
+    mPlatformInterface->start();
+    mRepositoryInterface->start();
+    mNetworkInterface->start();
 }
 
 void Codri::Controller::_onInitializationFailure() {
