@@ -11,12 +11,17 @@
 // Header include
 #include "platforminterface.h"
 
+// System includes
+#include <sys/reboot.h>
+
 // Library includes
-#include <QtCore/QProcess>
 #include <alsa/asoundlib.h>
 
 // Local includes
 #include "mainapplication.h"
+
+// Function prototypes
+int reboot(int magic, int magic2, int cmd, void *arg);
 
 
 //
@@ -104,7 +109,8 @@ void Codri::PlatformInterface::setStatus(Codri::Kiosk::Status iStatus) {
     case Codri::Kiosk::ON:
         return;
     case Codri::Kiosk::OFF:
-        QProcess::startDetached("shutdown -k -h now"); // TODO: remove -k
+        sync();
+        reboot(RB_POWER_OFF);
         return;
     }
 }
