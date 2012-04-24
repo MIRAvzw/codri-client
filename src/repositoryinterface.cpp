@@ -254,12 +254,10 @@ void Codri::RepositoryInterface::_onCheckoutFailure(const QException &iException
 void Codri::RepositoryInterfacePrivate::exists(const QDir &iCheckout) {
     try {
         if (iCheckout.exists()) {
-            qDebug() << "location";
             QString tLocation = mSubversionClient->singleStatus(iCheckout.absolutePath())->entry().url();
             // FIXME: this is a hack, we should emit the location as well as the revision
             //        using the success signal
             Q_UNUSED(tLocation)
-            qDebug() << "revision";
             uint32_t tRevision = mSubversionClient->singleStatus(iCheckout.absolutePath())->entry().revision();
             emit success(tRevision);
         } else {
