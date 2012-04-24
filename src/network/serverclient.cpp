@@ -178,19 +178,19 @@ void Codri::ServerClientPrivate::registerKiosk() {
     tRequest["model"] = tKiosk->getModel();
     tRequest["port"] = tKiosk->getPort();
 
-    doPOST("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""), tRequest);
+    doPOST("/network/kiosks/" + tKiosk->getId(), tRequest);
 }
 
 void Codri::ServerClientPrivate::refreshKiosk() {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
-    doPUT("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', "") + "/heartbeat");
+    doPUT("/network/kiosks/" + tKiosk->getId() + "/heartbeat");
 }
 
 void Codri::ServerClientPrivate::unregisterKiosk() {
     const Kiosk *tKiosk = MainApplication::instance()->kiosk();
 
-    doDELETE("/network/kiosks/" + tKiosk->getUuid().toString().replace('{', "").replace('}', ""));
+    doDELETE("/network/kiosks/" + tKiosk->getId());
 }
 
 

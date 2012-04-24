@@ -25,7 +25,7 @@ Codri::Kiosk::Kiosk(QObject *iParent)
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Default values
-    setUuid(QUuid());
+    setId("uninitialized");
     setVendor("uninitialized");
     setModel("uninitialized");
     setPort(0);
@@ -35,6 +35,14 @@ Codri::Kiosk::Kiosk(QObject *iParent)
 //
 // Basic I/O
 //
+
+QString Codri::Kiosk::getId() const {
+    return mId;
+}
+
+void Codri::Kiosk::setId(const QString &iId) {
+    mId = iId;
+}
 
 Codri::Kiosk::Status Codri::Kiosk::getStatus() const {
     return mStatus;
@@ -50,14 +58,6 @@ void Codri::Kiosk::setStatus(Codri::Kiosk::Status iStatus) {
 
     mLogger->debug() << "Power changing to " << tMetaEnum.valueToKey(iStatus);
     emit onStatusChanged(iStatus);
-}
-
-QUuid Codri::Kiosk::getUuid() const {
-    return mUuid;
-}
-
-void Codri::Kiosk::setUuid(const QUuid &iUuid) {
-    mUuid = iUuid;
 }
 
 QString Codri::Kiosk::getVendor() const {

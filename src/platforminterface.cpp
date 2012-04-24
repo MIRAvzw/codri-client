@@ -15,6 +15,7 @@
 #include <sys/reboot.h>
 
 // Library includes
+#include <QtNetwork/QHostInfo>
 #include <alsa/asoundlib.h>
 
 // Local includes
@@ -38,7 +39,12 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Default values
-    MainApplication::instance()->kiosk()->setUuid(getUuid());
+#ifdef DEVEL
+    MainApplication::instance()->kiosk()->setId("testclient");
+#else
+    QHostInfo tHostInfo;
+    MainApplication::instance()->kiosk()->setId(tHostInfo.localHostName());
+#endif
     setVolume(MainApplication::instance()->configuration()->getVolume());
 }
 
@@ -113,35 +119,4 @@ void Codri::PlatformInterface::setStatus(Codri::Kiosk::Status iStatus) {
         reboot(RB_POWER_OFF);
         return;
     }
-}
-
-
-//
-// Auxiliary
-//
-
-QUuid Codri::PlatformInterface::getUuid() const throw(QException) {
-    // Get the network interface
-    QNetworkInterface tRemoteInterface = QNetworkInterface::interfaceFromName("eth0");
-    if (!tRemoteInterface.isValid())
-        throw QException("couldn't access eth0 network interface");
-
-    // Extract the hardware address
-    QString tHardwareAddress = tRemoteInterface.hardwareAddress();
-    QStringList tHardwareAddressParts = tHardwareAddress.split(":");
-    if (tHardwareAddressParts.size() != 6)
-        throw new QException("invalid hardware address for eth0 network interface");
-
-    // Create an UUID
-    QUuid tUuid;
-    tUuid.data1 |= (unsigned char) tHardwareAddressParts.at(0).toInt(0, 16) << 24;
-    tUuid.data1 |= (unsigned char) tHardwareAddressParts.at(1).toInt(0, 16) << 16;
-    tUuid.data1 |= (unsigned char) tHardwareAddressParts.at(2).toInt(0, 16) << 8;
-    tUuid.data1 |= (unsigned char) tHardwareAddressParts.at(3).toInt(0, 16);
-    tUuid.data2 |= (unsigned char) tHardwareAddressParts.at(4).toInt(0, 16) << 8;
-    tUuid.data2 |= (unsigned char) tHardwareAddressParts.at(5).toInt(0, 16);
-    tUuid.data4[0] = (tUuid.data4[0] & 0x3F) | 0x80;  // UV_MAC
-    tUuid.data3 = (tUuid.data3 & 0x0FFF) | 0x1000;  // UV_Time (but without the actual timestamp, to persist reboots)
-
-    return tUuid;
 }

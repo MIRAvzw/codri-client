@@ -39,15 +39,6 @@ namespace Codri {
             Result doJsonPUT(const QVariant &iRequest);
         };
         Power *mPower;
-
-        // Uuid resource
-        class Uuid : public JsonResource {
-        public:
-            Uuid(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
-                : JsonResource(iSessionManager, iParent) { }
-            Result doJsonGET(QVariant& iReply);
-        };
-        Uuid *mUuid;
     };
 }
 

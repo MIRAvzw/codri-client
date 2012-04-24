@@ -47,7 +47,7 @@ Codri::StatusPage::~StatusPage() {
 //
 
 QString Codri::StatusPage::id() const {
-    return MainApplication::instance()->kiosk()->getUuid();
+    return MainApplication::instance()->kiosk()->getId();
 }
 
 QDateTime Codri::StatusPage::startup() const {

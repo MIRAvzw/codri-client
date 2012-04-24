@@ -18,7 +18,6 @@
 
 // Library includes
 #include <QtCore/QObject>
-#include <QtCore/QUuid>
 #include <QtNetwork/QNetworkAddressEntry>
 #include <Log4Qt/Logger>
 
@@ -37,10 +36,10 @@ namespace Codri {
         Q_ENUMS(Status)
 
         // Basic I/O
+        QString getId() const;
+        void setId(const QString& iId);
         Kiosk::Status getStatus() const;
         void setStatus(Kiosk::Status iStatus);
-        QUuid getUuid() const;
-        void setUuid(const QUuid& iUuid);
         QString getVendor() const;
         void setVendor(const QString& iVendor);
         QString getModel() const;
@@ -54,8 +53,8 @@ namespace Codri {
 
     private:
         // Member data
+        QString mId;
         Status mStatus;
-        QUuid mUuid;
         QString mVendor, mModel;
         uint16_t mPort;
 

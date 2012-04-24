@@ -16,7 +16,6 @@
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
 #include <Log4Qt/Logger>
-#include <QtCore/QUuid>
 
 // Local includes
 #include "auxiliary/qexception.h"
@@ -35,10 +34,6 @@ namespace Codri {
         uint8_t getVolume();
         void setVolume(uint8_t iVolume);
         void setStatus(Kiosk::Status iStatus);
-
-        // Auxiliary
-    private:
-        QUuid getUuid() const throw(QException);
 
     private:
         // Infrastructure

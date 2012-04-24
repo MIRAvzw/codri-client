@@ -24,10 +24,6 @@ Codri::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManage
     // Power resource
     mPower = new Power(iSessionManager, this);
     addService("power", mPower);
-
-    // Uuid resource
-    mUuid = new Uuid(iSessionManager, this);
-    addService("uuid", mUuid);
 }
 
 
@@ -40,7 +36,6 @@ Codri::JsonResource::Result Codri::KioskResource::doJsonGET(QVariant& iReply) {
     Result tResult = VALID;
 
     aggregateResult(tResult, mPower->doJsonGET(tObject["power"]));
-    aggregateResult(tResult, mUuid->doJsonGET(tObject["uuid"]));
 
     iReply = tObject;
     return tResult;
@@ -74,10 +69,5 @@ Codri::JsonResource::Result Codri::KioskResource::Power::doJsonPUT(const QVarian
         return INVALID;
     }
 
-    return VALID;
-}
-
-Codri::JsonResource::Result Codri::KioskResource::Uuid::doJsonGET(QVariant& iReply) {
-    iReply = MainApplication::instance()->kiosk()->getUuid().toString();
     return VALID;
 }

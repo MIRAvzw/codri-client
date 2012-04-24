@@ -46,5 +46,5 @@ Codri::LogPage::~LogPage() {
 //
 
 QString Codri::LogPage::id() const {
-    return MainApplication::instance()->kiosk()->getUuid();
+    return MainApplication::instance()->kiosk()->getId();
 }
