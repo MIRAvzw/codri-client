@@ -197,7 +197,7 @@ void Codri::RepositoryInterface::_onExistingSuccess(long long iRevision) {
 
 void Codri::RepositoryInterface::_onExistingFailure(const QException &iException) {
     mLogger->error() << "Existing data seems invalid";
-    foreach (const QString& tCause, iException.causes())
+    foreach (const QString &tCause, iException.causes())
         mLogger->error() << "Caused by: " << tCause;
 }
 
@@ -220,7 +220,7 @@ void Codri::RepositoryInterface::_onUpdateSuccess(long long iRevision) {
 
 void Codri::RepositoryInterface::_onUpdateFailure(const QException &iException) {
     mLogger->error() << "Repository update failed: " << iException.what();
-    foreach (const QString& tCause, iException.causes())
+    foreach (const QString &tCause, iException.causes())
         mLogger->error() << "Caused by: " << tCause;
 
     // NOTE: we don't emit a runtime failure just yet,
@@ -241,7 +241,7 @@ void Codri::RepositoryInterface::_onCheckoutSuccess(long long iRevision) {
 
 void Codri::RepositoryInterface::_onCheckoutFailure(const QException &iException) {
     mLogger->error() << "Repository checkout failed: " << iException.what();
-    foreach (const QString& tCause, iException.causes())
+    foreach (const QString &tCause, iException.causes())
         mLogger->error() << "Caused by: " << tCause;
     emit runtimeFailure();
 }
@@ -251,7 +251,7 @@ void Codri::RepositoryInterface::_onCheckoutFailure(const QException &iException
 // Functionality
 //
 
-void Codri::RepositoryInterfacePrivate::exists(const QDir& iCheckout) {
+void Codri::RepositoryInterfacePrivate::exists(const QDir &iCheckout) {
     try {
         if (iCheckout.exists()) {
             qDebug() << "location";
@@ -265,25 +265,25 @@ void Codri::RepositoryInterfacePrivate::exists(const QDir& iCheckout) {
         } else {
             emit failure(QException("checkout directory does not exist"));
         }
-    } catch (const QException& iException) {
-        emit failure(QException("existing checkout is corrupt", iException));
+    } catch (const svn::ClientException &iException) {
+        emit failure(QException("existing checkout is corrupt", QException::fromSVNException(iException)));
     }
 }
 
-void Codri::RepositoryInterfacePrivate::check(const QDir& iCheckout, const QString& iLocation) {
+void Codri::RepositoryInterfacePrivate::check(const QDir &iCheckout, const QString &iLocation) {
     try {
         if (iCheckout.exists() && mSubversionClient->singleStatus(iCheckout.absolutePath())->entry().url() == iLocation) {
             emit needsUpdate();
         } else {
             emit needsCheckout();
         }
-    } catch (const QException& iException) {
+    } catch (const svn::ClientException &iException) {
         // Something went seriously wrong, the checkout is most likely corrupt
         emit needsCheckout();
     }
 }
 
-void Codri::RepositoryInterfacePrivate::update(const QDir& iCheckout) {
+void Codri::RepositoryInterfacePrivate::update(const QDir &iCheckout) {
     svn::UpdateParameter tUpdateParameters;
     tUpdateParameters
             .targets(iCheckout.absolutePath())
@@ -295,11 +295,11 @@ void Codri::RepositoryInterfacePrivate::update(const QDir& iCheckout) {
         // TODO: verify that .back() is the latest revision
         emit success(tRevisions.back().revnum());
     } catch (const svn::ClientException &iException) {
-        emit failure(QException::fromSVNException(iException));
+        emit failure(QException("couldn't update existing checkout", QException::fromSVNException(iException)));
     }
 }
 
-void Codri::RepositoryInterfacePrivate::checkout(const QDir& iCheckout, const QString& iLocation) {
+void Codri::RepositoryInterfacePrivate::checkout(const QDir &iCheckout, const QString &iLocation) {
     // Manage the checkout location
     if (removeDirectory(iCheckout))
         emit failure(QException("could not remove existing checkout directory"));
@@ -320,7 +320,7 @@ void Codri::RepositoryInterfacePrivate::checkout(const QDir& iCheckout, const QS
 
         tRevision = mSubversionClient->checkout(tCheckoutParameters).revnum();
     } catch (const svn::ClientException &iException) {
-        emit failure(QException::fromSVNException(iException));
+        emit failure(QException("couldn't checkout repository", QException::fromSVNException(iException)));
         return;
     }
 

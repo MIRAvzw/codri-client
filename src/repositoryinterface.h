@@ -58,19 +58,19 @@ namespace Codri {
     private slots:
         void _onExisting();
         void _onExistingSuccess(long long iRevision);
-        void _onExistingFailure(const QException& iException);
+        void _onExistingFailure(const QException &iException);
         void _onCheck();
         void _onUpdate();
         void _onUpdateSuccess(long long iRevision);
-        void _onUpdateFailure(const QException& iException);
+        void _onUpdateFailure(const QException &iException);
         void _onCheckout();
         void _onCheckoutSuccess(long long iRevision);
-        void _onCheckoutFailure(const QException& iError);
+        void _onCheckoutFailure(const QException &iError);
 
         // Events
     signals:
         void changing();
-        void ready(const QDir& iLocation);
+        void ready(const QDir &iLocation);
         void runtimeFailure();
 
     private:
@@ -98,17 +98,17 @@ namespace Codri {
 
         // Functionality
     public slots:
-        void exists(const QDir& iCheckout);
-        void check(const QDir& iCheckout, const QString& iLocation);
-        void update(const QDir& iCheckout);
-        void checkout(const QDir& iCheckout, const QString& iLocation);
+        void exists(const QDir &iCheckout);
+        void check(const QDir &iCheckout, const QString &iLocation);
+        void update(const QDir &iCheckout);
+        void checkout(const QDir &iCheckout, const QString &iLocation);
 
         // Events
     signals:
         void needsUpdate();
         void needsCheckout();
         void success(long long iRevision);  // svn_revnum_t is a long int, closest QVariant type is long long
-        void failure(const QException& iException);
+        void failure(const QException &iException);
 
     private:
         // Filesystem helpers
