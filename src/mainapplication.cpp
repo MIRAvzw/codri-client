@@ -90,6 +90,23 @@ Codri::MainApplication::~MainApplication() {
 
 
 //
+// QApplication interface
+//
+
+bool Codri::MainApplication::notify(QObject *iReceiver, QEvent *iEvent) {
+    try {
+        return QApplication::notify(iReceiver, iEvent);
+    } catch(const QException &iException) {
+        mLogger->fatal() << "Exception thrown: " << iException.what();
+        foreach (const QString& tCause, iException.causes())
+            mLogger->fatal() << "Caused by: " << tCause;
+        exit(1);
+    }
+    return false;
+}
+
+
+//
 // State getters
 //
 

@@ -32,9 +32,8 @@ namespace Codri {
         explicit MainApplication(int &iArgumentCount, char **iArgumentValues) throw(QException);
         ~MainApplication();
 
-        // System signals (Unix)
-        static void handleInterruptUnix(int unused);
-        static void handleTerminateUnix(int unused);
+        // QApplication interface
+        bool notify(QObject *iReceiver, QEvent *iEvent);
 
         // State getters
         Kiosk *kiosk() const;
