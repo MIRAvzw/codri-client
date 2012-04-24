@@ -45,7 +45,7 @@ Codri::NetworkInterface::NetworkInterface(QObject *iParent) throw(QException)
     mWebserviceDispatcher->start();
 
     // Instantiate server client
-    mServerClient = new ServerClient("http://codri.local:8080/codri", this);
+    mServerClient = new ServerClient("http://control.codri.local/codri", this);
 
     // Registration controller
     mRegistrationController = new RegistrationController(mServerClient, this);
