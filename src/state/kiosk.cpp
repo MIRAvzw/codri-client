@@ -29,6 +29,7 @@ Codri::Kiosk::Kiosk(QObject *iParent)
     setVendor("uninitialized");
     setModel("uninitialized");
     setPort(0);
+    setStatus(Kiosk::ON);
 }
 
 

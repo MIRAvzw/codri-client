@@ -38,7 +38,7 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
-    // Default values
+    // Apply default values
 #ifdef DEVEL
     MainApplication::instance()->kiosk()->setId("testclient");
 #else
@@ -46,6 +46,7 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
     MainApplication::instance()->kiosk()->setId(tHostInfo.localHostName());
 #endif
     setVolume(MainApplication::instance()->configuration()->getVolume());
+    setStatus(MainApplication::instance()->kiosk()->getStatus());
 }
 
 void Codri::PlatformInterface::start() {
