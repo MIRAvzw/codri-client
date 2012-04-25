@@ -32,7 +32,7 @@ namespace Codri {
     Q_OBJECT
     public:
         // Construction and destruction
-        ServerClient(const QString& iLocation, QObject *iParent);
+        ServerClient(const QString &iPath, QObject *iParent);
 
         // Construction helpers
     private:
@@ -75,7 +75,7 @@ namespace Codri {
     class ServerClientPrivate : public QObject {
         Q_OBJECT
     public:
-        ServerClientPrivate(const QString& iLocation, QObject *iParent);
+        ServerClientPrivate(const QString &iPath, QObject *iParent);
         virtual ~ServerClientPrivate();
 
         // Functionality
@@ -104,7 +104,7 @@ namespace Codri {
         // Member data
         QJson::Parser *mParser;
         QJson::Serializer *mSerializer;
-        const QString mLocation;
+        const QString mPath;
         QNetworkAccessManager *mNetworkAccessManager;
     };
 }

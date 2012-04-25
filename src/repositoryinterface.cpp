@@ -158,8 +158,8 @@ void Codri::RepositoryInterface::initFSM() {
 // Public interface
 //
 
-void Codri::RepositoryInterface::check(const QString &iLocation) {
-    mLocation = iLocation;
+void Codri::RepositoryInterface::check(const QString &iPath) {
+    mPath = iPath;
 
     if (configuration().contains(mIdle)) {
         emit _check();
@@ -202,8 +202,8 @@ void Codri::RepositoryInterface::_onExistingFailure(const QException &iException
 }
 
 void Codri::RepositoryInterface::_onCheck() {
-    mLogger->debug() << "Checking the repository at " << mCheckout.absolutePath() << " against " << mLocation;
-    mImplementation->check(mCheckout, mLocation);
+    mLogger->debug() << "Checking the repository at " << mCheckout.absolutePath() << " against " << mPath;
+    mImplementation->check(mCheckout, mImplementation->getLocation(mPath));
 }
 
 void Codri::RepositoryInterface::_onUpdate() {
@@ -228,9 +228,9 @@ void Codri::RepositoryInterface::_onUpdateFailure(const QException &iException) 
 }
 
 void Codri::RepositoryInterface::_onCheckout() {
-    mLogger->debug() << "Checking out " << mLocation << " to " << mCheckout.absolutePath();
+    mLogger->debug() << "Checking out " << mPath << " to " << mCheckout.absolutePath();
     emit changing();
-    mImplementation->checkout(mCheckout, mLocation);
+    mImplementation->checkout(mCheckout, mImplementation->getLocation(mPath));
 }
 
 void Codri::RepositoryInterface::_onCheckoutSuccess(long long iRevision) {
@@ -250,6 +250,11 @@ void Codri::RepositoryInterface::_onCheckoutFailure(const QException &iException
 //
 // Functionality
 //
+
+// TODO: return a QUrl
+QString Codri::RepositoryInterfacePrivate::getLocation(const QString &iPath) {
+    return "svn://data.codri.local" + iPath;
+}
 
 void Codri::RepositoryInterfacePrivate::exists(const QDir &iCheckout) {
     try {
@@ -298,7 +303,7 @@ void Codri::RepositoryInterfacePrivate::update(const QDir &iCheckout) {
 }
 
 void Codri::RepositoryInterfacePrivate::checkout(const QDir &iCheckout, const QString &iLocation) {
-    // Manage the checkout location
+    // Manage the checkout
     if (removeDirectory(iCheckout))
         emit failure(QException("could not remove existing checkout directory"));
 

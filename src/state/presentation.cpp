@@ -23,7 +23,7 @@ Codri::Presentation::Presentation(QObject *iParent)
 
     // Default values
     setRevision(0);
-    setLocation("uninitialized");
+    setPath("uninitialized");
 }
 
 
@@ -41,12 +41,12 @@ void Codri::Presentation::setRevision(uint32_t iRevision) {
     emit onRevisionChanged(iRevision);
 }
 
-QString Codri::Presentation::getLocation() const {
-    return mLocation;
+QString Codri::Presentation::getPath() const {
+    return mPath;
 }
 
-void Codri::Presentation::setLocation(const QString &iLocation) {
-    mLocation = iLocation;
-    mLogger->debug() << "Location changing to " << iLocation;
-    emit onLocationChanged(iLocation);
+void Codri::Presentation::setPath(const QString &iPath) {
+    mPath = iPath;
+    mLogger->debug() << "Path changing to " << iPath;
+    emit onPathChanged(iPath);
 }

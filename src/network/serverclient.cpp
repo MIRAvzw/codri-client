@@ -21,13 +21,13 @@
 // Construction and destruction
 //
 
-Codri::ServerClient::ServerClient(const QString &iLocation, QObject *iParent)
+Codri::ServerClient::ServerClient(const QString &iPath, QObject *iParent)
     : QStateMachine(iParent) {
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Actual implementation
-    mImplementation = new ServerClientPrivate(iLocation, this);
+    mImplementation = new ServerClientPrivate(iPath, this);
 
     // State machine
     // TODO: log transitions
@@ -35,8 +35,8 @@ Codri::ServerClient::ServerClient(const QString &iLocation, QObject *iParent)
     start();
 }
 
-Codri::ServerClientPrivate::ServerClientPrivate(const QString &iLocation, QObject *iParent)
-    : QObject(iParent), mLocation(iLocation) {
+Codri::ServerClientPrivate::ServerClientPrivate(const QString &iPath, QObject *iParent)
+    : QObject(iParent), mPath(iPath) {
     // Network access manager
     mNetworkAccessManager = new QNetworkAccessManager(this);
     connect(mNetworkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(_onRequestFinished(QNetworkReply*)));
@@ -236,7 +236,7 @@ void Codri::ServerClientPrivate::doDELETE(const QString& iPath) {
 
 QNetworkRequest Codri::ServerClientPrivate::createRequest(const QString& iPath) {
     QNetworkRequest tRequest;
-    tRequest.setUrl(QUrl(mLocation + "/" + iPath));
+    tRequest.setUrl(QUrl(mPath + "/" + iPath));
     tRequest.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     return tRequest;
 }

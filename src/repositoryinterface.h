@@ -79,7 +79,7 @@ namespace Codri {
         QDir mCheckout;
 
         // Proxy data
-        QString mLocation;
+        QString mPath;
 
         // Subsystem objects
         QSettings *mSettings;
@@ -98,6 +98,7 @@ namespace Codri {
 
         // Functionality
     public slots:
+        QString getLocation(const QString &iPath);
         void exists(const QDir &iCheckout);
         void check(const QDir &iCheckout, const QString &iLocation);
         void update(const QDir &iCheckout);

@@ -25,9 +25,9 @@ Codri::PresentationResource::PresentationResource(QxtAbstractWebSessionManager* 
     mRevision = new Revision(iSessionManager, this);
     addService("revision", mRevision);
 
-    // Location resource
-    mLocation = new Location(iSessionManager, this);
-    addService("location", mLocation);
+    // Path resource
+    mPath = new Path(iSessionManager, this);
+    addService("path", mPath);
 }
 
 
@@ -40,7 +40,7 @@ Codri::JsonResource::Result Codri::PresentationResource::doJsonGET(QVariant& iRe
     Result tResult = VALID;
 
     aggregateResult(tResult, mRevision->doJsonGET(tObject["revision"]));
-    aggregateResult(tResult, mLocation->doJsonGET(tObject["location"]));
+    aggregateResult(tResult, mPath->doJsonGET(tObject["path"]));
 
     iReply = tObject;
     return tResult;
@@ -53,8 +53,9 @@ Codri::JsonResource::Result Codri::PresentationResource::doJsonPUT(const QVarian
         tResult = VALID;
         const QVariantMap& iRequestMap = iRequest.toMap();
 
+        // Mandatory fields
         aggregateResult(tResult, mRevision->doJsonPUT(iRequestMap["revision"]));
-        aggregateResult(tResult, mLocation->doJsonPUT(iRequestMap["location"]));
+        aggregateResult(tResult, mPath->doJsonPUT(iRequestMap["path"]));
     } else {
         mLogger->warn() << "Couldn't convert payload of collection PUT request to a map";
     }
@@ -77,16 +78,16 @@ Codri::JsonResource::Result Codri::PresentationResource::Revision::doJsonPUT(con
     }
 }
 
-Codri::JsonResource::Result Codri::PresentationResource::Location::doJsonGET(QVariant& iReply) {
-    iReply = MainApplication::instance()->presentation()->getLocation();
+Codri::JsonResource::Result Codri::PresentationResource::Path::doJsonGET(QVariant& iReply) {
+    iReply = MainApplication::instance()->presentation()->getPath();
     return VALID;
 }
 
-Codri::JsonResource::Result Codri::PresentationResource::Location::doJsonPUT(const QVariant &iRequest) {
+Codri::JsonResource::Result Codri::PresentationResource::Path::doJsonPUT(const QVariant &iRequest) {
     if (iRequest.canConvert(QVariant::String)) {
-        MainApplication::instance()->presentation()->setLocation(iRequest.toString());
+        MainApplication::instance()->presentation()->setPath(iRequest.toString());
     } else {
-        mLogger->warn() << "Missing (or invalid) location in PUT request";
+        mLogger->warn() << "Missing (or invalid) path in PUT request";
         return INVALID;
     }
 

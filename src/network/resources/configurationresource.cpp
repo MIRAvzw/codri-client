@@ -57,8 +57,12 @@ Codri::JsonResource::Result Codri::ConfigurationResource::doJsonPUT(const QVaria
         tResult = VALID;
         const QVariantMap& iRequestMap = iRequest.toMap();
 
+        // Mandatory fields
         aggregateResult(tResult, mRevision->doJsonPUT(iRequestMap["revision"]));
-        aggregateResult(tResult, mVolume->doJsonPUT(iRequestMap["volume"]));
+
+        // Optional fields
+        if (iRequestMap.contains("volume") && !iRequestMap["volume"].isNull())
+            aggregateResult(tResult, mVolume->doJsonPUT(iRequestMap["volume"]));
     } else {
         mLogger->warn() << "Couldn't convert payload of collection PUT request to a map";
     }

@@ -40,15 +40,15 @@ namespace Codri {
         };
         Revision *mRevision;
 
-        // Location resource
-        class Location : public JsonResource {
+        // Path resource
+        class Path : public JsonResource {
         public:
-            Location(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
+            Path(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
                 : JsonResource(iSessionManager, iParent) { }
             Result doJsonGET(QVariant& iReply);
             Result doJsonPUT(const QVariant &iRequest);
         };
-        Location *mLocation;
+        Path *mPath;
     };
 }
 

@@ -30,18 +30,18 @@ namespace Codri {
         // Basic I/O
         uint32_t getRevision() const;
         void setRevision(uint32_t iRevision);
-        QString getLocation() const;
-        void setLocation(const QString& iLocation);
+        QString getPath() const;
+        void setPath(const QString& iPath);
 
     signals:
         // Signals
         void onRevisionChanged(uint32_t iRevision);
-        void onLocationChanged(const QString& iLocation);
+        void onPathChanged(const QString& iPath);
 
     private:
         // Member data
         uint32_t mRevision;
-        QString mLocation;
+        QString mPath;
 
         // Subsystem objects
         Log4Qt::Logger *mLogger;
