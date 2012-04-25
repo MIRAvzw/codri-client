@@ -20,7 +20,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QUrl>
 #include <QtCore/QDebug>
-#include <Log4Qt/Logger>
+#include <log4qt/Logger>
 #include <svnqt/repositorylistener.h>
 #include <svnqt/context_listener.h>
 #include <svnqt/client.h>

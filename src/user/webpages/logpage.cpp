@@ -12,7 +12,7 @@
 #include "user/webpages/logpage.h"
 
 // Library includes
-#include <Log4Qt/SimpleLayout>
+#include <log4qt/SimpleLayout>
 
 // Local includes
 #include "mainapplication.h"

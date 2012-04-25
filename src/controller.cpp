@@ -16,8 +16,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QStringBuilder>
 #include <QtCore/QTimer>
-#include <Log4Qt/TTCCLayout>
-#include <Log4Qt/ConsoleAppender>
+#include <log4qt/TTCCLayout>
+#include <log4qt/ConsoleAppender>
 
 // Local includes
 #include "auxiliary/qexception.h"

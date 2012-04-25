@@ -16,7 +16,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
 #include <QtCore/QTimer>
-#include <Log4Qt/Logger>
+#include <log4qt/Logger>
 
 // Local includes
 #include "auxiliary/qexception.h"

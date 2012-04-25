@@ -18,7 +18,7 @@
 #include <QtGui/QApplication>
 #include <QtCore/QSocketNotifier>
 #include <QtCore/QDateTime>
-#include <Log4Qt/Logger>
+#include <log4qt/Logger>
 
 // Local includes
 #include "auxiliary/qexception.h"

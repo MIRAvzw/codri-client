@@ -18,7 +18,7 @@
 #include <QtCore/QStateMachine>
 #include <QtCore/QState>
 #include <QtCore/QFinalState>
-#include <Log4Qt/Logger>
+#include <log4qt/Logger>
 
 // Local includes
 #include "network/serverclient.h"

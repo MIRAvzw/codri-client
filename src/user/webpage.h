@@ -16,7 +16,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
 #include <QtWebKit/QWebPage>
-#include <Log4Qt/Logger>
+#include <log4qt/Logger>
 
 namespace Codri {
     class WebPage : public QWebPage {

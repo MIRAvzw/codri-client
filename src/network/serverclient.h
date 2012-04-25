@@ -14,7 +14,7 @@
 
 // Library includes
 #include <QtCore/QObject>
-#include <Log4Qt/Logger>
+#include <log4qt/Logger>
 #include <QtCore/QStateMachine>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkRequest>

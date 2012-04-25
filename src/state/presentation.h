@@ -18,7 +18,7 @@
 // Library includes
 #include <QtCore/QObject>
 #include <QtCore/QDir>
-#include <Log4Qt/Logger>
+#include <log4qt/Logger>
 
 namespace Codri {
     class Presentation : public QObject {

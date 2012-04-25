@@ -14,8 +14,8 @@
 
 // Library includes
 #include <QtCore/QObject>
-#include <Log4Qt/SignalAppender>
-#include <Log4Qt/Layout>
+#include <log4qt/SignalAppender>
+#include <log4qt/Layout>
 
 // Local incudes
 #include "user/webpage.h"

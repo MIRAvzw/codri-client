@@ -1,5 +1,5 @@
 tmp
 *.log
 *~
-aa3client*
+codri*
 !*.install

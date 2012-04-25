@@ -12,7 +12,7 @@
 #include "user/webpages/statuspage.h"
 
 // Library includes
-#include <Log4Qt/SimpleLayout>
+#include <log4qt/SimpleLayout>
 
 // Local includes
 #include "mainapplication.h"

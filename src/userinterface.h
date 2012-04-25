@@ -19,7 +19,7 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QKeyEvent>
 #include <QtWebKit/QWebView>
-#include <Log4Qt/Logger>
+#include <log4qt/Logger>
 
 // Local includes
 #include "auxiliary/qexception.h"

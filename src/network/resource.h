@@ -17,7 +17,7 @@
 #include <QxtWeb/QxtWebServiceDirectory>
 #include <QxtWeb/QxtWebRequestEvent>
 #include <QxtWeb/QxtWebContent>
-#include <Log4Qt/Logger>
+#include <log4qt/Logger>
 
 namespace Codri {
     class Resource : public QxtWebServiceDirectory {

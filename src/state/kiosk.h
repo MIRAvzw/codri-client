@@ -19,7 +19,7 @@
 // Library includes
 #include <QtCore/QObject>
 #include <QtNetwork/QNetworkAddressEntry>
-#include <Log4Qt/Logger>
+#include <log4qt/Logger>
 
 namespace Codri {
     class Kiosk : public QObject {
