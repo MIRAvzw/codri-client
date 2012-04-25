@@ -65,12 +65,16 @@ uint8_t Codri::PlatformInterface::getVolume() {
     snd_mixer_selem_register(tHandle, NULL, NULL);
     snd_mixer_load(tHandle);
 
-    // Get a hold of the Master element
+    // Get a hold of the main element
     snd_mixer_selem_id_t *tElementId;
     snd_mixer_selem_id_alloca(&tElementId);
     snd_mixer_selem_id_set_index(tElementId, 0);
     snd_mixer_selem_id_set_name(tElementId, "Master");
     snd_mixer_elem_t* tElement = snd_mixer_find_selem(tHandle, tElementId);
+    if (tElement == NULL) {
+        mLogger->error() << "Couldn't find main mixer element";
+        return 0;
+    }
 
     // Get the volume range
     long tMinimum, tMaximum;
@@ -95,12 +99,16 @@ void Codri::PlatformInterface::setVolume(uint8_t iVolume) {
     snd_mixer_selem_register(tHandle, NULL, NULL);
     snd_mixer_load(tHandle);
 
-    // Get a hold of the Master element
+    // Get a hold of the main element
     snd_mixer_selem_id_t *tElementId;
     snd_mixer_selem_id_alloca(&tElementId);
     snd_mixer_selem_id_set_index(tElementId, 0);
     snd_mixer_selem_id_set_name(tElementId, "Master");
     snd_mixer_elem_t* tElement = snd_mixer_find_selem(tHandle, tElementId);
+    if (tElement == NULL) {
+        mLogger->error() << "Couldn't find main mixer element";
+        return;
+    }
 
     // Get the volume range
     long tMinimum, tMaximum;
