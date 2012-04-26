@@ -16,6 +16,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSettings>
 #include <log4qt/Logger>
+#include <alsa/asoundlib.h>
 
 // Local includes
 #include "auxiliary/qexception.h"
@@ -28,6 +29,7 @@ namespace Codri {
         // Construction and destruction
         explicit PlatformInterface(QObject *iParent) throw(QException);
         void start();
+        ~PlatformInterface();
 
         // Public interface
     public slots:
@@ -39,6 +41,10 @@ namespace Codri {
         // Infrastructure
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
+
+        // Member data
+        snd_mixer_t *mMixer;
+        snd_mixer_elem_t *mMixerElement;
     };
 }
 

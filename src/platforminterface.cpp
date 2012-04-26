@@ -16,7 +16,6 @@
 
 // Library includes
 #include <QtNetwork/QHostInfo>
-#include <alsa/asoundlib.h>
 
 // Local includes
 #include "mainapplication.h"
@@ -38,6 +37,37 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
+    // Get a hold of the mixer
+    if (snd_mixer_open(&mMixer, 0) < 0)
+        throw QException("could not open mixer");
+    if (snd_mixer_attach(mMixer, "default") < 0) {
+        snd_mixer_close(mMixer);
+        throw QException("could not attach mixer to soundcard");
+    }
+    if (snd_mixer_selem_register(mMixer, NULL, NULL) < 0) {
+        snd_mixer_close(mMixer);
+        throw QException("could not register mixer");
+    }
+    if (snd_mixer_load(mMixer) < 0) {
+        snd_mixer_close(mMixer);
+        throw QException("could not load mixer");
+    }
+
+    // Get a hold of the relevant mixer elements
+    snd_mixer_selem_id_t *tElementId;
+    snd_mixer_selem_id_alloca(&tElementId);
+    snd_mixer_selem_id_set_index(tElementId, 0);
+#ifdef DEVEL
+    snd_mixer_selem_id_set_name(tElementId, "Master");
+#else
+    snd_mixer_selem_id_set_name(tElementId, "Playback");
+#endif
+    mMixerElement = snd_mixer_find_selem(mMixer, tElementId);
+    if (mMixerElement == NULL) {
+        snd_mixer_close(mMixer);
+        throw QException("could not find main mixer element");
+    }
+
     // Apply default values
 #ifdef DEVEL
     MainApplication::instance()->kiosk()->setId("testclient");
@@ -52,71 +82,37 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
 void Codri::PlatformInterface::start() {
 }
 
+Codri::PlatformInterface::~PlatformInterface() {
+    snd_mixer_close(mMixer);
+}
+
 
 //
 // Public interface
 //
 
 uint8_t Codri::PlatformInterface::getVolume() {
-    // Open the simple mixer interface
-    snd_mixer_t *tHandle;
-    snd_mixer_open(&tHandle, 0);
-    snd_mixer_attach(tHandle, "default");
-    snd_mixer_selem_register(tHandle, NULL, NULL);
-    snd_mixer_load(tHandle);
-
-    // Get a hold of the main element
-    snd_mixer_selem_id_t *tElementId;
-    snd_mixer_selem_id_alloca(&tElementId);
-    snd_mixer_selem_id_set_index(tElementId, 0);
-    snd_mixer_selem_id_set_name(tElementId, "Master");
-    snd_mixer_elem_t* tElement = snd_mixer_find_selem(tHandle, tElementId);
-    if (tElement == NULL) {
-        mLogger->error() << "Couldn't find main mixer element";
-        return 0;
-    }
-
     // Get the volume range
     long tMinimum, tMaximum;
-    snd_mixer_selem_get_playback_volume_range(tElement, &tMinimum, &tMaximum);
+    snd_mixer_selem_get_playback_volume_range(mMixerElement, &tMinimum, &tMaximum);
 
     // Get the volume of all channels
     long tLeft, tRight;
-    snd_mixer_selem_get_playback_volume(tElement, SND_MIXER_SCHN_FRONT_LEFT, &tLeft);
-    snd_mixer_selem_get_playback_volume(tElement, SND_MIXER_SCHN_FRONT_RIGHT, &tRight);
+    snd_mixer_selem_get_playback_volume(mMixerElement, SND_MIXER_SCHN_FRONT_LEFT, &tLeft);
+    snd_mixer_selem_get_playback_volume(mMixerElement, SND_MIXER_SCHN_FRONT_RIGHT, &tRight);
     long tVolume = (tLeft + tRight) / 2;
 
     // Finalize
-    snd_mixer_close(tHandle);
     return tVolume * 255 / tMaximum;
 }
 
 void Codri::PlatformInterface::setVolume(uint8_t iVolume) {
-    // Open the simple mixer interface
-    snd_mixer_t *tHandle;
-    snd_mixer_open(&tHandle, 0);
-    snd_mixer_attach(tHandle, "default");
-    snd_mixer_selem_register(tHandle, NULL, NULL);
-    snd_mixer_load(tHandle);
-
-    // Get a hold of the main element
-    snd_mixer_selem_id_t *tElementId;
-    snd_mixer_selem_id_alloca(&tElementId);
-    snd_mixer_selem_id_set_index(tElementId, 0);
-    snd_mixer_selem_id_set_name(tElementId, "Master");
-    snd_mixer_elem_t* tElement = snd_mixer_find_selem(tHandle, tElementId);
-    if (tElement == NULL) {
-        mLogger->error() << "Couldn't find main mixer element";
-        return;
-    }
-
     // Get the volume range
     long tMinimum, tMaximum;
-    snd_mixer_selem_get_playback_volume_range(tElement, &tMinimum, &tMaximum);
+    snd_mixer_selem_get_playback_volume_range(mMixerElement, &tMinimum, &tMaximum);
 
     // Finalize
-    snd_mixer_selem_set_playback_volume_all(tElement, iVolume * tMaximum / 255);
-    snd_mixer_close(tHandle);
+    snd_mixer_selem_set_playback_volume_all(mMixerElement, iVolume * tMaximum / 255);
 }
 
 void Codri::PlatformInterface::setStatus(Codri::Kiosk::Status iStatus) {
