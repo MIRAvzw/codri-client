@@ -23,6 +23,7 @@
 #include <QtCore/QTimer>
 #include <log4qt/TTCCLayout>
 #include <log4qt/ConsoleAppender>
+#include <log4qt/FileAppender>
 
 
 //
@@ -55,15 +56,23 @@ Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentVal
     if (mLogger->appenders().size() == 0) {
         // Create a layout
         Log4Qt::TTCCLayout *tLayout = new Log4Qt::TTCCLayout();
+        tLayout->setDateFormat(Log4Qt::TTCCLayout::ISO8601);
         tLayout->activateOptions();
 
-        // Create an appender
-        Log4Qt::ConsoleAppender *tAppender = new Log4Qt::ConsoleAppender(tLayout, Log4Qt::ConsoleAppender::STDOUT_TARGET);
-        tAppender->activateOptions();
+        // Create a console appender
+        Log4Qt::ConsoleAppender *tConsoleAppender = new Log4Qt::ConsoleAppender(tLayout, Log4Qt::ConsoleAppender::STDOUT_TARGET);
+        tConsoleAppender->setThreshold(Log4Qt::Level::INFO_INT);
+        tConsoleAppender->activateOptions();
+
+        // Create a file appender
+        Log4Qt::FileAppender *tFileAppender = new Log4Qt::FileAppender(tLayout, "/var/log/codri/client.log");
+        tFileAppender->setThreshold(Log4Qt::Level::DEBUG_INT);
+        tFileAppender->activateOptions();
 
         // Set appender on root logger
-        Log4Qt::Logger::rootLogger()->addAppender(tAppender);
         Log4Qt::Logger::rootLogger()->setLevel(Log4Qt::Level::ALL_INT);
+        Log4Qt::Logger::rootLogger()->addAppender(tConsoleAppender);
+        Log4Qt::Logger::rootLogger()->addAppender(tFileAppender);
     }
     qInstallMsgHandler(doMessage);
     mLogger->info() << "Initializing";
@@ -74,11 +83,12 @@ Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentVal
     mPresentation = new Presentation(this);
 
     // Kiosk details
-    mKiosk->setVendor("Codri");
 #ifdef DEVEL
+    mKiosk->setVendor("N/A");
     mKiosk->setModel("Development system");
 #else
-    mKiosk->setModel("Genesi EfikaMX");
+    mKiosk->setVendor("Genesi");
+    mKiosk->setModel("EfikaMX");
 #endif
 
     // Start the application controller
