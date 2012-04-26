@@ -76,7 +76,7 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
     MainApplication::instance()->kiosk()->setId(tHostInfo.localHostName());
 #endif
     setVolume(MainApplication::instance()->configuration()->getVolume());
-    setStatus(MainApplication::instance()->kiosk()->getStatus());
+    setStatus(MainApplication::instance()->kiosk()->getPower());
 }
 
 void Codri::PlatformInterface::start() {
@@ -115,7 +115,7 @@ void Codri::PlatformInterface::setVolume(uint8_t iVolume) {
     snd_mixer_selem_set_playback_volume_all(mMixerElement, iVolume * tMaximum / 255);
 }
 
-void Codri::PlatformInterface::setStatus(Codri::Kiosk::Status iStatus) {
+void Codri::PlatformInterface::setStatus(Codri::Kiosk::Power iStatus) {
     switch (iStatus) {
     case Codri::Kiosk::ON:
         return;

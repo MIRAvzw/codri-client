@@ -31,7 +31,7 @@ Codri::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManage
 Codri::JsonResource::Result Codri::KioskResource::doJsonGET(QVariant& iReply) {
     QVariantMap tObject;
 
-    switch (MainApplication::instance()->kiosk()->getStatus()) {
+    switch (MainApplication::instance()->kiosk()->getPower()) {
     case Kiosk::ON:
         tObject["power"] = "on";
         break;
