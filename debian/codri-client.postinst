@@ -1,0 +1,28 @@
+#!/bin/sh -e
+
+action="$1"
+oldversion="$2"
+
+. /usr/share/debconf/confmodule
+db_version 2.0
+
+umask 022
+
+if [ "$action" != configure ]
+	then
+	exit 0
+fi
+
+if ! getent passwd codri >/dev/null; then
+	adduser --group --system --no-create-home --home /var/lib/codri codri
+fi
+
+if ! getent group codri >/dev/null; then
+	addgroup --system codri
+	adduser codri codri
+fi
+
+dpkg-statoverride --list /var/log/codri >/dev/null || \
+	dpkg-statoverride --update --add codri adm 0750 /var/log/codri
+dpkg-statoverride --list /var/lib/codri >/dev/null || \
+	dpkg-statoverride --update --add codri codri 0755 /var/lib/codri

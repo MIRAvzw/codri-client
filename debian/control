@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/MIRAvzw/codri-client
 Package: codri-client
 Section: lib
 Architecture: any
-Depends: libqt4-core, libqt4-gui, libqt4-webkit, liblog4qt, libsvnqt2, libqxt-web0, libasound2 ${misc:Depends}, ${shlibs:Depends}
+Depends: libqt4-core, libqt4-gui, libqt4-webkit, liblog4qt, libsvnqt2, libqxt-web0, libasound2, adduser ${misc:Depends}, ${shlibs:Depends}
 Description: Codri client application
 
 Package: codri-client-dbg
