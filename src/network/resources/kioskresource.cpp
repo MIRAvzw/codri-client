@@ -53,9 +53,9 @@ Codri::JsonResource::Result Codri::KioskResource::doJsonPUT(const QVariant& iReq
         if (tPower.isValid() && !tPower.isNull()) {
             if (tPower.canConvert(QVariant::String)) {
                 if (tPower.toString() == "on") {
-                    MainApplication::instance()->kiosk()->setStatus(Kiosk::ON);
+                    MainApplication::instance()->kiosk()->setPower(Kiosk::ON);
                 } else if (tPower.toString() == "off") {
-                    MainApplication::instance()->kiosk()->setStatus(Kiosk::OFF);
+                    MainApplication::instance()->kiosk()->setPower(Kiosk::OFF);
                 } else {
                     mLogger->warn() << "Invalid power state in PUT request";
                     return INVALID;

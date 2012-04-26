@@ -29,17 +29,17 @@ namespace Codri {
         explicit Kiosk(QObject *iParent);
 
         // Power enum
-        enum Status {
+        enum Power {
             ON,
             OFF
         };
-        Q_ENUMS(Status)
+        Q_ENUMS(Power)
 
         // Basic I/O
         QString getId() const;
         void setId(const QString& iId);
-        Kiosk::Status getStatus() const;
-        void setStatus(Kiosk::Status iStatus);
+        Kiosk::Power getPower() const;
+        void setPower(Kiosk::Power iStatus);
         QString getVendor() const;
         void setVendor(const QString& iVendor);
         QString getModel() const;
@@ -49,12 +49,12 @@ namespace Codri {
 
         // Signals
     signals:
-        void onStatusChanged(Kiosk::Status iPower);
+        void onPowerChanged(Kiosk::Power iPower);
 
     private:
         // Member data
         QString mId;
-        Status mStatus;
+        Power mStatus;
         QString mVendor, mModel;
         uint16_t mPort;
 

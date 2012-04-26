@@ -104,7 +104,7 @@ void Codri::Controller::_onInitializationSuccess() {
     // STATE EVENTS //
 
     // Kiosk
-    connect(MainApplication::instance()->kiosk(), SIGNAL(onStatusChanged(Kiosk::Status)), mPlatformInterface, SLOT(setStatus(Kiosk::Status)));
+    connect(MainApplication::instance()->kiosk(), SIGNAL(onStatusChanged(Kiosk::Power)), mPlatformInterface, SLOT(setStatus(Kiosk::Power)));
 
     // Configuration
     connect(MainApplication::instance()->configuration(), SIGNAL(onVolumeChanged(uint8_t)), mPlatformInterface, SLOT(setVolume(uint8_t)));
