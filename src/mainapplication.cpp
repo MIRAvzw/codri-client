@@ -75,7 +75,11 @@ Codri::MainApplication::MainApplication(int &iArgumentCount, char **iArgumentVal
 
     // Kiosk details
     mKiosk->setVendor("Codri");
-    mKiosk->setModel("Genesi prototype");
+#ifdef DEVEL
+    mKiosk->setModel("Development system");
+#else
+    mKiosk->setModel("Genesi EfikaMX");
+#endif
 
     // Start the application controller
     mController = new Controller(this);

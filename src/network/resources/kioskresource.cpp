@@ -21,9 +21,6 @@
 
 Codri::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
     : JsonResource(iSessionManager, iParent, "Codri::KioskResource") {
-    // Power resource
-    mPower = new Power(iSessionManager, this);
-    addService("power", mPower);
 }
 
 
@@ -33,41 +30,46 @@ Codri::KioskResource::KioskResource(QxtAbstractWebSessionManager* iSessionManage
 
 Codri::JsonResource::Result Codri::KioskResource::doJsonGET(QVariant& iReply) {
     QVariantMap tObject;
-    Result tResult = VALID;
 
-    aggregateResult(tResult, mPower->doJsonGET(tObject["power"]));
-
-    iReply = tObject;
-    return tResult;
-}
-
-Codri::JsonResource::Result Codri::KioskResource::Power::doJsonGET(QVariant& iReply) {
     switch (MainApplication::instance()->kiosk()->getStatus()) {
     case Kiosk::ON:
-        iReply = "on";
+        tObject["power"] = "on";
         break;
     case Kiosk::OFF:
-        iReply = "off";
+        tObject["power"] = "off";
         break;
     }
 
+    iReply = tObject;
     return VALID;
 }
 
-Codri::JsonResource::Result Codri::KioskResource::Power::doJsonPUT(const QVariant &iRequest) {
-    if (iRequest.canConvert(QVariant::String)) {
-        if (iRequest.toString() == "on") {
-            MainApplication::instance()->kiosk()->setStatus(Kiosk::ON);
-        } else if (iRequest.toString() == "off") {
-            MainApplication::instance()->kiosk()->setStatus(Kiosk::OFF);
-        } else {
-            mLogger->warn() << "Invalid power state in PUT request";
-            return INVALID;
+Codri::JsonResource::Result Codri::KioskResource::doJsonPUT(const QVariant& iRequest) {
+    if (iRequest.canConvert(QVariant::Map)) {
+        const QVariantMap& iRequestMap = iRequest.toMap();
+
+        // Optional: power state
+        const QVariant& tPower = iRequestMap["power"];
+        if (tPower.isValid() && !tPower.isNull()) {
+            if (tPower.canConvert(QVariant::String)) {
+                if (tPower.toString() == "on") {
+                    MainApplication::instance()->kiosk()->setStatus(Kiosk::ON);
+                } else if (tPower.toString() == "off") {
+                    MainApplication::instance()->kiosk()->setStatus(Kiosk::OFF);
+                } else {
+                    mLogger->warn() << "Invalid power state in PUT request";
+                    return INVALID;
+                }
+            } else {
+                mLogger->warn() << "Missing (or invalid) power state in PUT request";
+                return INVALID;
+            }
         }
     } else {
-        mLogger->warn() << "Missing (or invalid) power state in PUT request";
+        mLogger->warn() << "Couldn't convert payload of collection PUT request to a map";
         return INVALID;
     }
 
     return VALID;
 }
+

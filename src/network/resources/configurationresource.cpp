@@ -24,13 +24,6 @@
 
 Codri::ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager* iSessionManager, QObject *iParent)
     : JsonResource(iSessionManager, iParent, "Codri::ConfigurationResource") {
-    // Revision resource
-    mRevision = new Revision(iSessionManager, this);
-    addService("revision", mRevision);
-
-    // Volume resource
-    mVolume = new Volume(iSessionManager, this);
-    addService("volume", mVolume);
 }
 
 
@@ -41,61 +34,41 @@ Codri::ConfigurationResource::ConfigurationResource(QxtAbstractWebSessionManager
 
 Codri::JsonResource::Result Codri::ConfigurationResource::doJsonGET(QVariant& iReply) {
     QVariantMap tObject;
-    Result tResult = VALID;
 
-    aggregateResult(tResult, mRevision->doJsonGET(tObject["revision"]));
-    aggregateResult(tResult, mVolume->doJsonGET(tObject["volume"]));
+    tObject["revision"] = MainApplication::instance()->configuration()->getRevision();
+    tObject["volume"] = MainApplication::instance()->configuration()->getVolume();
 
     iReply = tObject;
-    return tResult;
+    return VALID;
 }
 
 Codri::JsonResource::Result Codri::ConfigurationResource::doJsonPUT(const QVariant& iRequest) {
-    Result tResult = INVALID;
-
     if (iRequest.canConvert(QVariant::Map)) {
-        tResult = VALID;
         const QVariantMap& iRequestMap = iRequest.toMap();
 
-        // Mandatory fields
-        aggregateResult(tResult, mRevision->doJsonPUT(iRequestMap["revision"]));
+        // Mandatory: revision
+        const QVariant& tRevision = iRequestMap["revision"];
+        if (tRevision.canConvert(QVariant::LongLong)) {
+            MainApplication::instance()->configuration()->setRevision(tRevision.toLongLong());
+        } else {
+            mLogger->warn("Missing (or invalid) revision in PUT request");
+            return INVALID;
+        }
 
-        // Optional fields
-        if (iRequestMap.contains("volume") && !iRequestMap["volume"].isNull())
-            aggregateResult(tResult, mVolume->doJsonPUT(iRequestMap["volume"]));
+        // Optional: volume
+        const QVariant& tVolume = iRequestMap["volume"];
+        if (tVolume.isValid() && !tVolume.isNull()) {
+            if (tVolume.canConvert(QVariant::Int)) {
+                MainApplication::instance()->configuration()->setVolume(tVolume.toInt());
+            } else {
+                mLogger->warn("Missing (or invalid) volume in PUT request");
+                return INVALID;
+            }
+        }
     } else {
         mLogger->warn() << "Couldn't convert payload of collection PUT request to a map";
-    }
-
-    return tResult;
-}
-
-Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonGET(QVariant& iReply) {
-    iReply = MainApplication::instance()->configuration()->getRevision();
-    return VALID;
-}
-
-Codri::JsonResource::Result Codri::ConfigurationResource::Revision::doJsonPUT(const QVariant& iRequest) {
-    if (iRequest.canConvert(QVariant::LongLong)) {
-        MainApplication::instance()->configuration()->setRevision(iRequest.toLongLong());
-        return VALID;
-    } else {
-        mLogger->warn("Missing (or invalid) revision in PUT request");
         return INVALID;
     }
-}
 
-Codri::JsonResource::Result Codri::ConfigurationResource::Volume::doJsonGET(QVariant& iReply) {
-    iReply = MainApplication::instance()->configuration()->getVolume();
     return VALID;
-}
-
-Codri::JsonResource::Result Codri::ConfigurationResource::Volume::doJsonPUT(const QVariant& iRequest) {
-    if (iRequest.canConvert(QVariant::Int)) {
-        MainApplication::instance()->configuration()->setVolume(iRequest.toInt());
-        return VALID;
-    } else {
-        mLogger->warn("Missing (or invalid) volume in PUT request");
-        return INVALID;
-    }
 }

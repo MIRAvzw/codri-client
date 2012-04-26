@@ -29,26 +29,6 @@ namespace Codri {
         // JsonResource implementation
         Result doJsonGET(QVariant& iReply);
         Result doJsonPUT(const QVariant& iRequest);
-
-        // Revision resource
-        class Revision : public JsonResource {
-        public:
-            Revision(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
-                : JsonResource(iSessionManager, iParent) { }
-            Result doJsonGET(QVariant& iReply);
-            Result doJsonPUT(const QVariant& iRequest);
-        };
-        Revision *mRevision;
-
-        // Path resource
-        class Path : public JsonResource {
-        public:
-            Path(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
-                : JsonResource(iSessionManager, iParent) { }
-            Result doJsonGET(QVariant& iReply);
-            Result doJsonPUT(const QVariant &iRequest);
-        };
-        Path *mPath;
     };
 }
 

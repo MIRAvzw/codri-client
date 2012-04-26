@@ -28,17 +28,7 @@ namespace Codri {
     private:
         // JsonResource implementation
         Result doJsonGET(QVariant& iReply);
-
-        // Power resource
-        class Power : public JsonResource {
-        public:
-            Power(QxtAbstractWebSessionManager* iSessionManager, QObject* iParent)
-                : JsonResource(iSessionManager, iParent)
-            { }
-            Result doJsonGET(QVariant& iReply);
-            Result doJsonPUT(const QVariant &iRequest);
-        };
-        Power *mPower;
+        Result doJsonPUT(const QVariant& iRequest);
     };
 }
 

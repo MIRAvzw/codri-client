@@ -70,7 +70,8 @@ void Codri::JsonResource::doPUT(int iSessionId, int iRequestId, QIODevice *iCont
         Result tResult = doJsonPUT(tRequest);
         doJsonReply(iSessionId, iRequestId, tReply, tResult);
         return;
-    }
+    } else
+        mLogger->warn() << "Could not parse JSon payload: " << mParser->errorString();
     postInvalidPayload(iSessionId, iRequestId, "Unparseable Payload");
 }
 
