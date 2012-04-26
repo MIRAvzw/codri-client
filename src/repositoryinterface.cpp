@@ -41,7 +41,7 @@ Codri::RepositoryInterface::RepositoryInterface(QObject *iParent) throw(QExcepti
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Checkout directory
-    mCheckout = QDir(mSettings->value("datadir", "/tmp/data").toString()).absoluteFilePath("checkout");
+    mCheckout = QDir(mSettings->value("datadir", QDir::homePath()).toString()).absoluteFilePath("checkout");
     if (!mCheckout.exists())
         mCheckout.mkpath(mCheckout.absolutePath());
 
