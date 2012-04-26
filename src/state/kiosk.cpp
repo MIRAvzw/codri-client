@@ -46,19 +46,19 @@ void Codri::Kiosk::setId(const QString &iId) {
 }
 
 Codri::Kiosk::Power Codri::Kiosk::getPower() const {
-    return mStatus;
+    return mPower;
 }
 
-void Codri::Kiosk::setPower(Codri::Kiosk::Power iStatus) {
-    mStatus = iStatus;
+void Codri::Kiosk::setPower(Codri::Kiosk::Power iPower) {
+    mPower = iPower;
 
     // Get the enum's meta object
     const QMetaObject &tMetaObject = Kiosk::staticMetaObject;
-    int tIndex = tMetaObject.indexOfEnumerator("Status");
+    int tIndex = tMetaObject.indexOfEnumerator("Power");
     QMetaEnum tMetaEnum = tMetaObject.enumerator(tIndex);
 
-    mLogger->debug() << "Power changing to " << tMetaEnum.valueToKey(iStatus);
-    emit onPowerChanged(iStatus);
+    mLogger->debug() << "Power changing to " << tMetaEnum.valueToKey(iPower);
+    emit onPowerChanged(iPower);
 }
 
 QString Codri::Kiosk::getVendor() const {

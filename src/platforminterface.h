@@ -35,7 +35,12 @@ namespace Codri {
     public slots:
         uint8_t getVolume();
         void setVolume(uint8_t iVolume);
-        void setStatus(Kiosk::Power iStatus);
+        void setPower(Kiosk::Power iPower);
+
+        // Auxiliary
+    private:
+        bool system(const QString &iCommand, const QStringList &iArguments, QString &oOutput);
+        bool sudo(const QStringList &iArguments, QString &oOutput);
 
     private:
         // Infrastructure

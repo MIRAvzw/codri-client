@@ -11,17 +11,12 @@
 // Header include
 #include "platforminterface.h"
 
-// System includes
-#include <sys/reboot.h>
-
 // Library includes
+#include <QtCore/QProcess>
 #include <QtNetwork/QHostInfo>
 
 // Local includes
 #include "mainapplication.h"
-
-// Function prototypes
-int reboot(int magic, int magic2, int cmd, void *arg);
 
 
 //
@@ -76,7 +71,7 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
     MainApplication::instance()->kiosk()->setId(tHostInfo.localHostName());
 #endif
     setVolume(MainApplication::instance()->configuration()->getVolume());
-    setStatus(MainApplication::instance()->kiosk()->getPower());
+    setPower(MainApplication::instance()->kiosk()->getPower());
 }
 
 void Codri::PlatformInterface::start() {
@@ -115,13 +110,43 @@ void Codri::PlatformInterface::setVolume(uint8_t iVolume) {
     snd_mixer_selem_set_playback_volume_all(mMixerElement, iVolume * tMaximum / 255);
 }
 
-void Codri::PlatformInterface::setStatus(Codri::Kiosk::Power iStatus) {
-    switch (iStatus) {
+void Codri::PlatformInterface::setPower(Codri::Kiosk::Power iPower) {
+    switch (iPower) {
     case Codri::Kiosk::ON:
         return;
     case Codri::Kiosk::OFF:
-        sync();
-        reboot(RB_POWER_OFF);
+        // FIXME: using reboot(2) is nicer, but not possible from non-root user
+        QString tOutput;
+        QStringList tArguments;
+        tArguments << "/sbin/poweroff";
+        if (!sudo(tArguments, tOutput))
+            mLogger->error() << "Could not shut down device: " << tOutput;
         return;
     }
+}
+
+
+//
+// Auxiliary
+//
+
+bool Codri::PlatformInterface::system(const QString& iCommand, const QStringList& iArguments, QString& oOutput) {
+    // Set-up the process
+    mLogger->debug() << "Executing system command " << iCommand << " with arguments " << iArguments.join(" ");
+    QProcess tProcess(this);
+    tProcess.setProcessChannelMode(QProcess::MergedChannels);
+    tProcess.start(iCommand, iArguments);
+
+    // Wait for the end of the command
+    QEventLoop tLoop;
+    connect(&tProcess, SIGNAL(finished(int, QProcess::ExitStatus)), &tLoop, SLOT(quit()));
+    tLoop.exec();
+
+    // Return appropriate data
+    oOutput = tProcess.readAll();
+    return (tProcess.exitStatus() == QProcess::NormalExit);
+}
+
+bool Codri::PlatformInterface::sudo(const QStringList& iArguments, QString& oOutput) {
+    return system("/usr/bin/sudo", iArguments, oOutput);
 }

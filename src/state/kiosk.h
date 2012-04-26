@@ -54,7 +54,7 @@ namespace Codri {
     private:
         // Member data
         QString mId;
-        Power mStatus;
+        Power mPower;
         QString mVendor, mModel;
         uint16_t mPort;
 
