@@ -1,0 +1,37 @@
+#!/bin/sh -e
+
+case "$1" in
+purge)
+	# Remove user
+	if getent passwd codri >/dev/null; then
+		deluser --quiet codri
+	fi
+
+	# Remove group
+	if ! getent group codri >/dev/null; then
+		delgroup --quiet codri
+	fi
+
+	# Remove mail alias
+	if [ -f /etc/aliases ] || [ -L /etc/aliases ]
+	then
+	  if grep -qi "^codri[[:space:]]*:" /etc/aliases
+	  then
+	    sed -i '/^codri[[:space:]]*:.*$/d' /etc/aliases
+	    test -x /usr/bin/newaliases && newaliases || :
+	  fi
+	fi
+	;;
+
+upgrade|failed-upgrade|abort-install|abort-upgrade|remove|disappear)
+	;;
+
+*)
+	echo "postrm called with unknown argument \`$1'" >&2
+	exit 1
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0

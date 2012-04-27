@@ -1,28 +1,40 @@
 #!/bin/sh -e
 
-action="$1"
-oldversion="$2"
+case "$1" in
+configure)
+	# Create user
+	if ! getent passwd codri >/dev/null; then
+		adduser --group --system --no-create-home --home /var/lib/codri codri
+	fi
 
-. /usr/share/debconf/confmodule
-db_version 2.0
+	# Create group
+	if ! getent group codri >/dev/null; then
+		addgroup --system codri
+		adduser codri codri
+	fi
 
-umask 022
+	# Add mail alias
+	if [ -f /etc/aliases ] || [ -L /etc/aliases ] ; then
+			if ! grep -qi '^codri[[:space:]]*:' /etc/aliases ; 	then
+			echo "codri: root" >> /etc/aliases
+			test -x /usr/bin/newaliases && newaliases || :
+		fi
+	fi
 
-if [ "$action" != configure ]
-	then
-	exit 0
-fi
+	# Fix log and home permissions
+	dpkg-statoverride --list /var/log/codri >/dev/null || \
+		dpkg-statoverride --update --add codri adm 0750 /var/log/codri
+	dpkg-statoverride --list /var/lib/codri >/dev/null || \
+		dpkg-statoverride --update --add codri codri 0755 /var/lib/codri
+	;;
 
-if ! getent passwd codri >/dev/null; then
-	adduser --group --system --no-create-home --home /var/lib/codri codri
-fi
+abort-upgrade|abort-remove|abort-deconfigure)
+	;;
 
-if ! getent group codri >/dev/null; then
-	addgroup --system codri
-	adduser codri codri
-fi
+*)
+	echo "postinst called with unknown argument \`$1'" >&2
+	exit 1
+	;;
+esac
 
-dpkg-statoverride --list /var/log/codri >/dev/null || \
-	dpkg-statoverride --update --add codri adm 0750 /var/log/codri
-dpkg-statoverride --list /var/lib/codri >/dev/null || \
-	dpkg-statoverride --update --add codri codri 0755 /var/lib/codri
+exit 0
