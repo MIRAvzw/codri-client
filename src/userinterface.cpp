@@ -35,11 +35,22 @@ Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException)
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
-    // Setup UI
-    mWebView = new QWebView(this);
-    mWebView->installEventFilter(this);
-    setCentralWidget(mWebView);
+    // Setup graphics
+    mGraphicsScene = new QGraphicsScene(this);
+    mGraphicsView = new QGraphicsView(mGraphicsScene, this);
+    mGraphicsView->setFrameShape(QFrame::NoFrame);
+    mGraphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    mGraphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    // Setup webview
+    mWebView = new QGraphicsWebView();
+    mGraphicsScene->addItem(mWebView);
+
+    // Finalize UI
+    setCentralWidget(mGraphicsView);
     setWindowState(windowState() | Qt::WindowFullScreen);
+    mWebView->setFocus();
+    mWebView->show();
 
     // Configure the webview
     mLogger->info() << "Displaying initialization page";
@@ -97,8 +108,9 @@ bool Codri::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent) {
         // Default passthrough keys
         case Qt::Key_Left:
         case Qt::Key_Right:
+        case Qt::Key_Up:
+        case Qt::Key_Down:
         case Qt::Key_Return:
-        case Qt::Key_Backspace:
             return false;
             break;
 
@@ -125,6 +137,11 @@ bool Codri::UserInterface::eventFilter(QObject *iObject, QEvent *iEvent) {
         // Standard event processing
         return QObject::eventFilter(iObject, iEvent);
     }
+}
+
+void Codri::UserInterface::resizeEvent(QResizeEvent *iResizeEvent) {
+    mWebView->resize(iResizeEvent->size());
+    mGraphicsView->resize(iResizeEvent->size());
 }
 
 

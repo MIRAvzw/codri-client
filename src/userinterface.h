@@ -18,7 +18,9 @@
 #include <QtCore/QDir>
 #include <QtGui/QMainWindow>
 #include <QtGui/QKeyEvent>
-#include <QtWebKit/QWebView>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QGraphicsView>
+#include <QtWebKit/QGraphicsWebView>
 #include <log4qt/Logger>
 
 // Local includes
@@ -48,6 +50,7 @@ namespace Codri {
         // UI events
     public:
         bool eventFilter(QObject *iObject, QEvent *iEvent);
+        void resizeEvent(QResizeEvent *iResizeEvent);
 
         // Internal slots
     private slots:
@@ -59,7 +62,9 @@ namespace Codri {
         Log4Qt::Logger *mLogger;
 
         // Member objects
-        QWebView *mWebView;
+        QGraphicsScene *mGraphicsScene;
+        QGraphicsView *mGraphicsView;
+        QGraphicsWebView *mWebView;
     };
 }
 
