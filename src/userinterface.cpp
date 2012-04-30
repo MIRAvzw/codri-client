@@ -13,6 +13,7 @@
 
 // Library includes
 #include <QtCore/QStringList>
+#include <QtOpenGL/QGLWidget>
 
 // Local includes
 #include "user/webpages/initpage.h"
@@ -41,10 +42,16 @@ Codri::UserInterface::UserInterface(QWidget *iParent) throw(QException)
     mGraphicsView->setFrameShape(QFrame::NoFrame);
     mGraphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     mGraphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    mGraphicsView->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+    mGraphicsView->setViewport(new QGLWidget());
 
     // Setup webview
     mWebView = new QGraphicsWebView();
     mGraphicsScene->addItem(mWebView);
+    if (mWebView->settings()->testAttribute(QWebSettings::AcceleratedCompositingEnabled))
+        mLogger->debug() << "Accelerated compositing is enabled";
+    else
+        mLogger->warn() << "Accelerated compositing is disabled";
 
     // Finalize UI
     setCentralWidget(mGraphicsView);

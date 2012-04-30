@@ -7,7 +7,8 @@ QT += core \
     gui \
     webkit \
     network \
-    xml
+    xml \
+    opengl
 
 # Qxt
 CONFIG += qxt
