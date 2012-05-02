@@ -52,11 +52,7 @@ Codri::PlatformInterface::PlatformInterface(QObject* iParent) throw(QException)
     snd_mixer_selem_id_t *tElementId;
     snd_mixer_selem_id_alloca(&tElementId);
     snd_mixer_selem_id_set_index(tElementId, 0);
-#ifdef DEVEL
     snd_mixer_selem_id_set_name(tElementId, "Master");
-#else
-    snd_mixer_selem_id_set_name(tElementId, "Playback");
-#endif
     mMixerElement = snd_mixer_find_selem(mMixer, tElementId);
     if (mMixerElement == NULL) {
         snd_mixer_close(mMixer);
