@@ -23,7 +23,6 @@
 
 // Local includes
 #include "auxiliary/qexception.h"
-#include "user/webpage.h"
 
 namespace Codri {
     class UserInterface : public QObject {

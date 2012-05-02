@@ -4,11 +4,8 @@
 
 # Core Qt
 QT += core \
-    gui \
-    webkit \
     network \
-    xml \
-    opengl
+    xml
 
 # Qxt
 CONFIG += qxt
@@ -43,18 +40,11 @@ TARGET = codri-client
 TEMPLATE = app
 QMAKE_CXXFLAGS += -Wall -Wextra
 
-RESOURCES += user/webpage.qrc
 SOURCES += controller.cpp \
     main.cpp \
     mainapplication.cpp \
     networkinterface.cpp \
-    user/webpage.cpp \
-    user/webpages/logpage.cpp \
-    user/webpages/statuspage.cpp \
     userinterface.cpp \
-    user/webpages/initpage.cpp \
-    user/webpages/errorpage.cpp \
-    user/webpages/presentationpage.cpp \
     network/webservicedispatcher.cpp \
     network/jsonresource.cpp \
     network/resource.cpp \
@@ -73,13 +63,7 @@ HEADERS += controller.h \
     mainapplication.h \
     networkinterface.h \
     auxiliary/qexception.h \
-    user/webpage.h \
-    user/webpages/logpage.h \
-    user/webpages/statuspage.h \
     userinterface.h \
-    user/webpages/initpage.h \
-    user/webpages/errorpage.h \
-    user/webpages/presentationpage.h \
     network/resource.h \
     network/webservicedispatcher.h \
     network/jsonresource.h \
@@ -96,11 +80,6 @@ HEADERS += controller.h \
     repositoryinterface.h \
     auxiliary/parameterizedsignaltransition.h \
     auxiliary/comparingsignaltransition.h
-OTHER_FILES += \
-    user/webpages/logpage.html \
-    user/webpages/statuspage.html \
-    user/webpages/initpage.html \
-    user/webpages/errorpage.html
 
 isEmpty(PREFIX) {
   PREFIX = /usr
