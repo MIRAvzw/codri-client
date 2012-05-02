@@ -81,13 +81,20 @@ HEADERS += controller.h \
     auxiliary/parameterizedsignaltransition.h \
     auxiliary/comparingsignaltransition.h
 
+OTHER_FILES += \
+    ../share/initpage.html \
+    ../share/errorpage.html
+other_files.files = $$OTHER_FILES
+
 isEmpty(PREFIX) {
   PREFIX = /usr
 }
 BINDIR = $$PREFIX/bin
-DATADIR =$$PREFIX/share
-INSTALLS += target
-target.path =$$BINDIR
+DATADIR =$$PREFIX/share/$$TARGET
+DEFINES += DATADIR=$$DATADIR
+INSTALLS += target other_files
+target.path = $$BINDIR
+other_files.path = $$DATADIR
 
 # Check target
 CHECK_FILTERS += \

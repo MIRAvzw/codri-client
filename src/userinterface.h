@@ -35,18 +35,19 @@ namespace Codri {
         // Public interface
     public slots:
         void showInit();
-        void showLog();
-        void showStatus();
         void showError();
         void showPresentation(const QDir &iLocation);
 
     private:
+        // Auxiliary
+        void load(const QString& iUrl);
+
         // Infrastructure
         QSettings *mSettings;
         Log4Qt::Logger *mLogger;
 
         // Member objects
-        QProcess *mBrowser;
+        QProcess *mApplication;
     };
 }
 

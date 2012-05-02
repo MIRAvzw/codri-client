@@ -13,7 +13,10 @@
 
 // Library includes
 #include <QtCore/QStringList>
-#include <QtOpenGL/QGLWidget>
+
+// Stringification macro
+#define QUOTE(str) #str
+#define EXPAND_AND_QUOTE(str) QUOTE(str)
 
 
 //
@@ -30,7 +33,7 @@ Codri::UserInterface::UserInterface(QObject *iParent) throw(QException)
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
 
     // Configure the instance
-    mBrowser = 0;
+    mApplication = 0;
     mLogger->info() << "Displaying initialization page";
     showInit();
 }
@@ -43,61 +46,44 @@ void Codri::UserInterface::start() {
 // Public interface
 //
 
-// TODO: track current page, do or do not reload (yes on media, no on log)?
-
 void Codri::UserInterface::showInit() {
-    if (mBrowser != 0) {
-        mBrowser->kill();
-        delete mBrowser;
-        mBrowser = 0;
+    if (mApplication != 0) {
+        mApplication->kill();
+        delete mApplication;
+        mApplication = 0;
     }
 
-    //QWebPage *tPageInit = new InitPage(mWebView);
-    //mWebView->setPage(tPageInit);
-}
-
-void Codri::UserInterface::showLog() {
-    if (mBrowser != 0) {
-        mBrowser->kill();
-        delete mBrowser;
-        mBrowser = 0;
-    }
-
-    //QWebPage *tPageLog = new LogPage(mWebView);
-    //mWebView->setPage(tPageLog);
-}
-
-void Codri::UserInterface::showStatus() {
-    if (mBrowser != 0) {
-        mBrowser->kill();
-        delete mBrowser;
-        mBrowser = 0;
-    }
-
-    //QWebPage *tPageStatus = new StatusPage(mWebView);
-    //mWebView->setPage(tPageStatus);
+    load(QString("file://%1/initpage.html").arg(EXPAND_AND_QUOTE(DATADIR)));
 }
 
 void Codri::UserInterface::showError() {
-    if (mBrowser != 0) {
-        mBrowser->kill();
-        delete mBrowser;
-        mBrowser = 0;
+    if (mApplication != 0) {
+        mApplication->kill();
+        delete mApplication;
+        mApplication = 0;
     }
 
-    //QWebPage *tPageError = new ErrorPage(mWebView);
-    //mWebView->setPage(tPageError);
+    load(QString("file://%1/errorpage.html").arg(EXPAND_AND_QUOTE(DATADIR)));
 }
 
 void Codri::UserInterface::showPresentation(const QDir& iLocation) {
-    if (mBrowser != 0) {
-        mBrowser->kill();
-        delete mBrowser;
-        mBrowser = 0;
+    if (mApplication != 0) {
+        mApplication->kill();
+        delete mApplication;
+        mApplication = 0;
     }
 
     mLogger->info() << "Loading presentation from " << iLocation.absolutePath();
-    mBrowser = new QProcess(this);
+    load("file://" + iLocation.absoluteFilePath("index.html"));
+}
+
+
+//
+// Auxiliary
+//
+
+void Codri::UserInterface::load(const QString& iUrl) {
+    mApplication = new QProcess(this);
     QString tExecutable("/usr/bin/chromium");
     QStringList tArguments;
     tArguments << "--kiosk"
@@ -107,7 +93,7 @@ void Codri::UserInterface::showPresentation(const QDir& iLocation) {
                << "--no-first-run"
                << "--no-default-browser-check"
                << "--disable-restore-background-contents"
-               << "file://" + iLocation.absoluteFilePath("index.html");
-    mBrowser->start(tExecutable, tArguments);
-}
+               << iUrl;
+    mApplication->start(tExecutable, tArguments);
 
+}
