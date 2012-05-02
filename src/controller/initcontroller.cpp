@@ -68,9 +68,7 @@ Codri::InitController::InitController(Controller *iController)
 
 void Codri::InitController::initializeUser() {
     try {
-        // FIXME: parent?
-        mController->mUserInterface = new UserInterface();
-        mController->mUserInterface->show();
+        mController->mUserInterface = new UserInterface(this);
 
         emit userSuccess();
     } catch (const QException &iException) {
