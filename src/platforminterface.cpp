@@ -134,6 +134,9 @@ bool Codri::PlatformInterface::system(const QString& iCommand, const QStringList
 
     // Execute the command
     tProcess.start(iCommand, iArguments);
+    tProcess.waitForStarted(mSettings->value("executiondelay", 5000).toInt());
+    if (tProcess.state() != QProcess::Running)
+        return false;
     tProcess.waitForFinished(mSettings->value("executiondelay", 30000).toInt());
 
     // Return appropriate data

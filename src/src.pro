@@ -1,13 +1,14 @@
+#
 # Dependencies
+#
+
 # Core Qt
 QT += core \
-    network \
-    xml
+    network
 
 # Qxt
 CONFIG += qxt
-QXT += core \
-    web
+QXT += web
 
 # Subversion
 CONFIG += link_pkgconfig
@@ -29,7 +30,11 @@ PKGCONFIG += QJson
 # Alsa
 PKGCONFIG += alsa
 
+
+#
 # Configuration
+#
+
 TARGET = codri-client
 TEMPLATE = app
 QMAKE_CXXFLAGS += -Wall \

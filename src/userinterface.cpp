@@ -116,5 +116,4 @@ void Codri::UserInterface::load(const QString& iUrl) {
                << QString("--user-data-dir=%1").arg(mUserData.absolutePath())
                << iUrl;
     mApplication->start(tExecutable, tArguments);
-
 }
