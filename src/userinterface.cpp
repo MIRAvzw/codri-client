@@ -13,6 +13,8 @@
 
 // Library includes
 #include <QtCore/QStringList>
+#include <QtCore/QEventLoop>
+#include <QtCore/QTimer>
 
 // Local includes
 #include "auxiliary/fileutils.h"
@@ -55,32 +57,17 @@ void Codri::UserInterface::start() {
 //
 
 void Codri::UserInterface::showInit() {
-    if (mApplication != 0) {
-        mApplication->kill();
-        delete mApplication;
-        mApplication = 0;
-    }
-
+    unload();
     load(QString("file://%1/initpage.html").arg(EXPAND_AND_QUOTE(DATADIR)));
 }
 
 void Codri::UserInterface::showError() {
-    if (mApplication != 0) {
-        mApplication->kill();
-        delete mApplication;
-        mApplication = 0;
-    }
-
+    unload();
     load(QString("file://%1/errorpage.html").arg(EXPAND_AND_QUOTE(DATADIR)));
 }
 
 void Codri::UserInterface::showPresentation(const QDir& iLocation) {
-    if (mApplication != 0) {
-        mApplication->kill();
-        delete mApplication;
-        mApplication = 0;
-    }
-
+    unload();
     mLogger->info() << "Loading presentation from " << iLocation.absolutePath();
     load("file://" + iLocation.absoluteFilePath("index.html"));
 }
@@ -89,6 +76,43 @@ void Codri::UserInterface::showPresentation(const QDir& iLocation) {
 //
 // Auxiliary
 //
+
+void Codri::UserInterface::unload() {
+    if (mApplication == 0)
+        return;
+
+    // Instruct the application to terminate
+    mApplication->terminate();
+
+    // Wait untill it terminates
+    if (mApplication->state() == QProcess::Running) {
+        QEventLoop tLoop;
+        connect(mApplication, SIGNAL(finished(int, QProcess::ExitStatus)), &tLoop, SLOT(quit()));
+
+        QTimer::singleShot(mSettings->value("terminationdelay", 2500).toInt(), &tLoop, SLOT(quit()));
+
+        tLoop.exec();
+    }
+
+    // If still running, really kill it
+    if (mApplication->state() == QProcess::Running) {
+        mApplication->kill();
+
+        // Wait untill it is really gone
+        if (mApplication->state() == QProcess::Running) {
+            QEventLoop tLoop;
+            connect(mApplication, SIGNAL(finished(int, QProcess::ExitStatus)), &tLoop, SLOT(quit()));
+
+            QTimer::singleShot(mSettings->value("killdelay", 500).toInt(), &tLoop, SLOT(quit()));
+
+            tLoop.exec();
+        }
+    }
+
+    // Clean up
+    delete mApplication;
+    mApplication = 0;
+}
 
 void Codri::UserInterface::load(const QString& iUrl) {
     // Clean user data dir
