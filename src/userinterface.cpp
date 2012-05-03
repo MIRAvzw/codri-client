@@ -107,7 +107,7 @@ void Codri::UserInterface::load(const QString& iUrl) {
                << "--no-default-browser-check"
                << "--disable-restore-background-contents"
                << "--disable-restore-session-state"
-               << "--user-data-dir" << mUserData.absolutePath()
+               << QString("--user-data-dir=%1").arg(mUserData.absolutePath())
                << iUrl;
     mApplication->start(tExecutable, tArguments);
 
