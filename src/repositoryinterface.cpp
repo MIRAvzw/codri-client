@@ -20,11 +20,11 @@
 #include <svnqt/client_update_parameter.h>
 #include <svnqt/info_entry.h>
 #include <svnqt/status.h>
-#include <QtCore/QQueue>
 
 // Local includes
 #include "mainapplication.h"
 #include "auxiliary/parameterizedsignaltransition.h"
+#include "auxiliary/fileutils.h"
 
 
 //
@@ -304,7 +304,7 @@ void Codri::RepositoryInterfacePrivate::update(const QDir &iCheckout) {
 
 void Codri::RepositoryInterfacePrivate::checkout(const QDir &iCheckout, const QString &iLocation) {
     // Manage the checkout
-    if (removeDirectory(iCheckout))
+    if (FileUtils::removeDirectory(iCheckout))
         emit failure(QException("could not remove existing checkout directory"));
 
     // Create temporary directory
@@ -330,56 +330,4 @@ void Codri::RepositoryInterfacePrivate::checkout(const QDir &iCheckout, const QS
     // Move the checkout in place
     tTemporaryCheckout.rename(tTemporaryCheckout.absolutePath(), iCheckout.path());
     emit success(tRevision);
-}
-
-
-//
-// Filesystem helpers
-//
-
-bool Codri::RepositoryInterfacePrivate::removeDirectory(const QDir &iDirectory) {
-    bool tError = false;
-    if (iDirectory.exists()) {
-        const QFileInfoList &tEntries = iDirectory.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs | QDir::Files | QDir::Hidden);
-        foreach (const QFileInfo &tEntry, tEntries) {
-            QString tEntryPath = tEntry.absoluteFilePath();
-            if (tEntry.isDir()) {
-                tError = removeDirectory(QDir(tEntryPath));
-            } else {
-                QFile tFile(tEntryPath);
-                if (!tFile.remove())
-                    tError = true;
-            }
-        }
-        if (!iDirectory.rmdir(iDirectory.absolutePath()))
-            tError = true;
-    }
-    return tError;
-}
-
-void Codri::RepositoryInterfacePrivate::copyDirectory(const QDir &tSource, const QDir &tDestination) {
-    // Create the destination path
-    if (!tDestination.exists())
-        tDestination.mkpath(tDestination.absolutePath());
-
-    // Enqueue the initial pair
-    QQueue< QPair<QDir, QDir> > tQueue;
-    tQueue.enqueue(qMakePair(tSource, tDestination));
-
-    // Process iteratively
-    while (!tQueue.isEmpty()) {
-        QPair<QDir, QDir> tDirectories = tQueue.dequeue();
-        if (!tDirectories.first.exists())
-            continue;
-
-        // Copy all files
-        foreach (QString tFile, tDirectories.first.entryList(QDir::Files))
-            QFile::copy(tDirectories.first.absoluteFilePath(tFile), tDirectories.second.absoluteFilePath(tFile));
-
-        // Enqueue all directories
-        foreach (QString tDirectory, tDirectories.first.entryList(QDir::AllDirs | QDir::NoDotAndDotDot)) {
-            tDirectories.second.mkdir(tDirectory);
-            tQueue.enqueue(qMakePair(QDir(tDirectories.first.absoluteFilePath(tDirectory)), QDir(tDirectories.second.absoluteFilePath(tDirectory))));
-        }
-    }
 }

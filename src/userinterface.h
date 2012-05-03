@@ -48,6 +48,7 @@ namespace Codri {
 
         // Member objects
         QProcess *mApplication;
+        QDir mUserData;
     };
 }
 

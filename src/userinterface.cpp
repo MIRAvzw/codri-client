@@ -14,6 +14,9 @@
 // Library includes
 #include <QtCore/QStringList>
 
+// Local includes
+#include "auxiliary/fileutils.h"
+
 // Stringification macro
 #define QUOTE(str) #str
 #define EXPAND_AND_QUOTE(str) QUOTE(str)
@@ -31,6 +34,11 @@ Codri::UserInterface::UserInterface(QObject *iParent) throw(QException)
 
     // Setup logging
     mLogger =  Log4Qt::Logger::logger(metaObject()->className());
+
+    // Use data directory
+    mUserData = QDir(mSettings->value("datadir", "/tmp/chromium").toString());
+    if (!mUserData.exists())
+        mUserData.mkpath(mUserData.absolutePath());
 
     // Configure the instance
     mApplication = 0;
@@ -83,6 +91,11 @@ void Codri::UserInterface::showPresentation(const QDir& iLocation) {
 //
 
 void Codri::UserInterface::load(const QString& iUrl) {
+    // Clean user data dir
+    FileUtils::removeDirectory(mUserData);
+    mUserData.mkdir(mUserData.absolutePath());
+    
+    // Start executable
     mApplication = new QProcess(this);
     QString tExecutable("/usr/bin/chromium");
     QStringList tArguments;
@@ -93,6 +106,8 @@ void Codri::UserInterface::load(const QString& iUrl) {
                << "--no-first-run"
                << "--no-default-browser-check"
                << "--disable-restore-background-contents"
+               << "--disable-restore-session-state"
+               << "--user-data-dir" << mUserData.absolutePath()
                << iUrl;
     mApplication->start(tExecutable, tArguments);
 
