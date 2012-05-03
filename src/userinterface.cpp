@@ -83,30 +83,12 @@ void Codri::UserInterface::unload() {
 
     // Instruct the application to terminate
     mApplication->terminate();
-
-    // Wait untill it terminates
-    if (mApplication->state() == QProcess::Running) {
-        QEventLoop tLoop;
-        connect(mApplication, SIGNAL(finished(int, QProcess::ExitStatus)), &tLoop, SLOT(quit()));
-
-        QTimer::singleShot(mSettings->value("terminationdelay", 2500).toInt(), &tLoop, SLOT(quit()));
-
-        tLoop.exec();
-    }
+    mApplication->waitForFinished(mSettings->value("terminationdelay", 2500).toInt());
 
     // If still running, really kill it
     if (mApplication->state() == QProcess::Running) {
         mApplication->kill();
-
-        // Wait untill it is really gone
-        if (mApplication->state() == QProcess::Running) {
-            QEventLoop tLoop;
-            connect(mApplication, SIGNAL(finished(int, QProcess::ExitStatus)), &tLoop, SLOT(quit()));
-
-            QTimer::singleShot(mSettings->value("killdelay", 500).toInt(), &tLoop, SLOT(quit()));
-
-            tLoop.exec();
-        }
+        mApplication->waitForFinished(mSettings->value("killdelay", 500).toInt());
     }
 
     // Clean up

@@ -131,12 +131,10 @@ bool Codri::PlatformInterface::system(const QString& iCommand, const QStringList
     mLogger->debug() << "Executing system command " << iCommand << " with arguments " << iArguments.join(" ");
     QProcess tProcess(this);
     tProcess.setProcessChannelMode(QProcess::MergedChannels);
-    tProcess.start(iCommand, iArguments);
 
-    // Wait for the end of the command
-    QEventLoop tLoop;
-    connect(&tProcess, SIGNAL(finished(int, QProcess::ExitStatus)), &tLoop, SLOT(quit()));
-    tLoop.exec();
+    // Execute the command
+    tProcess.start(iCommand, iArguments);
+    tProcess.waitForFinished(mSettings->value("executiondelay", 30000).toInt());
 
     // Return appropriate data
     oOutput = tProcess.readAll();
