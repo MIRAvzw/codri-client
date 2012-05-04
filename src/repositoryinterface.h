@@ -112,10 +112,6 @@ namespace Codri {
         void failure(const QException &iException);
 
     private:
-        // Filesystem helpers
-        bool removeDirectory(const QDir &iDirectory);
-        void copyDirectory(const QDir &tSource, const QDir &tDestination);
-
         // Repository listening
         virtual void sendWarning(const QString& iMessage) {
             qWarning() << iMessage.toAscii().data();

@@ -4,12 +4,11 @@
 
 # Core Qt
 QT += core \
-    network \
-    xml
+    network
 
 # Qxt
 CONFIG += qxt
-QXT += core web
+QXT += web
 
 # Subversion
 CONFIG += link_pkgconfig
@@ -38,8 +37,8 @@ PKGCONFIG += alsa
 
 TARGET = codri-client
 TEMPLATE = app
-QMAKE_CXXFLAGS += -Wall -Wextra
-
+QMAKE_CXXFLAGS += -Wall \
+    -Wextra
 SOURCES += controller.cpp \
     main.cpp \
     mainapplication.cpp \
@@ -58,7 +57,8 @@ SOURCES += controller.cpp \
     controller/initcontroller.cpp \
     network/registrationcontroller.cpp \
     platforminterface.cpp \
-    repositoryinterface.cpp
+    repositoryinterface.cpp \
+    auxiliary/fileutils.cpp
 HEADERS += controller.h \
     mainapplication.h \
     networkinterface.h \
@@ -79,30 +79,32 @@ HEADERS += controller.h \
     platforminterface.h \
     repositoryinterface.h \
     auxiliary/parameterizedsignaltransition.h \
-    auxiliary/comparingsignaltransition.h
-
-OTHER_FILES += \
-    ../share/initpage.html \
+    auxiliary/comparingsignaltransition.h \
+    auxiliary/fileutils.h
+OTHER_FILES += ../share/initpage.html \
     ../share/errorpage.html
 other_files.files = $$OTHER_FILES
-
-isEmpty(PREFIX) {
-  PREFIX = /usr
-}
+isEmpty(PREFIX):PREFIX = /usr
 BINDIR = $$PREFIX/bin
-DATADIR =$$PREFIX/share/$$TARGET
+DATADIR = $$PREFIX/share/$$TARGET
 DEFINES += DATADIR=$$DATADIR
-INSTALLS += target other_files
+INSTALLS += target \
+    other_files
 target.path = $$BINDIR
 other_files.path = $$DATADIR
 
 # Check target
-CHECK_FILTERS += \
-    -readability/todo \
+CHECK_FILTERS += -readability/todo \
     -whitespace/line_length \
     -whitespace/labels \
     -runtime/references
 check.target = check
-check.commands = cd $$PWD && ../tools/cpplint.py --filter=$$join(CHECK_FILTERS,",","","") $$HEADERS $$SOURCES
-check.depends =
+check.commands = cd \
+    $$PWD \
+    && \
+    ../tools/cpplint.py \
+    --filter=$$join(CHECK_FILTERS,",","","") \
+    $$HEADERS \
+    $$SOURCES
+check.depends = 
 QMAKE_EXTRA_TARGETS += check

@@ -40,6 +40,7 @@ namespace Codri {
 
     private:
         // Auxiliary
+        void unload();
         void load(const QString& iUrl);
 
         // Infrastructure
@@ -48,6 +49,7 @@ namespace Codri {
 
         // Member objects
         QProcess *mApplication;
+        QDir mUserData;
     };
 }
 
